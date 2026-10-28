@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-21",
+ "updated": "2026-10-29",
  "note": "hcp: plus handicaps are negative. subs: thousands, null = unknown. channel: as shown on handicap-tracker.com.",
  "players": [
   {
@@ -100,7 +100,7 @@
    "hcp": -4.8,
    "subs": 967.0,
    "channel": "Bryan Bros Golf",
-   "born": null
+   "born": "1988-01-12"
   },
   {
    "name": "James Robinson",
@@ -161,7 +161,7 @@
    "hcp": -3.7,
    "subs": 844.0,
    "channel": "Peter Finch Golf",
-   "born": null
+   "born": "1986-08-14"
   },
   {
    "name": "Sam Heung Min",
@@ -464,7 +464,7 @@
    "hcp": 4.1,
    "subs": 657.0,
    "channel": "Fore Play Golf",
-   "born": null
+   "born": "1987-01-30"
   },
   {
    "name": "Chaz",
@@ -484,7 +484,7 @@
    "hcp": 4.4,
    "subs": 298.0,
    "channel": "Random Golf Club",
-   "born": null
+   "born": "1981-02-03"
   },
   {
    "name": "Frankie Borrelli",
@@ -504,7 +504,7 @@
    "hcp": 6.7,
    "subs": 657.0,
    "channel": "Fore Play Golf",
-   "born": null
+   "born": "1989-03-26"
   },
   {
    "name": "D'Angelo Russell",
@@ -524,7 +524,7 @@
    "hcp": 10.1,
    "subs": 1500.0,
    "channel": "Bob Does Sports",
-   "born": null
+   "born": "1992-03-08"
   },
   {
    "name": "Joey Cold Cuts",
@@ -534,7 +534,7 @@
    "hcp": 10.5,
    "subs": 1500.0,
    "channel": "Bob Does Sports",
-   "born": null
+   "born": "1986-06-27"
   },
   {
    "name": "Carl Déman",
@@ -584,7 +584,7 @@
    "hcp": 22.5,
    "subs": 861.0,
    "channel": "Big Wedge Golf",
-   "born": null
+   "born": "1992-03-11"
   },
   {
    "name": "Simon (Miniminter)",
