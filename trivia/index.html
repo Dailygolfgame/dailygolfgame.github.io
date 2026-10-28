@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Daily Golf Trivia: Pro Golf & YouTube Golf Questions | Dailygolf</title>
-<meta name="description" content="Two free golf trivia questions every day: one about pro golf and one about golf YouTube. Play, learn and keep your streak.">
+<meta name="description" content="Five free golf trivia questions every day about pro golf and golf YouTube. Test your knowledge, share your score and keep your streak.">
 <link rel="canonical" href="https://dailygolfgame.com/trivia/">
 <meta name="robots" content="index, follow, max-image-preview:large">
 <meta name="theme-color" content="#020617">
@@ -16,7 +16,7 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Dailygolf">
 <meta property="og:title" content="Daily Golf Trivia: Pro Golf &amp; YouTube Golf Questions | Dailygolf">
-<meta property="og:description" content="Two free golf trivia questions every day: one about pro golf and one about golf YouTube. Play, learn and keep your streak.">
+<meta property="og:description" content="Five free golf trivia questions every day about pro golf and golf YouTube. Test your knowledge, share your score and keep your streak.">
 <meta property="og:url" content="https://dailygolfgame.com/trivia/">
 <meta property="og:image" content="https://dailygolfgame.com/og-image.png">
 <meta name="twitter:card" content="summary_large_image">
@@ -61,53 +61,211 @@ footer.site nav{display:flex;flex-wrap:wrap;gap:6px 16px;margin-bottom:8px}foote
 <header class="site"><div class="wrap"><a class="brandbox" href="/"><span class="logo"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 22V3"/><path d="M5 4h13l-3 4.5L18 13H5"/></svg></span><span><span class="bt">DAILYGOLF</span><span class="bs">DAILY GOLF GAMES</span></span></a><nav class="main"><a href="/">Play</a><a href="/trivia/">Daily trivia</a><a href="/how-to-play/">How to play</a><a href="/articles/">Articles</a><a href="/about/">About</a><a href="/contact/">Contact</a></nav></div></header>
 <main><div class="wrap">
 <h1>Daily Golf Trivia</h1>
-<p class="lead">Two new questions every day: one about pro golf and one about golf YouTube. Pick an answer and see if you're right.</p>
-<div class="card" id="box-pro"></div>
-<div class="card" id="box-yt"></div>
-<p class="meta">Questions rotate daily. Want more? Play <a href="/">Guess the Pro Golfer and Guess the YouTube Golfer</a>, or read our <a href="/articles/">golf articles</a>.</p>
-<style>.opt{display:block;width:100%;text-align:left;margin:8px 0;padding:12px 14px;border-radius:10px;border:1px solid var(--line);background:#0b1325;color:var(--txt);font:inherit;cursor:pointer}.opt:hover:not([disabled]){border-color:var(--acc)}.opt.ok{background:#14532d;border-color:#22c55e;color:#fff}.opt.no{background:#5b1d1d;border-color:#ef4444;color:#fff}.q{font-size:1.15rem;font-weight:700;color:#fff;margin:6px 0 10px}.tag{font-size:.75rem;letter-spacing:.08em;text-transform:uppercase;color:var(--acc);font-weight:800}.st{font-size:.85rem;color:var(--mut);margin-top:10px}.ex{margin-top:12px;padding:10px 12px;border-left:3px solid var(--acc);background:#0b1325;border-radius:6px}</style>
+<p class="lead">Five new golf questions every day: four about pro golf and one about golf YouTube. Answer them all, then share your score.</p>
+<div class="card" id="quiz" aria-live="polite"><noscript>Daily Golf Trivia needs JavaScript to run.</noscript></div>
+<p class="meta">A new quiz starts at midnight, and no question repeats for weeks. Want more? Play <a href="/">Guess the Pro Golfer and Guess the YouTube Golfer</a>, or read our <a href="/articles/">golf articles</a>.</p>
+<style>
+#quiz{padding:18px 18px 20px;min-height:340px}
+.qhead{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:6px}
+.tag{font-size:.75rem;letter-spacing:.08em;text-transform:uppercase;color:var(--acc);font-weight:800}
+.dots{display:flex;gap:6px}.dot{width:10px;height:10px;border-radius:50%;background:#1e293b;border:1px solid #334155}
+.dot.cur{background:#94a3b8}.dot.ok{background:#22c55e;border-color:#22c55e}.dot.no{background:#ef4444;border-color:#ef4444}
+.q{font-size:1.15rem;font-weight:700;color:#fff;margin:6px 0 10px}
+.opt{display:block;width:100%;text-align:left;margin:8px 0;padding:12px 14px;border-radius:10px;border:1px solid var(--line);background:#0b1325;color:var(--txt);font:inherit;cursor:pointer}
+.opt:hover:not([disabled]){border-color:var(--acc)}.opt:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+.opt.ok{background:#14532d;border-color:#22c55e;color:#fff}.opt.no{background:#5b1d1d;border-color:#ef4444;color:#fff}
+.ex{margin-top:12px;padding:10px 12px;border-left:3px solid var(--acc);background:#0b1325;border-radius:6px}
+.nav{margin:14px 0 0;display:flex;flex-wrap:wrap;gap:10px}.nav .cta{margin:0}
+button.cta.alt{background:#1e293b;box-shadow:none}button.cta.alt:hover{background:#334155}
+.end{text-align:center}.end .nav{justify-content:center}
+.big{font-size:3rem;font-weight:900;color:#fff;line-height:1.1;margin-top:6px}
+.grid5{font-size:1.6rem;letter-spacing:.15em;margin:6px 0 4px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:20px 0 6px}
+.stats div{background:#0b1325;border:1px solid var(--line);border-radius:12px;padding:10px 4px;font-size:.72rem;text-transform:uppercase;color:var(--mut);font-weight:600}
+.stats b{display:block;font-size:1.4rem;color:#fff;text-transform:none}
+.st{font-size:.85rem;color:var(--mut);margin:10px 0 0}
+.dist{max-width:360px;margin:12px auto 0;text-align:left}.dist .row{display:flex;align-items:center;gap:8px;margin:4px 0;font-size:.8rem}
+.dist .row span{width:12px;color:var(--mut)}.dist .bar{background:#1e293b;color:#fff;font-weight:700;border-radius:4px;padding:1px 6px;text-align:right}.dist .bar.me{background:#16a34a}
+#toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:#1e293b;border:1px solid #334155;color:#fff;font-weight:600;font-size:.9rem;padding:10px 16px;border-radius:12px;opacity:0;transition:opacity .2s;pointer-events:none;z-index:60}
+#toast.show{opacity:1}
+</style>
 <script>
-(function(){
-var BANK={pro:[["Who won the 2022 Masters?", "Scottie Scheffler", ["Cameron Smith", "Rory McIlroy", "Jon Rahm"], "Scottie Scheffler won the 2022 Masters at Augusta National, his first major."], ["Which golfer has won the most men's major championships?", "Jack Nicklaus", ["Tiger Woods", "Walter Hagen", "Ben Hogan"], "Jack Nicklaus won 18 professional majors. Tiger Woods is next with 15."], ["Who won the 2025 Masters to complete the career Grand Slam?", "Rory McIlroy", ["Justin Rose", "Scottie Scheffler", "Bryson DeChambeau"], "Rory McIlroy won the 2025 Masters in a playoff, completing the career Grand Slam."], ["Which trophy is awarded to the winner of The Open Championship?", "The Claret Jug", ["The Wanamaker Trophy", "The Green Jacket", "The Ryder Cup"], "The Open champion receives the Claret Jug. The Wanamaker Trophy belongs to the PGA Championship."], ["Which major is played at the same course every year?", "The Masters", ["The U.S. Open", "The PGA Championship", "The Open Championship"], "The Masters is always played at Augusta National Golf Club in Georgia."], ["What is a score of 3 under par on a hole called?", "Albatross", ["Eagle", "Birdie", "Condor"], "Three under par is an albatross, also known as a double eagle."], ["What is a score of 2 under par on a hole called?", "Eagle", ["Birdie", "Albatross", "Bogey"], "Two under par is an eagle."], ["Which golfer is nicknamed 'The Golden Bear'?", "Jack Nicklaus", ["Arnold Palmer", "Greg Norman", "Gary Player"], "Jack Nicklaus is the Golden Bear. Greg Norman is 'The Shark'."], ["Which golfer is nicknamed 'The Shark'?", "Greg Norman", ["Jack Nicklaus", "Phil Mickelson", "Ernie Els"], "Greg Norman, the Australian, is known as The Shark."], ["Who won the 2019 Masters, his 15th major?", "Tiger Woods", ["Dustin Johnson", "Brooks Koepka", "Francesco Molinari"], "Tiger Woods won the 2019 Masters after years of injuries, his 15th major."], ["Who won the 2023 Masters?", "Jon Rahm", ["Brooks Koepka", "Phil Mickelson", "Scottie Scheffler"], "Jon Rahm of Spain won the 2023 Masters."], ["Who won the 2024 U.S. Open at Pinehurst No. 2?", "Bryson DeChambeau", ["Rory McIlroy", "Scottie Scheffler", "Xander Schauffele"], "Bryson DeChambeau beat Rory McIlroy by one stroke at Pinehurst."], ["Who won the 2022 Open Championship at St Andrews?", "Cameron Smith", ["Rory McIlroy", "Cameron Young", "Viktor Hovland"], "Australian Cameron Smith won the 150th Open at St Andrews."], ["Who won the 2021 Masters, the first Japanese man to do so?", "Hideki Matsuyama", ["Xander Schauffele", "Will Zalatoris", "Jordan Spieth"], "Hideki Matsuyama won the 2021 Masters."], ["Who won the 2021 U.S. Open at Torrey Pines?", "Jon Rahm", ["Louis Oosthuizen", "Collin Morikawa", "Brooks Koepka"], "Jon Rahm won his first major at Torrey Pines in 2021."], ["Who won the 2022 U.S. Open at Brookline?", "Matt Fitzpatrick", ["Will Zalatoris", "Scottie Scheffler", "Rory McIlroy"], "England's Matt Fitzpatrick won the 2022 U.S. Open."], ["How many clubs can a golfer carry in their bag?", "14", ["12", "16", "18"], "The Rules of Golf allow a maximum of 14 clubs."], ["In which country is St Andrews, the 'Home of Golf'?", "Scotland", ["England", "Ireland", "USA"], "St Andrews is on the east coast of Scotland."], ["How many PGA Tour wins does Tiger Woods have?", "82", ["73", "79", "91"], "Tiger Woods has 82 PGA Tour wins, tied with Sam Snead for the record."], ["How old was Jack Nicklaus when he won the 1986 Masters?", "46", ["42", "44", "48"], "At 46, Nicklaus became the oldest Masters champion."], ["Which golfer is nicknamed 'Lefty'?", "Phil Mickelson", ["Bubba Watson", "Mike Weir", "Brian Harman"], "Phil Mickelson plays left-handed, which earned him the nickname 'Lefty'."], ["Which country is Ludvig Åberg from?", "Sweden", ["Norway", "Denmark", "Finland"], "Ludvig Åberg is from Eslöv in Sweden."], ["Which golfer has won 10 LPGA major championships?", "Annika Sörenstam", ["Lorena Ochoa", "Nelly Korda", "Karrie Webb"], "Sweden's Annika Sörenstam won 10 LPGA majors."], ["Who won the 2020 Masters, played in November?", "Dustin Johnson", ["Cameron Smith", "Sungjae Im", "Rory McIlroy"], "Dustin Johnson won the 2020 Masters, which was delayed to November."], ["Which major is traditionally played on links courses in Britain and Ireland?", "The Open Championship", ["The U.S. Open", "The Masters", "The PGA Championship"], "The Open is held on a rota of links courses."]],yt:[["Which channel do Callux, Calfreezy and the Sidemen's Harry, Simon and Josh share for their golf?", "Big Wedge Golf", ["Good Good", "Fore Play Golf", "Bob Does Sports"], "These creators play together on Big Wedge Golf."], ["Which brothers run Bryan Bros Golf?", "Wesley and George Bryan", ["Kyle and Ben Berkshire", "Grant and Garrett Horvat", "Peter and Dan Finch"], "Wesley and George Bryan run Bryan Bros Golf."], ["Who is number one on the handicap-tracker.com YouTuber leaderboard (Oct 2026)?", "Brad Dalke", ["Sean Walsh", "Ryan Ruffels", "Rick Shiels"], "Brad Dalke tops the list with a +7.8 handicap in October 2026."], ["Abbe and Stimpen are a golf duo from which country?", "Sweden", ["Norway", "England", "Denmark"], "Abbe & Stimpen are a Swedish golf YouTube duo."], ["Sean Walsh appears on which YouTube channel?", "Good Good", ["Bryan Bros Golf", "The Lads", "Big Wedge Golf"], "Sean Walsh is part of the Good Good crew."], ["In which country is Rick Shiels from?", "England", ["Scotland", "Australia", "USA"], "Rick Shiels is from Bolton, England."], ["Who co-founded Good Good with Matt Scharff and Stephen Castaneda?", "Garrett Clark", ["Micah Morris", "Grant Horvat", "Brad Dalke"], "Garrett Clark co-founded Good Good, and also runs the GM Golf channel."], ["Which member of Bryan Bros Golf is a former PGA Tour winner?", "Wesley Bryan", ["George Bryan", "Both are", "Neither is"], "Wesley Bryan won the 2017 RBC Heritage on the PGA Tour."], ["Which of these golf channels has the most subscribers?", "Rick Shiels Golf", ["Good Good", "Big Wedge Golf", "Bob Does Sports"], "Rick Shiels Golf has around 3.1 million subscribers (Oct 2026)."], ["Ryan Ruffels and Bat are both part of which channel?", "The Lads", ["Good Good", "Fore Play Golf", "Big Wedge Golf"], "Both appear on The Lads channel."], ["Which university did Brad Dalke play college golf for?", "Oklahoma", ["Texas", "Alabama", "Stanford"], "Brad Dalke played for Oklahoma and was runner-up at the 2016 U.S. Amateur."], ["Changhyun Nam is better known on golf YouTube as...?", "Slumpy", ["Taco", "Radar", "Chaz"], "Changhyun Nam goes by Slumpy."], ["Which channel do Bobby Fairways, Joey Cold Cuts and Fat Perez appear on?", "Bob Does Sports", ["Good Good", "Fore Play Golf", "The Lads"], "They appear on Bob Does Sports."], ["Riggs, Trent Ryan and Frankie Borrelli appear on which channel?", "Fore Play Golf", ["Big Wedge Golf", "Bryan Bros Golf", "Good Good"], "They are part of the Fore Play Golf crew."]]};
-var TITLE={pro:'Pro Golf Question of the Day',yt:'YouTube Golf Question of the Day'};
-var day=(function(d){return Math.round((Date.UTC(d.getFullYear(),d.getMonth(),d.getDate())-Date.UTC(2026,0,1))/864e5)+1;})(new Date());
-function rng(seed){return function(){seed=(seed*1664525+1013904223)%4294967296;return seed/4294967296;};}
-function shuffle(a,r){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(r()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;}return a;}
-function load(k,d){try{var v=JSON.parse(localStorage.getItem(k));return v||d;}catch(e){return d;}}
-function save(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch(e){}}
-function build(kind){
-  var box=document.getElementById('box-'+kind),bank=BANK[kind],practice=false,idx,seed,ans=null;
-  var sk='dg_tq_stats_'+kind,dk='dg_tq_done_'+kind;
-  function stats(){var s=load(sk,{played:0,correct:0,streak:0,max:0,last:0});if(s.last&&s.last<day-1)s.streak=0;return s;}
-  function render(){
-    idx=practice?Math.floor(Math.random()*bank.length):(day*7+(kind==='yt'?3:0))%bank.length;
-    seed=practice?Math.floor(Math.random()*1e9):day*31+(kind==='yt'?5:1);
-    var q=bank[idx],opts=shuffle([q[1]].concat(q[2]),rng(seed)),done=!practice&&load(dk,null);
-    var picked=(done&&done.day===day)?done.pick:null;
-    var h='<div class="tag">'+(practice?'Practice':TITLE[kind])+'</div><div class="q">'+q[0]+'</div>';
-    opts.forEach(function(o,i){h+='<button class="opt" data-o="'+i+'">'+o+'</button>';});
-    h+='<div id="r-'+kind+'"></div><div class="st" id="s-'+kind+'"></div>';
-    box.innerHTML=h;
-    var btns=box.querySelectorAll('.opt');
-    function reveal(pick){
-      btns.forEach(function(b){b.disabled=true;var t=b.textContent;if(t===q[1])b.classList.add('ok');else if(t===pick)b.classList.add('no');});
-      var right=pick===q[1];
-      document.getElementById('r-'+kind).innerHTML='<div class="ex"><b>'+(right?'Correct!':'Not quite.')+'</b> '+q[3]+'</div>'+(practice?'':'<p style="margin-top:12px"><button class="cta" id="p-'+kind+'">Practice with more questions</button></p>')+(practice?'<p style="margin-top:12px"><button class="cta" id="n-'+kind+'">Next question</button></p>':'');
-      var s=stats();document.getElementById('s-'+kind).textContent='Answered '+s.played+' · Correct '+s.correct+' · Streak '+s.streak+' · Best '+s.max;
-      var p=document.getElementById('p-'+kind),n=document.getElementById('n-'+kind);
-      if(p)p.onclick=function(){practice=true;render();};
-      if(n)n.onclick=function(){render();};
-    }
-    if(picked!==null){reveal(picked);return;}
-    btns.forEach(function(b){b.onclick=function(){
-      var pick=b.textContent;
-      if(!practice){var s=stats();s.played++;if(pick===q[1]){s.correct++;s.streak=(s.last===day-1||s.streak===0)?s.streak+1:1;s.max=Math.max(s.max,s.streak);}else{s.streak=0;}s.last=day;save(sk,s);save(dk,{day:day,pick:pick});}
-      reveal(pick);};});
-    if(!practice){var s0=stats();document.getElementById('s-'+kind).textContent='Answered '+s0.played+' · Correct '+s0.correct+' · Streak '+s0.streak+' · Best '+s0.max;}
+(function () {
+var BANK = {"pro": [["Who won the 2022 Masters?", "Scottie Scheffler", ["Cameron Smith", "Rory McIlroy", "Jon Rahm"], "Scottie Scheffler won the 2022 Masters at Augusta National, his first major."], ["Which golfer has won the most men's major championships?", "Jack Nicklaus", ["Tiger Woods", "Walter Hagen", "Ben Hogan"], "Jack Nicklaus won 18 professional majors. Tiger Woods is next with 15."], ["Who won the 2025 Masters to complete the career Grand Slam?", "Rory McIlroy", ["Justin Rose", "Scottie Scheffler", "Bryson DeChambeau"], "Rory McIlroy won the 2025 Masters in a playoff, completing the career Grand Slam."], ["Which trophy is awarded to the winner of The Open Championship?", "The Claret Jug", ["The Wanamaker Trophy", "The Green Jacket", "The Ryder Cup"], "The Open champion receives the Claret Jug. The Wanamaker Trophy belongs to the PGA Championship."], ["Which major is played at the same course every year?", "The Masters", ["The U.S. Open", "The PGA Championship", "The Open Championship"], "The Masters is always played at Augusta National Golf Club in Georgia."], ["What is a score of 3 under par on a hole called?", "Albatross", ["Eagle", "Birdie", "Condor"], "Three under par is an albatross, also known as a double eagle."], ["What is a score of 2 under par on a hole called?", "Eagle", ["Birdie", "Albatross", "Bogey"], "Two under par is an eagle."], ["Which golfer is nicknamed 'The Golden Bear'?", "Jack Nicklaus", ["Arnold Palmer", "Greg Norman", "Gary Player"], "Jack Nicklaus is the Golden Bear. Greg Norman is 'The Shark'."], ["Which golfer is nicknamed 'The Shark'?", "Greg Norman", ["Jack Nicklaus", "Phil Mickelson", "Ernie Els"], "Greg Norman, the Australian, is known as The Shark."], ["Who won the 2019 Masters, his 15th major?", "Tiger Woods", ["Dustin Johnson", "Brooks Koepka", "Francesco Molinari"], "Tiger Woods won the 2019 Masters after years of injuries, his 15th major."], ["Who won the 2023 Masters?", "Jon Rahm", ["Brooks Koepka", "Phil Mickelson", "Scottie Scheffler"], "Jon Rahm of Spain won the 2023 Masters."], ["Who won the 2024 U.S. Open at Pinehurst No. 2?", "Bryson DeChambeau", ["Rory McIlroy", "Scottie Scheffler", "Xander Schauffele"], "Bryson DeChambeau beat Rory McIlroy by one stroke at Pinehurst."], ["Who won the 2022 Open Championship at St Andrews?", "Cameron Smith", ["Rory McIlroy", "Cameron Young", "Viktor Hovland"], "Australian Cameron Smith won the 150th Open at St Andrews."], ["Who won the 2021 Masters, the first Japanese man to do so?", "Hideki Matsuyama", ["Xander Schauffele", "Will Zalatoris", "Jordan Spieth"], "Hideki Matsuyama won the 2021 Masters."], ["Who won the 2021 U.S. Open at Torrey Pines?", "Jon Rahm", ["Louis Oosthuizen", "Collin Morikawa", "Brooks Koepka"], "Jon Rahm won his first major at Torrey Pines in 2021."], ["Who won the 2022 U.S. Open at Brookline?", "Matt Fitzpatrick", ["Will Zalatoris", "Scottie Scheffler", "Rory McIlroy"], "England's Matt Fitzpatrick won the 2022 U.S. Open."], ["How many clubs can a golfer carry in their bag?", "14", ["12", "16", "18"], "The Rules of Golf allow a maximum of 14 clubs."], ["In which country is St Andrews, the 'Home of Golf'?", "Scotland", ["England", "Ireland", "USA"], "St Andrews is on the east coast of Scotland."], ["How many PGA Tour wins does Tiger Woods have?", "82", ["73", "79", "91"], "Tiger Woods has 82 PGA Tour wins, tied with Sam Snead for the record."], ["How old was Jack Nicklaus when he won the 1986 Masters?", "46", ["42", "44", "48"], "At 46, Nicklaus became the oldest Masters champion."], ["Which golfer is nicknamed 'Lefty'?", "Phil Mickelson", ["Bubba Watson", "Mike Weir", "Brian Harman"], "Phil Mickelson plays left-handed, which earned him the nickname 'Lefty'."], ["Which country is Ludvig Åberg from?", "Sweden", ["Norway", "Denmark", "Finland"], "Ludvig Åberg is from Eslöv in Sweden."], ["Which golfer has won 10 LPGA major championships?", "Annika Sörenstam", ["Lorena Ochoa", "Nelly Korda", "Karrie Webb"], "Sweden's Annika Sörenstam won 10 LPGA majors."], ["Who won the 2020 Masters, played in November?", "Dustin Johnson", ["Cameron Smith", "Sungjae Im", "Rory McIlroy"], "Dustin Johnson won the 2020 Masters, which was delayed to November."], ["Which major is traditionally played on links courses in Britain and Ireland?", "The Open Championship", ["The U.S. Open", "The Masters", "The PGA Championship"], "The Open is held on a rota of links courses."], ["Who won the first Masters, in 1934?", "Horton Smith", ["Gene Sarazen", "Bobby Jones", "Byron Nelson"], "Horton Smith won the first Masters (then the Augusta National Invitation) in 1934, and won again in 1936."], ["Who won golf's original Grand Slam in 1930: the U.S. and British Opens and Amateurs?", "Bobby Jones", ["Walter Hagen", "Gene Sarazen", "Francis Ouimet"], "Bobby Jones won all four in 1930, then retired from competitive golf aged 28."], ["What was Tiger Woods holding all four majors at once in 2000–01 nicknamed?", "The Tiger Slam", ["The Golden Slam", "The Calendar Slam", "The Career Slam"], "Tiger won the 2000 U.S. Open, Open and PGA, then the 2001 Masters, holding all four titles at the same time."], ["By how many strokes did Tiger Woods win the 2000 U.S. Open at Pebble Beach?", "15", ["10", "12", "8"], "Tiger won by 15 shots, a record margin in a men's major."], ["By how many strokes did Tiger Woods win the 1997 Masters?", "12", ["9", "15", "7"], "Tiger won his first major by 12 shots at the age of 21."], ["Who is the youngest Masters champion?", "Tiger Woods", ["Jordan Spieth", "Seve Ballesteros", "Jack Nicklaus"], "Tiger was 21 years and 3 months old in 1997, a few months younger than Jordan Spieth was in 2015."], ["Who became the oldest men's major champion, aged 50, at the 2021 PGA Championship?", "Phil Mickelson", ["Bernhard Langer", "Tom Watson", "Vijay Singh"], "Phil Mickelson won at Kiawah Island's Ocean Course in 2021, a month before turning 51."], ["How many Masters titles did Jack Nicklaus win?", "6", ["5", "4", "7"], "Nicklaus won six green jackets, the last in 1986 at age 46."], ["How many Masters titles has Tiger Woods won?", "5", ["4", "6", "3"], "Tiger won the Masters in 1997, 2001, 2002, 2005 and 2019."], ["What were Arnold Palmer's loyal fans called?", "Arnie's Army", ["Palmer's People", "The King's Court", "Arnie's Gallery"], "Arnold Palmer, 'The King', drew huge crowds known as Arnie's Army."], ["Gary Player is known by which nickname?", "The Black Knight", ["The Golden Bear", "The Shark", "The Silver Fox"], "Gary Player often dressed in black and is known as the Black Knight."], ["Seve Ballesteros, winner of five majors, came from which country?", "Spain", ["Italy", "Portugal", "Argentina"], "Seve won three Open Championships and two Masters for Spain."], ["Which teams play the Ryder Cup?", "USA and Europe", ["USA and the Internationals", "Europe and Asia", "Great Britain and Australia"], "The Ryder Cup is played every two years between the United States and Europe."], ["The Presidents Cup is played between the USA and which team?", "The International team", ["Europe", "Great Britain & Ireland", "Asia"], "The International team is made up of players from outside Europe."], ["What is the women's equivalent of the Ryder Cup called?", "The Solheim Cup", ["The Curtis Cup", "The Walker Cup", "The Vagliano Trophy"], "The Solheim Cup is played between the best women professionals of the USA and Europe."], ["What is the minimum diameter of a golf ball under the Rules of Golf?", "1.68 inches", ["1.62 inches", "1.75 inches", "1.50 inches"], "A golf ball must be at least 1.68 inches (42.67 mm) across."], ["What is the diameter of a golf hole?", "4.25 inches", ["4 inches", "4.5 inches", "5 inches"], "The hole is 4.25 inches (108 mm) wide."], ["What is a score of 4 under par on a single hole called?", "Condor", ["Albatross", "Phoenix", "Ostrich"], "A condor is four under par, such as a hole-in-one on a par 5. It is extremely rare."], ["Augusta National's famous 'Amen Corner' is made up of which holes?", "11, 12 and 13", ["10, 11 and 12", "12, 13 and 14", "15, 16 and 17"], "Amen Corner covers the second shot at 11, the par-3 12th and the tee shot at 13."], ["Which Open Championship venue is home to the tiny par-3 'Postage Stamp'?", "Royal Troon", ["Royal Birkdale", "Carnoustie", "Muirfield"], "The Postage Stamp is the 8th hole at Royal Troon, only about 120 yards long."], ["The famous 'Road Hole' is which hole on the Old Course at St Andrews?", "The 17th", ["The 18th", "The 1st", "The 11th"], "The 17th at St Andrews is called the Road Hole because of the road behind the green."], ["The island green at TPC Sawgrass is which hole?", "The 17th", ["The 16th", "The 18th", "The 13th"], "The par-3 17th at TPC Sawgrass, home of The Players Championship, sits on an island."], ["Who holds the record for most Open Championship titles?", "Harry Vardon", ["Tom Watson", "James Braid", "J.H. Taylor"], "Harry Vardon won The Open six times between 1896 and 1914."], ["Which of these golfers won the U.S. Open four times?", "Ben Hogan", ["Tiger Woods", "Hale Irwin", "Arnold Palmer"], "Ben Hogan shares the record of four U.S. Open wins with Willie Anderson, Bobby Jones and Jack Nicklaus."], ["Who shares the record of five PGA Championship titles with Jack Nicklaus?", "Walter Hagen", ["Tiger Woods", "Gene Sarazen", "Sam Snead"], "Walter Hagen won five PGA Championships in the 1920s, when it was match play."], ["Ben Hogan won three majors in 1953. Which one did he not play?", "The PGA Championship", ["The Masters", "The U.S. Open", "The Open Championship"], "The PGA Championship clashed with qualifying for The Open, so Hogan could not play both."], ["Ben Hogan came back to win majors after surviving a 1949 car crash with what?", "A bus", ["A train", "A truck", "A tractor"], "Hogan's car collided with a Greyhound bus. He won six majors after the crash."], ["How many PGA Tour events in a row did Byron Nelson win in 1945?", "11", ["8", "14", "6"], "Byron Nelson won 11 straight events and 18 in total in 1945."], ["Who shares the record for most PGA Tour wins with Tiger Woods?", "Sam Snead", ["Jack Nicklaus", "Ben Hogan", "Arnold Palmer"], "Sam Snead and Tiger Woods both have 82 PGA Tour wins."], ["How many PGA Tour wins does Jack Nicklaus have?", "73", ["82", "64", "59"], "Jack Nicklaus won 73 PGA Tour events, third on the all-time list."], ["Who was the first woman to shoot 59 in an LPGA Tour event?", "Annika Sörenstam", ["Lorena Ochoa", "Karrie Webb", "Se Ri Pak"], "Annika Sörenstam shot 59 at the 2001 Standard Register Ping."], ["Who shot the first sub-60 round in PGA Tour history, a 59 in 1977?", "Al Geiberger", ["Chip Beck", "David Duval", "Jim Furyk"], "Al Geiberger's 59 at the 1977 Memphis Classic earned him the nickname 'Mr. 59'."], ["In 2016, Jim Furyk set the PGA Tour scoring record with a round of what?", "58", ["59", "57", "60"], "Jim Furyk shot 58 in the final round of the 2016 Travelers Championship."], ["Who shot the first 62 in men's major championship history, at the 2017 Open?", "Branden Grace", ["Rory McIlroy", "Henrik Stenson", "Jordan Spieth"], "South Africa's Branden Grace shot 62 in the third round at Royal Birkdale."], ["Who was the first Swedish man to win a major?", "Henrik Stenson", ["Ludvig Åberg", "Jesper Parnevik", "Alex Norén"], "Henrik Stenson won the 2016 Open at Royal Troon after a famous duel with Phil Mickelson."], ["Where did Rory McIlroy win the 2011 U.S. Open, his first major, by eight shots?", "Congressional", ["Pebble Beach", "Oakmont", "Merion"], "Rory won at Congressional Country Club in a record-low U.S. Open total of 268."], ["Which two majors did Jordan Spieth win in 2015?", "The Masters and the U.S. Open", ["The Masters and The Open", "The U.S. Open and the PGA", "The Open and the PGA"], "Spieth won the 2015 Masters and U.S. Open, then The Open in 2017."], ["Which of these golfers has NOT completed the career Grand Slam?", "Phil Mickelson", ["Gary Player", "Gene Sarazen", "Ben Hogan"], "Phil Mickelson has never won the U.S. Open."], ["How many times did Phil Mickelson finish runner-up at the U.S. Open?", "6", ["4", "5", "3"], "Phil was second at the U.S. Open six times, the only major he never won."], ["Who overturned Greg Norman's six-shot final-round lead to win the 1996 Masters?", "Nick Faldo", ["Ernie Els", "Davis Love III", "Phil Mickelson"], "Nick Faldo shot 67 to Norman's 78 and won by five."], ["Who won the 1999 Open at Carnoustie after Jean van de Velde's triple bogey on the 72nd hole?", "Paul Lawrie", ["Justin Leonard", "Ernie Els", "Sergio García"], "Scotland's Paul Lawrie won the playoff against van de Velde and Justin Leonard."], ["Who did Tiger Woods beat in a playoff to win the 2008 U.S. Open on a broken leg?", "Rocco Mediate", ["Lee Westwood", "Phil Mickelson", "Sergio García"], "Tiger beat Rocco Mediate at Torrey Pines after 19 extra holes."], ["Who became the first Asian-born man to win a major, at the 2009 PGA Championship?", "Y.E. Yang", ["Hideki Matsuyama", "K.J. Choi", "Shaun Micheel"], "Y.E. Yang of South Korea came from behind to beat Tiger Woods at Hazeltine."], ["Collin Morikawa won The Open on debut in 2021. Which major did he win in 2020?", "The PGA Championship", ["The Masters", "The U.S. Open", "The Players"], "Morikawa won the 2020 PGA Championship at Harding Park."], ["Who won the men's Olympic golf gold medal at Paris 2024?", "Scottie Scheffler", ["Tommy Fleetwood", "Hideki Matsuyama", "Xander Schauffele"], "Scheffler shot 62 in the final round to win gold, ahead of Fleetwood and Matsuyama."], ["Who won the men's Olympic gold when golf returned to the Games in 2016?", "Justin Rose", ["Henrik Stenson", "Matt Kuchar", "Rory McIlroy"], "Justin Rose won in Rio, with Henrik Stenson taking silver."], ["Who won both the PGA Championship and The Open in 2024?", "Xander Schauffele", ["Scottie Scheffler", "Bryson DeChambeau", "Rory McIlroy"], "Schauffele won at Valhalla and Royal Troon for his first two majors."], ["Who won the 2025 U.S. Open at Oakmont?", "J.J. Spaun", ["Robert MacIntyre", "Viktor Hovland", "Sam Burns"], "J.J. Spaun holed a long birdie putt on the 72nd hole to win his first major."], ["Who won the 2025 Open Championship at Royal Portrush?", "Scottie Scheffler", ["Harris English", "Rory McIlroy", "Shane Lowry"], "Scheffler won by four shots for his fourth major."], ["Who captained Europe to victory at the 2023 and 2025 Ryder Cups?", "Luke Donald", ["Padraig Harrington", "Henrik Stenson", "Thomas Bjørn"], "Luke Donald led Europe to wins in Rome in 2023 and at Bethpage Black in 2025."], ["The Ryder Cup is named after Samuel Ryder. What was his trade?", "Seed merchant", ["Whisky distiller", "Banker", "Shipbuilder"], "Samuel Ryder, an English seed merchant, donated the trophy in 1927."], ["Which two bodies write the Rules of Golf?", "The R&A and the USGA", ["The PGA Tour and DP World Tour", "The PGA of America and the R&A", "The IGF and the USGA"], "The R&A and the USGA publish one shared set of rules."], ["Which trophy goes to the winner of the PGA Championship?", "The Wanamaker Trophy", ["The Claret Jug", "The Green Jacket", "The Calcavecchia Cup"], "The Wanamaker Trophy is named after Rodman Wanamaker, who helped found the PGA of America."], ["At the Masters Champions Dinner, who chooses the menu?", "The defending champion", ["The club chairman", "The oldest past champion", "The members' committee"], "Each year the defending champion hosts the dinner and picks the menu."], ["What is the name of the famous driveway leading to Augusta National's clubhouse?", "Magnolia Lane", ["Azalea Drive", "Rae's Creek Road", "Washington Avenue"], "Magnolia Lane is lined with about 60 magnolia trees."], ["Who designed Augusta National together with Bobby Jones?", "Alister MacKenzie", ["Donald Ross", "A.W. Tillinghast", "Pete Dye"], "Alister MacKenzie also designed Cypress Point and Royal Melbourne."], ["In which year did LIV Golf play its first event?", "2022", ["2020", "2021", "2023"], "LIV Golf's first event was played near London in June 2022."], ["Who won the first FedEx Cup, in 2007?", "Tiger Woods", ["Vijay Singh", "Phil Mickelson", "Jim Furyk"], "Tiger Woods won the first FedEx Cup in 2007. He won it again in 2009 and 2018."], ["What was the DP World Tour called before 2022?", "The European Tour", ["The Sunshine Tour", "The Challenge Tour", "The Asian Tour"], "The European Tour was renamed the DP World Tour in 2022."], ["The Sunshine Tour is based in which country?", "South Africa", ["Australia", "Spain", "Mexico"], "The Sunshine Tour is the main professional tour in southern Africa."], ["Which golfer is nicknamed 'The Big Easy'?", "Ernie Els", ["Fred Couples", "Vijay Singh", "Louis Oosthuizen"], "Ernie Els got the nickname for his relaxed, smooth swing."], ["Which golfer was nicknamed 'El Niño' as a young star?", "Sergio García", ["Seve Ballesteros", "Jon Rahm", "Ángel Cabrera"], "Sergio García earned the nickname as a teenager and won the 2017 Masters."], ["Which golfer is known as 'The King'?", "Arnold Palmer", ["Jack Nicklaus", "Tiger Woods", "Seve Ballesteros"], "Arnold Palmer won seven majors and helped make golf popular on TV."], ["Which golfer was nicknamed 'Slammin' Sammy'?", "Sam Snead", ["Sam Torrance", "Sam Burns", "Sam Parks"], "Sam Snead was famous for his powerful, graceful swing."], ["Who beat 59-year-old Tom Watson in a playoff at the 2009 Open?", "Stewart Cink", ["Lee Westwood", "Ross Fisher", "Padraig Harrington"], "Watson needed a par on the last hole at Turnberry, then lost the four-hole playoff to Stewart Cink."], ["Who won the 1999 U.S. Open at Pinehurst, months before his death in a plane accident?", "Payne Stewart", ["Phil Mickelson", "Tiger Woods", "David Duval"], "Payne Stewart holed a 15-foot putt on the final hole to beat Phil Mickelson by one."], ["Who holds the record for most LPGA Tour wins?", "Kathy Whitworth", ["Annika Sörenstam", "Mickey Wright", "Nancy Lopez"], "Kathy Whitworth won 88 LPGA Tour events, the most by any professional golfer on a single tour."], ["Who won the women's Olympic golf gold medal at Paris 2024?", "Lydia Ko", ["Nelly Korda", "Jin Young Ko", "Lilia Vu"], "New Zealand's Lydia Ko completed a full set of Olympic medals: silver in 2016, bronze in 2021 and gold in 2024."], ["In 2024, Nelly Korda tied an LPGA record by winning how many starts in a row?", "5", ["3", "4", "6"], "Korda's five straight wins matched Nancy Lopez and Annika Sörenstam."], ["In golf slang, what is a 'Texas wedge'?", "A putter used from off the green", ["A wedge with extra bounce", "A shot played off a cart path", "A chip that runs into the hole"], "Players use a 'Texas wedge' on firm, windy courses where a putt is safer than a chip."], ["Gene Sarazen's 'shot heard round the world' at the 1935 Masters was what?", "An albatross", ["A hole-in-one", "An eagle from a bunker", "A 100-foot putt"], "Sarazen holed his second shot on the par-5 15th for a double eagle and went on to win."], ["Which Open Championship course is nicknamed 'Carnasty' for its difficulty?", "Carnoustie", ["Royal St George's", "Muirfield", "Royal Liverpool"], "Carnoustie in Scotland is often called the toughest course on The Open rota."], ["Who won the 2019 Open at Royal Portrush?", "Shane Lowry", ["Tommy Fleetwood", "Rory McIlroy", "Brooks Koepka"], "Ireland's Shane Lowry won by six shots on the island of Ireland."], ["How many PGA Championships has Brooks Koepka won?", "3", ["2", "4", "1"], "Koepka won the PGA Championship in 2018, 2019 and 2023."]], "yt": [["Which channel do Callux, Calfreezy and the Sidemen's Harry, Simon and Josh share for their golf?", "Big Wedge Golf", ["Good Good", "Fore Play Golf", "Bob Does Sports"], "These creators play together on Big Wedge Golf."], ["Which brothers run Bryan Bros Golf?", "Wesley and George Bryan", ["Kyle and Ben Berkshire", "Grant and Garrett Horvat", "Peter and Dan Finch"], "Wesley and George Bryan run Bryan Bros Golf."], ["Who is number one on the handicap-tracker.com YouTuber leaderboard (Oct 2026)?", "Brad Dalke", ["Sean Walsh", "Ryan Ruffels", "Rick Shiels"], "Brad Dalke tops the list with a +7.8 handicap in October 2026."], ["Abbe and Stimpen are a golf duo from which country?", "Sweden", ["Norway", "England", "Denmark"], "Abbe & Stimpen are a Swedish golf YouTube duo."], ["Sean Walsh appears on which YouTube channel?", "Good Good", ["Bryan Bros Golf", "The Lads", "Big Wedge Golf"], "Sean Walsh is part of the Good Good crew."], ["In which country is Rick Shiels from?", "England", ["Scotland", "Australia", "USA"], "Rick Shiels is from Bolton, England."], ["Who co-founded Good Good with Matt Scharff and Stephen Castaneda?", "Garrett Clark", ["Micah Morris", "Grant Horvat", "Brad Dalke"], "Garrett Clark co-founded Good Good, and also runs the GM Golf channel."], ["Which member of Bryan Bros Golf is a former PGA Tour winner?", "Wesley Bryan", ["George Bryan", "Both are", "Neither is"], "Wesley Bryan won the 2017 RBC Heritage on the PGA Tour."], ["Which of these golf channels has the most subscribers?", "Rick Shiels Golf", ["Good Good", "Big Wedge Golf", "Bob Does Sports"], "Rick Shiels Golf has around 3.1 million subscribers (Oct 2026)."], ["Ryan Ruffels and Bat are both part of which channel?", "The Lads", ["Good Good", "Fore Play Golf", "Big Wedge Golf"], "Both appear on The Lads channel."], ["Which university did Brad Dalke play college golf for?", "Oklahoma", ["Texas", "Alabama", "Stanford"], "Brad Dalke played for Oklahoma and was runner-up at the 2016 U.S. Amateur."], ["Changhyun Nam is better known on golf YouTube as...?", "Slumpy", ["Taco", "Radar", "Chaz"], "Changhyun Nam goes by Slumpy."], ["Which channel do Bobby Fairways, Joey Cold Cuts and Fat Perez appear on?", "Bob Does Sports", ["Good Good", "Fore Play Golf", "The Lads"], "They appear on Bob Does Sports."], ["Riggs, Trent Ryan and Frankie Borrelli appear on which channel?", "Fore Play Golf", ["Big Wedge Golf", "Bryan Bros Golf", "Good Good"], "They are part of the Fore Play Golf crew."], ["Which major champion runs the YouTube series 'Break 50'?", "Bryson DeChambeau", ["Rory McIlroy", "Brooks Koepka", "Max Homa"], "Bryson DeChambeau plays scrambles with guests trying to break 50 on his YouTube channel."], ["Mark Crossfield, one of the first big golf YouTubers, is from which country?", "England", ["Scotland", "Ireland", "Australia"], "Mark Crossfield is an English PGA professional and long-time golf YouTuber."], ["Paige Spiranac finished her college golf career at which school?", "San Diego State", ["Arizona", "UCLA", "Oklahoma"], "Paige Spiranac began at Arizona and transferred to San Diego State."]]};
+var PER_DAY = { pro: 4, yt: 1 };
+var SITE = 'https://dailygolfgame.com/trivia/';
+var STATS_KEY = 'dg_trivia_stats', DAY_KEY = 'dg_trivia_day';
+
+// Day #1 = 2026-01-01, counted on the local calendar date (same rule as the games).
+function dayNumber(d) { d = d || new Date(); return Math.round((Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()) - Date.UTC(2026, 0, 1)) / 864e5) + 1; }
+function hashStr(s) { var h = 2166136261; for (var i = 0; i < s.length; i++) { h ^= s.charCodeAt(i); h = Math.imul(h, 16777619); } return h >>> 0; }
+function rng(seed) { var t = seed >>> 0; return function () { t = (t + 0x6D2B79F5) >>> 0; var r = Math.imul(t ^ (t >>> 15), 1 | t); r ^= r + Math.imul(r ^ (r >>> 7), 61 | r); return ((r ^ (r >>> 14)) >>> 0) / 4294967296; }; }
+function shuffle(a, r) { a = a.slice(); for (var i = a.length - 1; i > 0; i--) { var j = Math.floor(r() * (i + 1)); var t = a[i]; a[i] = a[j]; a[j] = t; } return a; }
+function load(k, d) { try { var v = JSON.parse(localStorage.getItem(k)); return v || d; } catch (e) { return d; } }
+function save(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }
+function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+
+// Every question appears once per cycle, in a new shuffled order each cycle.
+// Questions are ordered by text first, so adding questions only reshuffles, never breaks.
+var orderCache = {};
+function cycleOrder(kind, c) {
+  var key = kind + ':' + c;
+  if (orderCache[key]) return orderCache[key];
+  var qs = shuffle(BANK[kind].map(function (q) { return q[0]; }).sort(), rng(hashStr('trivia:' + key)));
+  if (c > 0) {
+    // Keep the last questions of the previous cycle away from the start of this one,
+    // so nothing comes back on the next day or two.
+    var gap = PER_DAY[kind] * 2, tail = cycleOrder(kind, c - 1).slice(-gap);
+    var head = qs.slice(0, gap), moved = head.filter(function (q) { return tail.indexOf(q) >= 0; });
+    qs = head.filter(function (q) { return moved.indexOf(q) < 0; }).concat(qs.slice(gap), moved);
   }
+  return (orderCache[key] = qs);
+}
+function dailyQuestions(day) {
+  var out = [];
+  ['pro', 'yt'].forEach(function (kind) {
+    var n = BANK[kind].length, per = PER_DAY[kind], idx = (day - 1) * per, picked = [];
+    while (picked.length < per) {
+      var c = Math.floor(idx / n), q = cycleOrder(kind, c)[idx % n];
+      if (picked.indexOf(q) < 0) picked.push(q);
+      idx++;
+    }
+    picked.forEach(function (q) { out.push({ kind: kind, q: q }); });
+  });
+  return out;
+}
+function practiceQuestions(exclude) {
+  var r = Math.random, out = [];
+  ['pro', 'yt'].forEach(function (kind) {
+    shuffle(BANK[kind], r).filter(function (q) { return exclude.indexOf(q[0]) < 0; })
+      .slice(0, PER_DAY[kind]).forEach(function (q) { out.push({ kind: kind, q: q[0] }); });
+  });
+  return out;
+}
+function find(item) { var b = BANK[item.kind]; for (var i = 0; i < b.length; i++) if (b[i][0] === item.q) return b[i]; return null; }
+
+var day = dayNumber();
+var box = document.getElementById('quiz');
+var stats = load(STATS_KEY, { played: 0, correct: 0, streak: 0, max: 0, last: 0, dist: [0, 0, 0, 0, 0, 0] });
+if (!stats.dist || stats.dist.length !== 6) stats.dist = [0, 0, 0, 0, 0, 0];
+if (stats.last && stats.last < day - 1) stats.streak = 0;
+
+var practice = false, items, answers, pos, seedBase;
+
+function start(isPractice) {
+  practice = !!isPractice;
+  day = dayNumber();
+  if (practice) {
+    items = practiceQuestions(dailyQuestions(day).map(function (x) { return x.q; }));
+    answers = []; seedBase = Math.floor(Math.random() * 1e9);
+  } else {
+    var saved = load(DAY_KEY, null);
+    // A saved day keeps its own questions, so a site update mid-day never changes a quiz in progress.
+    if (saved && saved.day === day && saved.items && saved.items.every(find)) { items = saved.items; answers = saved.answers || []; }
+    else { items = dailyQuestions(day); answers = []; }
+    seedBase = day * 31;
+  }
+  pos = Math.min(answers.length, items.length);
   render();
 }
-build('pro');build('yt');
+
+function persist() { if (!practice) save(DAY_KEY, { day: day, items: items, answers: answers }); }
+function score() { var s = 0; answers.forEach(function (a, i) { if (a === find(items[i])[1]) s++; }); return s; }
+
+function render() {
+  if (pos >= items.length) return renderEnd();
+  var item = items[pos], q = find(item), picked = answers[pos];
+  var opts = shuffle([q[1]].concat(q[2]), rng(seedBase + pos * 977 + hashStr(q[0])));
+  var dots = items.map(function (_, i) {
+    var cls = i < answers.length ? (answers[i] === find(items[i])[1] ? 'dot ok' : 'dot no') : (i === pos ? 'dot cur' : 'dot');
+    return '<span class="' + cls + '"></span>';
+  }).join('');
+  var h = '<div class="qhead"><span class="tag">' + (practice ? 'Practice · ' : '') + (item.kind === 'pro' ? 'Pro golf' : 'Golf YouTube') + '</span><span class="dots" aria-label="Question ' + (pos + 1) + ' of ' + items.length + '">' + dots + '</span></div>';
+  h += '<div class="q">' + esc(q[0]) + '</div><div class="opts">';
+  opts.forEach(function (o) { h += '<button class="opt" type="button">' + esc(o) + '</button>'; });
+  h += '</div><div id="after"></div>';
+  box.innerHTML = h;
+  var btns = box.querySelectorAll('.opt');
+  function reveal(choice) {
+    btns.forEach(function (b) {
+      b.disabled = true;
+      if (b.textContent === q[1]) b.classList.add('ok'); else if (b.textContent === choice) b.classList.add('no');
+    });
+    var right = choice === q[1], last = pos === items.length - 1;
+    document.getElementById('after').innerHTML = '<div class="ex"><b>' + (right ? 'Correct!' : 'Not quite.') + '</b> ' + esc(q[3]) + '</div>' +
+      '<p class="nav"><button class="cta" id="next" type="button">' + (last ? 'See your score' : 'Next question') + '</button></p>';
+    var nb = document.getElementById('next');
+    nb.onclick = function () { pos++; render(); };
+    nb.focus({ preventScroll: true });
+  }
+  if (picked !== undefined) { reveal(picked); return; }
+  btns.forEach(function (b) {
+    b.onclick = function () {
+      answers[pos] = b.textContent;
+      if (!practice && answers.length === items.length) finishDay();
+      persist();
+      reveal(b.textContent);
+    };
+  });
+}
+
+function finishDay() {
+  var s = score();
+  stats.played++; stats.correct += s; stats.dist[s]++;
+  if (s >= 3) { stats.streak = (stats.last === day - 1) ? stats.streak + 1 : 1; stats.max = Math.max(stats.max, stats.streak); }
+  else stats.streak = 0;
+  stats.last = day;
+  save(STATS_KEY, stats);
+}
+
+function grid() { return answers.map(function (a, i) { return a === find(items[i])[1] ? '🟩' : '🟥'; }).join(''); }
+var TITLES = ['Out of bounds ⛳', 'Double bogey', 'Bogey', 'Par ⛳', 'Birdie! 🐦', 'Eagle! 🦅 A perfect round'];
+
+function renderEnd() {
+  var s = score();
+  var h = '<div class="end"><div class="tag">' + (practice ? 'Practice round' : 'Daily Golf Trivia #' + day) + '</div>';
+  h += '<div class="big">' + s + '/' + items.length + '</div><div class="q">' + TITLES[s] + '</div>';
+  h += '<div class="grid5" aria-hidden="true">' + grid() + '</div>';
+  h += '<p class="nav"><button class="cta" id="share" type="button">Share result</button> ';
+  h += '<button class="cta alt" id="again" type="button">' + (practice ? 'Another practice round' : 'Practice round') + '</button></p>';
+  if (!practice) {
+    var mx = Math.max.apply(null, stats.dist.concat(1));
+    h += '<div class="stats"><div><b>' + stats.played + '</b>Played</div><div><b>' + (stats.played ? (stats.correct / stats.played).toFixed(1) : '0') + '</b>Avg score</div><div><b>' + stats.streak + '</b>Streak</div><div><b>' + stats.max + '</b>Best</div></div>';
+    h += '<p class="st">Your streak grows with every day you score 3 or more.</p><div class="dist">';
+    for (var i = 5; i >= 0; i--) h += '<div class="row"><span>' + i + '</span><div class="bar' + (i === s ? ' me' : '') + '" style="width:' + Math.max(7, stats.dist[i] / mx * 100) + '%">' + stats.dist[i] + '</div></div>';
+    h += '</div><p class="st" id="countdown"></p>';
+  }
+  h += '<p class="st">While you wait: play <a href="/">Guess the Pro Golfer</a> or <a href="/#youtube">Guess the YouTube Golfer</a>.</p></div>';
+  box.innerHTML = h;
+  document.getElementById('share').onclick = share;
+  document.getElementById('again').onclick = function () { start(true); box.scrollIntoView({ behavior: 'smooth', block: 'start' }); };
+  tick();
+}
+
+function tick() {
+  var el = document.getElementById('countdown'); if (!el) return;
+  var now = new Date(), mid = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1);
+  var m = Math.max(0, Math.round((mid - now) / 60000));
+  el.textContent = 'New questions in ' + Math.floor(m / 60) + 'h ' + (m % 60) + 'm.';
+}
+setInterval(function () { if (!practice && dayNumber() !== day) start(false); else tick(); }, 30000);
+
+function toast(msg) {
+  var t = document.getElementById('toast');
+  if (!t) { t = document.createElement('div'); t.id = 'toast'; t.setAttribute('role', 'status'); document.body.appendChild(t); }
+  t.textContent = msg; t.className = 'show';
+  clearTimeout(toast.t); toast.t = setTimeout(function () { t.className = ''; }, 2200);
+}
+function share() {
+  var text = 'Dailygolf Trivia ' + (practice ? 'Practice' : '#' + day) + ' ⛳ ' + score() + '/' + items.length + '\n' + grid() + '\n' + SITE;
+  var touch = window.matchMedia && matchMedia('(pointer: coarse)').matches;
+  if (navigator.share && touch) { navigator.share({ text: text }).catch(function () {}); return; }
+  var done = function () { toast('Result copied – paste it anywhere!'); };
+  if (navigator.clipboard && window.isSecureContext) navigator.clipboard.writeText(text).then(done, function () { prompt('Copy your result:', text); });
+  else { var ta = document.createElement('textarea'); ta.value = text; document.body.appendChild(ta); ta.select(); var ok = document.execCommand('copy'); ta.remove(); ok ? done() : prompt('Copy your result:', text); }
+}
+
+start(false);
 })();
 </script>
 </div></main>

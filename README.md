@@ -8,7 +8,7 @@ Every push to `main` goes live; there is no build step on deploy.
 | Path | What it is |
 |---|---|
 | `index.html` | Both daily games (Pro Golfer + YouTube Golfer, `#youtube`) |
-| `trivia/` | Daily golf trivia questions |
+| `trivia/` | Daily golf trivia: 5 questions a day (4 pro, 1 YouTube) from the `BANK` in the page |
 | `how-to-play/`, `articles/`, `about/`, `contact/`, `privacy/`, `thanks/` | Content pages (own inline CSS) |
 | `contact/` | Contact form, sent through Formspree (form ID in the form's `action`) |
 | `handicaps.json` | YouTube creator list; overrides the list embedded in `index.html` when present |
@@ -36,7 +36,20 @@ for an SVG). To use a new icon, add its SVG paths to that script.
 - **Saved progress** (localStorage):
   - Pro Golfer: `dailygolf_stats`, `dailygolf_day` (today's answer, guesses, finished or not)
   - YouTube Golfer: `dailygolf_yt_stats`, `dailygolf_yt_done` (same shape)
-  - Trivia: `dg_tq_stats_*`, `dg_tq_done_*`
+  - Trivia: `dg_trivia_stats`, `dg_trivia_day` (today's questions and answers)
 
   A saved game keeps its own answer, so deploying a change mid-day never alters a game in progress.
 - **Streaks** reset when a day is skipped (`stats.last` = last finished daily game).
+
+## Trivia questions
+
+Questions live in `BANK` in `trivia/index.html` as `[question, correct answer, [3 wrong answers], explanation]`.
+Each day takes the next 4 pro and 1 YouTube question from a seeded shuffle, so every question is used
+once per cycle before any repeats. Prefer facts that don't change (history, records, venues, rules);
+anything time-sensitive needs a date in the question.
+
+## YouTube creator data
+
+`handicaps.json` is the source of truth (the list embedded in `index.html` is only a fallback; keep
+both in sync). Only add a birth date (`born`) with a reliable source, e.g. Wikipedia, an official tour
+profile or Famous Birthdays. A wrong age makes the game unfair, so leave it empty when unsure.
