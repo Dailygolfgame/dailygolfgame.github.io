@@ -1,0 +1,1222 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Golf Game – Guess the Pro Golfer | Dailygolf</title>
+    <meta name="description" content="Free daily golf guessing game. Guess the mystery pro golfer in 5 tries using clues like country, tour, age, majors and PGA Tour wins. A new golfer every day – like Wordle for golf fans.">
+    <link rel="canonical" href="https://dailygolfgame.com/">
+    <meta name="robots" content="index, follow, max-image-preview:large">
+    <meta name="theme-color" content="#08170e">
+    <link rel="icon" href="/favicon.ico" sizes="48x48">
+    <link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Dailygolf">
+    <meta property="og:title" content="Daily Golf Game – Guess the Pro Golfer | Dailygolf">
+    <meta property="og:description" content="Free daily golf guessing game. Guess the mystery pro golfer in 5 tries using clues like country, tour, age, majors and PGA Tour wins. A new golfer every day – like Wordle for golf fans.">
+    <meta property="og:url" content="https://dailygolfgame.com/">
+    <meta property="og:image" content="https://dailygolfgame.com/og-image.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Daily Golf Game – Guess the Pro Golfer | Dailygolf">
+    <meta name="twitter:description" content="Free daily golf guessing game. Guess the mystery pro golfer in 5 tries using clues like country, tour, age, majors and PGA Tour wins. A new golfer every day – like Wordle for golf fans.">
+    <meta name="twitter:image" content="https://dailygolfgame.com/og-image.png">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Dailygolf",
+      "url": "https://dailygolfgame.com/",
+      "description": "Free daily golf guessing game. Guess the mystery pro golfer in 5 tries using clues like country, tour, age, majors and PGA Tour wins. A new golfer every day – like Wordle for golf fans.",
+      "applicationCategory": "GameApplication",
+      "genre": "Puzzle",
+      "operatingSystem": "Any",
+      "browserRequirements": "Requires JavaScript",
+      "inLanguage": "en",
+      "isAccessibleForFree": true,
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+    }
+    </script>
+    <!-- Styles: Tailwind is prebuilt into /assets/tailwind.css (see README). Icons are inline SVG (script at the bottom). -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
+    <link rel="stylesheet" href="/assets/tailwind.css">
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+        .namecell { flex-direction: column; gap: 5px; text-align: center; }
+        .namecell img { margin: 0 2px !important; }
+        .animate-pop {
+            animation: pop 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        @keyframes pop {
+            0% { transform: scale(0.92); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        /* Custom scrollbars for autocomplete list */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: rgba(15, 23, 42, 0.6);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #334155;
+            border-radius: 9999px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #475569;
+        }
+    </style>
+    <meta name="google-adsense-account" content="ca-pub-4913143800554205">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4913143800554205" crossorigin="anonymous"></script>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-full flex flex-col justify-between selection:bg-golf-500 selection:text-white antialiased">
+
+    <!-- HEADER / NAVIGATION -->
+    <header class="border-b border-slate-800/80 bg-slate-900/90 backdrop-blur sticky top-0 z-40">
+        <div class="max-w-3xl mx-auto px-4 py-3 flex items-center justify-between">
+            <div class="flex items-center gap-2.5">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-golf-500 to-emerald-800 flex items-center justify-center shadow-lg shadow-golf-500/20">
+                    <i class="fa-solid fa-flag-hole text-white text-xl"></i>
+                </div>
+                <div>
+                    <h1 class="text-2xl font-black tracking-tight bg-gradient-to-r from-white via-slate-100 to-golf-400 bg-clip-text text-transparent">DAILYGOLF</h1>
+                    <p class="text-[10px] text-slate-400 -mt-1 font-semibold tracking-wider">DAILY GOLF GAMES</p>
+                </div>
+            </div>
+
+            <div id="header-controls" class="flex items-center gap-2">
+                <button id="btn-mode-toggle" title="Switch Mode" class="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700/80 text-xs font-bold text-slate-200 transition flex items-center gap-2 shadow-sm">
+                    <i class="fa-solid fa-shuffle text-golf-400"></i>
+                    <span id="mode-button-text">Practice Mode</span>
+                </button>
+                <button id="btn-help" title="How to Play" class="w-9 h-9 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700/80 text-slate-300 transition flex items-center justify-center">
+                    <i class="fa-solid fa-circle-question text-sm"></i>
+                </button>
+                <button id="btn-stats" title="Statistics" class="w-9 h-9 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700/80 text-slate-300 transition flex items-center justify-center">
+                    <i class="fa-solid fa-chart-column text-sm"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- GAME TABS -->
+    <div class="max-w-3xl mx-auto px-4 pt-4 w-full flex gap-2" role="tablist">
+        <button id="tab-btn-pro" role="tab" class="flex-1 px-4 py-2.5 rounded-xl text-sm font-bold border border-slate-700/80 transition bg-golf-500 text-white">⛳ Pro Golfer</button>
+        <button id="tab-btn-yt" role="tab" class="flex-1 px-4 py-2.5 rounded-xl text-sm font-bold border border-slate-700/80 transition bg-slate-800 text-slate-300 hover:bg-slate-700">▶ YouTube Golfer</button>
+    </div>
+
+    <!-- MAIN GAME AREA -->
+    <main id="tab-pro" class="max-w-3xl mx-auto px-4 py-6 flex-grow w-full">
+
+        <!-- GAME STATUS HEADER -->
+        <div class="flex items-center justify-between mb-6 bg-slate-900/60 border border-slate-800 rounded-2xl p-3.5 shadow-inner">
+            <div class="flex items-center gap-2.5">
+                <span class="relative flex h-3 w-3">
+                  <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-golf-400 opacity-75"></span>
+                  <span class="relative inline-flex rounded-full h-3 w-3 bg-golf-500"></span>
+                </span>
+                <span id="current-mode-label" class="text-xs font-bold text-slate-200 tracking-wide">Dailygolf (#<span id="daily-number">1</span>)</span>
+            </div>
+            <div id="attempts-badge" class="text-xs font-medium text-slate-400">
+                Guesses: <span id="attempt-count" class="text-white font-bold">0</span>/5
+            </div>
+        </div>
+
+        <!-- SEARCH INPUT AREA -->
+        <div class="relative mb-6" id="search-container">
+            <div class="relative">
+                <input type="text" id="player-input" autocomplete="off" placeholder="Search golfer (e.g. Scottie Scheffler, Rory McIlroy, Ludvig Åberg)..." 
+                    class="w-full bg-slate-900 border-2 border-slate-800 focus:border-golf-500 rounded-2xl px-5 py-4 pl-12 text-sm md:text-base text-white placeholder-slate-500 outline-none transition shadow-lg focus:shadow-golf-500/10">
+                <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-slate-500"></i>
+                <button id="btn-submit" class="absolute right-2.5 top-1/2 -translate-y-1/2 bg-golf-600 hover:bg-golf-500 active:scale-95 text-white px-5 py-2.5 rounded-xl text-sm font-bold transition shadow-md shadow-golf-600/20 disabled:opacity-50 disabled:cursor-not-allowed">
+                    Guess
+                </button>
+            </div>
+
+            <!-- AUTOCOMPLETE DROPDOWN -->
+            <div id="autocomplete-list" class="absolute left-0 right-0 top-full mt-2 bg-slate-900 border border-slate-800 rounded-2xl shadow-2xl max-h-64 overflow-y-auto z-50 hidden divide-y divide-slate-800">
+                <!-- Dynamic player suggestions injected here -->
+            </div>
+        </div>
+
+        <!-- GUESSES TABLE HEADER -->
+        <div class="mb-3">
+            <div class="grid grid-cols-6 gap-1.5 md:gap-2 text-center text-[10px] md:text-xs font-bold text-slate-400 uppercase tracking-wider pb-1">
+                <div class="bg-slate-900/40 py-1.5 rounded-lg border border-slate-800/50">Player</div>
+                <div class="bg-slate-900/40 py-1.5 rounded-lg border border-slate-800/50">Country</div>
+                <div class="bg-slate-900/40 py-1.5 rounded-lg border border-slate-800/50">Tour</div>
+                <div class="bg-slate-900/40 py-1.5 rounded-lg border border-slate-800/50">Age</div>
+                <div class="bg-slate-900/40 py-1.5 rounded-lg border border-slate-800/50">Majors</div>
+                <div class="bg-slate-900/40 py-1.5 rounded-lg border border-slate-800/50" title="PGA Tour wins">Wins</div>
+            </div>
+        </div>
+
+        <!-- GUESSES FEEDBACK LIST -->
+        <div id="guesses-list" class="space-y-2 mb-8">
+            <!-- Dynamic guess cards inserted here -->
+        </div>
+
+        <!-- GAME OVER CARD / MODAL -->
+        <div id="game-over-card" class="hidden bg-gradient-to-b from-slate-800 to-slate-900 border border-slate-700/80 rounded-2xl p-6 text-center animate-pop shadow-2xl mb-8">
+            <div id="game-over-icon" class="w-16 h-16 rounded-2xl bg-golf-500/20 text-golf-400 flex items-center justify-center mx-auto mb-3 text-3xl shadow-inner">
+                <i class="fa-solid fa-trophy"></i>
+            </div>
+            <h2 id="game-over-title" class="text-2xl font-black text-white mb-1">Eagle! Hole in One!</h2>
+            <p id="game-over-message" class="text-sm text-slate-300 mb-5">You guessed the mystery golfer!</p>
+
+            <div class="bg-slate-950/80 rounded-xl p-4 mb-6 border border-slate-800 flex items-center justify-center gap-4">
+                <div class="text-center">
+                    <p class="text-xs text-slate-400 uppercase tracking-wider font-semibold">Mystery Golfer</p>
+                    <p id="secret-player-name" class="text-xl font-bold text-golf-400 mt-0.5"></p>
+                    <p id="secret-player-details" class="text-xs text-slate-400 mt-1"></p>
+                </div>
+            </div>
+
+            <div class="flex items-center justify-center gap-3">
+                <button id="btn-share" class="bg-slate-700 hover:bg-slate-600 text-white px-5 py-3 rounded-xl text-sm font-bold transition flex items-center gap-2 shadow-md">
+                    <i class="fa-solid fa-share-nodes"></i> Share Score
+                </button>
+                <button id="btn-play-again" class="bg-golf-600 hover:bg-golf-500 text-white px-5 py-3 rounded-xl text-sm font-bold transition flex items-center gap-2 shadow-lg shadow-golf-600/30">
+                    <i class="fa-solid fa-rotate-right"></i> <span id="play-again-label">Next Player</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- COLOR GUIDE LEGEND -->
+        <div class="bg-slate-900/50 border border-slate-800/80 rounded-2xl p-4 text-xs text-slate-400">
+            <p class="font-bold text-slate-300 mb-2.5 flex items-center gap-1.5">
+                <i class="fa-solid fa-palette text-golf-400"></i> Feedback Color Guide:
+            </p>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+                <div class="flex items-center gap-2 bg-slate-950/40 p-2 rounded-lg border border-slate-800">
+                    <span class="w-4 h-4 rounded bg-emerald-600 flex-shrink-0 shadow-sm"></span>
+                    <span><strong class="text-emerald-400">Green:</strong> Exact match</span>
+                </div>
+                <div class="flex items-center gap-2 bg-slate-950/40 p-2 rounded-lg border border-slate-800">
+                    <span class="w-4 h-4 rounded bg-amber-600 flex-shrink-0 shadow-sm"></span>
+                    <span><strong class="text-amber-400">Yellow:</strong> Close (±2 yrs, same continent)</span>
+                </div>
+                <div class="flex items-center gap-2 bg-slate-950/40 p-2 rounded-lg border border-slate-800">
+                    <span class="w-4 h-4 rounded bg-slate-800 flex-shrink-0 shadow-sm border border-slate-700"></span>
+                    <span><strong class="text-slate-300">Gray:</strong> No match</span>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- YOUTUBE GOLFER GAME -->
+    <main id="tab-yt" class="hidden max-w-3xl mx-auto px-4 py-6 flex-grow w-full">
+
+        <!-- GAME STATUS HEADER -->
+        <div class="flex items-center justify-between mb-6 bg-slate-900/60 border border-slate-800 rounded-2xl p-3.5 shadow-inner">
+            <div class="flex items-center gap-2.5">
+                <span class="relative flex h-3 w-3">
+                  <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-golf-400 opacity-75"></span>
+                  <span class="relative inline-flex rounded-full h-3 w-3 bg-golf-500"></span>
+                </span>
+                <span id="yt-mode" class="text-xs font-bold text-slate-200 tracking-wide">Dailygolf YouTube (#1)</span>
+            </div>
+            <div class="text-xs font-medium text-slate-400">
+                Guesses: <span id="yt-count" class="text-white font-bold">0</span>/5
+            </div>
+        </div>
+
+        <!-- SEARCH INPUT AREA -->
+        <div class="relative mb-6" id="yt-search">
+            <div class="relative">
+                <input type="text" id="yt-inp" autocomplete="off" placeholder="Search creator (e.g. Rick Shiels, Grant Horvat, Brad Dalke)..." aria-label="Creator name"
+                    class="w-full bg-slate-900 border-2 border-slate-800 focus:border-golf-500 rounded-2xl px-5 py-4 pl-12 text-sm md:text-base text-white placeholder-slate-500 outline-none transition shadow-lg focus:shadow-golf-500/10">
+                <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-slate-500"></i>
+                <button id="yt-go" class="absolute right-2.5 top-1/2 -translate-y-1/2 bg-golf-600 hover:bg-golf-500 active:scale-95 text-white px-5 py-2.5 rounded-xl text-sm font-bold transition shadow-md shadow-golf-600/20 disabled:opacity-50 disabled:cursor-not-allowed">
+                    Guess
+                </button>
+            </div>
+            <div id="yt-ac" class="absolute left-0 right-0 top-full mt-2 bg-slate-900 border border-slate-800 rounded-2xl shadow-2xl max-h-64 overflow-y-auto z-50 hidden divide-y divide-slate-800"></div>
+        </div>
+
+        <!-- GUESSES TABLE HEADER -->
+        <div class="mb-3">
+            <div class="grid grid-cols-6 gap-1.5 md:gap-2 text-center text-[10px] md:text-xs font-bold text-slate-400 uppercase tracking-wider pb-1">
+                <div class="bg-slate-900/40 py-1.5 rounded-lg border border-slate-800/50">Creator</div>
+                <div class="bg-slate-900/40 py-1.5 rounded-lg border border-slate-800/50">Country</div>
+                <div class="bg-slate-900/40 py-1.5 rounded-lg border border-slate-800/50">Handicap</div>
+                <div class="bg-slate-900/40 py-1.5 rounded-lg border border-slate-800/50">Subs</div>
+                <div class="bg-slate-900/40 py-1.5 rounded-lg border border-slate-800/50">Age</div>
+                <div class="bg-slate-900/40 py-1.5 rounded-lg border border-slate-800/50">Channel</div>
+            </div>
+        </div>
+
+        <!-- GUESSES FEEDBACK LIST -->
+        <div id="yt-rows" class="space-y-2 mb-8"></div>
+
+        <!-- GAME OVER CARD -->
+        <div id="yt-end" class="hidden bg-gradient-to-b from-slate-800 to-slate-900 border border-slate-700/80 rounded-2xl p-6 text-center animate-pop shadow-2xl mb-8">
+            <div class="w-16 h-16 rounded-2xl bg-golf-500/20 text-golf-400 flex items-center justify-center mx-auto mb-3 text-3xl shadow-inner">
+                <i class="fa-solid fa-trophy"></i>
+            </div>
+            <h2 id="yt-end-t" class="text-2xl font-black text-white mb-1"></h2>
+            <p id="yt-end-p" class="text-sm text-slate-300 mb-5"></p>
+            <div class="bg-slate-950/80 rounded-xl p-4 mb-6 border border-slate-800 flex items-center justify-center gap-4">
+                <div class="text-center">
+                    <p class="text-xs text-slate-400 uppercase tracking-wider font-semibold">Mystery Creator</p>
+                    <p id="yt-secret-name" class="text-xl font-bold text-golf-400 mt-0.5"></p>
+                    <p id="yt-secret-details" class="text-xs text-slate-400 mt-1"></p>
+                </div>
+            </div>
+            <div class="flex items-center justify-center gap-3">
+                <button id="yt-share" class="bg-slate-700 hover:bg-slate-600 text-white px-5 py-3 rounded-xl text-sm font-bold transition flex items-center gap-2 shadow-md">
+                    <i class="fa-solid fa-share-nodes"></i> Share Score
+                </button>
+                <button id="yt-practice" class="bg-golf-600 hover:bg-golf-500 text-white px-5 py-3 rounded-xl text-sm font-bold transition flex items-center gap-2 shadow-lg shadow-golf-600/30">
+                    <i class="fa-solid fa-rotate-right"></i> <span id="yt-practice-l">Play Practice Mode</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- COLOR GUIDE LEGEND -->
+        <div class="bg-slate-900/50 border border-slate-800/80 rounded-2xl p-4 text-xs text-slate-400">
+            <p class="font-bold text-slate-300 mb-2.5 flex items-center gap-1.5">
+                <i class="fa-solid fa-palette text-golf-400"></i> Feedback Color Guide:
+            </p>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+                <div class="flex items-center gap-2 bg-slate-950/40 p-2 rounded-lg border border-slate-800">
+                    <span class="w-4 h-4 rounded bg-emerald-600 flex-shrink-0 shadow-sm"></span>
+                    <span><strong class="text-emerald-400">Green:</strong> Exact match (same channel counts)</span>
+                </div>
+                <div class="flex items-center gap-2 bg-slate-950/40 p-2 rounded-lg border border-slate-800">
+                    <span class="w-4 h-4 rounded bg-amber-600 flex-shrink-0 shadow-sm"></span>
+                    <span><strong class="text-amber-400">Yellow:</strong> Close (hcp ±1.5, subs within 1.5x, age ±2, shared country)</span>
+                </div>
+                <div class="flex items-center gap-2 bg-slate-950/40 p-2 rounded-lg border border-slate-800">
+                    <span class="w-4 h-4 rounded bg-slate-800 flex-shrink-0 shadow-sm border border-slate-700"></span>
+                    <span><strong class="text-slate-300">Gray:</strong> No match</span>
+                </div>
+            </div>
+            <p class="mt-3 text-slate-500">▲ = the mystery creator's number is higher, ▼ = lower. Plus handicaps (+) are better than scratch.</p>
+        </div>
+        <p id="yt-stats" class="text-center text-sm text-slate-400 mt-5"></p>
+        <p class="text-xs text-slate-500 mt-4 leading-relaxed">Handicaps and countries come from the handicap-tracker.com YouTube golf leaderboard (Oct 2026). Subscribers come from YT Golf Stats and are the creator's own channel when tracked, otherwise the channel shown on the leaderboard (— = unknown). Creators with two flags show both countries. All numbers change over time.</p>
+    </main>
+
+    <!-- INSTRUCTIONS MODAL -->
+    <div id="modal-help" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl max-w-md w-full p-6 shadow-2xl relative">
+            <button class="close-modal absolute top-4 right-4 text-slate-400 hover:text-white text-lg w-8 h-8 flex items-center justify-center rounded-lg hover:bg-slate-800">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <h3 class="text-xl font-bold text-white mb-3 flex items-center gap-2">
+                <i class="fa-solid fa-circle-info text-golf-400"></i> How to Play Dailygolf
+            </h3>
+            <div class="text-xs text-slate-300 space-y-3 leading-relaxed">
+                <p>Guess the mystery male professional golfer in <strong>5 guesses or less</strong>.</p>
+                <p>Each guess will reveal clues comparing your player to the mystery golfer:</p>
+                <ul class="space-y-2 text-slate-400 pl-1">
+                    <li class="flex items-start gap-2">
+                        <span class="w-3.5 h-3.5 rounded bg-emerald-600 mt-0.5 flex-shrink-0"></span>
+                        <span><strong class="text-emerald-400">Green:</strong> Exact match for that attribute.</span>
+                    </li>
+                    <li class="flex items-start gap-2">
+                        <span class="w-3.5 h-3.5 rounded bg-amber-600 mt-0.5 flex-shrink-0"></span>
+                        <span><strong class="text-amber-400">Yellow:</strong> Partial match (Age within ±2 years, Same continent, or PGA Tour wins within ±3).</span>
+                    </li>
+                    <li class="flex items-start gap-2">
+                        <span class="w-3.5 h-3.5 rounded bg-slate-800 border border-slate-700 mt-0.5 flex-shrink-0"></span>
+                        <span><strong class="text-slate-300">Gray:</strong> Incorrect attribute.</span>
+                    </li>
+                    <li class="flex items-start gap-2">
+                        <span class="text-golf-400 font-bold mt-0.5">▲ / ▼</span>
+                        <span><strong>Arrows:</strong> Indicate if the mystery player's age (age at death for late legends), majors, or wins are higher or lower.</span>
+                    </li>
+                </ul>
+            </div>
+            <button class="close-modal w-full mt-6 bg-golf-600 hover:bg-golf-500 text-white py-3 rounded-xl font-bold text-sm transition">Got it, let's play!</button>
+        </div>
+    </div>
+
+    <!-- STATS MODAL -->
+    <div id="modal-stats" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl max-w-md w-full p-6 shadow-2xl relative">
+            <button class="close-modal absolute top-4 right-4 text-slate-400 hover:text-white text-lg w-8 h-8 flex items-center justify-center rounded-lg hover:bg-slate-800">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <h3 class="text-xl font-bold text-white mb-4 flex items-center gap-2">
+                <i class="fa-solid fa-chart-line text-golf-400"></i> Your Statistics
+            </h3>
+            
+            <div class="grid grid-cols-4 gap-2 text-center mb-6">
+                <div class="bg-slate-950/60 p-3 rounded-xl border border-slate-800">
+                    <p id="stat-played" class="text-2xl font-black text-white">0</p>
+                    <p class="text-[10px] text-slate-400 uppercase font-semibold">Played</p>
+                </div>
+                <div class="bg-slate-950/60 p-3 rounded-xl border border-slate-800">
+                    <p id="stat-winrate" class="text-2xl font-black text-emerald-400">0%</p>
+                    <p class="text-[10px] text-slate-400 uppercase font-semibold">Win %</p>
+                </div>
+                <div class="bg-slate-950/60 p-3 rounded-xl border border-slate-800">
+                    <p id="stat-streak" class="text-2xl font-black text-amber-400">0</p>
+                    <p class="text-[10px] text-slate-400 uppercase font-semibold">Streak</p>
+                </div>
+                <div class="bg-slate-950/60 p-3 rounded-xl border border-slate-800">
+                    <p id="stat-maxstreak" class="text-2xl font-black text-golf-400">0</p>
+                    <p class="text-[10px] text-slate-400 uppercase font-semibold">Max</p>
+                </div>
+            </div>
+
+            <button class="close-modal w-full bg-slate-800 hover:bg-slate-700 text-white py-2.5 rounded-xl font-bold text-sm transition">Close</button>
+        </div>
+    </div>
+
+    <!-- YOUTUBE STATS MODAL -->
+    <div id="modal-yt-stats" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl max-w-md w-full p-6 shadow-2xl relative">
+            <button id="yst-x" class="absolute top-4 right-4 text-slate-400 hover:text-white text-lg w-8 h-8 flex items-center justify-center rounded-lg hover:bg-slate-800"><i class="fa-solid fa-xmark"></i></button>
+            <h3 class="text-xl font-bold text-white mb-4 flex items-center gap-2"><i class="fa-solid fa-chart-line text-golf-400"></i> YouTube Golfer Statistics</h3>
+            <div class="grid grid-cols-4 gap-2 text-center mb-5">
+                <div class="bg-slate-950/60 p-3 rounded-xl border border-slate-800"><p id="yst-played" class="text-2xl font-black text-white">0</p><p class="text-[10px] text-slate-400 uppercase font-semibold">Played</p></div>
+                <div class="bg-slate-950/60 p-3 rounded-xl border border-slate-800"><p id="yst-rate" class="text-2xl font-black text-emerald-400">0%</p><p class="text-[10px] text-slate-400 uppercase font-semibold">Win %</p></div>
+                <div class="bg-slate-950/60 p-3 rounded-xl border border-slate-800"><p id="yst-streak" class="text-2xl font-black text-amber-400">0</p><p class="text-[10px] text-slate-400 uppercase font-semibold">Streak</p></div>
+                <div class="bg-slate-950/60 p-3 rounded-xl border border-slate-800"><p id="yst-max" class="text-2xl font-black text-golf-400">0</p><p class="text-[10px] text-slate-400 uppercase font-semibold">Max</p></div>
+            </div>
+            <p class="text-xs text-slate-400 uppercase font-semibold mb-2">Guess distribution</p>
+            <div id="yst-dist" class="space-y-1.5 mb-5"></div>
+            <button id="yst-close" class="w-full bg-slate-800 hover:bg-slate-700 text-white py-2.5 rounded-xl font-bold text-sm transition">Close</button>
+        </div>
+    </div>
+
+    <!-- CRAWLABLE CONTENT (SEO) -->
+    <section class="max-w-3xl mx-auto w-full px-4 py-8 text-sm text-slate-400 leading-relaxed">
+        <h2 class="text-lg font-bold text-slate-200 mb-2">How to play the Daily Golf Game</h2>
+        <p class="mb-3">Dailygolf is a free daily golf guessing game, like Wordle for golf fans. There are two daily games: Guess the Pro Golfer and Guess the YouTube Golfer. Every day there is one mystery professional golfer. You have five guesses. After each guess you see how close you are: country, continent, tour, age, major championships and PGA Tour wins turn green for an exact match and yellow when you are close. Arrows show whether the mystery golfer's age, majors or wins are higher or lower.</p>
+        <h2 class="text-lg font-bold text-slate-200 mt-6 mb-2">Frequently asked questions</h2>
+        <h3 class="font-semibold text-slate-300 mt-3">When does a new golfer appear?</h3>
+        <p>A new mystery golfer is available every day. Come back tomorrow to keep your streak going.</p>
+        <h3 class="font-semibold text-slate-300 mt-3">Which golfers are in the game?</h3>
+        <p>Current stars from the PGA Tour, LIV Golf and DP World Tour, plus legends such as Jack Nicklaus, Ben Hogan and Arnold Palmer.</p>
+        <h3 class="font-semibold text-slate-300 mt-3">What counts as wins?</h3>
+        <p>Wins are official PGA Tour victories, major championships included.</p>
+        <h3 class="font-semibold text-slate-300 mt-3">Is Dailygolf free?</h3>
+        <p>Yes. It is free to play in your browser on phone or desktop, with no account needed.</p>
+        <h2 class="text-lg font-bold text-slate-200 mt-6 mb-2">Golfers in the game</h2>
+        <p class="text-xs">Scottie Scheffler, Rory McIlroy, Tiger Woods, Ludvig Åberg, Bryson DeChambeau, Jon Rahm, Viktor Hovland, Xander Schauffele, Collin Morikawa, Brooks Koepka, Patrick Cantlay, Max Homa, Joaquin Niemann, Tyrrell Hatton, Shane Lowry, Sepp Straka, Jason Day, Brian Harman, Rickie Fowler, Tony Finau, Will Zalatoris, Sungjae Im, Tommy Fleetwood, Justin Thomas, Jordan Spieth, Hideki Matsuyama, Cameron Smith, Min Woo Lee, Wyndham Clark, Sahith Theegala, Tom Kim, Phil Mickelson, Dustin Johnson, Sergio Garcia, Adam Scott, Justin Rose, Patrick Reed, Bubba Watson, Henrik Stenson, Matt Fitzpatrick, Corey Conners, Chris Kirk, Daniel Berger, Zach Johnson, Brandt Snedeker, Webb Simpson, Gary Woodland, Lucas Glover, Aaron Rai, Ryan Fox, Cameron Young, Sam Burns, Akshay Bhatia, Russell Henley, Keegan Bradley, J.J. Spaun, Robert MacIntyre, Alex Norén, Jack Nicklaus, Ben Hogan, Sam Snead, Arnold Palmer, Byron Nelson, Tom Watson, Lee Trevino, Raymond Floyd, Gary Player, Ernie Els, Greg Norman, Vijay Singh.</p>
+    </section>
+
+    <!-- BOTTOM ADSENSE / AFFILIATE BANNER -->
+    <footer class="bg-slate-900 border-t border-slate-800 py-5 px-4 mt-auto">
+        <div class="max-w-3xl mx-auto text-center sm:text-left">
+            <nav class="flex flex-wrap justify-center sm:justify-start gap-x-5 gap-y-1.5 text-xs font-semibold text-slate-300 mb-3" aria-label="Site pages">
+                <a class="hover:text-golf-400" href="/trivia/">Daily trivia</a>
+                <a class="hover:text-golf-400" href="/how-to-play/">How to play</a>
+                <a class="hover:text-golf-400" href="/articles/">Articles</a>
+                <a class="hover:text-golf-400" href="/about/">About</a>
+                <a class="hover:text-golf-400" href="/contact/">Contact</a>
+                <a class="hover:text-golf-400" href="/privacy/">Privacy policy</a>
+            </nav>
+            <p class="text-xs font-bold text-slate-200">Dailygolf &copy; 2026 – Daily Golf Trivia & Games</p>
+            <p class="text-[11px] text-slate-400">Independent fan project, not affiliated with any tour, player or creator.</p>
+        </div>
+    </footer>
+
+    <!-- GAME LOGIC SCRIPT -->
+    <script>
+        // --- SHARED HELPERS (used by both games) ---
+        const SITE_URL = 'https://dailygolfgame.com/';
+
+        // Day #1 = 2026-01-01. Counted on the player's calendar date, so it changes
+        // at local midnight and is never shifted by daylight-saving time.
+        function dayNumber(d = new Date()) {
+            return Math.round((Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()) - Date.UTC(2026, 0, 1)) / 864e5) + 1;
+        }
+
+        // From this day on, the daily answer comes from a seeded shuffle instead of
+        // the list order, so tomorrow's answer can't be read straight from the source.
+        // Day 305 = 2026-11-01.
+        const SHUFFLE_FROM = 305;
+        function hashStr(s) {
+            let h = 2166136261;
+            for (let i = 0; i < s.length; i++) { h ^= s.charCodeAt(i); h = Math.imul(h, 16777619); }
+            return h >>> 0;
+        }
+        function seededShuffle(arr, seed) {
+            const a = arr.slice();
+            let t = seed >>> 0;
+            const rnd = () => { t = (t + 0x6D2B79F5) >>> 0; let r = Math.imul(t ^ (t >>> 15), 1 | t); r ^= r + Math.imul(r ^ (r >>> 7), 61 | r); return ((r ^ (r >>> 14)) >>> 0) / 4294967296; };
+            for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(rnd() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; }
+            return a;
+        }
+        // Every entry appears once per cycle (cycle length = list length) in a shuffled order.
+        // Names are sorted first, so reordering the list in the source doesn't change the answers.
+        function dailyPick(list, day, salt, legacy) {
+            if (day < SHUFFLE_FROM) return legacy();
+            const names = list.map(p => p.name).sort();
+            const n = names.length, k = day - SHUFFLE_FROM, cycle = Math.floor(k / n);
+            const order = c => seededShuffle(names, hashStr(salt + ':' + c));
+            const o = order(cycle);
+            if (cycle > 0 && n > 1 && o[0] === order(cycle - 1)[n - 1]) [o[0], o[1]] = [o[1], o[0]];
+            return list.find(p => p.name === o[k % n]);
+        }
+
+        function loadJSON(key, fallback) {
+            try { return JSON.parse(localStorage.getItem(key)) || fallback; } catch (e) { return fallback; }
+        }
+        function saveJSON(key, value) {
+            try { localStorage.setItem(key, JSON.stringify(value)); } catch (e) {}
+        }
+
+        // Streak bookkeeping shared by both games. stats.last = day number of the last finished daily game.
+        function decayStreak(stats, day) {
+            if (typeof stats.last === 'number' && stats.last < day - 1) stats.streak = 0;
+        }
+        function recordResult(stats, day, won, maxKey) {
+            stats.played++;
+            if (won) {
+                stats.wins++;
+                const continues = typeof stats.last !== 'number' || stats.last === day - 1;
+                stats.streak = continues ? stats.streak + 1 : 1;
+                stats[maxKey] = Math.max(stats[maxKey] || 0, stats.streak);
+            } else {
+                stats.streak = 0;
+            }
+            stats.last = day;
+        }
+
+        let toastTimer;
+        function toast(msg) {
+            let t = document.getElementById('toast');
+            if (!t) {
+                t = document.createElement('div');
+                t.id = 'toast';
+                t.setAttribute('role', 'status');
+                t.className = 'fixed left-1/2 -translate-x-1/2 bottom-6 z-[60] max-w-[90vw] bg-slate-800 border border-slate-700 text-white text-sm font-semibold px-4 py-2.5 rounded-xl shadow-2xl transition-opacity duration-200 opacity-0 pointer-events-none';
+                document.body.appendChild(t);
+            }
+            t.textContent = msg;
+            t.classList.remove('opacity-0');
+            clearTimeout(toastTimer);
+            toastTimer = setTimeout(() => t.classList.add('opacity-0'), 2200);
+        }
+
+        function copyText(text) {
+            if (navigator.clipboard && window.isSecureContext) return navigator.clipboard.writeText(text);
+            return new Promise((resolve, reject) => {
+                const ta = document.createElement('textarea');
+                ta.value = text; ta.setAttribute('readonly', ''); ta.style.position = 'fixed'; ta.style.opacity = '0';
+                document.body.appendChild(ta); ta.select();
+                const ok = document.execCommand('copy');
+                ta.remove();
+                ok ? resolve() : reject();
+            });
+        }
+        // Phones get the native share sheet; desktop copies to the clipboard.
+        function shareResult(text) {
+            const touch = window.matchMedia && matchMedia('(pointer: coarse)').matches;
+            if (navigator.share && touch) {
+                navigator.share({ text }).catch(err => { if (err && err.name !== 'AbortError') copyText(text).then(() => toast('Result copied!')); });
+                return;
+            }
+            copyText(text).then(() => toast('Result copied – paste it anywhere!'), () => prompt('Copy your result:', text));
+        }
+        const EMOJI = { g: '🟩', y: '🟨', '': '⬛' };
+
+        // --- GOLFERS DATABASE (70 MALE PROS) ---
+        // wins = official PGA Tour wins (majors included). Data checked Oct 2026.
+        // born = YYYY-MM-DD; age is calculated automatically below.
+        const PLAYERS = [
+            { name: "Scottie Scheffler", country: "USA", continent: "North America", tour: "PGA Tour", gender: "Male", born: "1996-06-21", majors: 4, wins: 22, flag: "🇺🇸" },
+            { name: "Rory McIlroy", country: "Northern Ireland", continent: "Europe", tour: "PGA / DP World", gender: "Male", born: "1989-05-04", majors: 6, wins: 30, flag: "🇬🇧" },
+            { name: "Tiger Woods", country: "USA", continent: "North America", tour: "PGA Tour", gender: "Male", born: "1975-12-30", majors: 15, wins: 82, flag: "🇺🇸" },
+            { name: "Ludvig Åberg", country: "Sweden", continent: "Europe", tour: "PGA / DP World", gender: "Male", born: "1999-10-31", majors: 0, wins: 2, flag: "🇸🇪" },
+            { name: "Bryson DeChambeau", country: "USA", continent: "North America", tour: "LIV Golf", gender: "Male", born: "1993-09-15", majors: 2, wins: 9, flag: "🇺🇸" },
+            { name: "Jon Rahm", country: "Spain", continent: "Europe", tour: "LIV Golf", gender: "Male", born: "1994-11-10", majors: 2, wins: 11, flag: "🇪🇸" },
+            { name: "Viktor Hovland", country: "Norway", continent: "Europe", tour: "PGA Tour", gender: "Male", born: "1997-09-18", majors: 0, wins: 8, flag: "🇳🇴" },
+            { name: "Xander Schauffele", country: "USA", continent: "North America", tour: "PGA Tour", gender: "Male", born: "1993-10-25", majors: 2, wins: 10, flag: "🇺🇸" },
+            { name: "Collin Morikawa", country: "USA", continent: "North America", tour: "PGA Tour", gender: "Male", born: "1997-02-06", majors: 2, wins: 7, flag: "🇺🇸" },
+            { name: "Brooks Koepka", country: "USA", continent: "North America", tour: "PGA Tour", gender: "Male", born: "1990-05-03", majors: 5, wins: 9, flag: "🇺🇸" },
+            { name: "Patrick Cantlay", country: "USA", continent: "North America", tour: "PGA Tour", gender: "Male", born: "1992-03-17", majors: 0, wins: 8, flag: "🇺🇸" },
+            { name: "Max Homa", country: "USA", continent: "North America", tour: "PGA Tour", gender: "Male", born: "1990-11-19", majors: 0, wins: 6, flag: "🇺🇸" },
+            { name: "Joaquin Niemann", country: "Chile", continent: "South America", tour: "LIV Golf", gender: "Male", born: "1998-11-07", majors: 0, wins: 2, flag: "🇨🇱" },
+            { name: "Tyrrell Hatton", country: "England", continent: "Europe", tour: "LIV Golf", gender: "Male", born: "1991-10-14", majors: 0, wins: 1, flag: "🇬🇧" },
+            { name: "Shane Lowry", country: "Ireland", continent: "Europe", tour: "PGA / DP World", gender: "Male", born: "1987-04-02", majors: 1, wins: 3, flag: "🇮🇪" },
+            { name: "Sepp Straka", country: "Austria", continent: "Europe", tour: "PGA Tour", gender: "Male", born: "1993-05-01", majors: 0, wins: 4, flag: "🇦🇹" },
+            { name: "Jason Day", country: "Australia", continent: "Oceania", tour: "PGA Tour", gender: "Male", born: "1987-11-12", majors: 1, wins: 13, flag: "🇦🇺" },
+            { name: "Brian Harman", country: "USA", continent: "North America", tour: "PGA Tour", gender: "Male", born: "1987-01-19", majors: 1, wins: 4, flag: "🇺🇸" },
+            { name: "Rickie Fowler", country: "USA", continent: "North America", tour: "PGA Tour", gender: "Male", born: "1988-12-13", majors: 0, wins: 6, flag: "🇺🇸" },
+            { name: "Tony Finau", country: "USA", continent: "North America", tour: "PGA Tour", gender: "Male", born: "1989-09-14", majors: 0, wins: 6, flag: "🇺🇸" },
+            { name: "Will Zalatoris", country: "USA", continent: "North America", tour: "PGA Tour", gender: "Male", born: "1996-08-16", majors: 0, wins: 1, flag: "🇺🇸" },
+            { name: "Sungjae Im", country: "South Korea", continent: "Asia", tour: "PGA Tour", gender: "Male", born: "1998-03-30", majors: 0, wins: 2, flag: "🇰🇷" },
+            { name: "Tommy Fleetwood", country: "England", continent: "Europe", tour: "PGA / DP World", gender: "Male", born: "1991-01-19", majors: 0, wins: 1, flag: "🇬🇧" },
+            { name: "Justin Thomas", country: "USA", continent: "North America", tour: "PGA Tour", gender: "Male", born: "1993-04-29", majors: 2, wins: 16, flag: "🇺🇸" },
+            { name: "Jordan Spieth", country: "USA", continent: "North America", tour: "PGA Tour", gender: "Male", born: "1993-07-27", majors: 3, wins: 13, flag: "🇺🇸" },
+            { name: "Hideki Matsuyama", country: "Japan", continent: "Asia", tour: "PGA Tour", gender: "Male", born: "1992-02-25", majors: 1, wins: 11, flag: "🇯🇵" },
+            { name: "Cameron Smith", country: "Australia", continent: "Oceania", tour: "LIV Golf", gender: "Male", born: "1993-08-18", majors: 1, wins: 6, flag: "🇦🇺" },
+            { name: "Min Woo Lee", country: "Australia", continent: "Oceania", tour: "PGA Tour", gender: "Male", born: "1998-07-27", majors: 0, wins: 1, flag: "🇦🇺" },
+            { name: "Wyndham Clark", country: "USA", continent: "North America", tour: "PGA Tour", gender: "Male", born: "1993-08-09", majors: 2, wins: 6, flag: "🇺🇸" },
+            { name: "Sahith Theegala", country: "USA", continent: "North America", tour: "PGA Tour", gender: "Male", born: "1997-12-04", majors: 0, wins: 1, flag: "🇺🇸" },
+            { name: "Tom Kim", country: "South Korea", continent: "Asia", tour: "PGA Tour", gender: "Male", born: "2002-06-21", majors: 0, wins: 4, flag: "🇰🇷" },
+            { name: "Phil Mickelson", country: "USA", continent: "North America", tour: "LIV Golf", gender: "Male", born: "1970-06-16", majors: 6, wins: 45, flag: "🇺🇸" },
+            { name: "Dustin Johnson", country: "USA", continent: "North America", tour: "LIV Golf", gender: "Male", born: "1984-06-22", majors: 2, wins: 24, flag: "🇺🇸" },
+            { name: "Sergio Garcia", country: "Spain", continent: "Europe", tour: "LIV Golf", gender: "Male", born: "1980-01-09", majors: 1, wins: 11, flag: "🇪🇸" },
+            { name: "Adam Scott", country: "Australia", continent: "Oceania", tour: "PGA Tour", gender: "Male", born: "1980-07-16", majors: 1, wins: 14, flag: "🇦🇺" },
+            { name: "Justin Rose", country: "England", continent: "Europe", tour: "PGA / DP World", gender: "Male", born: "1980-07-30", majors: 1, wins: 13, flag: "🇬🇧" },
+            { name: "Patrick Reed", country: "USA", continent: "North America", tour: "LIV Golf", gender: "Male", born: "1990-08-05", majors: 1, wins: 9, flag: "🇺🇸" },
+            { name: "Bubba Watson", country: "USA", continent: "North America", tour: "LIV Golf", gender: "Male", born: "1978-11-05", majors: 2, wins: 12, flag: "🇺🇸" },
+            { name: "Henrik Stenson", country: "Sweden", continent: "Europe", tour: "LIV Golf", gender: "Male", born: "1976-04-05", majors: 1, wins: 6, flag: "🇸🇪" },
+            { name: "Matt Fitzpatrick", country: "England", continent: "Europe", tour: "PGA / DP World", gender: "Male", born: "1994-09-01", majors: 1, wins: 5, flag: "🇬🇧" },
+            { name: "Corey Conners", country: "Canada", continent: "North America", tour: "PGA Tour", gender: "Male", born: "1992-01-06", majors: 0, wins: 2, flag: "🇨🇦" },
+            { name: "Chris Kirk", country: "USA", continent: "North America", tour: "PGA Tour", gender: "Male", born: "1985-05-08", majors: 0, wins: 6, flag: "🇺🇸" },
+            { name: "Daniel Berger", country: "USA", continent: "North America", tour: "PGA Tour", gender: "Male", born: "1993-04-07", majors: 0, wins: 4, flag: "🇺🇸" },
+            { name: "Zach Johnson", country: "USA", continent: "North America", tour: "PGA Tour", gender: "Male", born: "1976-02-24", majors: 2, wins: 12, flag: "🇺🇸" },
+            { name: "Brandt Snedeker", country: "USA", continent: "North America", tour: "PGA Tour", gender: "Male", born: "1980-12-17", majors: 0, wins: 10, flag: "🇺🇸" },
+            { name: "Webb Simpson", country: "USA", continent: "North America", tour: "PGA Tour", gender: "Male", born: "1985-08-08", majors: 1, wins: 7, flag: "🇺🇸" },
+            { name: "Gary Woodland", country: "USA", continent: "North America", tour: "PGA Tour", gender: "Male", born: "1984-05-21", majors: 1, wins: 5, flag: "🇺🇸" },
+            { name: "Lucas Glover", country: "USA", continent: "North America", tour: "PGA Tour", gender: "Male", born: "1979-11-19", majors: 1, wins: 6, flag: "🇺🇸" },
+            { name: "Aaron Rai", country: "England", continent: "Europe", tour: "PGA / DP World", gender: "Male", born: "1995-03-03", majors: 1, wins: 2, flag: "🇬🇧" },
+            { name: "Ryan Fox", country: "New Zealand", continent: "Oceania", tour: "PGA / DP World", gender: "Male", born: "1987-01-22", majors: 1, wins: 3, flag: "🇳🇿" },
+            { name: "Cameron Young", country: "USA", continent: "North America", tour: "PGA Tour", gender: "Male", born: "1997-05-07", majors: 0, wins: 3, flag: "🇺🇸" },
+            { name: "Sam Burns", country: "USA", continent: "North America", tour: "PGA Tour", gender: "Male", born: "1996-07-23", majors: 0, wins: 5, flag: "🇺🇸" },
+            { name: "Akshay Bhatia", country: "USA", continent: "North America", tour: "PGA Tour", gender: "Male", born: "2002-01-31", majors: 0, wins: 3, flag: "🇺🇸" },
+            { name: "Russell Henley", country: "USA", continent: "North America", tour: "PGA Tour", gender: "Male", born: "1989-04-12", majors: 0, wins: 6, flag: "🇺🇸" },
+            { name: "Keegan Bradley", country: "USA", continent: "North America", tour: "PGA Tour", gender: "Male", born: "1986-06-07", majors: 1, wins: 8, flag: "🇺🇸" },
+            { name: "J.J. Spaun", country: "USA", continent: "North America", tour: "PGA Tour", gender: "Male", born: "1990-08-21", majors: 1, wins: 3, flag: "🇺🇸" },
+            { name: "Robert MacIntyre", country: "Scotland", continent: "Europe", tour: "PGA / DP World", gender: "Male", born: "1996-08-03", majors: 0, wins: 2, flag: "🇬🇧" },
+            { name: "Alex Norén", country: "Sweden", continent: "Europe", tour: "PGA / DP World", gender: "Male", born: "1982-07-12", majors: 0, wins: 0, flag: "🇸🇪" },
+            // --- LEGENDS (died = age is shown as age at death) ---
+            { name: "Jack Nicklaus", country: "USA", continent: "North America", tour: "PGA Tour", gender: "Male", born: "1940-01-21", majors: 18, wins: 73, flag: "🇺🇸" },
+            { name: "Ben Hogan", country: "USA", continent: "North America", tour: "PGA Tour", gender: "Male", born: "1912-08-13", died: "1997-07-25", majors: 9, wins: 64, flag: "🇺🇸" },
+            { name: "Sam Snead", country: "USA", continent: "North America", tour: "PGA Tour", gender: "Male", born: "1912-05-27", died: "2002-05-23", majors: 7, wins: 82, flag: "🇺🇸" },
+            { name: "Arnold Palmer", country: "USA", continent: "North America", tour: "PGA Tour", gender: "Male", born: "1929-09-10", died: "2016-09-25", majors: 7, wins: 62, flag: "🇺🇸" },
+            { name: "Byron Nelson", country: "USA", continent: "North America", tour: "PGA Tour", gender: "Male", born: "1912-02-04", died: "2006-09-26", majors: 5, wins: 52, flag: "🇺🇸" },
+            { name: "Tom Watson", country: "USA", continent: "North America", tour: "PGA Tour", gender: "Male", born: "1949-09-04", majors: 8, wins: 39, flag: "🇺🇸" },
+            { name: "Lee Trevino", country: "USA", continent: "North America", tour: "PGA Tour", gender: "Male", born: "1939-12-01", majors: 6, wins: 29, flag: "🇺🇸" },
+            { name: "Raymond Floyd", country: "USA", continent: "North America", tour: "PGA Tour", gender: "Male", born: "1942-09-04", majors: 4, wins: 22, flag: "🇺🇸" },
+            { name: "Gary Player", country: "South Africa", continent: "Africa", tour: "PGA Tour", gender: "Male", born: "1935-11-01", majors: 9, wins: 24, flag: "🇿🇦" },
+            { name: "Ernie Els", country: "South Africa", continent: "Africa", tour: "PGA / DP World", gender: "Male", born: "1969-10-17", majors: 4, wins: 19, flag: "🇿🇦" },
+            { name: "Greg Norman", country: "Australia", continent: "Oceania", tour: "PGA Tour", gender: "Male", born: "1955-02-10", majors: 2, wins: 20, flag: "🇦🇺" },
+            { name: "Vijay Singh", country: "Fiji", continent: "Oceania", tour: "PGA Tour", gender: "Male", born: "1963-02-22", majors: 3, wins: 34, flag: "🇫🇯" }
+        ];
+
+        const FLAG_CODES = { "Singapore":"sg","Italy":"it","Germany":"de","USA":"us","England":"gb-eng","Northern Ireland":"gb-nir","Scotland":"gb-sct","Ireland":"ie","Sweden":"se","Spain":"es","Norway":"no","Australia":"au","New Zealand":"nz","Fiji":"fj","Japan":"jp","South Korea":"kr","Chile":"cl","Austria":"at","Canada":"ca","South Africa":"za" };
+        // Flags are embedded as SVG (base64) so they always load, no external requests.
+        const FLAG_SVGS = {"sg":"PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA5MDAgNjAwIj48cGF0aCBmaWxsPSIjRkZGIiBkPSJNMCAwaDkwMHY2MDBIMFYweiIvPjxwYXRoIGZpbGw9IiNFRDI5MzkiIGQ9Ik0wIDBoOTAwdjMwMEgwVjB6Ii8+PGcgZmlsbD0iI0ZGRiI+PHBhdGggZD0iTTEyOS43IDE1MGMwLTQ4LjggMjktOTAuOSA3MC42LTEwOS45LTMuNC0uMy02LjgtLjUtMTAuMi0uNS02MSAwLTExMC40IDQ5LjQtMTEwLjQgMTEwLjRzNDkuNCAxMTAuNCAxMTAuNCAxMTAuNGMzLjQgMCA2LjktLjIgMTAuMi0uNS00MS43LTE5LTcwLjYtNjEuMS03MC42LTEwOS45ek0yNjAuOSA5MC4xbDE2LjktMTIuM0gyNTdsLTYuNS0xOS45LTYuNSAxOS45aC0yMC44bDE2LjkgMTIuMy02LjUgMTkuOCAxNi45LTEyLjMgMTYuOSAxMi4zek0yOTguMiAyMDQuNmwxNi45LTEyLjJoLTIwLjlsLTYuNS0xOS45LTYuNCAxOS45aC0yMC45bDE2LjkgMTIuMi02LjUgMTkuOSAxNi45LTEyLjMgMTYuOSAxMi4zeiIvPjxwYXRoIGQ9Im0yMDAuNyAxMzMuOCAxNi45LTEyLjNoLTIwLjlsLTYuNC0xOS44LTYuNSAxOS44aC0yMC45bDE2LjkgMTIuMy02LjQgMTkuOSAxNi45LTEyLjMgMTYuOSAxMi4zek0zMzguMSAxMjEuNWgtMjAuOWwtNi41LTE5LjgtNi40IDE5LjhoLTIwLjlsMTYuOSAxMi4zLTYuNSAxOS45IDE2LjktMTIuMyAxNi45IDEyLjMtNi40LTE5Ljl6TTIyMy43IDIwNC42bDE2LjktMTIuMmgtMjAuOWwtNi40LTE5LjktNi41IDE5LjloLTIwLjlsMTYuOSAxMi4yLTYuNCAxOS45IDE2LjktMTIuMyAxNi45IDEyLjN6Ii8+PC9nPjwvc3ZnPg==","it":"PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTMgMzQyIj48cGF0aCBmaWxsPSIjRjRGNUYwIiBkPSJNMzQyIDBIMHYzNDEuM2g1MTJWMHoiLz48cGF0aCBmaWxsPSIjMDA4QzQ1IiBkPSJNMCAwaDE3MXYzNDJIMHoiLz48cGF0aCBmaWxsPSIjQ0QyMTJBIiBkPSJNMzQyIDBoMTcxdjM0MkgzNDJ6Ii8+PC9zdmc+","de":"PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTMgMzQyIj48cGF0aCBmaWxsPSIjRDgwMDI3IiBkPSJNMCAwaDUxM3YzNDJIMHoiLz48cGF0aCBkPSJNMCAwaDUxM3YxMTRIMHoiLz48cGF0aCBmaWxsPSIjRkZEQTQ0IiBkPSJNMCAyMjhoNTEzdjExNEgweiIvPjwvc3ZnPg==","us":"PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTMgMzQyIj48cGF0aCBmaWxsPSIjRkZGIiBkPSJNMCAwaDUxM3YzNDJIMHoiLz48ZyBmaWxsPSIjRDgwMDI3Ij48cGF0aCBkPSJNMCAwaDUxM3YyNi4zSDB6TTAgNTIuNmg1MTN2MjYuM0gwek0wIDEwNS4yaDUxM3YyNi4zSDB6TTAgMTU3LjhoNTEzdjI2LjNIMHpNMCAyMTAuNWg1MTN2MjYuM0gwek0wIDI2My4xaDUxM3YyNi4zSDB6TTAgMzE1LjdoNTEzVjM0MkgweiIvPjwvZz48cGF0aCBmaWxsPSIjMkU1MkIyIiBkPSJNMCAwaDI1Ni41djE4NC4xSDB6Ii8+PGcgZmlsbD0iI0ZGRiI+PHBhdGggZD0ibTQ3LjggMTM4LjktNC0xMi44LTQuNCAxMi44SDI2LjJsMTAuNyA3LjctNCAxMi44IDEwLjktNy45IDEwLjYgNy45LTQuMS0xMi44IDEwLjktNy43ek0xMDQuMSAxMzguOWwtNC4xLTEyLjgtNC4yIDEyLjhIODIuNmwxMC43IDcuNy00IDEyLjggMTAuNy03LjkgMTAuOCA3LjktNC0xMi44IDEwLjctNy43ek0xNjAuNiAxMzguOWwtNC4zLTEyLjgtNCAxMi44aC0xMy41bDExIDcuNy00LjIgMTIuOCAxMC43LTcuOSAxMSA3LjktNC4yLTEyLjggMTAuNy03Ljd6TTIxNi44IDEzOC45bC00LTEyLjgtNC4yIDEyLjhoLTEzLjNsMTAuOCA3LjctNCAxMi44IDEwLjctNy45IDEwLjggNy45LTQuMy0xMi44IDExLTcuN3pNMTAwIDc1LjNsLTQuMiAxMi44SDgyLjZMOTMuMyA5NmwtNCAxMi42IDEwLjctNy44IDEwLjggNy44LTQtMTIuNiAxMC43LTcuOWgtMTMuNHpNNDMuOCA3NS4zbC00LjQgMTIuOEgyNi4yTDM2LjkgOTZsLTQgMTIuNiAxMC45LTcuOCAxMC42IDcuOEw1MC4zIDk2bDEwLjktNy45SDQ3Ljh6TTE1Ni4zIDc1LjNsLTQgMTIuOGgtMTMuNWwxMSA3LjktNC4yIDEyLjYgMTAuNy03LjggMTEgNy44LTQuMi0xMi42IDEwLjctNy45aC0xMy4yek0yMTIuOCA3NS4zbC00LjIgMTIuOGgtMTMuM2wxMC44IDcuOS00IDEyLjYgMTAuNy03LjggMTAuOCA3LjgtNC4zLTEyLjYgMTEtNy45aC0xMy41ek00My44IDI0LjdsLTQuNCAxMi42SDI2LjJsMTAuNyA3LjktNCAxMi43TDQzLjggNTBsMTAuNiA3LjktNC4xLTEyLjcgMTAuOS03LjlINDcuOHpNMTAwIDI0LjdsLTQuMiAxMi42SDgyLjZsMTAuNyA3LjktNCAxMi43TDEwMCA1MGwxMC44IDcuOS00LTEyLjcgMTAuNy03LjloLTEzLjR6TTE1Ni4zIDI0LjdsLTQgMTIuNmgtMTMuNWwxMSA3LjktNC4yIDEyLjcgMTAuNy03LjkgMTEgNy45LTQuMi0xMi43IDEwLjctNy45aC0xMy4yek0yMTIuOCAyNC43bC00LjIgMTIuNmgtMTMuM2wxMC44IDcuOS00IDEyLjcgMTAuNy03LjkgMTAuOCA3LjktNC4zLTEyLjcgMTEtNy45aC0xMy41eiIvPjwvZz48L3N2Zz4=","gb-eng":"PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGlkPSJmbGFnLWljb25zLWdiLWVuZyIgdmlld0JveD0iMCAwIDY0MCA0ODAiPgogIDxwYXRoIGZpbGw9IiNmZmYiIGQ9Ik0wIDBoNjQwdjQ4MEgweiIvPgogIDxwYXRoIGZpbGw9IiNjZTExMjQiIGQ9Ik0yODEuNiAwaDc2Ljh2NDgwaC03Ni44eiIvPgogIDxwYXRoIGZpbGw9IiNjZTExMjQiIGQ9Ik0wIDIwMS42aDY0MHY3Ni44SDB6Ii8+Cjwvc3ZnPgo=","gb-nir":"PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTMgMzQyIj48ZyBmaWxsPSIjRkZGIj48cGF0aCBkPSJNMCAwaDUxM3YzNDEuM0gwVjB6Ii8+PHBhdGggZD0iTTMxMS43IDIzMCA1MTMgMzQxLjN2LTMxLjVMMzY5LjMgMjMwaC01Ny42ek0yMDAuMyAxMTEuMyAwIDB2MzEuNWwxNDMuNyA3OS44aDU2LjZ6Ii8+PC9nPjxnIGZpbGw9IiMwMTIxNjkiPjxwYXRoIGQ9Ik0zOTMuOCAyMzAgNTEzIDI5NS43VjIzMEgzOTMuOHptLTgyLjEgMEw1MTMgMzQxLjN2LTMxLjVMMzY5LjMgMjMwaC01Ny42em0xNDYuOSAxMTEuMy0xNDctODEuN3Y4MS43aDE0N3pNOTAuMyAyMzAgMCAyODAuMlYyMzBoOTAuM3ptMTEwIDE0LjJ2OTcuMkgyNS41bDE3NC44LTk3LjJ6TTExOC4yIDExMS4zIDAgNDUuNnY2NS43aDExOC4yem04Mi4xIDBMMCAwdjMxLjVsMTQzLjcgNzkuOGg1Ni42ek01My40IDBsMTQ3IDgxLjdWMGgtMTQ3ek00MjEuNyAxMTEuMyA1MTMgNjEuMXY1MC4yaC05MS4zem0tMTEwLTE0LjJWMGgxNzQuOUwzMTEuNyA5Ny4xeiIvPjwvZz48ZyBmaWxsPSIjYzgxMDJlIj48cGF0aCBkPSJNMjg4IDBoLTY0djEzOC43SDB2NjRoMjI0djEzOC43aDY0VjIwMi43aDIyNHYtNjRIMjg4VjB6Ii8+PHBhdGggZD0iTTMxMS43IDIzMCA1MTMgMzQxLjN2LTMxLjVMMzY5LjMgMjMwaC01Ny42ek0xNDMuNyAyMzAgMCAzMDkuOXYzMS41TDIwMC4zIDIzMGgtNTYuNnpNMjAwLjMgMTExLjMgMCAwdjMxLjVsMTQzLjcgNzkuOGg1Ni42ek0zNjguMyAxMTEuMyA1MTMgMzEuNVYwTDMxMS43IDExMS4zaDU2LjZ6Ii8+PC9nPjwvc3ZnPg==","gb-sct":"PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGlkPSJmbGFnLWljb25zLWdiLXNjdCIgdmlld0JveD0iMCAwIDY0MCA0ODAiPgogIDxwYXRoIGZpbGw9IiMwMDY1YmQiIGQ9Ik0wIDBoNjQwdjQ4MEgweiIvPgogIDxwYXRoIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIuNiIgZD0ibTAgMCA1IDNNMCAzbDUtMyIgdHJhbnNmb3JtPSJzY2FsZSgxMjggMTYwKSIvPgo8L3N2Zz4K","ie":"PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTMgMzQyIj48cGF0aCBmaWxsPSIjRkZGIiBkPSJNMCAwaDUxM3YzNDJIMHoiLz48cGF0aCBmaWxsPSIjNkRBNTQ0IiBkPSJNMCAwaDE3MXYzNDJIMHoiLz48cGF0aCBmaWxsPSIjRkY5ODExIiBkPSJNMzQyIDBoMTcxdjM0MkgzNDJ6Ii8+PC9zdmc+","se":"PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTMgMzQyIj48cGF0aCBmaWxsPSIjMDA0RjhFIiBkPSJNMCAwaDUxM3YzNDJIMHoiLz48cGF0aCBmaWxsPSIjRjZDNTAwIiBkPSJNMTkyLjQuM2gtNjQuMnYxMzguOEgwdjY0LjFoMTI4LjJWMzQyaDY0LjJWMjAzLjJINTEzdi02NC4xSDE5Mi40eiIvPjwvc3ZnPg==","es":"PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMi41IDE1Ij48cGF0aCBmaWxsPSIjRkZGIiBkPSJNMCAwaDIyLjV2MTVIMFYweiIvPjxwYXRoIGZpbGw9IiNEMDM0MzMiIGQ9Ik0wIDBoMjIuNXY0SDBWMHptMCAxMWgyMi41djRIMHYtNHoiLz48cGF0aCBmaWxsPSIjRkJDQTQ2IiBkPSJNMCA0aDIyLjV2N0gwVjR6Ii8+PHBhdGggZmlsbD0iI0ZGRiIgZD0iTTcuOCA3aDF2LjVoLTFWN3oiLz48cGF0aCBmaWxsPSIjQTQxNTE3IiBkPSJNNy4yIDguNWMwIC4zLjMuNS42LjVzLjYtLjIuNi0uNUw4LjUgN0g3LjFsLjEgMS41ek02LjYgN2MwLS4zLjItLjUuNC0uNWgxLjVjLjMgMCAuNS4yLjUuNFY3bC0uMSAxLjVjLS4xLjYtLjUgMS0xLjEgMS0uNiAwLTEtLjQtMS4xLTFMNi42IDd6Ii8+PHBhdGggZmlsbD0iI0E0MTUxNyIgZD0iTTYuOCA3LjVoMlY4aC0uNWwtLjUgMS0uNS0xaC0uNXYtLjV6TTUuMyA2aDF2My41aC0xVjZ6bTQgMGgxdjMuNWgtMVY2em0tMi41LS41YzAtLjMuMi0uNS41LS41aDFjLjMgMCAuNS4yLjUuNXYuMmMwIC4yLS4xLjMtLjMuM0g3Yy0uMSAwLS4yLS4xLS4yLS4ydi0uM3oiLz48L3N2Zz4=","no":"PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTMgMzQyIj48cGF0aCBmaWxsPSIjYmEwYzJmIiBkPSJNMCAwaDUxM3YzNDJIMHoiLz48cGF0aCBmaWxsPSIjRkZGIiBkPSJNNTEzIDIxMUgyMDIuNnYxMzFoLTc5LjlWMjExSDB2LTgwaDEyMi43VjBoNzkuOXYxMzFINTEzdjYxLjR6Ii8+PHBhdGggZmlsbD0iIzAwMjA1YiIgZD0iTTUxMyAxNDkuNnY0Mi44SDE4NFYzNDJoLTQyLjdWMTkyLjRIMHYtNDIuOGgxNDEuM1YwSDE4NHYxNDkuNnoiLz48L3N2Zz4=","au":"PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTMgMzQyIj48cGF0aCBmaWxsPSIjMDAwMDhiIiBkPSJNMCAwaDUxM3YzNDJIMHoiLz48ZyBmaWxsPSIjRkZGIj48cGF0aCBkPSJtMTg4IDIxMi42IDExIDIyLjkgMjQuNy01LjctMTEgMjIuOCAxOS45IDE1LjgtMjQuOCA1LjYuMSAyNS40LTE5LjktMTUuOS0xOS44IDE1LjkuMS0yNS40LTI0LjgtNS42IDE5LjktMTUuOC0xMS4xLTIyLjggMjQuOCA1Ljd6TTM4NS45IDI0MS4xbDUuMiAxMC45IDExLjgtMi43LTUuMyAxMC45IDkuNSA3LjUtMTEuOCAyLjZ2MTIuMmwtOS40LTcuNi05LjUgNy42LjEtMTIuMi0xMS44LTIuNiA5LjUtNy41LTUuMy0xMC45IDExLjggMi43ek0zMzcuMyAxMjUuMWw1LjIgMTAuOSAxMS44LTIuNy01LjMgMTAuOSA5LjUgNy41LTExLjggMi43djEyLjFsLTkuNC03LjYtOS41IDcuNi4xLTEyLjEtMTEuOS0yLjcgOS41LTcuNS01LjMtMTAuOUwzMzIgMTM2ek0zODUuOSA1OC45bDUuMiAxMC45IDExLjgtMi43LTUuMyAxMC45IDkuNSA3LjUtMTEuOCAyLjd2MTIuMWwtOS40LTcuNi05LjUgNy42LjEtMTIuMS0xMS44LTIuNyA5LjUtNy41LTUuMy0xMC45IDExLjggMi43ek00MjguNCAxMDguNmw1LjIgMTAuOSAxMS44LTIuNy01LjMgMTAuOSA5LjUgNy41LTExLjggMi42VjE1MGwtOS40LTcuNi05LjUgNy42di0xMi4ybC0xMS44LTIuNiA5LjUtNy41LTUuMy0xMC45IDExLjggMi43ek0zOTggMTY2LjVsNC4xIDEyLjdoMTMuM2wtMTAuOCA3LjggNC4yIDEyLjctMTAuOC03LjktMTAuOCA3LjkgNC4xLTEyLjctMTAuNy03LjhoMTMuM3oiLz48L2c+PHBhdGggZmlsbD0iIzAwMDA4YiIgZD0iTTAgMGgyNTYuNXYxNzFIMHoiLz48ZyBmaWxsPSIjRkZGIj48cGF0aCBkPSJNMjU2LjUgMHYzMC42bC00NS4zIDI1LjJoNDUuM3Y1OS40aC01OS4ybDU5LjIgMzIuOVYxNzFoLTI2LjdsLTczLjctNDAuOVYxNzFoLTU1Ljd2LTQ4LjdMMTIuOCAxNzFIMHYtMzAuNmw0NS4zLTI1LjJIMFY1NS44aDU5LjJMMCAyMi45VjBoMjYuN2w3My43IDQwLjlWMGg1NS43djQ4LjdMMjQzLjcgMHoiLz48cGF0aCBkPSJNMTU2LjEgMTE1LjIgMjU2LjUgMTcxdi0xNS44bC03Mi00MHpNMTAwLjQgNTUuOCAwIDB2MTUuOGw3MiA0MHoiLz48L2c+PGcgZmlsbD0icmVkIj48cGF0aCBkPSJNMTQ0LjMgMGgtMzIuMXY2OS41SDB2MzJoMTEyLjJWMTcxaDMyLjF2LTY5LjVoMTEyLjJ2LTMySDE0NC4zeiIvPjxwYXRoIGQ9Ik0xNTYuMSAxMTUuMiAyNTYuNSAxNzF2LTE1LjhsLTcyLTQwek03MiAxMTUuMmwtNzIgNDBWMTcxbDEwMC40LTU1Ljh6TTEwMC40IDU1LjggMCAwdjE1LjhsNzIgNDB6TTE4NC41IDU1LjhsNzItNDBWMEwxNTYuMSA1NS44eiIvPjwvZz48L3N2Zz4=","nz":"PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTMgMzQyIj48cGF0aCBmaWxsPSIjMDEyMTY5IiBkPSJNMCAwaDUxM3YzNDJIMHoiLz48ZyBmaWxsPSIjRDgwMDI3IiBzdHJva2U9IiNGRkYiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLW1pdGVybGltaXQ9IjEwIj48cGF0aCBkPSJtNDQ4LjkgMTA3LjcgNC4yIDEzLjFoMTMuOGwtMTEuMSA4LjFMNDYwIDE0MmwtMTEuMS04LjEtMTEuMSA4LjEgNC4yLTEzLjEtMTEuMS04LjFoMTMuN3pNMzg0LjcgMjUzLjZsNS4xIDE1LjZoMTYuNGwtMTMuMiA5LjcgNSAxNS42LTEzLjMtOS43LTEzLjIgOS43IDUtMTUuNi0xMy4zLTkuN2gxNi41ek0zODQuOCA0My40bDQuNyAxNC42aDE1LjNsLTEyLjQgOC45IDQuNyAxNC42LTEyLjMtOS0xMi40IDkgNC43LTE0LjYtMTIuMy04LjlIMzgwek0zMjAuNiAxMjkuNGw0LjcgMTQuNWgxNS4zbC0xMi4zIDkgNC43IDE0LjUtMTIuNC04LjktMTIuMyA4LjkgNC43LTE0LjUtMTIuNC05aDE1LjN6Ii8+PC9nPjxwYXRoIGZpbGw9IiMwMTIxNjkiIGQ9Ik0wIDBoMjU2LjV2MTcxSDB6Ii8+PGcgZmlsbD0iI0ZGRiI+PHBhdGggZD0iTTI1Ni41IDB2MzAuNmwtNDUuMyAyNS4yaDQ1LjN2NTkuNGgtNTkuMmw1OS4yIDMyLjlWMTcxaC0yNi43bC03My43LTQwLjlWMTcxaC01NS43di00OC43TDEyLjggMTcxSDB2LTMwLjZsNDUuMy0yNS4ySDBWNTUuOGg1OS4yTDAgMjIuOVYwaDI2LjdsNzMuNyA0MC45VjBoNTUuN3Y0OC43TDI0My43IDB6Ii8+PHBhdGggZD0iTTE1Ni4xIDExNS4yIDI1Ni41IDE3MXYtMTUuOGwtNzItNDB6TTEwMC40IDU1LjggMCAwdjE1LjhsNzIgNDB6Ii8+PC9nPjxnIGZpbGw9IiNEODAwMjciPjxwYXRoIGQ9Ik0xNDQuMyAwaC0zMi4xdjY5LjVIMHYzMmgxMTIuMlYxNzFoMzIuMXYtNjkuNWgxMTIuMnYtMzJIMTQ0LjN6Ii8+PHBhdGggZD0iTTE1Ni4xIDExNS4yIDI1Ni41IDE3MXYtMTUuOGwtNzItNDB6TTcyIDExNS4ybC03MiA0MFYxNzFsMTAwLjQtNTUuOHpNMTAwLjQgNTUuOCAwIDB2MTUuOGw3MiA0MHpNMTg0LjUgNTUuOGw3Mi00MFYwTDE1Ni4xIDU1Ljh6Ii8+PC9nPjwvc3ZnPg==","fj":"PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTMgMzQyIj48cGF0aCBmaWxsPSIjNjJCNUU1IiBkPSJNMCAwaDUxM3YzNDJIMHoiLz48cGF0aCBmaWxsPSIjRjNGM0YzIiBkPSJNMzA3LjEgMTI3LjF2OTJjMCA2MS42IDgwLjUgODAuNSA4MC41IDgwLjVzODAuNC0xOSA4MC40LTgwLjZ2LTkybC04MC41LTIzLTgwLjQgMjMuMXoiLz48cGF0aCBmaWxsPSIjYzgxMDJlIiBkPSJNNDY4IDEzMi44Vjk4LjNIMzA3LjF2MzQuNWg2OXY2OWgtNjl2MjNoNjlWMjk2YzYuOSAyLjUgMTEuNSAzLjUgMTEuNSAzLjVzNC42LTEuMSAxMS41LTMuNXYtNzEuMmg2OXYtMjNoLTY5di02OUg0Njh6Ii8+PHBhdGggZmlsbD0iIzAxMjE2OSIgZD0iTTAgMGgyNTYuNXYxNzFIMHoiLz48ZyBmaWxsPSIjRkZGIj48cGF0aCBkPSJNMjU2LjUgMHYzMC42bC00NS4zIDI1LjJoNDUuM3Y1OS40aC01OS4ybDU5LjIgMzIuOVYxNzFoLTI2LjdsLTczLjctNDAuOVYxNzFoLTU1Ljd2LTQ4LjdMMTIuOCAxNzFIMHYtMzAuNmw0NS4zLTI1LjJIMFY1NS44aDU5LjJMMCAyMi45VjBoMjYuN2w3My43IDQwLjlWMGg1NS43djQ4LjdMMjQzLjcgMHoiLz48cGF0aCBkPSJNMTU2LjEgMTE1LjIgMjU2LjUgMTcxdi0xNS44bC03Mi00MHpNMTAwLjQgNTUuOCAwIDB2MTUuOGw3MiA0MHoiLz48L2c+PGcgZmlsbD0iI0Q4MDAyNyI+PHBhdGggZD0iTTE0NC4zIDBoLTMyLjF2NjkuNUgwdjMyaDExMi4yVjE3MWgzMi4xdi02OS41aDExMi4ydi0zMkgxNDQuM3oiLz48cGF0aCBkPSJNMTU2LjEgMTE1LjIgMjU2LjUgMTcxdi0xNS44bC03Mi00MHpNNzIgMTE1LjJsLTcyIDQwVjE3MWwxMDAuNC01NS44ek0xMDAuNCA1NS44IDAgMHYxNS44bDcyIDQwek0xODQuNSA1NS44bDcyLTQwVjBMMTU2LjEgNTUuOHoiLz48L2c+PC9zdmc+","jp":"PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTMgMzQyIj48cGF0aCBmaWxsPSIjRkZGIiBkPSJNMCAwaDUxMnYzNDJIMHoiLz48Y2lyY2xlIGZpbGw9IiNEODAwMjciIGN4PSIyNTYuNSIgY3k9IjE3MSIgcj0iOTYiLz48L3N2Zz4=","kr":"PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTMgMzQyIj48cGF0aCBmaWxsPSIjRkZGIiBkPSJNMCAwaDUxM3YzNDJIMHoiLz48ZyBzdHJva2U9IiMwMDAiIHN0cm9rZS13aWR0aD0iMTQuMjUiPjxwYXRoIGQ9Ik04NC42IDEwNy44IDEzMiAzNi42bS0yOS43IDgzIDQ3LjQtNzEuMW0tMjkuNiA4MyA0Ny40LTcxLjFNMzQ1LjQgMjgxLjdsNDcuNC03MS4xbS0yOS42IDgyLjkgNDcuNC03MS4xbS0yOS42IDgzIDQ3LjQtNzEuMU0xMzIgMzA1LjRsLTQ3LjQtNzEuMW02NS4yIDU5LjItNDcuNC03MS4xbTY1LjIgNTkuMy00Ny40LTcxLjFNMzkyLjggMTMxLjVsLTQ3LjQtNzEuMW02NS4yIDU5LjItNDcuNC03MS4xbTY1LjIgNTkuM0wzODEgMzYuNiIvPjwvZz48ZyBzdHJva2U9IiNGRkYiIHN0cm9rZS13aWR0aD0iMTIuNSI+PHBhdGggZD0ibTM1Ny4zIDIzOC4yIDU5LjMgMzkuNU0xMTcuMiAyNjMuOSAxMzUgMjUybTIyMi4zLTE0OC4yTDM3OCA5MG0xNy44LTExLjkgMTcuOC0xMS45Ii8+PC9nPjxjaXJjbGUgZmlsbD0iI0NBMTYzQSIgY3g9IjI1Ni41IiBjeT0iMTcxIiByPSI4NS41Ii8+PHBhdGggZmlsbD0iIzBFNDg5NiIgZD0iTTE4NS4zIDEyMy42Yy0xMy4xIDE5LjYtNy44IDQ2LjIgMTEuOSA1OS4zczQ2LjIgNy44IDU5LjMtMTEuOSAzOS42LTI0LjkgNTkuMy0xMS45YzE5LjYgMTMuMSAyNC45IDM5LjYgMTEuOSA1OS4zLTI2LjIgMzkuMy03OS4zIDQ5LjktMTE4LjYgMjMuN3MtNDkuOS03OS4zLTIzLjgtMTE4LjV6Ii8+PC9zdmc+","cl":"PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTMgMzQyIj48cGF0aCBmaWxsPSIjRDgwMDI3IiBkPSJNMCAwaDUxM3YzNDJIMHoiLz48cGF0aCBmaWxsPSIjRkZGIiBkPSJNMTk2IDBoMzE3djE3MUgxOTZ6Ii8+PHBhdGggZmlsbD0iIzAwMzdBMSIgZD0iTTAgMGgxOTZ2MTcxSDB6Ii8+PHBhdGggZmlsbD0iI0ZGRiIgZD0iTTk4IDI0LjUgMTEzLjEgNzFIMTYybC0zOS42IDI4LjcgMTUuMiA0Ni41TDk4IDExNy41bC0zOS42IDI4LjcgMTUuMi00Ni41TDM0IDcxaDQ4Ljl6Ii8+PC9zdmc+","at":"PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTMgMzQyIj48cGF0aCBmaWxsPSIjRkZGIiBkPSJNMCAxMTRoNTEzdjExNEgweiIvPjxwYXRoIGZpbGw9IiNEODAwMjciIGQ9Ik0wIDBoNTEzdjExNEgwek0wIDIyOGg1MTN2MTE0SDB6Ii8+PC9zdmc+","ca":"PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTMgMzQyIj48cGF0aCBmaWxsPSIjRkZGIiBkPSJNMCAwaDUxM3YzNDJIMHoiLz48ZyBmaWxsPSJyZWQiPjxwYXRoIGQ9Ik0wIDBoMTQydjM0Mkgwek0zNzEgMGgxNDJ2MzQySDM3MXpNMzA2LjUgMjA2bDUwLjQtMjUuMi0yNS4yLTEyLjZWMTQzbC01MC40IDI1LjIgMjUuMi01MC40aC0yNS4yTDI1Ni4xIDgwbC0yNS4yIDM3LjhoLTI1LjJsMjUuMiA1MC40LTUwLjQtMjUuMnYyNS4ybC0yNS4yIDEyLjYgNTAuNCAyNS4yLTEyLjYgMjUuMmg1MC40VjI2OWgyNS4ydi0zNy44aDUwLjR6Ii8+PC9nPjwvc3ZnPg==","za":"PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgODUuMzMzIDUxMiAzNDEuMzMzIj48cGF0aCBmaWxsPSIjRkZGIiBkPSJNMCA4NS4zMzdoNTEydjM0MS4zMjZIMHoiLz48cGF0aCBkPSJNMTE0LjAyNCAyNTYuMDAxIDAgMTQxLjkyNnYyMjguMTd6Ii8+PHBhdGggZmlsbD0iI2ZmYjkxNSIgZD0iTTE2MS4xOTIgMjU2IDAgOTQuN3Y0Ny4yMjZsMTE0LjAyNCAxMTQuMDc1TDAgMzcwLjA5NnY0Ny4xMzh6Ii8+PHBhdGggZmlsbD0iIzAwNzg0NyIgZD0iTTUwOS44MzMgMjg5LjM5MWMuMDU4LS40NC44MDQtLjg3OCAyLjE2Ny0xLjMxOHYtNjUuNDY0SDIyMi42MDJMODUuMzMgODUuMzM3SDBWOTQuN0wxNjEuMTkyIDI1NiAwIDQxNy4yMzR2OS40MjloODUuMzNsMTM3LjI3Mi0xMzcuMjcyaDI4Ny4yMzF6Ii8+PHBhdGggZmlsbD0iIzAwMGM4YSIgZD0iTTUwMy4xODEgMzIyLjc4M0gyMzYuNDMzbC0xMDMuODgxIDEwMy44OEg1MTJ2LTEwMy44OHoiLz48cGF0aCBmaWxsPSIjZTEzOTJkIiBkPSJNNTAzLjE4MSAxODkuMjE3SDUxMlY4NS4zMzdIMTMyLjU1MmwxMDMuODgxIDEwMy44OHoiLz48L3N2Zz4="};
+        function flagImg(country) {
+            const c = FLAG_CODES[country];
+            if (!c || !FLAG_SVGS[c]) return '';
+            return `<img src="data:image/svg+xml;base64,${FLAG_SVGS[c]}" width="24" height="16" alt="" style="display:inline-block;margin-right:6px;border-radius:2px;vertical-align:middle;object-fit:cover">`;
+        }
+        function calcAge(born, died) {
+            const [y, m, d] = born.split('-').map(Number);
+            const end = died ? new Date(died + 'T12:00:00') : new Date();
+            let age = end.getFullYear() - y;
+            if (end.getMonth() + 1 < m || (end.getMonth() + 1 === m && end.getDate() < d)) age--;
+            return age;
+        }
+        PLAYERS.forEach(p => { p.age = calcAge(p.born, p.died); });
+
+        // --- GAME STATE ---
+        let isPracticeMode = false;
+        let secretPlayer = null;
+        let guesses = [];
+        const maxGuesses = 5;
+        let isGameOver = false;
+        let dayNum = dayNumber();
+
+        // LOCAL STORAGE
+        // dailygolf_stats: lifetime stats. dailygolf_day: today's daily game, so a reload
+        // continues (or shows) today's game instead of starting a fresh one.
+        const STATE_KEY = 'dailygolf_day';
+        let stats = loadJSON('dailygolf_stats', { played: 0, wins: 0, streak: 0, maxStreak: 0 });
+        decayStreak(stats, dayNum);
+
+        // DOM ELEMENTS
+        const playerInput = document.getElementById('player-input');
+        const autocompleteList = document.getElementById('autocomplete-list');
+        const btnSubmit = document.getElementById('btn-submit');
+        const guessesList = document.getElementById('guesses-list');
+        const attemptCountEl = document.getElementById('attempt-count');
+        const gameOverCard = document.getElementById('game-over-card');
+        const btnModeToggle = document.getElementById('btn-mode-toggle');
+        const modeButtonText = document.getElementById('mode-button-text');
+        const currentModeLabel = document.getElementById('current-mode-label');
+
+        // INITIALIZATION
+        window.onload = function() {
+            initGame();
+            setupEventListeners();
+            updateStatsModal();
+        };
+
+        function dailySecret(day) {
+            return dailyPick(PLAYERS, day, 'pro', () => PLAYERS[day % PLAYERS.length]);
+        }
+
+        function saveDailyState() {
+            if (isPracticeMode) return;
+            saveJSON(STATE_KEY, { day: dayNum, s: secretPlayer.name, g: guesses.map(g => g.name), over: isGameOver, won: isGameOver && guesses.some(g => g.name === secretPlayer.name) });
+        }
+
+        function initGame() {
+            dayNum = dayNumber();
+            guesses = [];
+            isGameOver = false;
+            guessesList.innerHTML = '';
+            gameOverCard.classList.add('hidden');
+            playerInput.disabled = false;
+            btnSubmit.disabled = false;
+            playerInput.value = '';
+            attemptCountEl.textContent = '0';
+
+            if (isPracticeMode) {
+                // Pick random golfer
+                secretPlayer = PLAYERS[Math.floor(Math.random() * PLAYERS.length)];
+                currentModeLabel.innerHTML = `<i class="fa-solid fa-shuffle text-amber-400 mr-1"></i> Practice Mode (Random)`;
+                modeButtonText.textContent = "Daily Mode";
+                document.getElementById('play-again-label').textContent = "Next Golfer";
+                return;
+            }
+
+            currentModeLabel.textContent = `Dailygolf (#${dayNum})`;
+            modeButtonText.textContent = "Practice Mode";
+            document.getElementById('play-again-label').textContent = "Play Practice Mode";
+
+            // Restore today's game if there is one. The saved answer wins over the computed one,
+            // so a site update in the middle of the day can never change a game that's under way.
+            const saved = loadJSON(STATE_KEY, null);
+            const today = saved && saved.day === dayNum ? saved : null;
+            secretPlayer = (today && PLAYERS.find(p => p.name === today.s)) || dailySecret(dayNum);
+            if (!today) return;
+
+            guesses = today.g.map(n => PLAYERS.find(p => p.name === n)).filter(Boolean);
+            guesses.forEach(renderGuessRow);
+            attemptCountEl.textContent = guesses.length;
+            if (today.over) endGame(today.won, true);
+        }
+
+        function setupEventListeners() {
+            // Autocomplete Input
+            playerInput.addEventListener('input', handleAutocomplete);
+
+            // Close autocomplete when clicking outside
+            document.addEventListener('click', (e) => {
+                if (!document.getElementById('search-container').contains(e.target)) {
+                    autocompleteList.classList.add('hidden');
+                }
+            });
+
+            // Submit Guess Buttons
+            btnSubmit.addEventListener('click', () => submitGuess(playerInput.value));
+            playerInput.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') submitGuess(playerInput.value);
+            });
+
+            // Toggle Mode
+            btnModeToggle.addEventListener('click', () => {
+                isPracticeMode = !isPracticeMode;
+                initGame();
+            });
+
+            // Play Again
+            document.getElementById('btn-play-again').addEventListener('click', () => {
+                if (!isPracticeMode) {
+                    isPracticeMode = true;
+                }
+                initGame();
+            });
+
+            // Modals
+            document.getElementById('btn-help').addEventListener('click', () => {
+                document.getElementById('modal-help').classList.remove('hidden');
+            });
+            document.getElementById('btn-stats').addEventListener('click', () => {
+                updateStatsModal();
+                document.getElementById('modal-stats').classList.remove('hidden');
+            });
+            document.querySelectorAll('.close-modal').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    document.getElementById('modal-help').classList.add('hidden');
+                    document.getElementById('modal-stats').classList.add('hidden');
+                });
+            });
+
+            // Share Score
+            document.getElementById('btn-share').addEventListener('click', shareScore);
+
+            // A new day started while the tab was open: load the new daily game when the player comes back.
+            document.addEventListener('visibilitychange', () => {
+                if (document.visibilityState === 'visible' && !isPracticeMode && dayNumber() !== dayNum) {
+                    decayStreak(stats, dayNumber());
+                    initGame();
+                    updateStatsModal();
+                }
+            });
+        }
+
+        function handleAutocomplete() {
+            const query = playerInput.value.toLowerCase().trim();
+            if (query.length < 1) {
+                autocompleteList.classList.add('hidden');
+                return;
+            }
+
+            // Exclude already guessed
+            const guessedNames = guesses.map(g => g.name);
+            const matches = PLAYERS.filter(p =>
+                p.name.toLowerCase().includes(query) && !guessedNames.includes(p.name)
+            );
+
+            if (matches.length === 0) {
+                autocompleteList.classList.add('hidden');
+                return;
+            }
+
+            autocompleteList.innerHTML = '';
+            matches.forEach(p => {
+                const item = document.createElement('div');
+                item.className = 'px-4 py-3 hover:bg-slate-800 cursor-pointer flex items-center justify-between transition text-sm';
+                item.innerHTML = `
+                    <div class="flex items-center gap-2">
+                        <span>${flagImg(p.country)}</span>
+                        <span class="font-bold text-white">${p.name}</span>
+                    </div>
+                    <span class="text-xs font-semibold text-slate-400 bg-slate-800 px-2 py-0.5 rounded border border-slate-700">${p.tour}</span>
+                `;
+                item.addEventListener('click', () => {
+                    playerInput.value = p.name;
+                    autocompleteList.classList.add('hidden');
+                    submitGuess(p.name);
+                });
+                autocompleteList.appendChild(item);
+            });
+
+            autocompleteList.classList.remove('hidden');
+        }
+
+        function submitGuess(playerName) {
+            if (isGameOver) return;
+
+            const player = PLAYERS.find(p => p.name.toLowerCase() === playerName.toLowerCase().trim());
+            if (!player) {
+                toast(playerName.trim() ? 'Golfer not found – pick one from the list.' : 'Type a golfer’s name first.');
+                return;
+            }
+
+            if (guesses.some(g => g.name === player.name)) {
+                toast(`You already guessed ${player.name}.`);
+                return;
+            }
+
+            guesses.push(player);
+            renderGuessRow(player);
+
+            attemptCountEl.textContent = guesses.length;
+            playerInput.value = '';
+            autocompleteList.classList.add('hidden');
+
+            // Win/Loss check
+            if (player.name === secretPlayer.name) {
+                endGame(true);
+            } else if (guesses.length >= maxGuesses) {
+                endGame(false);
+            } else {
+                saveDailyState();
+            }
+        }
+
+        // Colour for each clue: 'g' = exact, 'y' = close, '' = no match.
+        // Used both for the guess rows and for the shared emoji grid, so they always agree.
+        function compare(player) {
+            const s = secretPlayer;
+            const near = (d, range) => d === 0 ? 'g' : (Math.abs(d) <= range ? 'y' : '');
+            const arrow = d => d > 0 ? ' ▼' : (d < 0 ? ' ▲' : '');
+            const ageDiff = player.age - s.age, majorDiff = player.majors - s.majors, winDiff = player.wins - s.wins;
+            return {
+                country: player.country === s.country ? 'g' : (player.continent === s.continent ? 'y' : ''),
+                tour: (player.tour === s.tour && player.gender === s.gender) ? 'g' : (player.gender === s.gender ? 'y' : ''),
+                age: [near(ageDiff, 2), `${player.age}${arrow(ageDiff)}`],
+                majors: [near(majorDiff, 1), `${player.majors}${arrow(majorDiff)}`],
+                wins: [near(winDiff, 3), `${player.wins}${arrow(winDiff)}`]
+            };
+        }
+        const CELL_BG = { g: 'bg-emerald-600 border-emerald-500', y: 'bg-amber-600 border-amber-500', '': 'bg-slate-900 border-slate-800' };
+
+        function renderGuessRow(player) {
+            const row = document.createElement('div');
+            row.className = 'grid grid-cols-6 gap-1.5 md:gap-2 text-center text-xs md:text-sm font-bold animate-pop';
+            const c = compare(player);
+
+            // 1. Name
+            row.appendChild(createCell(player.name, 'bg-slate-900 text-white border-slate-800'));
+
+            // 2. Country & Continent
+            const countryCell = createCell(player.country, CELL_BG[c.country] + ' namecell');
+            countryCell.insertAdjacentHTML('afterbegin', flagImg(player.country));
+            row.appendChild(countryCell);
+
+            // 3. Tour & Gender
+            row.appendChild(createCell(player.tour, CELL_BG[c.tour]));
+
+            // 4–6. Age, Majors, Wins
+            [c.age, c.majors, c.wins].forEach(([cls, text]) => row.appendChild(createCell(text, CELL_BG[cls])));
+
+            guessesList.prepend(row);
+        }
+
+        function createCell(text, bgClass) {
+            const cell = document.createElement('div');
+            cell.className = `${bgClass} text-white p-2 md:p-3 rounded-xl border flex items-center justify-center break-words text-[10px] md:text-xs shadow-md font-semibold leading-tight`;
+            cell.textContent = text;
+            return cell;
+        }
+
+        function endGame(won, restored) {
+            isGameOver = true;
+            playerInput.disabled = true;
+            btnSubmit.disabled = true;
+
+            // Update local stats (only once per daily game – not when a finished game is restored)
+            if (!isPracticeMode && !restored) {
+                recordResult(stats, dayNum, won, 'maxStreak');
+                saveJSON('dailygolf_stats', stats);
+                saveDailyState();
+                updateStatsModal();
+            }
+
+            const gameOverTitle = document.getElementById('game-over-title');
+            const gameOverMsg = document.getElementById('game-over-message');
+            const secretPlayerName = document.getElementById('secret-player-name');
+            const secretPlayerDetails = document.getElementById('secret-player-details');
+
+            secretPlayerName.innerHTML = `${flagImg(secretPlayer.country)}${secretPlayer.name}`;
+            secretPlayerDetails.textContent = `${secretPlayer.country} • ${secretPlayer.tour} • Age ${secretPlayer.age}${secretPlayer.died ? ' (at death)' : ''} • ${secretPlayer.majors} Majors • ${secretPlayer.wins} PGA Tour Wins`;
+
+            if (won) {
+                const scoreNames = ["Hole in One! 🎉", "Albatross! 🦅", "Eagle! 🦅", "Birdie! 🐦", "Par! ⛳"];
+                gameOverTitle.textContent = scoreNames[Math.min(guesses.length, scoreNames.length) - 1];
+                gameOverMsg.textContent = `You guessed the golfer in ${guesses.length}/${maxGuesses} ${guesses.length === 1 ? 'try' : 'tries'}.`;
+            } else {
+                gameOverTitle.textContent = "Out of Bounds! ⛳️";
+                gameOverMsg.textContent = isPracticeMode ? "You ran out of guesses. Better luck next time!" : "You ran out of guesses. A new golfer is waiting tomorrow!";
+            }
+
+            gameOverCard.classList.remove('hidden');
+        }
+
+        function updateStatsModal() {
+            document.getElementById('stat-played').textContent = stats.played;
+            const winRate = stats.played > 0 ? Math.round((stats.wins / stats.played) * 100) : 0;
+            document.getElementById('stat-winrate').textContent = `${winRate}%`;
+            document.getElementById('stat-streak').textContent = stats.streak;
+            document.getElementById('stat-maxstreak').textContent = stats.maxStreak;
+        }
+
+        function shareScore() {
+            const won = guesses.some(g => g.name === secretPlayer.name);
+            const label = isPracticeMode ? 'Practice' : `#${dayNum}`;
+            const grid = guesses.map(g => {
+                const c = compare(g);
+                return [c.country, c.tour, c.age[0], c.majors[0], c.wins[0]].map(k => EMOJI[k]).join('');
+            }).join('\n');
+            shareResult(`Dailygolf ${label} ⛳ ${won ? guesses.length : 'X'}/${maxGuesses}\n\n${grid}\n${SITE_URL}`);
+        }
+    </script>
+    <script>
+    // Inline SVG icons (so icons never depend on the FontAwesome web font loading)
+    (function () {
+        const P = {"shuffle": "<path d=\"M2 18h1.4c1.3 0 2.5-.6 3.3-1.7l6.1-8.6c.7-1.1 2-1.7 3.3-1.7H22\"/><path d=\"m18 2 4 4-4 4\"/><path d=\"M2 6h1.9c1.5 0 2.9.9 3.6 2.2\"/><path d=\"M22 18h-5.9c-1.3 0-2.6-.7-3.3-1.8l-.5-.8\"/><path d=\"m18 14 4 4-4 4\"/>", "xmark": "<path d=\"M18 6 6 18\"/><path d=\"m6 6 12 12\"/>", "magnifying-glass": "<circle cx=\"11\" cy=\"11\" r=\"8\"/><path d=\"m21 21-4.3-4.3\"/>", "chart-column": "<path d=\"M3 3v18h18\"/><path d=\"M18 17V9\"/><path d=\"M13 17V5\"/><path d=\"M8 17v-3\"/>", "chart-line": "<path d=\"M3 3v18h18\"/><path d=\"m19 9-5 5-4-4-3 3\"/>", "trophy": "<path d=\"M6 9H4.5a2.5 2.5 0 0 1 0-5H6\"/><path d=\"M18 9h1.5a2.5 2.5 0 0 0 0-5H18\"/><path d=\"M4 22h16\"/><path d=\"M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22\"/><path d=\"M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22\"/><path d=\"M18 2H6v7a6 6 0 0 0 12 0V2Z\"/>", "share-nodes": "<circle cx=\"18\" cy=\"5\" r=\"3\"/><circle cx=\"6\" cy=\"12\" r=\"3\"/><circle cx=\"18\" cy=\"19\" r=\"3\"/><path d=\"m8.59 13.51 6.83 3.98\"/><path d=\"m15.41 6.51-6.82 3.98\"/>", "rotate-right": "<path d=\"M21 12a9 9 0 1 1-3-6.7L21 8\"/><path d=\"M21 3v5h-5\"/>", "palette": "<circle cx=\"13.5\" cy=\"6.5\" r=\".5\"/><circle cx=\"17.5\" cy=\"10.5\" r=\".5\"/><circle cx=\"8.5\" cy=\"7.5\" r=\".5\"/><circle cx=\"6.5\" cy=\"12.5\" r=\".5\"/><path d=\"M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.9 0 1.5-.7 1.5-1.5 0-.4-.1-.7-.4-1-.3-.3-.4-.6-.4-1 0-.8.7-1.5 1.5-1.5H16c3.3 0 6-2.7 6-6 0-4.9-4.5-9-10-9Z\"/>", "flag-hole": "<path d=\"M5 22V3\"/><path d=\"M5 4h13l-3 4.5L18 13H5\"/>", "circle-question": "<circle cx=\"12\" cy=\"12\" r=\"10\"/><path d=\"M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3\"/><path d=\"M12 17h.01\"/>", "circle-info": "<circle cx=\"12\" cy=\"12\" r=\"10\"/><path d=\"M12 16v-4\"/><path d=\"M12 8h.01\"/>"};
+        function fix(root) {
+            (root.querySelectorAll ? root.querySelectorAll('i.fa-solid') : []).forEach(i => {
+                const k = Object.keys(P).find(n => i.classList.contains('fa-' + n));
+                if (!k) return;
+                const cls = [...i.classList].filter(c => !/^fa-/.test(c)).join(' ');
+                const sv = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+                sv.setAttribute('viewBox', '0 0 24 24'); sv.setAttribute('fill', 'none'); sv.setAttribute('stroke', 'currentColor');
+                sv.setAttribute('stroke-width', '2'); sv.setAttribute('stroke-linecap', 'round'); sv.setAttribute('stroke-linejoin', 'round');
+                sv.setAttribute('class', cls); sv.style.cssText = 'width:1.1em;height:1.1em;display:inline-block;vertical-align:-.15em;flex:none';
+                sv.innerHTML = P[k]; i.replaceWith(sv);
+            });
+        }
+        fix(document);
+        new MutationObserver(ms => ms.forEach(m => m.addedNodes.forEach(n => { if (n.nodeType === 1) { if (n.matches && n.matches('i.fa-solid')) { const w = document.createElement('span'); n.replaceWith(w); w.appendChild(n); fix(w); } else fix(n); } })))
+            .observe(document.body, { childList: true, subtree: true });
+    })();
+    </script>
+    <script>
+    // --- TABS + YOUTUBE GOLFER GAME ---
+    (function () {
+        const el = id => document.getElementById(id);
+        const ACTIVE = ['bg-golf-500', 'text-white'], IDLE = ['bg-slate-800', 'text-slate-300', 'hover:bg-slate-700'];
+        function showTab(name) {
+            const yt = name === 'yt';
+            el('tab-pro').classList.toggle('hidden', yt);
+            el('tab-yt').classList.toggle('hidden', !yt);
+            [['tab-btn-pro', !yt], ['tab-btn-yt', yt]].forEach(([id, on]) => {
+                const b = el(id);
+                ACTIVE.forEach(c => b.classList.toggle(c, on));
+                IDLE.forEach(c => b.classList.toggle(c, !on));
+                b.setAttribute('aria-selected', on);
+            });
+            { const mt = el('mode-button-text');
+              if (yt) { if (mt.dataset.pro === undefined) mt.dataset.pro = mt.textContent; mt.textContent = practice ? 'Daily Mode' : 'Practice Mode'; }
+              else if (mt.dataset.pro !== undefined) { mt.textContent = mt.dataset.pro; delete mt.dataset.pro; } }
+            try { history.replaceState(null, '', yt ? '#youtube' : location.pathname); } catch (e) {}
+        }
+        el('tab-btn-pro').onclick = () => showTab('pro');
+        el('tab-btn-yt').onclick = () => showTab('yt');
+
+        // name|countries|handicap (plus = negative)|subscribers in thousands (blank = unknown)|channel (as shown on handicap-tracker.com)|birth year (blank = unknown)
+        // Source: handicap-tracker.com leaderboard (Oct 2026) + YT Golf Stats channel pages. Override anytime by uploading handicaps.json.
+        const HCP_DATA = `
+        Brad Dalke|USA|-7.8|436|Brad Dalke|1997-08-19
+        Sean Walsh|USA|-6.9|2200|Good Good|1994-06-23
+        Ryan Ruffels|Australia|-6.9|121|The Lads|1998-04-29
+        Chance Taylor|USA|-6.4|85|Chance Taylor|
+        Wesley Bryan|USA|-5.8|967|Bryan Bros Golf|1990-03-26
+        Jean-Philippe Mehu|USA|-5.7|18|ParYard Golf|
+        Asaeli Batibasaga (Bat)|Australia|-5.3|8|The Lads|
+        Luke Toomey (Tooms)|New Zealand|-5.1|116|Tooms Golf|
+        Micah Morris|USA|-4.9|543|Micah Morris|1995-03-03
+        George Bryan|USA|-4.8|967|Bryan Bros Golf|
+        James Robinson|England|-4.5|3100|Rick Shiels Golf|
+        Ben Hadden|USA|-4.1|100|Ben Hadden Golf|
+        Garrett Clark|USA|-4.1|2200|Good Good|2000-04-08
+        Kyle Berkshire|USA|-4.0|260|Kyle Berkshire|1996-11-01
+        Taco|New Zealand,South Korea|-3.8|297|Taco Golf|
+        Peter Finch|England|-3.7|844|Peter Finch Golf|
+        Sam Heung Min|New Zealand,South Korea|-3.5|175|Sam Heung Min Golf|
+        Paige Spiranac|USA|-3.2||Paige Spiranac|1993-03-26
+        Ben Kruper|USA|-3.2|268|Ben Kruper Golf|2003-06-30
+        Mariano Di Vaio|Italy|-3.1||Mariano Di Vaio|1989
+        Evan Thompson|USA|-3.1|120|Evan Thompson|
+        Luke Kwon|New Zealand,South Korea|-3.0|445|Luke Kwon Golf|1992-08-11
+        Harry Na|New Zealand,South Korea|-2.9|40|Dimchae|
+        Jimmy Bullard|England|-2.8||GOLF LIFE|1978-10-23
+        Rick Shiels|England|-2.6|3100|Rick Shiels Golf|1986-07-03
+        Cole Lantz|USA|-2.4|242|BustaJack Golf|
+        Grant Horvat|USA|-2.2|1800|Grant Horvat Golf|1998-08-24
+        Martin Borgmeier|Germany|-2.1|211|Martin Borgmeier|1991-05-25
+        Josh Kelley|USA|-2.1|149|Josh Kelley Golf|
+        Mason Nutt|USA|-2.1|242|BustaJack Golf|
+        Blake Mullen|USA|-1.2|2200|Good Good|
+        Malosi Togisala|USA|-1.0|2200|Good Good|1997-02-15
+        Sara Winter|Canada|-0.8|14|Sara Winter Golf|1997-08-04
+        Kai Trump|USA|-0.7||Kai Trump|2007-05-12
+        The DoD King|USA|-0.1|126|The DoD King|
+        ShortGameKing|USA|0.1|56|ShortGameKing|
+        Gabby Golf Girl|USA|0.1|289|gabbygolfgirl|
+        Fat Perez|USA|0.3|1500|Bob Does Sports|
+        Hailey Ostrom|USA|0.8|177|Hailey Ostrom|1994-02-19
+        Matt Scharff|USA|1.1|2200|Good Good|1999-04-06
+        Guy Charnock|England|2.7|3100|Rick Shiels Golf|
+        Stimpen|Sweden|3.0||Abbe & Stimpen|2001-02-01
+        Stephen Castaneda|USA|3.6|2200|Good Good|1999-02-09
+        Bubbie Broders|USA|3.6|2200|Good Good|1997-04-16
+        Abbe|Sweden|3.7||Abbe & Stimpen|2002-05-31
+        Riggs|USA|4.1|657|Fore Play Golf|
+        Chaz|USA|4.1|33|Chazzy Golf|
+        Erik Anders Lang|USA|4.4|298|Random Golf Club|
+        Frankie Borrelli|USA|5.3|657|Fore Play Golf|1993-08-13
+        Francis Ellis|USA|6.7|657|Fore Play Golf|
+        D'Angelo Russell|USA|8.9|33|Backyard Golf|1996-02-23
+        Bobby Fairways|USA|10.1|1500|Bob Does Sports|
+        Joey Cold Cuts|Canada|10.5|1500|Bob Does Sports|
+        Carl Déman|Sweden|12.4||Carl Déman|1992-11-11
+        Harry (W2S)|England|12.8|861|Big Wedge Golf|1996-11-24
+        Calfreezy|England|13.1|861|Big Wedge Golf|1994-11-17
+        Trent Ryan|USA|14.6|657|Fore Play Golf|
+        Callux|England|22.5|861|Big Wedge Golf|
+        Simon (Miniminter)|England|26.5|861|Big Wedge Golf|1992-09-07
+        Josh (Zerkaa)|England|30.3|861|Big Wedge Golf|1992-09-04
+        Kevin Hart|USA|36.0|150|Kevin Hart Golfs|1979-07-06
+        Jakedezgolf|USA|-2.1|21|jakedezgolf|
+        Kåt|England|25.1|861|Big Wedge Golf|
+        `;
+        const NO_DAILY = new Set(["Harry (W2S)", "Simon (Miniminter)", "Josh (Zerkaa)", "Calfreezy", "Callux", "Kåt"]);
+        let Y = [], POOL = [];
+        function setData(list) {
+            Y = list;
+            POOL = Y.filter(p => p.subs !== null && p.subs >= 100 && !NO_DAILY.has(p.name));
+        }
+        function embeddedData() {
+            return HCP_DATA.trim().split('\n').map(l => {
+                const [name, c, h, sb, ch, by] = l.trim().split('|');
+                return { name, countries: c.split(','), hcp: parseFloat(h), subs: sb === '' ? null : parseFloat(sb), channel: ch || name, born: by || null };
+            });
+        }
+        function ageOf(b) {
+            if (!b) return null;
+            const [y, mo, d] = String(b).split('-').map(Number), n = new Date();
+            let a = n.getFullYear() - y;
+            if (mo && (n.getMonth() + 1 < mo || (n.getMonth() + 1 === mo && n.getDate() < (d || 1)))) a--;
+            return a;
+        }
+        const fmtH = h => h < 0 ? '+' + Math.abs(h).toFixed(1) : h.toFixed(1);
+        const fmtS = k => k === null ? '—' : (k >= 1000 ? (k / 1000).toFixed(1).replace(/\.0$/, '') + 'M' : k + 'K');
+
+        let dayNum = dayNumber();
+        const MAX = 5;
+        const TITLES = ["Hole in One! 🎉", "Albatross! 🦅", "Eagle! 🦅", "Birdie! 🐦", "Par! ⛳"];
+        let secret, guesses = [], over, practice = false, done = null, acted = false;
+        let stats = { played: 0, wins: 0, streak: 0, max: 0, dist: [0, 0, 0, 0, 0] };
+        try { stats = JSON.parse(localStorage.getItem('dailygolf_yt_stats')) || stats; } catch (e) {}
+        if (!Array.isArray(stats.dist) || stats.dist.length !== 5) stats.dist = [0, 0, 0, 0, 0];
+        // dailygolf_yt_done holds today's game: { day, s: answer, g: guesses, over, won }.
+        // Older saves have no `over`/`s` and were only written for finished games.
+        try { done = JSON.parse(localStorage.getItem('dailygolf_yt_done') || 'null'); } catch (e) {}
+        if (typeof stats.last !== 'number' && done && done.over !== false) stats.last = done.day;
+        decayStreak(stats, dayNum);
+        function saveDay() {
+            if (practice) return;
+            done = { day: dayNum, s: secret.name, g: guesses.map(g => g.name), over: !!over, won: !!over && guesses.includes(secret) };
+            saveJSON('dailygolf_yt_done', done);
+        }
+
+        function arrow(d, exact) { return exact ? '' : (d > 0 ? ' ▲' : ' ▼'); }
+        function cells(g) {
+            let ac = ['', '—'];
+            if (g.born && secret.born) {
+                const ga = ageOf(g.born), da = ageOf(secret.born) - ga, ea = da === 0;
+                ac = [ea ? 'g' : (Math.abs(da) <= 2 ? 'y' : ''), ga + (ea ? '' : (da > 0 ? ' ▲' : ' ▼'))];
+            }
+            const dh = secret.hcp - g.hcp, eh = Math.abs(dh) < 0.05;
+            const same = g.countries.join() === secret.countries.join();
+            const overlap = g.countries.some(c => secret.countries.includes(c));
+            let sc = ['', '—'];
+            if (g.subs !== null) {
+                const ds = secret.subs - g.subs, es = ds === 0;
+                const ratio = Math.max(secret.subs, g.subs) / Math.min(secret.subs, g.subs);
+                sc = [es ? 'g' : (ratio <= 1.5 ? 'y' : ''), fmtS(g.subs) + arrow(ds, es)];
+            }
+            return [
+                ['n', g.name],
+                [same ? 'g' : (overlap ? 'y' : ''), '<span>' + g.countries.map(c => flagImg(c)).join('') + '</span>' + g.countries.join(' / '), 'namecell'],
+                [eh ? 'g' : (Math.abs(dh) <= 1.5 ? 'y' : ''), fmtH(g.hcp) + arrow(dh, eh)],
+                sc,
+                ac,
+                [g.channel === secret.channel ? 'g' : '', g.channel]
+            ];
+        }
+        const acl = el('yt-ac');
+        function acHide() { acl.classList.add('hidden'); }
+        function acShow() {
+            const q = el('yt-inp').value.toLowerCase().trim();
+            if (!q) { acHide(); return; }
+            const m = Y.filter(p => !guesses.includes(p) && (p.name.toLowerCase().includes(q) || p.channel.toLowerCase().includes(q))).slice(0, 40);
+            if (!m.length) { acHide(); return; }
+            acl.innerHTML = '';
+            m.forEach(p => {
+                const d = document.createElement('div');
+                d.className = 'px-4 py-3 hover:bg-slate-800 cursor-pointer flex items-center justify-between gap-3 transition text-sm';
+                d.innerHTML = `<div class="flex items-center gap-2 min-w-0">${p.countries.map(c => flagImg(c)).join('')}<span class="font-bold text-white truncate">${p.name}</span></div><span class="text-xs font-semibold text-slate-400 bg-slate-800 px-2 py-0.5 rounded border border-slate-700 whitespace-nowrap truncate max-w-[45%]">${p.channel}</span>`;
+                d.addEventListener('click', () => { el('yt-inp').value = p.name; acHide(); guess(); });
+                acl.appendChild(d);
+            });
+            acl.classList.remove('hidden');
+        }
+        el('yt-inp').addEventListener('input', acShow);
+        document.addEventListener('click', e => { if (!el('yt-search').contains(e.target)) acHide(); });
+        function render() {
+            const BG = { g: 'bg-emerald-600 border-emerald-500', y: 'bg-amber-600 border-amber-500', n: 'bg-slate-900 text-white border-slate-800', '': 'bg-slate-900 border-slate-800' };
+            el('yt-rows').innerHTML = guesses.slice().reverse().map(g => '<div class="grid grid-cols-6 gap-1.5 md:gap-2 text-center text-xs md:text-sm font-bold animate-pop">' + cells(g).map(c => `<div class="${BG[c[0]]}${c[2] ? ' ' + c[2] : ''} text-white p-2 md:p-3 rounded-xl border flex items-center justify-center break-words text-[10px] md:text-xs shadow-md font-semibold leading-tight">${c[1]}</div>`).join('') + '</div>').join('');
+            el('yt-count').textContent = guesses.length;
+        }
+        function statsText() { return `Played ${stats.played} · Wins ${stats.wins} · Streak ${stats.streak} · Max ${stats.max}`; }
+        function start() {
+            guesses = []; over = false;
+            dayNum = dayNumber();
+            const today = !practice && done && done.day === dayNum ? done : null;
+            secret = practice ? POOL[Math.floor(Math.random() * POOL.length)]
+                : (today && today.s && Y.find(p => p.name === today.s)) || dailyPick(POOL, dayNum, 'yt', () => POOL[(dayNum * 7) % POOL.length]);
+            el('yt-mode').textContent = practice ? 'Practice Mode (Random)' : 'Dailygolf YouTube (#' + dayNum + ')';
+            el('yt-practice-l').textContent = practice ? 'Next Creator' : 'Play Practice Mode';
+            { const mt = el('mode-button-text'); if (!el('tab-yt').classList.contains('hidden')) mt.textContent = practice ? 'Daily Mode' : 'Practice Mode'; }
+            el('yt-end').classList.add('hidden');
+            el('yt-inp').disabled = el('yt-go').disabled = false;
+            if (today) {
+                guesses = today.g.map(n => Y.find(p => p.name === n)).filter(Boolean);
+                render();
+                if (today.over !== false) finish(today.won, true);
+                return;
+            }
+            render();
+        }
+        function guess() {
+            if (over) return;
+            acted = true;
+            const v = el('yt-inp').value.trim().toLowerCase();
+            const p = Y.find(x => x.name.toLowerCase() === v);
+            if (!p) { toast(v ? 'Creator not found – pick one from the list.' : 'Type a creator’s name first.'); return; }
+            if (guesses.includes(p)) { toast('You already guessed ' + p.name + '.'); return; }
+            guesses.push(p); el('yt-inp').value = ''; acHide(); render();
+            if (p === secret || guesses.length >= MAX) finish(p === secret, false);
+            else saveDay();
+        }
+        function finish(won, restored) {
+            over = true; el('yt-inp').disabled = el('yt-go').disabled = true;
+            if (!practice && !restored) {
+                recordResult(stats, dayNum, won, 'max');
+                if (won) stats.dist[guesses.length - 1]++;
+                saveJSON('dailygolf_yt_stats', stats);
+                saveDay();
+            }
+            el('yt-end-t').textContent = won ? TITLES[guesses.length - 1] : 'Out of Bounds! ⛳️';
+            el('yt-end-p').textContent = won ? 'You guessed the mystery creator!' : (practice ? 'You ran out of guesses. Better luck next time!' : 'You ran out of guesses. A new creator is waiting tomorrow!');
+            el('yt-secret-name').textContent = secret.name;
+            el('yt-secret-details').textContent = `Handicap ${fmtH(secret.hcp)} · ${fmtS(secret.subs)} subscribers${secret.born ? ' · ' + ageOf(secret.born) + ' years old' : ''}`;
+            el('yt-end').classList.remove('hidden');
+            el('yt-stats').textContent = statsText();
+        }
+        el('yt-go').onclick = guess;
+        el('yt-inp').addEventListener('keydown', e => { if (e.key === 'Enter') guess(); });
+        el('yt-practice').onclick = () => { practice = true; acted = true; start(); };
+        
+        function showYtStats() {
+            el('yst-played').textContent = stats.played;
+            el('yst-rate').textContent = (stats.played ? Math.round(stats.wins / stats.played * 100) : 0) + '%';
+            el('yst-streak').textContent = stats.streak; el('yst-max').textContent = stats.max;
+            const mx = Math.max(1, ...stats.dist);
+            el('yst-dist').innerHTML = stats.dist.map((n, i) => `<div class="flex items-center gap-2 text-xs"><span class="w-24 text-slate-400">${TITLES[i].replace(/[^A-Za-z ]/g, '').trim()}</span><div class="flex-1 bg-slate-950/60 rounded"><div class="bg-golf-500 text-white font-bold rounded px-2 py-0.5 text-right" style="width:${Math.max(8, n / mx * 100)}%">${n}</div></div></div>`).join('');
+            el('modal-yt-stats').classList.remove('hidden');
+        }
+        const ytOn = () => !el('tab-yt').classList.contains('hidden');
+        el('header-controls').addEventListener('click', e => {
+            if (!ytOn()) return;
+            const b = e.target.closest('button'); if (!b) return;
+            if (b.id === 'btn-mode-toggle') { e.stopPropagation(); practice = !practice; acted = true; start(); }
+            else if (b.id === 'btn-stats') { e.stopPropagation(); showYtStats(); }
+        }, true);
+        ['yst-x', 'yst-close'].forEach(id => el(id).onclick = () => el('modal-yt-stats').classList.add('hidden'));
+        el('yt-share').onclick = () => {
+            const won = guesses.includes(secret);
+            const grid = guesses.map(g => cells(g).slice(1).map(c => EMOJI[c[0]]).join('')).join('\n');
+            shareResult(`Dailygolf YouTube ${practice ? 'Practice' : '#' + dayNum} ⛳ ${won ? guesses.length : 'X'}/${MAX}\n\n${grid}\n${SITE_URL}#youtube`);
+        };
+        el('yt-stats').textContent = statsText();
+        setData(embeddedData());
+        start();
+        // Optional update: if a handicaps.json file sits next to index.html it replaces the built-in list.
+        if (window.fetch) {
+            fetch('handicaps.json', { cache: 'no-cache' }).then(r => r.ok ? r.json() : null).then(j => {
+                // Swap in the fresh list unless the player has already started typing guesses this visit
+                // (a restored game is fine: start() rebuilds it from the saved names).
+                if (j && Array.isArray(j.players) && j.players.length && !acted) {
+                    setData(j.players.map(p => ({ name: p.name, countries: p.countries, hcp: p.hcp, subs: p.subs === undefined ? null : p.subs, channel: p.channel || p.name, born: p.born ? String(p.born) : null })));
+                    start();
+                }
+            }).catch(() => {});
+        }
+        if (location.hash === '#youtube') showTab('yt');
+        document.addEventListener('visibilitychange', () => {
+            if (document.visibilityState === 'visible' && !practice && dayNumber() !== dayNum) {
+                decayStreak(stats, dayNumber()); start(); el('yt-stats').textContent = statsText();
+            }
+        });
+    })();
+    </script>
+</body>
+</html>

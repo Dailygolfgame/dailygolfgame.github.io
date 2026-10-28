@@ -1,0 +1,640 @@
+{
+ "updated": "2026-10-21",
+ "note": "hcp: plus handicaps are negative. subs: thousands, null = unknown. channel: as shown on handicap-tracker.com.",
+ "players": [
+  {
+   "name": "Brad Dalke",
+   "countries": [
+    "USA"
+   ],
+   "hcp": -7.8,
+   "subs": 436.0,
+   "channel": "Brad Dalke",
+   "born": "1997-08-19"
+  },
+  {
+   "name": "Sean Walsh",
+   "countries": [
+    "USA"
+   ],
+   "hcp": -6.9,
+   "subs": 2200.0,
+   "channel": "Good Good",
+   "born": "1994-06-23"
+  },
+  {
+   "name": "Ryan Ruffels",
+   "countries": [
+    "Australia"
+   ],
+   "hcp": -6.9,
+   "subs": 121.0,
+   "channel": "The Lads",
+   "born": "1998-04-29"
+  },
+  {
+   "name": "Chance Taylor",
+   "countries": [
+    "USA"
+   ],
+   "hcp": -6.4,
+   "subs": 85.0,
+   "channel": "Chance Taylor",
+   "born": null
+  },
+  {
+   "name": "Wesley Bryan",
+   "countries": [
+    "USA"
+   ],
+   "hcp": -5.8,
+   "subs": 967.0,
+   "channel": "Bryan Bros Golf",
+   "born": "1990-03-26"
+  },
+  {
+   "name": "Jean-Philippe Mehu",
+   "countries": [
+    "USA"
+   ],
+   "hcp": -5.7,
+   "subs": 18.0,
+   "channel": "ParYard Golf",
+   "born": null
+  },
+  {
+   "name": "Asaeli Batibasaga (Bat)",
+   "countries": [
+    "Australia"
+   ],
+   "hcp": -5.3,
+   "subs": 8.0,
+   "channel": "The Lads",
+   "born": null
+  },
+  {
+   "name": "Luke Toomey (Tooms)",
+   "countries": [
+    "New Zealand"
+   ],
+   "hcp": -5.1,
+   "subs": 116.0,
+   "channel": "Tooms Golf",
+   "born": null
+  },
+  {
+   "name": "Micah Morris",
+   "countries": [
+    "USA"
+   ],
+   "hcp": -4.9,
+   "subs": 543.0,
+   "channel": "Micah Morris",
+   "born": "1995-03-03"
+  },
+  {
+   "name": "George Bryan",
+   "countries": [
+    "USA"
+   ],
+   "hcp": -4.8,
+   "subs": 967.0,
+   "channel": "Bryan Bros Golf",
+   "born": null
+  },
+  {
+   "name": "James Robinson",
+   "countries": [
+    "England"
+   ],
+   "hcp": -4.5,
+   "subs": 3100.0,
+   "channel": "Rick Shiels Golf",
+   "born": null
+  },
+  {
+   "name": "Ben Hadden",
+   "countries": [
+    "USA"
+   ],
+   "hcp": -4.1,
+   "subs": 100.0,
+   "channel": "Ben Hadden Golf",
+   "born": null
+  },
+  {
+   "name": "Garrett Clark",
+   "countries": [
+    "USA"
+   ],
+   "hcp": -4.1,
+   "subs": 2200.0,
+   "channel": "Good Good",
+   "born": "2000-04-08"
+  },
+  {
+   "name": "Kyle Berkshire",
+   "countries": [
+    "USA"
+   ],
+   "hcp": -4.0,
+   "subs": 260.0,
+   "channel": "Kyle Berkshire",
+   "born": "1996-11-01"
+  },
+  {
+   "name": "Taco",
+   "countries": [
+    "New Zealand",
+    "South Korea"
+   ],
+   "hcp": -3.8,
+   "subs": 297.0,
+   "channel": "Taco Golf",
+   "born": null
+  },
+  {
+   "name": "Peter Finch",
+   "countries": [
+    "England"
+   ],
+   "hcp": -3.7,
+   "subs": 844.0,
+   "channel": "Peter Finch Golf",
+   "born": null
+  },
+  {
+   "name": "Sam Heung Min",
+   "countries": [
+    "New Zealand",
+    "South Korea"
+   ],
+   "hcp": -3.5,
+   "subs": 175.0,
+   "channel": "Sam Heung Min Golf",
+   "born": null
+  },
+  {
+   "name": "Paige Spiranac",
+   "countries": [
+    "USA"
+   ],
+   "hcp": -3.2,
+   "subs": null,
+   "channel": "Paige Spiranac",
+   "born": "1993-03-26"
+  },
+  {
+   "name": "Ben Kruper",
+   "countries": [
+    "USA"
+   ],
+   "hcp": -3.2,
+   "subs": 268.0,
+   "channel": "Ben Kruper Golf",
+   "born": "2003-06-30"
+  },
+  {
+   "name": "Mariano Di Vaio",
+   "countries": [
+    "Italy"
+   ],
+   "hcp": -3.1,
+   "subs": null,
+   "channel": "Mariano Di Vaio",
+   "born": "1989"
+  },
+  {
+   "name": "Evan Thompson",
+   "countries": [
+    "USA"
+   ],
+   "hcp": -3.1,
+   "subs": 120.0,
+   "channel": "Evan Thompson",
+   "born": null
+  },
+  {
+   "name": "Luke Kwon",
+   "countries": [
+    "New Zealand",
+    "South Korea"
+   ],
+   "hcp": -3.0,
+   "subs": 445.0,
+   "channel": "Luke Kwon Golf",
+   "born": "1992-08-11"
+  },
+  {
+   "name": "Harry Na",
+   "countries": [
+    "New Zealand",
+    "South Korea"
+   ],
+   "hcp": -2.9,
+   "subs": 40.0,
+   "channel": "Dimchae",
+   "born": null
+  },
+  {
+   "name": "Jimmy Bullard",
+   "countries": [
+    "England"
+   ],
+   "hcp": -2.8,
+   "subs": null,
+   "channel": "GOLF LIFE",
+   "born": "1978-10-23"
+  },
+  {
+   "name": "Rick Shiels",
+   "countries": [
+    "England"
+   ],
+   "hcp": -2.6,
+   "subs": 3100.0,
+   "channel": "Rick Shiels Golf",
+   "born": "1986-07-03"
+  },
+  {
+   "name": "Cole Lantz",
+   "countries": [
+    "USA"
+   ],
+   "hcp": -2.4,
+   "subs": 242.0,
+   "channel": "BustaJack Golf",
+   "born": null
+  },
+  {
+   "name": "Grant Horvat",
+   "countries": [
+    "USA"
+   ],
+   "hcp": -2.2,
+   "subs": 1800.0,
+   "channel": "Grant Horvat Golf",
+   "born": "1998-08-24"
+  },
+  {
+   "name": "Martin Borgmeier",
+   "countries": [
+    "Germany"
+   ],
+   "hcp": -2.1,
+   "subs": 211.0,
+   "channel": "Martin Borgmeier",
+   "born": "1991-05-25"
+  },
+  {
+   "name": "Josh Kelley",
+   "countries": [
+    "USA"
+   ],
+   "hcp": -2.1,
+   "subs": 149.0,
+   "channel": "Josh Kelley Golf",
+   "born": null
+  },
+  {
+   "name": "Mason Nutt",
+   "countries": [
+    "USA"
+   ],
+   "hcp": -2.1,
+   "subs": 242.0,
+   "channel": "BustaJack Golf",
+   "born": null
+  },
+  {
+   "name": "Blake Mullen",
+   "countries": [
+    "USA"
+   ],
+   "hcp": -1.2,
+   "subs": 2200.0,
+   "channel": "Good Good",
+   "born": null
+  },
+  {
+   "name": "Malosi Togisala",
+   "countries": [
+    "USA"
+   ],
+   "hcp": -1.0,
+   "subs": 2200.0,
+   "channel": "Good Good",
+   "born": "1997-02-15"
+  },
+  {
+   "name": "Sara Winter",
+   "countries": [
+    "Canada"
+   ],
+   "hcp": -0.8,
+   "subs": 14.0,
+   "channel": "Sara Winter Golf",
+   "born": "1997-08-04"
+  },
+  {
+   "name": "Kai Trump",
+   "countries": [
+    "USA"
+   ],
+   "hcp": -0.7,
+   "subs": null,
+   "channel": "Kai Trump",
+   "born": "2007-05-12"
+  },
+  {
+   "name": "The DoD King",
+   "countries": [
+    "USA"
+   ],
+   "hcp": -0.1,
+   "subs": 126.0,
+   "channel": "The DoD King",
+   "born": null
+  },
+  {
+   "name": "ShortGameKing",
+   "countries": [
+    "USA"
+   ],
+   "hcp": 0.1,
+   "subs": 56.0,
+   "channel": "ShortGameKing",
+   "born": null
+  },
+  {
+   "name": "Gabby Golf Girl",
+   "countries": [
+    "USA"
+   ],
+   "hcp": 0.1,
+   "subs": 289.0,
+   "channel": "gabbygolfgirl",
+   "born": null
+  },
+  {
+   "name": "Fat Perez",
+   "countries": [
+    "USA"
+   ],
+   "hcp": 0.3,
+   "subs": 1500.0,
+   "channel": "Bob Does Sports",
+   "born": null
+  },
+  {
+   "name": "Hailey Ostrom",
+   "countries": [
+    "USA"
+   ],
+   "hcp": 0.8,
+   "subs": 177.0,
+   "channel": "Hailey Ostrom",
+   "born": "1994-02-19"
+  },
+  {
+   "name": "Matt Scharff",
+   "countries": [
+    "USA"
+   ],
+   "hcp": 1.1,
+   "subs": 2200.0,
+   "channel": "Good Good",
+   "born": "1999-04-06"
+  },
+  {
+   "name": "Guy Charnock",
+   "countries": [
+    "England"
+   ],
+   "hcp": 2.7,
+   "subs": 3100.0,
+   "channel": "Rick Shiels Golf",
+   "born": null
+  },
+  {
+   "name": "Stimpen",
+   "countries": [
+    "Sweden"
+   ],
+   "hcp": 3.0,
+   "subs": null,
+   "channel": "Abbe & Stimpen",
+   "born": "2001-02-01"
+  },
+  {
+   "name": "Stephen Castaneda",
+   "countries": [
+    "USA"
+   ],
+   "hcp": 3.6,
+   "subs": 2200.0,
+   "channel": "Good Good",
+   "born": "1999-02-09"
+  },
+  {
+   "name": "Bubbie Broders",
+   "countries": [
+    "USA"
+   ],
+   "hcp": 3.6,
+   "subs": 2200.0,
+   "channel": "Good Good",
+   "born": "1997-04-16"
+  },
+  {
+   "name": "Abbe",
+   "countries": [
+    "Sweden"
+   ],
+   "hcp": 3.7,
+   "subs": null,
+   "channel": "Abbe & Stimpen",
+   "born": "2002-05-31"
+  },
+  {
+   "name": "Riggs",
+   "countries": [
+    "USA"
+   ],
+   "hcp": 4.1,
+   "subs": 657.0,
+   "channel": "Fore Play Golf",
+   "born": null
+  },
+  {
+   "name": "Chaz",
+   "countries": [
+    "USA"
+   ],
+   "hcp": 4.1,
+   "subs": 33.0,
+   "channel": "Chazzy Golf",
+   "born": null
+  },
+  {
+   "name": "Erik Anders Lang",
+   "countries": [
+    "USA"
+   ],
+   "hcp": 4.4,
+   "subs": 298.0,
+   "channel": "Random Golf Club",
+   "born": null
+  },
+  {
+   "name": "Frankie Borrelli",
+   "countries": [
+    "USA"
+   ],
+   "hcp": 5.3,
+   "subs": 657.0,
+   "channel": "Fore Play Golf",
+   "born": "1993-08-13"
+  },
+  {
+   "name": "Francis Ellis",
+   "countries": [
+    "USA"
+   ],
+   "hcp": 6.7,
+   "subs": 657.0,
+   "channel": "Fore Play Golf",
+   "born": null
+  },
+  {
+   "name": "D'Angelo Russell",
+   "countries": [
+    "USA"
+   ],
+   "hcp": 8.9,
+   "subs": 33.0,
+   "channel": "Backyard Golf",
+   "born": "1996-02-23"
+  },
+  {
+   "name": "Bobby Fairways",
+   "countries": [
+    "USA"
+   ],
+   "hcp": 10.1,
+   "subs": 1500.0,
+   "channel": "Bob Does Sports",
+   "born": null
+  },
+  {
+   "name": "Joey Cold Cuts",
+   "countries": [
+    "Canada"
+   ],
+   "hcp": 10.5,
+   "subs": 1500.0,
+   "channel": "Bob Does Sports",
+   "born": null
+  },
+  {
+   "name": "Carl Déman",
+   "countries": [
+    "Sweden"
+   ],
+   "hcp": 12.4,
+   "subs": null,
+   "channel": "Carl Déman",
+   "born": "1992-11-11"
+  },
+  {
+   "name": "Harry (W2S)",
+   "countries": [
+    "England"
+   ],
+   "hcp": 12.8,
+   "subs": 861.0,
+   "channel": "Big Wedge Golf",
+   "born": "1996-11-24"
+  },
+  {
+   "name": "Calfreezy",
+   "countries": [
+    "England"
+   ],
+   "hcp": 13.1,
+   "subs": 861.0,
+   "channel": "Big Wedge Golf",
+   "born": "1994-11-17"
+  },
+  {
+   "name": "Trent Ryan",
+   "countries": [
+    "USA"
+   ],
+   "hcp": 14.6,
+   "subs": 657.0,
+   "channel": "Fore Play Golf",
+   "born": null
+  },
+  {
+   "name": "Callux",
+   "countries": [
+    "England"
+   ],
+   "hcp": 22.5,
+   "subs": 861.0,
+   "channel": "Big Wedge Golf",
+   "born": null
+  },
+  {
+   "name": "Simon (Miniminter)",
+   "countries": [
+    "England"
+   ],
+   "hcp": 26.5,
+   "subs": 861.0,
+   "channel": "Big Wedge Golf",
+   "born": "1992-09-07"
+  },
+  {
+   "name": "Josh (Zerkaa)",
+   "countries": [
+    "England"
+   ],
+   "hcp": 30.3,
+   "subs": 861.0,
+   "channel": "Big Wedge Golf",
+   "born": "1992-09-04"
+  },
+  {
+   "name": "Kevin Hart",
+   "countries": [
+    "USA"
+   ],
+   "hcp": 36.0,
+   "subs": 150.0,
+   "channel": "Kevin Hart Golfs",
+   "born": "1979-07-06"
+  },
+  {
+   "name": "Jakedezgolf",
+   "countries": [
+    "USA"
+   ],
+   "hcp": -2.1,
+   "subs": 21.0,
+   "channel": "jakedezgolf",
+   "born": null
+  },
+  {
+   "name": "Kåt",
+   "countries": [
+    "England"
+   ],
+   "hcp": 25.1,
+   "subs": 861.0,
+   "channel": "Big Wedge Golf",
+   "born": null
+  }
+ ]
+}
