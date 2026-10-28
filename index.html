@@ -80,26 +80,26 @@
 
     <!-- HEADER / NAVIGATION -->
     <header class="border-b border-slate-800/80 bg-slate-900/90 backdrop-blur sticky top-0 z-40">
-        <div class="max-w-3xl mx-auto px-4 py-3 flex items-center justify-between">
-            <div class="flex items-center gap-2.5">
-                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-golf-500 to-emerald-800 flex items-center justify-center shadow-lg shadow-golf-500/20">
+        <div class="max-w-3xl mx-auto px-3 sm:px-4 py-3 flex items-center justify-between gap-2">
+            <div class="flex items-center gap-2 sm:gap-2.5 min-w-0">
+                <div class="w-9 h-9 sm:w-10 sm:h-10 flex-shrink-0 rounded-xl bg-gradient-to-br from-golf-500 to-emerald-800 flex items-center justify-center shadow-lg shadow-golf-500/20">
                     <i class="fa-solid fa-flag-hole text-white text-xl"></i>
                 </div>
                 <div>
-                    <h1 class="text-2xl font-black tracking-tight bg-gradient-to-r from-white via-slate-100 to-golf-400 bg-clip-text text-transparent">DAILYGOLF</h1>
+                    <h1 class="text-lg min-[380px]:text-xl sm:text-2xl font-black tracking-tight bg-gradient-to-r from-white via-slate-100 to-golf-400 bg-clip-text text-transparent">DAILYGOLF</h1>
                     <p class="text-[10px] text-slate-400 -mt-1 font-semibold tracking-wider">DAILY GOLF GAMES</p>
                 </div>
             </div>
 
-            <div id="header-controls" class="flex items-center gap-2">
-                <button id="btn-mode-toggle" title="Switch Mode" class="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700/80 text-xs font-bold text-slate-200 transition flex items-center gap-2 shadow-sm">
+            <div id="header-controls" class="flex items-center gap-1.5 sm:gap-2 flex-shrink-0">
+                <button id="btn-mode-toggle" title="Switch Mode" class="whitespace-nowrap px-2.5 sm:px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700/80 text-[11px] sm:text-xs font-bold text-slate-200 transition flex items-center gap-1.5 sm:gap-2 shadow-sm">
                     <i class="fa-solid fa-shuffle text-golf-400"></i>
                     <span id="mode-button-text">Practice Mode</span>
                 </button>
-                <button id="btn-help" title="How to Play" class="w-9 h-9 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700/80 text-slate-300 transition flex items-center justify-center">
+                <button id="btn-help" title="How to Play" class="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700/80 text-slate-300 transition flex items-center justify-center">
                     <i class="fa-solid fa-circle-question text-sm"></i>
                 </button>
-                <button id="btn-stats" title="Statistics" class="w-9 h-9 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700/80 text-slate-300 transition flex items-center justify-center">
+                <button id="btn-stats" title="Statistics" class="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700/80 text-slate-300 transition flex items-center justify-center">
                     <i class="fa-solid fa-chart-column text-sm"></i>
                 </button>
             </div>
@@ -133,7 +133,7 @@
         <div class="relative mb-6" id="search-container">
             <div class="relative">
                 <input type="text" id="player-input" autocomplete="off" placeholder="Search golfer (e.g. Scottie Scheffler, Rory McIlroy, Ludvig Åberg)..." 
-                    class="w-full bg-slate-900 border-2 border-slate-800 focus:border-golf-500 rounded-2xl px-5 py-4 pl-12 text-sm md:text-base text-white placeholder-slate-500 outline-none transition shadow-lg focus:shadow-golf-500/10">
+                    class="w-full bg-slate-900 border-2 border-slate-800 focus:border-golf-500 rounded-2xl px-5 py-4 pl-12 pr-28 text-ellipsis text-sm md:text-base text-white placeholder-slate-500 outline-none transition shadow-lg focus:shadow-golf-500/10">
                 <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-slate-500"></i>
                 <button id="btn-submit" class="absolute right-2.5 top-1/2 -translate-y-1/2 bg-golf-600 hover:bg-golf-500 active:scale-95 text-white px-5 py-2.5 rounded-xl text-sm font-bold transition shadow-md shadow-golf-600/20 disabled:opacity-50 disabled:cursor-not-allowed">
                     Guess
@@ -233,7 +233,7 @@
         <div class="relative mb-6" id="yt-search">
             <div class="relative">
                 <input type="text" id="yt-inp" autocomplete="off" placeholder="Search creator (e.g. Rick Shiels, Grant Horvat, Brad Dalke)..." aria-label="Creator name"
-                    class="w-full bg-slate-900 border-2 border-slate-800 focus:border-golf-500 rounded-2xl px-5 py-4 pl-12 text-sm md:text-base text-white placeholder-slate-500 outline-none transition shadow-lg focus:shadow-golf-500/10">
+                    class="w-full bg-slate-900 border-2 border-slate-800 focus:border-golf-500 rounded-2xl px-5 py-4 pl-12 pr-28 text-ellipsis text-sm md:text-base text-white placeholder-slate-500 outline-none transition shadow-lg focus:shadow-golf-500/10">
                 <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-slate-500"></i>
                 <button id="yt-go" class="absolute right-2.5 top-1/2 -translate-y-1/2 bg-golf-600 hover:bg-golf-500 active:scale-95 text-white px-5 py-2.5 rounded-xl text-sm font-bold transition shadow-md shadow-golf-600/20 disabled:opacity-50 disabled:cursor-not-allowed">
                     Guess
@@ -1078,7 +1078,7 @@
 
         function arrow(d, exact) { return exact ? '' : (d > 0 ? ' ▲' : ' ▼'); }
         function cells(g) {
-            let ac = ['', '—'];
+            let ac = ['', g.born ? String(ageOf(g.born)) : '—'];
             if (g.born && secret.born) {
                 const ga = ageOf(g.born), da = ageOf(secret.born) - ga, ea = da === 0;
                 ac = [ea ? 'g' : (Math.abs(da) <= 2 ? 'y' : ''), ga + (ea ? '' : (da > 0 ? ' ▲' : ' ▼'))];
