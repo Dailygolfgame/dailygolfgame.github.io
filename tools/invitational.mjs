@@ -51,7 +51,7 @@ ${data.episodes.map((d, i) => `<tr><td>${i === data.episodes.length - 1 ? 'Final
 </tbody></table></div>
 
 <h2>The four teams</h2>
-<p>Handicaps are estimates shared on Instagram, not official numbers; plus handicaps (+) are better than scratch. ✓ = also played in 2025. This page has no results, so it is safe to read before you watch.</p>
+<p>Handicaps are estimates by <a href="https://www.instagram.com/yt_golfstats/" rel="noopener">YT Golf Stats</a> (@yt_golfstats), not official numbers; plus handicaps (+) are better than scratch. ✓ = also played in 2025. This page has no results, so it is safe to read before you watch.</p>
 ${teamNames.map(t => {
     const team = data.teams[t];
     const roster = players.filter(p => p.team === t);
@@ -64,7 +64,7 @@ ${roster.map(p => `<tr><td>${link(p)}${p.captain ? ' <span class="mut">(C)</span
 <h2>Season 1 in short</h2>
 <p>The first Internet Invitational in 2025 had 48 players in two teams, captained by Bob Does Sports' Robby Berger and Fore Play's Riggs, and a $1 million prize. Brad Dalke, Francis Ellis and Cody "Beef" Franke won it. Dalke and Ellis are back as defending champions, now on different teams.</p>
 <p>Find the handicaps of more golf creators on our <a href="/youtubers/">YouTube golfer handicaps</a> page, or play the daily <a href="/#youtube">Guess the YouTube Golfer</a>.</p>
-<p class="meta">Teams and 2025 appearances from public roster pages; handicap estimates shared on Instagram. Dailygolf is an independent fan project, not affiliated with Barstool Sports, Bob Does Sports or the Internet Invitational.</p>`;
+<p class="meta">Teams and 2025 appearances from public roster pages; handicap estimates by <a href="https://ytgolfstats.com/internet-invitational/2026/" rel="noopener">YT Golf Stats</a>. Dailygolf is an independent fan project, not affiliated with Barstool Sports, Bob Does Sports or the Internet Invitational.</p>`;
 
   const css = `<style>
 #ii-game{padding:16px}
