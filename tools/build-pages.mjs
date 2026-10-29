@@ -141,6 +141,7 @@ function cleanDir(dir, keep) {
   }
 }
 const PLAY_CTA = `<p><a class="cta" href="/">Play today's Dailygolf &rarr;</a></p>`;
+const PRO_CTA = `<p><a class="cta" href="/#pro">Play Guess the Pro Golfer &rarr;</a></p>`;
 
 // ---------- Golfer pages ----------
 const golfersSorted = PLAYERS.slice().sort((a, b) => b.majors - a.majors || b.wins - a.wins || a.name.localeCompare(b.name));
@@ -170,7 +171,7 @@ ${sameCountry.length ? `<h2>Other golfers from ${esc(p.country)}</h2>
 <div class="chips">${similar.map(x => `<a href="/golfers/${x.slug}/">${esc(x.name)}</a>`).join('')}</div>
 <h2>Can you guess ${esc(p.name)}?</h2>
 <p>In Guess the Pro Golfer you get five tries to find the mystery golfer. Every guess compares country, tour, age, majors and PGA Tour wins with the answer. ${esc(p.name)} is one of the possible answers.</p>
-${PLAY_CTA}
+${PRO_CTA}
 <p class="meta">Numbers checked October 2026. Wins are official PGA Tour victories, majors included. <a href="/golfers/">All golfers in the game</a></p>`;
   write(`/golfers/${p.slug}/`, page({
     urlPath: `/golfers/${p.slug}/`,
