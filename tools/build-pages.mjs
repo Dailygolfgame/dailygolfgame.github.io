@@ -10,6 +10,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { execFileSync } from 'node:child_process';
+import { renderInvitational } from './invitational.mjs';
 
 const ROOT = process.cwd();
 const SITE = 'https://dailygolfgame.com';
@@ -247,6 +248,11 @@ ${creatorsSorted.map(c => `<tr><td><a href="/youtubers/${c.slug}/">${esc(c.name)
 }));
 cleanDir('youtubers', new Set(CREATORS.map(c => c.slug)));
 
+// ---------- Internet Invitational ----------
+const iiFile = 'data/internet-invitational-2026.json';
+const hasII = fs.existsSync(path.join(ROOT, iiFile));
+if (hasII) write('/internet-invitational/', renderInvitational({ data: JSON.parse(read(iiFile)), esc, slug, fmtHcp, creatorByName, page }));
+
 // ---------- Answer archive ----------
 // A day is published once it is over in every time zone (UTC-12), so answers never spoil a game in progress.
 // Published answers are frozen in data/answers.json, so later data changes never rewrite history.
@@ -305,6 +311,7 @@ const lastmod = u => changed.has(u) ? today : (gitDate(u === '/' ? 'index.html' 
 const urls = [
   ...STATIC, '/golfers/', ...PLAYERS.map(p => `/golfers/${p.slug}/`),
   '/youtubers/', ...CREATORS.map(c => `/youtubers/${c.slug}/`),
+  ...(hasII ? ['/internet-invitational/'] : []),
   '/answers/', ...days.map(d => `/answers/${d}/`)
 ].map(u => [u, lastmod(u)]);
 fs.writeFileSync(path.join(ROOT, 'sitemap.xml'), `<?xml version="1.0" encoding="UTF-8"?>

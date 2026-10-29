@@ -7,7 +7,7 @@ on:
     - cron: '20 12 * * *'   # 12:20 UTC: the previous day has just ended in UTC-12
   push:
     branches: [main]
-    paths: ['index.html', 'handicaps.json', 'tools/build-pages.mjs', 'about/index.html']
+    paths: ['index.html', 'handicaps.json', 'data/internet-invitational-2026.json', 'tools/**', 'about/index.html']
   workflow_dispatch:
 
 permissions:
