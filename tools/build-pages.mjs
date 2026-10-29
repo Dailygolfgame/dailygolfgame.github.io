@@ -97,7 +97,8 @@ const EXTRA_CSS = `<style>
 .answer{font-size:1.5rem;font-weight:800;color:#fff}
 </style>`;
 
-function page({ urlPath, title, description, body, jsonld, crumbs }) {
+const AD_SCRIPT = /\s*<script async src="https:\/\/pagead2\.googlesyndication\.com[^>]*><\/script>/;
+function page({ urlPath, title, description, body, jsonld, crumbs, noAds }) {
   const url = SITE + urlPath;
   const ld = jsonld ? `<script type="application/ld+json">${JSON.stringify(jsonld)}</script>\n` : '';
   const bc = crumbs ? `<div class="crumbs">${crumbs.map(([t, h]) => h ? `<a href="${h}">${esc(t)}</a>` : esc(t)).join(' › ')}</div>\n` : '';
@@ -110,7 +111,7 @@ function page({ urlPath, title, description, body, jsonld, crumbs }) {
 <meta name="description" content="${esc(description)}">
 <link rel="canonical" href="${url}">
 <meta name="robots" content="index, follow, max-image-preview:large">
-${headTail.replace(/<meta property="og:title" content="[^"]*">/, `<meta property="og:title" content="${esc(title)}">`)
+${(noAds ? headTail.replace(AD_SCRIPT, '') : headTail).replace(/<meta property="og:title" content="[^"]*">/, `<meta property="og:title" content="${esc(title)}">`)
   .replace(/<meta property="og:description" content="[^"]*">/, `<meta property="og:description" content="${esc(description)}">`)
   .replace(/<meta property="og:url" content="[^"]*">/, `<meta property="og:url" content="${url}">`).trim()}
 ${EXTRA_CSS}
@@ -289,6 +290,7 @@ ${PLAY_CTA}`;
 write('/answers/', page({
   urlPath: '/answers/',
   title: 'Dailygolf Answers: Every Past Mystery Golfer | Dailygolf',
+  noAds: days.length === 0,
   description: 'All past Dailygolf answers: the mystery pro golfer and YouTube golfer of every day. New answers appear once each day is over everywhere.',
   crumbs: [['Home', '/'], ['Answers']],
   body: `<h1>Past Dailygolf answers</h1>
