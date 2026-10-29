@@ -1,0 +1,515 @@
+{
+ "season": 2,
+ "year": 2026,
+ "note": "Teams and 2025 participation: YT Golf Stats and WITB Hub roster pages (Oct 2026). hcp: handicap estimates from an Instagram graphic (\"If the draft followed our handicaps\"), not official; plus handicaps are negative.",
+ "teams": {
+  "Team Dalke": {
+   "captain": "Brad Dalke",
+   "color": "Red"
+  },
+  "Team Bryan": {
+   "captain": "Wesley Bryan",
+   "color": "Green"
+  },
+  "Team Finch": {
+   "captain": "Peter Finch",
+   "color": "Blue"
+  },
+  "Team Ruffels": {
+   "captain": "Ryan Ruffels",
+   "color": "White"
+  }
+ },
+ "episodes": [
+  "2026-10-26",
+  "2026-10-29",
+  "2026-11-02",
+  "2026-11-05",
+  "2026-11-09",
+  "2026-11-12"
+ ],
+ "players": [
+  {
+   "name": "Brad Dalke",
+   "team": "Team Dalke",
+   "hcp": -6.0,
+   "played2025": true,
+   "captain": true,
+   "creator": "Brad Dalke"
+  },
+  {
+   "name": "Tooms",
+   "team": "Team Dalke",
+   "hcp": -4.5,
+   "played2025": false,
+   "captain": false,
+   "creator": "Luke Toomey (Tooms)"
+  },
+  {
+   "name": "Taco",
+   "team": "Team Dalke",
+   "hcp": -3.0,
+   "played2025": false,
+   "captain": false,
+   "creator": "Taco"
+  },
+  {
+   "name": "Garrett Clark",
+   "team": "Team Dalke",
+   "hcp": -3.0,
+   "played2025": true,
+   "captain": false,
+   "creator": "Garrett Clark"
+  },
+  {
+   "name": "Mason Nutt",
+   "team": "Team Dalke",
+   "hcp": -2.0,
+   "played2025": true,
+   "captain": false,
+   "creator": "Mason Nutt"
+  },
+  {
+   "name": "DOD King",
+   "team": "Team Dalke",
+   "hcp": 4.5,
+   "played2025": true,
+   "captain": false,
+   "creator": "The DoD King"
+  },
+  {
+   "name": "Andrew Santino",
+   "team": "Team Dalke",
+   "hcp": 9.0,
+   "played2025": true,
+   "captain": false
+  },
+  {
+   "name": "Johnny Manziel",
+   "team": "Team Dalke",
+   "hcp": 1.7,
+   "played2025": false,
+   "captain": false
+  },
+  {
+   "name": "Tyler Toney",
+   "team": "Team Dalke",
+   "hcp": 4.0,
+   "played2025": false,
+   "captain": false
+  },
+  {
+   "name": "Hailey Ostrom",
+   "team": "Team Dalke",
+   "hcp": -0.5,
+   "played2025": false,
+   "captain": false,
+   "creator": "Hailey Ostrom"
+  },
+  {
+   "name": "Keith Yandle",
+   "team": "Team Dalke",
+   "hcp": 6.0,
+   "played2025": true,
+   "captain": false
+  },
+  {
+   "name": "Sara Winter",
+   "team": "Team Dalke",
+   "hcp": 1.5,
+   "played2025": true,
+   "captain": false,
+   "creator": "Sara Winter"
+  },
+  {
+   "name": "Daltoosh",
+   "team": "Team Dalke",
+   "hcp": 14.0,
+   "played2025": true,
+   "captain": false
+  },
+  {
+   "name": "Josh Richards",
+   "team": "Team Dalke",
+   "hcp": 8.0,
+   "played2025": true,
+   "captain": false
+  },
+  {
+   "name": "Karol Priscilla",
+   "team": "Team Dalke",
+   "hcp": 12.0,
+   "played2025": false,
+   "captain": false
+  },
+  {
+   "name": "Biz",
+   "team": "Team Dalke",
+   "hcp": 10.0,
+   "played2025": true,
+   "captain": false
+  },
+  {
+   "name": "Wesley Bryan",
+   "team": "Team Bryan",
+   "hcp": -5.0,
+   "played2025": true,
+   "captain": true,
+   "creator": "Wesley Bryan"
+  },
+  {
+   "name": "George Bryan",
+   "team": "Team Bryan",
+   "hcp": -4.0,
+   "played2025": true,
+   "captain": false,
+   "creator": "George Bryan"
+  },
+  {
+   "name": "Sam Heung Min",
+   "team": "Team Bryan",
+   "hcp": -2.5,
+   "played2025": false,
+   "captain": false,
+   "creator": "Sam Heung Min"
+  },
+  {
+   "name": "Evan Thompson",
+   "team": "Team Bryan",
+   "hcp": -3.5,
+   "played2025": false,
+   "captain": false,
+   "creator": "Evan Thompson"
+  },
+  {
+   "name": "Cole Lantz",
+   "team": "Team Bryan",
+   "hcp": -2.5,
+   "played2025": true,
+   "captain": false,
+   "creator": "Cole Lantz"
+  },
+  {
+   "name": "Mac Boucher",
+   "team": "Team Bryan",
+   "hcp": -3.0,
+   "played2025": true,
+   "captain": false
+  },
+  {
+   "name": "Chaz Bowker",
+   "team": "Team Bryan",
+   "hcp": 3.2,
+   "played2025": true,
+   "captain": false,
+   "creator": "Chaz"
+  },
+  {
+   "name": "Seb Carmichael-Brown",
+   "team": "Team Bryan",
+   "hcp": 2.0,
+   "played2025": false,
+   "captain": false
+  },
+  {
+   "name": "Tisha Alyn",
+   "team": "Team Bryan",
+   "hcp": 3.0,
+   "played2025": false,
+   "captain": false
+  },
+  {
+   "name": "Claire Hogle",
+   "team": "Team Bryan",
+   "hcp": 8.0,
+   "played2025": true,
+   "captain": false
+  },
+  {
+   "name": "Sabrina Andolpho",
+   "team": "Team Bryan",
+   "hcp": 10.0,
+   "played2025": false,
+   "captain": false
+  },
+  {
+   "name": "Cheddy",
+   "team": "Team Bryan",
+   "hcp": 8.0,
+   "played2025": false,
+   "captain": false
+  },
+  {
+   "name": "Bobby Fairways",
+   "team": "Team Bryan",
+   "hcp": 12.9,
+   "played2025": true,
+   "captain": false,
+   "creator": "Bobby Fairways"
+  },
+  {
+   "name": "Kyle Forgeard",
+   "team": "Team Bryan",
+   "hcp": 15.0,
+   "played2025": false,
+   "captain": false
+  },
+  {
+   "name": "Callux",
+   "team": "Team Bryan",
+   "hcp": 13.0,
+   "played2025": false,
+   "captain": false,
+   "creator": "Callux"
+  },
+  {
+   "name": "PFT Commenter",
+   "team": "Team Bryan",
+   "hcp": 17.0,
+   "played2025": true,
+   "captain": false
+  },
+  {
+   "name": "Peter Finch",
+   "team": "Team Finch",
+   "hcp": -3.0,
+   "played2025": true,
+   "captain": true,
+   "creator": "Peter Finch"
+  },
+  {
+   "name": "Luke Kwon",
+   "team": "Team Finch",
+   "hcp": -3.0,
+   "played2025": true,
+   "captain": false,
+   "creator": "Luke Kwon"
+  },
+  {
+   "name": "Roger Steele",
+   "team": "Team Finch",
+   "hcp": -2.5,
+   "played2025": true,
+   "captain": false
+  },
+  {
+   "name": "Rick Shiels",
+   "team": "Team Finch",
+   "hcp": -1.5,
+   "played2025": true,
+   "captain": false,
+   "creator": "Rick Shiels"
+  },
+  {
+   "name": "Josh Kelley",
+   "team": "Team Finch",
+   "hcp": -1.5,
+   "played2025": true,
+   "captain": false,
+   "creator": "Josh Kelley"
+  },
+  {
+   "name": "Malosi Togisala",
+   "team": "Team Finch",
+   "hcp": -0.7,
+   "played2025": true,
+   "captain": false,
+   "creator": "Malosi Togisala"
+  },
+  {
+   "name": "Martin Borgmeier",
+   "team": "Team Finch",
+   "hcp": 2.0,
+   "played2025": false,
+   "captain": false,
+   "creator": "Martin Borgmeier"
+  },
+  {
+   "name": "Short Game King",
+   "team": "Team Finch",
+   "hcp": 1.0,
+   "played2025": false,
+   "captain": false,
+   "creator": "ShortGameKing"
+  },
+  {
+   "name": "Cassandra Marie",
+   "team": "Team Finch",
+   "hcp": 6.0,
+   "played2025": false,
+   "captain": false
+  },
+  {
+   "name": "Francis Ellis",
+   "team": "Team Finch",
+   "hcp": 7.5,
+   "played2025": true,
+   "captain": false,
+   "creator": "Francis Ellis"
+  },
+  {
+   "name": "Frankie Borrelli",
+   "team": "Team Finch",
+   "hcp": 6.0,
+   "played2025": true,
+   "captain": false,
+   "creator": "Frankie Borrelli"
+  },
+  {
+   "name": "Jason Williams",
+   "team": "Team Finch",
+   "hcp": 10.0,
+   "played2025": false,
+   "captain": false
+  },
+  {
+   "name": "Joey Cold Cuts",
+   "team": "Team Finch",
+   "hcp": 10.0,
+   "played2025": true,
+   "captain": false,
+   "creator": "Joey Cold Cuts"
+  },
+  {
+   "name": "The Jet",
+   "team": "Team Finch",
+   "hcp": 12.0,
+   "played2025": true,
+   "captain": false
+  },
+  {
+   "name": "Trent Ryan",
+   "team": "Team Finch",
+   "hcp": 14.0,
+   "played2025": true,
+   "captain": false,
+   "creator": "Trent Ryan"
+  },
+  {
+   "name": "Jersey Jerry",
+   "team": "Team Finch",
+   "hcp": 18.0,
+   "played2025": false,
+   "captain": false
+  },
+  {
+   "name": "Ryan Ruffels",
+   "team": "Team Ruffels",
+   "hcp": -6.0,
+   "played2025": false,
+   "captain": true,
+   "creator": "Ryan Ruffels"
+  },
+  {
+   "name": "Micah Morris",
+   "team": "Team Ruffels",
+   "hcp": -4.0,
+   "played2025": true,
+   "captain": false,
+   "creator": "Micah Morris"
+  },
+  {
+   "name": "Grant Horvat",
+   "team": "Team Ruffels",
+   "hcp": -1.9,
+   "played2025": true,
+   "captain": false,
+   "creator": "Grant Horvat"
+  },
+  {
+   "name": "Big John",
+   "team": "Team Ruffels",
+   "hcp": 0.0,
+   "played2025": false,
+   "captain": false
+  },
+  {
+   "name": "Marissa Wenzler",
+   "team": "Team Ruffels",
+   "hcp": -2.0,
+   "played2025": false,
+   "captain": false
+  },
+  {
+   "name": "Fat Perez",
+   "team": "Team Ruffels",
+   "hcp": 1.0,
+   "played2025": true,
+   "captain": false,
+   "creator": "Fat Perez"
+  },
+  {
+   "name": "Paige Spiranac",
+   "team": "Team Ruffels",
+   "hcp": -2.4,
+   "played2025": true,
+   "captain": false,
+   "creator": "Paige Spiranac"
+  },
+  {
+   "name": "Ryan Whitney",
+   "team": "Team Ruffels",
+   "hcp": 8.0,
+   "played2025": true,
+   "captain": false
+  },
+  {
+   "name": "Jake Adams",
+   "team": "Team Ruffels",
+   "hcp": 5.0,
+   "played2025": true,
+   "captain": false
+  },
+  {
+   "name": "Bobby Ray",
+   "team": "Team Ruffels",
+   "hcp": 5.0,
+   "played2025": false,
+   "captain": false
+  },
+  {
+   "name": "Bubbie Broders",
+   "team": "Team Ruffels",
+   "hcp": 4.0,
+   "played2025": true,
+   "captain": false,
+   "creator": "Bubbie Broders"
+  },
+  {
+   "name": "Riggs",
+   "team": "Team Ruffels",
+   "hcp": 5.0,
+   "played2025": true,
+   "captain": false,
+   "creator": "Riggs"
+  },
+  {
+   "name": "Justin Gaethje",
+   "team": "Team Ruffels",
+   "hcp": 7.1,
+   "played2025": false,
+   "captain": false
+  },
+  {
+   "name": "Salim",
+   "team": "Team Ruffels",
+   "hcp": 15.0,
+   "played2025": false,
+   "captain": false
+  },
+  {
+   "name": "Jon Gruden",
+   "team": "Team Ruffels",
+   "hcp": 13.7,
+   "played2025": true,
+   "captain": false
+  },
+  {
+   "name": "The Duke",
+   "team": "Team Ruffels",
+   "hcp": 28.0,
+   "played2025": true,
+   "captain": false
+  }
+ ]
+}
