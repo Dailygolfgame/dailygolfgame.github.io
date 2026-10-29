@@ -86,6 +86,11 @@ ${roster.map(p => `<tr><td>${link(p)}${p.captain ? ' <span class="mut">(C)</span
 #ii-end .nav{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:10px}#ii-end .cta{margin:0;border:0;cursor:pointer;font:inherit;font-weight:700}
 #ii-end .alt{background:#1e293b;box-shadow:none}
 table.roster{min-width:0}
+.ii-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:14px 0 10px}
+.ii-stats div{background:#0b1325;border:1px solid var(--line);border-radius:12px;padding:10px 4px;font-size:.68rem;text-transform:uppercase;color:var(--mut);font-weight:700}
+.ii-stats b{display:block;font-size:1.4rem;color:#fff}
+.ii-dist div{display:flex;align-items:center;gap:8px;margin:5px 0;font-size:.78rem}.ii-dist span{width:92px;text-align:left;color:var(--mut)}
+.ii-dist i{font-style:normal;background:#334155;color:#fff;font-weight:700;border-radius:4px;padding:1px 6px;text-align:right}.ii-dist i.me{background:#16a34a}
 #toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:#1e293b;border:1px solid #334155;color:#fff;font-weight:600;font-size:.9rem;padding:10px 16px;border-radius:12px;opacity:0;transition:opacity .2s;pointer-events:none;z-index:60}#toast.show{opacity:1}
 </style>`;
 
@@ -107,6 +112,7 @@ function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&
 function fh(h) { return h === null ? '—' : (h < 0 ? '+' + Math.abs(h).toFixed(1) : h.toFixed(1)); }
 var el = function (id) { return document.getElementById(id); };
 var day, secret, guesses, over, practice = false, stats = load('dg_ii_stats', { played: 0, wins: 0, streak: 0, max: 0, last: 0 });
+if (!stats.dist || stats.dist.length !== 5) stats.dist = [0, 0, 0, 0, 0];
 if (stats.last && stats.last < dayNumber() - 1) stats.streak = 0;
 
 function cells(g) {
@@ -144,15 +150,22 @@ function finish(restored) {
   over = true; el('ii-inp').disabled = el('ii-go').disabled = true;
   var won = guesses.indexOf(secret) >= 0;
   if (!practice && !restored) {
-    stats.played++; if (won) { stats.wins++; stats.streak = (!stats.last || stats.last === day - 1) ? stats.streak + 1 : 1; stats.max = Math.max(stats.max, stats.streak); } else stats.streak = 0;
+    stats.played++; if (won) { stats.wins++; stats.dist[guesses.length - 1]++; stats.streak = (!stats.last || stats.last === day - 1) ? stats.streak + 1 : 1; stats.max = Math.max(stats.max, stats.streak); } else stats.streak = 0;
     stats.last = day; save('dg_ii_stats', stats); persist();
   }
   el('ii-end').innerHTML = '<div class="big">' + (won ? 'Got it in ' + guesses.length + '!' : 'Out of bounds!') + '</div>' +
     '<p>The mystery player was <b>' + esc(secret.n) + '</b> (' + esc(secret.t) + ', handicap ' + fh(secret.h) + ').</p>' +
-    (practice ? '' : '<p class="mut">Played ' + stats.played + ' · Won ' + stats.wins + ' · Streak ' + stats.streak + ' · Best ' + stats.max + '</p>') +
+    (practice ? '' : statsHtml(won ? guesses.length - 1 : -1)) +
     '<div class="nav"><button class="cta" id="ii-share" type="button">Share result</button><button class="cta alt" id="ii-again" type="button">' + (practice ? 'Another player' : 'Practice round') + '</button></div>';
   el('ii-end').hidden = false;
   el('ii-share').onclick = share; el('ii-again').onclick = function () { start(true); };
+}
+function statsHtml(mine) {
+  var mx = Math.max.apply(null, stats.dist.concat(1)), names = ['Hole in One', 'Albatross', 'Eagle', 'Birdie', 'Par'];
+  var tiles = [[stats.played, 'Played'], [(stats.played ? Math.round(stats.wins / stats.played * 100) : 0) + '%', 'Win %'], [stats.streak, 'Streak'], [stats.max, 'Max']];
+  return '<div class="ii-stats">' + tiles.map(function (t) { return '<div><b>' + t[0] + '</b>' + t[1] + '</div>'; }).join('') + '</div>' +
+    '<p class="mut small" style="text-align:left;margin-bottom:6px">GUESS DISTRIBUTION</p><div class="ii-dist">' +
+    stats.dist.map(function (n, i) { return '<div><span>' + names[i] + '</span><i style="width:' + Math.max(8, n / mx * 100) + '%"' + (i === mine ? ' class="me"' : '') + '>' + n + '</i></div>'; }).join('') + '</div>';
 }
 function share() {
   var won = guesses.indexOf(secret) >= 0;
