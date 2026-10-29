@@ -375,6 +375,8 @@
                     <p class="text-[10px] text-slate-400 uppercase font-semibold">Max</p>
                 </div>
             </div>
+            <p class="text-xs text-slate-400 uppercase font-semibold mb-2">Guess distribution</p>
+            <div id="stat-dist" class="space-y-1.5 mb-5"></div>
 
             <button class="close-modal w-full bg-slate-800 hover:bg-slate-700 text-white py-2.5 rounded-xl font-bold text-sm transition">Close</button>
         </div>
@@ -642,6 +644,7 @@
         // continues (or shows) today's game instead of starting a fresh one.
         const STATE_KEY = 'dailygolf_day';
         let stats = loadJSON('dailygolf_stats', { played: 0, wins: 0, streak: 0, maxStreak: 0 });
+        if (!Array.isArray(stats.dist) || stats.dist.length !== 5) stats.dist = [0, 0, 0, 0, 0];
         decayStreak(stats, dayNum);
 
         // DOM ELEMENTS
@@ -892,6 +895,7 @@
             // Update local stats (only once per daily game – not when a finished game is restored)
             if (!isPracticeMode && !restored) {
                 recordResult(stats, dayNum, won, 'maxStreak');
+                if (won) stats.dist[guesses.length - 1]++;
                 saveJSON('dailygolf_stats', stats);
                 saveDailyState();
                 updateStatsModal();
@@ -923,6 +927,10 @@
             document.getElementById('stat-winrate').textContent = `${winRate}%`;
             document.getElementById('stat-streak').textContent = stats.streak;
             document.getElementById('stat-maxstreak').textContent = stats.maxStreak;
+            const names = ['Hole in One', 'Albatross', 'Eagle', 'Birdie', 'Par'];
+            const mx = Math.max(1, ...stats.dist);
+            const mine = isGameOver && !isPracticeMode && guesses.some(g => g.name === secretPlayer.name) ? guesses.length - 1 : -1;
+            document.getElementById('stat-dist').innerHTML = stats.dist.map((n, i) => `<div class="flex items-center gap-2 text-xs"><span class="w-24 text-slate-400">${names[i]}</span><div class="flex-1 bg-slate-950/60 rounded"><div class="${i === mine ? 'bg-golf-500' : 'bg-slate-700'} text-white font-bold rounded px-2 py-0.5 text-right" style="width:${Math.max(8, n / mx * 100)}%">${n}</div></div></div>`).join('');
         }
 
         function shareScore() {
