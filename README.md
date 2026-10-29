@@ -53,3 +53,22 @@ anything time-sensitive needs a date in the question.
 `handicaps.json` is the source of truth (the list embedded in `index.html` is only a fallback; keep
 both in sync). Only add a birth date (`born`) with a reliable source, e.g. Wikipedia, an official tour
 profile or Famous Birthdays. A wrong age makes the game unfair, so leave it empty when unsure.
+
+## Generated pages (don't edit by hand)
+
+`node tools/build-pages.mjs` builds these from the game data, and `sitemap.xml` with them:
+
+| Path | What it is |
+|---|---|
+| `golfers/` | One page per pro golfer in `PLAYERS` (index.html) |
+| `youtubers/` | One page per creator in `handicaps.json` |
+| `answers/` | Past daily answers. A day is added once it is over in every time zone (UTC-12) |
+| `data/answers.json` | Published answers, frozen so later data changes never rewrite history |
+
+The answer logic in the script mirrors `dailyPick()` in index.html; change both together.
+`.github/workflows/daily-pages.yml` runs the script every day at 12:20 UTC and on pushes that change
+the game data, then commits and publishes the result.
+
+## Analytics
+
+GoatCounter (cookie-free) on every page: https://dailygolf.goatcounter.com
