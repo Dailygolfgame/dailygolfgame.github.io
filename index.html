@@ -456,8 +456,10 @@
 
     <!-- CRAWLABLE CONTENT (SEO) -->
     <section class="game-only max-w-3xl mx-auto w-full px-4 py-8 text-sm text-slate-400 leading-relaxed">
-        <h2 class="text-lg font-bold text-slate-200 mb-2">How to play the Daily Golf Game</h2>
-        <p class="mb-3">Dailygolf is a free daily golf guessing game, like Wordle for golf fans. Guess the Pro Golfer and Guess the YouTube Golfer are two of the daily games. Every day there is one mystery professional golfer. You have five guesses. After each guess you see how close you are: country, continent, tour, age, major championships and PGA Tour wins turn green for an exact match and yellow when you are close. Arrows show whether the mystery golfer's age, majors or wins are higher or lower.</p>
+        <h2 class="text-lg font-bold text-slate-200 mb-2">How to play</h2>
+        <p class="mb-3"><b class="text-slate-300">YouTube Golfer:</b> find the mystery golf YouTuber in five guesses. After each guess you see how close you are on country, handicap, subscribers, age and channel. Green is an exact match, yellow is close, and arrows show whether the handicap, subscribers or age are higher or lower.</p>
+        <p class="mb-3"><b class="text-slate-300">Pro Golfer:</b> find the mystery tour pro in five guesses using country, continent, tour, age, major championships and PGA Tour wins. Green is an exact match, yellow is close, and arrows show whether the number is higher or lower.</p>
+        <p class="mb-3">A new mystery player appears every day at midnight. Want more? Switch to Practice Mode at the top for random players.</p>
         <h2 class="text-lg font-bold text-slate-200 mt-6 mb-2">Frequently asked questions</h2>
         <h3 class="font-semibold text-slate-300 mt-3">When does a new golfer appear?</h3>
         <p>A new mystery golfer is available every day. Come back tomorrow to keep your streak going.</p>
@@ -1300,7 +1302,7 @@
             const h = location.hash, g = h === '#pro' ? 'pro' : h === '#youtube' ? 'yt' : null;
             document.documentElement.classList.toggle('in-game', !!g);
             if (g) showTab(g); else hubStatus();
-            el('howto-link').href = '/how-to-play/' + (g ? '#guessing' : '');
+            el('howto-link').href = '/how-to-play/' + (g ? (g === 'pro' ? '#pro' : '#youtube') : '');
         }
         window.addEventListener('hashchange', () => { route(); window.scrollTo(0, 0); });
         route();
