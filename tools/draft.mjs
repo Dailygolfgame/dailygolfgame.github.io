@@ -410,6 +410,7 @@ el('dr-auto').onclick = function () { auto = true; step(); };
 </script>`;
 
   return page({
+    howto: 'draft',
     urlPath: '/draft/',
     title: 'Internet Invitational Draft Simulator 2026: Draft Your Team | Dailygolf',
     description: 'Be a captain in the 2026 Internet Invitational draft. Pick 15 players in the real snake order against AI captains, then pick your semifinal opponent and trade pairings with the other captain in scramble and alt shot.',

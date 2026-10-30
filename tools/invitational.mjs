@@ -218,6 +218,7 @@ start(false);
 </script>`;
 
   return page({
+    howto: 'invitational',
     urlPath: '/internet-invitational/',
     title: 'Internet Invitational 2026: Handicaps, Teams & Daily Guessing Game',
     description: `Guess the mystery Internet Invitational player every day, with the handicap list for all ${players.length} players, the four teams and the episode schedule.`,
@@ -264,6 +265,7 @@ ${c ? `<p>${esc(p.name)} is also in our <a href="/youtubers/${c.slug}/">golf You
 <p><a class="cta" href="/internet-invitational/">Play Guess the Internet Invitational Player &rarr;</a></p>
 <p class="meta">Handicap estimate by <a href="https://www.instagram.com/yt_golfstats/" rel="noopener">YT Golf Stats</a>, not an official number. Teams from public roster pages. <a href="/internet-invitational/#handicap-list">Full Internet Invitational handicap list</a></p>`;
     out.push([s, page({
+      howto: 'invitational',
       urlPath: `/internet-invitational/${s}/`,
       title: `${p.name} Handicap: Internet Invitational 2026 | Dailygolf`,
       description: `${p.name}'s handicap is ${fmtHcp(p.hcp)} (estimate) in the 2026 Internet Invitational, playing for ${p.team}. Rank ${rank} of ${n} in the field, teammates and similar handicaps.`,
