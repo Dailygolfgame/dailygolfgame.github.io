@@ -878,7 +878,7 @@
             const c = compare(player);
 
             // 1. Name
-            row.appendChild(createCell(player.name, 'bg-slate-900 text-white border-slate-800'));
+            row.appendChild(createCell(player.name, player.name === secretPlayer.name ? CELL_BG.g : 'bg-slate-900 text-white border-slate-800'));
 
             // 2. Country & Continent
             const countryCell = createCell(player.country, CELL_BG[c.country] + ' namecell');
@@ -1125,7 +1125,7 @@
                 sc = [es ? 'g' : (ratio <= 1.5 ? 'y' : ''), fmtS(g.subs) + arrow(ds, es)];
             }
             return [
-                ['n', g.name],
+                [g === secret ? 'g' : 'n', g.name],
                 [same ? 'g' : (overlap ? 'y' : ''), '<span>' + g.countries.map(c => flagImg(c)).join('') + '</span>' + g.countries.join(' / '), 'namecell'],
                 [eh ? 'g' : (Math.abs(dh) <= 1.5 ? 'y' : ''), fmtH(g.hcp) + arrow(dh, eh)],
                 sc,

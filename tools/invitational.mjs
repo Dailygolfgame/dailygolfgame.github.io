@@ -137,7 +137,7 @@ function cells(g) {
   var team = g.t === secret.t ? 'g' : '';
   var hc = '', ht = fh(g.h);
   if (g.h !== null) { var d = secret.h - g.h, ex = Math.abs(d) < 0.05; hc = ex ? 'g' : (Math.abs(d) <= 1.5 ? 'y' : ''); if (!ex) ht += d > 0 ? ' ▲' : ' ▼'; }
-  return [['', g.n + (g.c ? ' (C)' : '')], [team, g.t.replace('Team ', '')], [hc, ht], [g.y === secret.y ? 'g' : '', g.y ? 'Yes' : 'No']];
+  return [[g === secret ? 'g' : '', g.n + (g.c ? ' (C)' : '')], [team, g.t.replace('Team ', '')], [hc, ht], [g.y === secret.y ? 'g' : '', g.y ? 'Yes' : 'No']];
 }
 function render() {
   el('ii-rows').innerHTML = guesses.slice().reverse().map(function (g) {
