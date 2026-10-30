@@ -23,7 +23,6 @@ export function renderInvitational({ data, esc, slug, fmtHcp, creatorByName, pag
 
   const body = `<h1>Guess the Internet Invitational Player</h1>
 <p class="lead">A new mystery player from the 2026 Internet Invitational every day. Five guesses, with team, handicap and 2025 appearance as clues. Stuck? The full handicap list is right below the game.</p>
-<a class="ii-promo" href="/draft/"><span>🆕 Draft Simulator</span><small>Captain your own team in the 2026 draft vs AI captains, then play scramble and alt shot for the title</small><b>Draft &rarr;</b></a>
 <p class="ii-jump"><a href="#handicap-list">Handicap list ↓</a><a href="#teams">Teams ↓</a><a href="#schedule">Schedule ↓</a></p>
 <div class="card" id="ii-game">
   <div class="ii-top"><span class="tag" id="ii-mode">Daily</span><span class="mut">Guesses: <b id="ii-count">0</b>/5</span></div>
@@ -103,9 +102,6 @@ ${roster.map(p => `<tr><td>${link(p)}${p.captain ? ' <span class="mut">(C)</span
 .ii-next b{grid-column:2;grid-row:1/3;background:#16a34a;color:#fff;border-radius:10px;padding:8px 14px;white-space:nowrap}.ii-next:hover b{background:#22c55e}
 h2.ii-gameh{font-size:1.1rem;margin:22px 0 4px}
 .ii-jump{display:flex;flex-wrap:wrap;gap:8px;margin:-8px 0 14px}.ii-jump a{background:var(--card);border:1px solid var(--line);border-radius:999px;padding:4px 12px;text-decoration:none;font-size:.9rem;color:var(--txt)}
-.ii-promo{display:grid;grid-template-columns:1fr auto;align-items:center;gap:2px 12px;margin:0 0 14px;padding:12px 14px;border-radius:14px;border:1px solid #f59e0b;background:rgba(245,158,11,.1);text-decoration:none}
-.ii-promo span{color:#fde68a;font-weight:800}.ii-promo small{grid-column:1;color:var(--mut);font-size:.8rem;line-height:1.35}
-.ii-promo b{grid-column:2;grid-row:1/3;background:#d97706;color:#fff;border-radius:10px;padding:8px 14px;white-space:nowrap}
 .ii-more{text-align:center;font-size:.9rem;color:var(--mut);margin:-6px 0 8px}
 table.roster{min-width:0}
 .ii-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:14px 0 10px}
