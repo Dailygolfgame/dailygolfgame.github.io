@@ -464,7 +464,7 @@
         <div class="max-w-3xl mx-auto text-center sm:text-left">
             <nav class="flex flex-wrap justify-center sm:justify-start gap-x-5 gap-y-1.5 text-xs font-semibold text-slate-300 mb-3" aria-label="Site pages">
                 <a class="hover:text-golf-400" href="/">Home</a>
-                <a class="hover:text-golf-400" href="/how-to-play/">How to play</a>
+                <a id="howto-link" class="hover:text-golf-400" href="/how-to-play/">How to play</a>
                 <a class="hover:text-golf-400" href="/articles/">Articles</a>
                 <a class="hover:text-golf-400" href="/golfers/">Golfers</a>
                 <a class="hover:text-golf-400" href="/youtubers/">YouTubers</a>
@@ -1287,6 +1287,7 @@
             const h = location.hash, g = h === '#pro' ? 'pro' : h === '#youtube' ? 'yt' : null;
             document.documentElement.classList.toggle('in-game', !!g);
             if (g) showTab(g); else hubStatus();
+            el('howto-link').href = '/how-to-play/' + (g ? '#guessing' : '');
         }
         window.addEventListener('hashchange', () => { route(); window.scrollTo(0, 0); });
         route();

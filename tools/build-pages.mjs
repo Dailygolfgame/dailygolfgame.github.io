@@ -99,7 +99,7 @@ const EXTRA_CSS = `<style>
 </style>`;
 
 const AD_SCRIPT = /\s*<script async src="https:\/\/pagead2\.googlesyndication\.com[^>]*><\/script>/;
-function page({ urlPath, title, description, body, jsonld, crumbs, noAds }) {
+function page({ urlPath, title, description, body, jsonld, crumbs, noAds, howto }) {
   const url = SITE + urlPath;
   const ld = jsonld ? `<script type="application/ld+json">${JSON.stringify(jsonld)}</script>\n` : '';
   const bc = crumbs ? `<div class="crumbs">${crumbs.map(([t, h]) => h ? `<a href="${h}">${esc(t)}</a>` : esc(t)).join(' › ')}</div>\n` : '';
@@ -118,11 +118,11 @@ ${(noAds ? headTail.replace(AD_SCRIPT, '') : headTail).replace(/<meta property="
 ${EXTRA_CSS}
 ${ld}</head>
 <body>
-${header}
+${howto ? header.replace('href="/how-to-play/"', `href="/how-to-play/#${howto}"`) : header}
 <main><div class="wrap">
 ${bc}${body}
 </div></main>
-${footer}
+${howto ? footer.replace('href="/how-to-play/"', `href="/how-to-play/#${howto}"`) : footer}
 </body>
 </html>
 `;
