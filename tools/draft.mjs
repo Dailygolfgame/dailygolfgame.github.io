@@ -35,7 +35,7 @@ export function renderDraft({ data, esc, page }) {
 </div>
 <p class="ii-more">Also try: <a href="/internet-invitational/">Guess the Internet Invitational Player</a> · <a href="/internet-invitational/#handicap-list">Handicap list</a> · <a href="/">YouTube Golfer</a></p>
 <h2>How the simulator works</h2>
-<p>The four captains are fixed, as in the real event: Brad Dalke, Wesley Bryan, Peter Finch and Ryan Ruffels. AI captains mostly take the best available handicap but sometimes reach for someone else, so no two drafts are the same. When the draft is done, one team is drawn at random and picks its semifinal opponent. Every match is eight two-player pairs against eight: one round of scramble and one of alternate shot, a point per pairing, 16 points in total, with a sudden-death playoff at 8–8. In each round the captains take turns: one team sends out a pair, the other answers with a pair of its own, until all 16 players are out. The team that leads the scramble answers in the alt shot. The winners meet in the final with the same format. Better pairs win more often, but upsets happen, just like on the course.</p>
+<p>The four captains are fixed, as in the real event: Brad Dalke, Wesley Bryan, Peter Finch and Ryan Ruffels. AI captains mostly take the best available handicap but sometimes reach for someone else, so no two drafts are the same. When the draft is done, one team is drawn at random and picks its semifinal opponent. Every match is eight two-player pairs against eight: one round of scramble and one of alternate shot, a point per pairing, 16 points in total, with a sudden-death playoff at 8–8. In each round the captains take turns: one team sends out a pair and the other answers with a pair of its own, then they switch roles, until all 16 players are out. The winners meet in the final with the same format. Better pairs win more often, but upsets happen, just like on the course.</p>
 <p class="meta">Fan-made simulation, not affiliated with Barstool Sports, Bob Does Sports or the Internet Invitational. Handicap estimates by <a href="https://www.instagram.com/yt_golfstats/" rel="noopener">YT Golf Stats</a>.</p>`;
 
   const css = `<style>
@@ -157,8 +157,8 @@ function tab(name) {
 
 // ---- Tournament: draw, semifinals and final ----
 // A match has two rounds, scramble then alt shot. In each round the captains take turns:
-// the leading team sends out a pair, the other team answers with a pair, 8 times over.
-// The team that leads the scramble answers in the alt shot. One point per pairing,
+// one team sends out a pair and the other answers, and they switch roles every pairing.
+// The team that sends first in the scramble answers first in the alt shot. One point per pairing,
 // 16 in total; 8-8 goes to a sudden-death playoff.
 var FMT = [['scr', 'Scramble'], ['alt', 'Alt shot']], K = 0.4;
 var MARGINS = ['1 up', '2 & 1', '3 & 2', '4 & 3', '5 & 4'];
@@ -199,7 +199,11 @@ function startRound(m) {
   m.rem = [rosters[m.t[0]].slice(), rosters[m.t[1]].slice()]; m.slots = []; m.k = 0; m.auto = false;
   m.lead = m.fi === 0 ? fl : (fl === m.t[0] ? m.t[1] : m.t[0]);
 }
-function turnTeam(m) { return m.k % 2 === 0 ? m.lead : (m.lead === m.t[0] ? m.t[1] : m.t[0]); }
+// Who sends out first switches every pairing: A sends, B answers; then B sends, A answers; ...
+function turnTeam(m) {
+  var other = m.lead === m.t[0] ? m.t[1] : m.t[0], sender = Math.floor(m.k / 2) % 2 === 0 ? m.lead : other;
+  return m.k % 2 === 0 ? sender : (sender === m.lead ? other : m.lead);
+}
 function side(m, team) { return m.t.indexOf(team); }
 function facing(m) { var s = side(m, turnTeam(m)); return m.k % 2 ? m.slots[m.slots.length - 1][1 - s] : null; }
 function place(m, pr) {
@@ -255,7 +259,7 @@ function setSemis(opp, ai) {
   semiRes = [newMatch(drawn, opp), newMatch(rest[0], rest[1])];
   show('<h2>🎲 The draw</h2><p class="champ">' + teamTag(drawn) + (ai ? ' chose ' : ' takes on ') + teamTag(opp) + '.</p>' +
     '<div class="dr-odds"><b>Semifinal 1:</b> ' + teamTag(drawn) + ' vs ' + teamTag(opp) + '<br><b>Semifinal 2:</b> ' + teamTag(rest[0]) + ' vs ' + teamTag(rest[1]) + '</div>' +
-    '<p class="mut small">Every match has a scramble round and an alt-shot round. Captains take turns: one team sends out a pair, the other answers with a pair, until all 16 players are out. A point per pairing, 16 in total, sudden-death playoff at 8–8.</p>' +
+    '<p class="mut small">Every match has a scramble round and an alt-shot round. Captains take turns: one team sends out a pair and the other answers, then they switch, until all 16 players are out. A point per pairing, 16 in total, sudden-death playoff at 8–8.</p>' +
     '<div class="dr-nav"><button class="cta" type="button" id="dr-play">Start the semifinals</button></div>');
   el('dr-play').onclick = proceed;
 }
