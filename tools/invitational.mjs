@@ -21,10 +21,9 @@ export function renderInvitational({ data, esc, slug, fmtHcp, creatorByName, pag
     players: players.map(p => ({ n: p.name, t: p.team, h: p.hcp, y: p.played2025, c: p.captain || undefined }))
   };
 
-  const body = `<h1>Internet Invitational 2026 Handicaps</h1>
-<p class="lead">Handicaps for all ${players.length} players, the four teams and the episode schedule, plus a daily game: guess the mystery player.</p>
-<p class="ii-jump"><a href="#handicap-list">Full handicap list ↓</a><a href="#teams">Teams ↓</a><a href="#schedule">Schedule ↓</a></p>
-<h2 class="ii-gameh">Daily game: guess the Internet Invitational player</h2>
+  const body = `<h1>Guess the Internet Invitational Player</h1>
+<p class="lead">A new mystery player from the 2026 Internet Invitational every day. Five guesses, with team, handicap and 2025 appearance as clues. Stuck? The full handicap list is right below the game.</p>
+<p class="ii-jump"><a href="#handicap-list">Handicap list ↓</a><a href="#teams">Teams ↓</a><a href="#schedule">Schedule ↓</a></p>
 <div class="card" id="ii-game">
   <div class="ii-top"><span class="tag" id="ii-mode">Daily</span><span class="mut">Guesses: <b id="ii-count">0</b>/5</span></div>
   <div class="ii-search" id="ii-search">
@@ -102,7 +101,7 @@ ${roster.map(p => `<tr><td>${link(p)}${p.captain ? ' <span class="mut">(C)</span
 .ii-next span{color:#fff;font-weight:800}.ii-next small{grid-column:1;color:var(--mut);font-size:.8rem;line-height:1.35}
 .ii-next b{grid-column:2;grid-row:1/3;background:#16a34a;color:#fff;border-radius:10px;padding:8px 14px;white-space:nowrap}.ii-next:hover b{background:#22c55e}
 h2.ii-gameh{font-size:1.1rem;margin:22px 0 4px}
-.ii-jump{display:flex;flex-wrap:wrap;gap:8px;margin:-8px 0 0}.ii-jump a{background:var(--card);border:1px solid var(--line);border-radius:999px;padding:4px 12px;text-decoration:none;font-size:.9rem;color:var(--txt)}
+.ii-jump{display:flex;flex-wrap:wrap;gap:8px;margin:-8px 0 14px}.ii-jump a{background:var(--card);border:1px solid var(--line);border-radius:999px;padding:4px 12px;text-decoration:none;font-size:.9rem;color:var(--txt)}
 .ii-more{text-align:center;font-size:.9rem;color:var(--mut);margin:-6px 0 8px}
 table.roster{min-width:0}
 .ii-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:14px 0 10px}
@@ -220,8 +219,8 @@ start(false);
 
   return page({
     urlPath: '/internet-invitational/',
-    title: `Internet Invitational 2026 Handicaps: All ${players.length} Players, Teams & Schedule`,
-    description: `Handicap list for all ${players.length} Internet Invitational 2026 players, sorted best to worst and by team, plus the episode schedule and a daily guess-the-player game.`,
+    title: 'Internet Invitational 2026: Handicaps, Teams & Daily Guessing Game',
+    description: `Guess the mystery Internet Invitational player every day, with the handicap list for all ${players.length} players, the four teams and the episode schedule.`,
     crumbs: [['Home', '/'], ['Internet Invitational']],
     body: css + '\n' + body + '\n' + script,
     jsonld: { '@context': 'https://schema.org', '@type': 'SportsEvent', name: 'Internet Invitational 2026', sport: 'Golf', startDate: data.episodes[0], endDate: data.episodes[data.episodes.length - 1],
