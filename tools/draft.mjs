@@ -1,4 +1,4 @@
-// Renders /internet-invitational/draft/: an Internet Invitational draft simulator.
+// Renders /draft/: an Internet Invitational draft simulator.
 // Captain 1-4 teams; AI captains draft the rest in the real snake order. Then a draw,
 // semifinals and a final, each 8 pairs a side in scramble + alt shot.
 // Data: data/internet-invitational-2026.json. Called from build-pages.mjs.
@@ -172,7 +172,8 @@ function pairVal(pr, f) { var a = Math.min(pr[0].h, pr[1].h), b = Math.max(pr[0]
 function byH(a, b) { return a.h - b.h; }
 function balanced(rem) { var s = rem.slice().sort(byH), P = []; for (var j = 0; j < s.length / 2; j++) P.push([s[j], s[s.length - 1 - j]]); return P; }
 function short(n) { var w = n.split(' '); return w.length > 1 ? w[w.length - 1] : n; }
-function pairName(pr) { return esc(short(pr[0].n)) + ' &amp; ' + esc(short(pr[1].n)); }
+function pairName(pr) { return esc(short(pr[0].n)) + ' <small>' + fh(pr[0].h) + '</small> &amp; ' + esc(short(pr[1].n)) + ' <small>' + fh(pr[1].h) + '</small>'; }
+function pairFull(pr) { return esc(pr[0].n) + ' (' + fh(pr[0].h) + ') &amp; ' + esc(pr[1].n) + ' (' + fh(pr[1].h) + ')'; }
 function pts(x) { var f = Math.floor(x), h = x % 1 ? '½' : ''; return (f || !h ? f : '') + h; }
 function logi(d) { return 1 / (1 + Math.exp(-K * d)); }
 function playGame(A, B, f) {
@@ -181,15 +182,24 @@ function playGame(A, B, f) {
   else { var aw = Math.random() < pA, fav = aw ? pA : 1 - pA; g.w = aw ? 0 : 1; g.m = MARGINS[Math.min(4, Math.floor(Math.random() * (1 + fav * 4)))]; }
   return g;
 }
-// AI captain: leads with one of its pairs (often the strongest); answers with the weakest pair
-// that still beats the pair sent out, or sacrifices its weakest pair if nothing does.
+// AI captain, like a real one: it saves its best players for the big matchups.
+// Sending out: two players of a similar level from a random part of the roster.
+// Answering: a pair of about the same level as the pair it faces (usually a bit better,
+// sometimes a bit worse), and it avoids splitting a star off on a weak pairing.
 function aiPair(rem, f, vs) {
-  var P = balanced(rem).sort(function (x, y) { return pairVal(x, f) - pairVal(y, f); });
-  if (P.length === 1) return P[0];
-  if (Math.random() < 0.15) return P[Math.floor(Math.random() * P.length)];
-  if (!vs) return Math.random() < 0.5 ? P[0] : P[Math.floor(Math.random() * P.length)];
-  var v = pairVal(vs, f), better = P.filter(function (p) { return pairVal(p, f) < v; });
-  return better.length ? better[better.length - 1] : P[P.length - 1];
+  if (rem.length <= 2) return rem.slice(0, 2);
+  var s = rem.slice().sort(byH);
+  if (!vs) {
+    var i = Math.floor(Math.random() * s.length), j = i + (Math.random() < 0.5 ? -1 : 1) * (1 + Math.floor(Math.random() * 2));
+    j = Math.max(0, Math.min(s.length - 1, j)); if (j === i) j = i ? i - 1 : 1;
+    return [s[i], s[j]];
+  }
+  var target = pairVal(vs, f) - (Math.random() * 2 - 0.5), C = [];
+  for (var x = 0; x < s.length; x++) for (var y = x + 1; y < s.length; y++) {
+    var pr = [s[x], s[y]]; C.push({ pr: pr, c: Math.abs(pairVal(pr, f) - target) + 0.15 * (s[y].h - s[x].h) });
+  }
+  C.sort(function (a, b) { return a.c - b.c; });
+  return C[Math.floor(Math.random() * Math.min(3, C.length))].pr;
 }
 
 function newMatch(i, j) { return { t: [i, j], p: [0, 0], rounds: [], fi: 0 }; }
@@ -242,9 +252,9 @@ function draw() {
   var others = [0, 1, 2, 3].filter(function (i) { return i !== drawn; });
   var h = '<h2>🎲 The draw</h2><p class="champ">' + teamTag(drawn) + ' was drawn and picks its semifinal opponent.</p>';
   if (isMine(drawn)) {
-    h += '<p class="mut small" style="margin:0 0 8px">Team rating = weighted handicap, lower is stronger.</p><div class="dr-opp">' + others.map(function (i) {
-      return '<button type="button" class="dr-cap" data-o="' + i + '" style="--c:' + T[i].color + '"><b>' + esc(T[i].name) + (isMine(i) ? ' (you)' : '') + '</b><span>Team rating ' + fh(strength(rosters[i])) + '</span></button>';
-    }).join('') + '</div><p class="mut small">Your team rating: ' + fh(strength(rosters[drawn])) + '</p>';
+    h += '<div class="dr-opp">' + others.map(function (i) {
+      return '<button type="button" class="dr-cap" data-o="' + i + '" style="--c:' + T[i].color + '"><b>' + esc(T[i].name) + (isMine(i) ? ' (you)' : '') + '</b><span>Average handicap ' + fh(avg(rosters[i])) + ' · best player ' + fh(rosters[i].slice().sort(byH)[0].h) + '</span></button>';
+    }).join('') + '</div><p class="mut small">Your team: average handicap ' + fh(avg(rosters[drawn])) + '</p>';
     show(h);
     document.querySelectorAll('[data-o]').forEach(function (b) { b.onclick = function () { setSemis(+b.getAttribute('data-o')); }; });
   } else {
@@ -291,17 +301,17 @@ function slotsHtml(m, pending) {
 function picker(m, stay) {
   var tm = turnTeam(m), s = side(m, tm), f = FMT[m.fi], vs = facing(m), other = m.t[1 - s], both = isMine(other);
   var rem = m.rem[s].slice().sort(byH), who = both ? 'Team ' + esc(T[tm].short) + ': ' : '';
-  var msg = vs ? who + teamTag(other) + ' sent out <b>' + pairName(vs) + '</b> (rating ' + fh(pairVal(vs, f[0])) + '). Pick two players to face them.'
+  var msg = vs ? who + teamTag(other) + ' sent out <b>' + pairFull(vs) + '</b>. Pick two players to face them.'
     : who + 'Your turn to send out a pair. ' + teamTag(other) + ' answers.';
   var h = '<h2>' + matchName(m) + ' · ' + f[1] + '</h2><p class="mut" style="margin:0 0 10px;font-size:.85rem">Pairing ' + (Math.floor(m.k / 2) + 1) + ' of ' + PER / 2 + ' · ' + teamTag(m.t[0]) + ' vs ' + teamTag(m.t[1]) + (m.fi ? ' · after scramble ' + line(m) : '') + '</p>' +
     '<div class="dr-odds">' + msg + '</div><div class="dr-chips">' + rem.map(function (p, i) {
       return '<button type="button" data-x="' + i + '"' + (picked.indexOf(p) >= 0 ? ' class="on"' : '') + '>' + esc(p.n) + '<small>' + fh(p.h) + '</small></button>';
     }).join('') + '</div>';
   var pr = picked.length === 2 ? picked : null;
-  h += '<p class="dr-prev">' + (pr ? 'Your pair: <b>' + pairName(pr) + '</b> · ' + f[1].toLowerCase() + ' rating ' + fh(pairVal(pr, f[0])) : 'Pick ' + (2 - picked.length) + ' more player' + (picked.length ? '' : 's') + '.') + '</p>' +
+  h += '<p class="dr-prev">' + (pr ? 'Your pair: <b>' + pairFull(pr) + '</b>' : 'Pick ' + (2 - picked.length) + ' more player' + (picked.length ? '' : 's') + '.') + '</p>' +
     '<div class="dr-nav"><button class="cta" type="button" id="dr-send"' + (pr ? '' : ' disabled') + '>Send out pair</button><button class="cta alt" type="button" id="dr-ap">AI pick</button><button class="dr-link" type="button" id="dr-ar">AI picks rest of round</button></div>' +
     '<h3>' + f[1] + ' matchups</h3>' + slotsHtml(m, '…') +
-    '<p class="mut small">Rating = pair strength in strokes, lower is better. Scramble leans on the better player, alt shot needs both.</p>';
+    '<p class="mut small">Handicaps by YT Golf Stats. In a scramble the better player carries the pair; in alt shot both players hit every other shot.</p>';
   show(h, stay);
   el('dr-result').querySelectorAll('[data-x]').forEach(function (b) {
     b.onclick = function () {
@@ -372,7 +382,7 @@ function share() {
   } else {
     text = 'I ran the Internet Invitational draft simulator ⛳\\n🏆 ' + T[m.w].name + ' won the final, ' + line(m);
   }
-  text += '\\nhttps://dailygolfgame.com/internet-invitational/draft/';
+  text += '\\nhttps://dailygolfgame.com/draft/';
   if (navigator.share && window.matchMedia && matchMedia('(pointer: coarse)').matches) { navigator.share({ text: text }).catch(function () {}); return; }
   var ok = function () { toast('Copied – paste it anywhere!'); };
   if (navigator.clipboard && window.isSecureContext) navigator.clipboard.writeText(text).then(ok, function () { prompt('Copy your draft:', text); });
@@ -400,12 +410,17 @@ el('dr-auto').onclick = function () { auto = true; step(); };
 </script>`;
 
   return page({
-    urlPath: '/internet-invitational/draft/',
+    urlPath: '/draft/',
     title: 'Internet Invitational Draft Simulator 2026: Draft Your Team | Dailygolf',
     description: 'Be a captain in the 2026 Internet Invitational draft. Pick 15 players in the real snake order against AI captains, then pick your semifinal opponent and trade pairings with the other captain in scramble and alt shot.',
-    crumbs: [['Home', '/'], ['Internet Invitational', '/internet-invitational/'], ['Draft simulator']],
+    crumbs: [['Home', '/'], ['Draft']],
     body: css + '\n' + body + '\n' + script,
-    jsonld: { '@context': 'https://schema.org', '@type': 'WebApplication', name: 'Internet Invitational Draft Simulator', applicationCategory: 'GameApplication', operatingSystem: 'Any', url: 'https://dailygolfgame.com/internet-invitational/draft/', isAccessibleForFree: true }
+    jsonld: { '@context': 'https://schema.org', '@type': 'WebApplication', name: 'Internet Invitational Draft Simulator', applicationCategory: 'GameApplication', operatingSystem: 'Any', url: 'https://dailygolfgame.com/draft/', isAccessibleForFree: true }
   });
 }
 function ordinalSmall(n) { return n + (['th', 'st', 'nd', 'rd'][n] || 'th'); }
+
+// The draft used to live at /internet-invitational/draft/; keep old links working.
+export function renderDraftRedirect() {
+  return '<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>Moved: Internet Invitational Draft</title><link rel="canonical" href="https://dailygolfgame.com/draft/"><meta name="robots" content="noindex"><meta http-equiv="refresh" content="0; url=/draft/"></head><body><p>The draft simulator has moved to <a href="/draft/">dailygolfgame.com/draft/</a>.</p><script>location.replace("/draft/")</script></body></html>\n';
+}
