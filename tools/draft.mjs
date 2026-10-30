@@ -33,7 +33,7 @@ export function renderDraft({ data, esc, page }) {
   </div>
   <div id="dr-result" hidden></div>
 </div>
-<p class="ii-more">Also try: <a href="/internet-invitational/">Guess the Internet Invitational Player</a> · <a href="/internet-invitational/#handicap-list">Handicap list</a> · <a href="/">YouTube Golfer</a></p>
+<p class="ii-more">Also try: <a href="/internet-invitational/">Guess the Internet Invitational Player</a> · <a href="/internet-invitational/#handicap-list">Handicap list</a> · <a href="/#youtube">YouTube Golfer</a></p>
 <h2>How the simulator works</h2>
 <p>The four captains are fixed, as in the real event: Brad Dalke, Wesley Bryan, Peter Finch and Ryan Ruffels. AI captains mostly take the best available handicap but sometimes reach for someone else, so no two drafts are the same. When the draft is done, one team is drawn at random and picks its semifinal opponent. Every match is eight two-player pairs against eight: one round of scramble and one of alternate shot, a point per pairing, 16 points in total, with a sudden-death playoff at 8–8. In each round the captains take turns: one team sends out a pair and the other answers with a pair of its own, then they switch roles, until all 16 players are out. The winners meet in the final with the same format. Better pairs win more often, but upsets happen, just like on the course.</p>
 <p class="meta">Fan-made simulation, not affiliated with Barstool Sports, Bob Does Sports or the Internet Invitational. Handicap estimates by <a href="https://www.instagram.com/yt_golfstats/" rel="noopener">YT Golf Stats</a>.</p>`;

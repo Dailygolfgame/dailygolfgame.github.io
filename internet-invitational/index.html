@@ -122,7 +122,7 @@ table.roster{min-width:0}
   <p class="mut small">Green = match. Yellow = handicap within 1.5. ▲ / ▼ = the mystery player's handicap number is higher / lower (plus handicaps count below zero).</p>
 </div>
 <noscript><p>The game needs JavaScript.</p></noscript>
-<p class="ii-more"><a href="/draft/">Draft Simulator</a> · More daily golf games: <a href="/">YouTube Golfer</a> · <a href="/#pro">Pro Golfer</a> · <a href="/trivia/">Golf Trivia</a></p>
+<p class="ii-more"><a href="/draft/">Draft Simulator</a> · More daily golf games: <a href="/#youtube">YouTube Golfer</a> · <a href="/#pro">Pro Golfer</a> · <a href="/trivia/">Golf Trivia</a></p>
 
 <h2 id="handicap-list">Internet Invitational 2026 handicap list</h2>
 <p>All 64 players sorted from the best handicap down. Plus handicaps (+) are better than scratch. Handicaps are estimates by <a href="https://www.instagram.com/yt_golfstats/" rel="noopener">YT Golf Stats</a>, not official numbers. Tap a name for the player's page.</p>
@@ -361,7 +361,7 @@ function finish(restored) {
     '<p>The mystery player was <b>' + esc(secret.n) + '</b> (' + esc(secret.t) + ', handicap ' + fh(secret.h) + ').</p>' +
     (practice ? '' : statsHtml(won ? guesses.length - 1 : -1)) +
     '<div class="nav"><button class="cta" id="ii-share" type="button">Share result</button><button class="cta alt" id="ii-again" type="button">' + (practice ? 'Another player' : 'Practice round') + '</button></div>' +
-    '<a class="ii-next" href="/"><span>▶ Next: today&rsquo;s YouTube Golfer</span><small>Guess the mystery golf YouTuber by handicap, subscribers and channel</small><b>Play &rarr;</b></a>';
+    '<a class="ii-next" href="/#youtube"><span>▶ Next: today&rsquo;s YouTube Golfer</span><small>Guess the mystery golf YouTuber by handicap, subscribers and channel</small><b>Play &rarr;</b></a>';
   el('ii-end').hidden = false;
   el('ii-share').onclick = share; el('ii-again').onclick = function () { start(true); };
 }
