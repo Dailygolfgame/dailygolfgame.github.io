@@ -456,10 +456,25 @@
 
     <!-- CRAWLABLE CONTENT (SEO) -->
     <section class="game-only max-w-3xl mx-auto w-full px-4 py-8 text-sm text-slate-400 leading-relaxed">
-        <h2 class="text-lg font-bold text-slate-200 mb-2">How to play</h2>
-        <p class="mb-3"><b class="text-slate-300">YouTube Golfer:</b> find the mystery golf YouTuber in five guesses. After each guess you see how close you are on country, handicap, subscribers, age and channel. Green is an exact match, yellow is close, and arrows show whether the handicap, subscribers or age are higher or lower.</p>
-        <p class="mb-3"><b class="text-slate-300">Pro Golfer:</b> find the mystery tour pro in five guesses using country, continent, tour, age, major championships and PGA Tour wins. Green is an exact match, yellow is close, and arrows show whether the number is higher or lower.</p>
-        <p class="mb-3">A new mystery player appears every day at midnight. Want more? Switch to Practice Mode at the top for random players.</p>
+      <div id="text-yt">
+        <h2 class="text-lg font-bold text-slate-200 mb-2">How to play Guess the YouTube Golfer</h2>
+        <p class="mb-3">Find the mystery golf YouTuber in five guesses. After each guess you see how close you are on country, handicap, subscribers, age and channel. Green is an exact match, yellow is close, and arrows show whether the handicap, subscribers or age are higher or lower. A new creator appears every day at midnight, and Practice Mode at the top gives you random creators.</p>
+        <h2 class="text-lg font-bold text-slate-200 mt-6 mb-2">Frequently asked questions</h2>
+        <h3 class="font-semibold text-slate-300 mt-3">Where do the handicaps come from?</h3>
+        <p>From public handicap trackers for golf creators, such as handicap-tracker.com and YT Golf Stats. They are estimates and can change.</p>
+        <h3 class="font-semibold text-slate-300 mt-3">What does a plus handicap mean?</h3>
+        <p>A plus handicap (+) is better than scratch. A +3 player is three shots better than a scratch golfer over a round.</p>
+        <h3 class="font-semibold text-slate-300 mt-3">What does the channel clue mean?</h3>
+        <p>It turns green when both creators appear on the same channel, such as Good Good or Big Wedge Golf.</p>
+        <h3 class="font-semibold text-slate-300 mt-3">Is Dailygolf free?</h3>
+        <p>Yes. It is free to play in your browser on phone or desktop, with no account needed.</p>
+        <h2 class="text-lg font-bold text-slate-200 mt-6 mb-2">YouTubers in the game</h2>
+        <p class="mb-2">See every creator's handicap on the <a class="text-golf-400 hover:underline" href="/youtubers/">YouTube golfer handicaps</a> page.</p>
+        <p class="text-xs">Brad Dalke, Sean Walsh, Ryan Ruffels, Chance Taylor, Wesley Bryan, Jean-Philippe Mehu, Asaeli Batibasaga (Bat), Luke Toomey (Tooms), Micah Morris, George Bryan, James Robinson, Ben Hadden, Garrett Clark, Kyle Berkshire, Taco, Peter Finch, Sam Heung Min, Paige Spiranac, Ben Kruper, Mariano Di Vaio, Evan Thompson, Luke Kwon, Harry Na, Jimmy Bullard, Rick Shiels, Cole Lantz, Grant Horvat, Martin Borgmeier, Josh Kelley, Mason Nutt, Blake Mullen, Malosi Togisala, Sara Winter, Kai Trump, The DoD King, ShortGameKing, Gabby Golf Girl, Fat Perez, Hailey Ostrom, Matt Scharff, Guy Charnock, Stimpen, Stephen Castaneda, Bubbie Broders, Abbe, Riggs, Chaz, Erik Anders Lang, Frankie Borrelli, Francis Ellis, D'Angelo Russell, Bobby Fairways, Joey Cold Cuts, Carl Déman, Harry (W2S), Calfreezy, Trent Ryan, Callux, Simon (Miniminter), Josh (Zerkaa), Kevin Hart, Jakedezgolf, Kåt.</p>
+      </div>
+      <div id="text-pro" class="hidden">
+        <h2 class="text-lg font-bold text-slate-200 mb-2">How to play Guess the Pro Golfer</h2>
+        <p class="mb-3">Find the mystery tour pro in five guesses using country, continent, tour, age, major championships and PGA Tour wins. Green is an exact match, yellow is close, and arrows show whether the number is higher or lower. A new golfer appears every day at midnight, and Practice Mode at the top gives you random golfers.</p>
         <h2 class="text-lg font-bold text-slate-200 mt-6 mb-2">Frequently asked questions</h2>
         <h3 class="font-semibold text-slate-300 mt-3">When does a new golfer appear?</h3>
         <p>A new mystery golfer is available every day. Come back tomorrow to keep your streak going.</p>
@@ -472,6 +487,7 @@
         <h2 class="text-lg font-bold text-slate-200 mt-6 mb-2">Golfers in the game</h2>
         <p class="mb-2">See the full facts on the <a class="text-golf-400 hover:underline" href="/golfers/">golfer pages</a> and the <a class="text-golf-400 hover:underline" href="/youtubers/">YouTube golfer handicaps</a>.</p>
         <p class="text-xs">Scottie Scheffler, Rory McIlroy, Tiger Woods, Ludvig Åberg, Bryson DeChambeau, Jon Rahm, Viktor Hovland, Xander Schauffele, Collin Morikawa, Brooks Koepka, Patrick Cantlay, Max Homa, Joaquin Niemann, Tyrrell Hatton, Shane Lowry, Sepp Straka, Jason Day, Brian Harman, Rickie Fowler, Tony Finau, Will Zalatoris, Sungjae Im, Tommy Fleetwood, Justin Thomas, Jordan Spieth, Hideki Matsuyama, Cameron Smith, Min Woo Lee, Wyndham Clark, Sahith Theegala, Tom Kim, Phil Mickelson, Dustin Johnson, Sergio Garcia, Adam Scott, Justin Rose, Patrick Reed, Bubba Watson, Henrik Stenson, Matt Fitzpatrick, Corey Conners, Chris Kirk, Daniel Berger, Zach Johnson, Brandt Snedeker, Webb Simpson, Gary Woodland, Lucas Glover, Aaron Rai, Ryan Fox, Cameron Young, Sam Burns, Akshay Bhatia, Russell Henley, Keegan Bradley, J.J. Spaun, Robert MacIntyre, Alex Norén, Jack Nicklaus, Ben Hogan, Sam Snead, Arnold Palmer, Byron Nelson, Tom Watson, Lee Trevino, Raymond Floyd, Gary Player, Ernie Els, Greg Norman, Vijay Singh.</p>
+      </div>
     </section>
 
     <!-- BOTTOM ADSENSE / AFFILIATE BANNER -->
@@ -1033,6 +1049,8 @@
             const yt = name === 'yt';
             el('tab-pro').classList.toggle('hidden', yt);
             el('tab-yt').classList.toggle('hidden', !yt);
+            el('text-pro').classList.toggle('hidden', yt);
+            el('text-yt').classList.toggle('hidden', !yt);
             [['tab-btn-pro', !yt], ['tab-btn-yt', yt]].forEach(([id, on]) => {
                 const b = el(id);
                 ACTIVE.forEach(c => b.classList.toggle(c, on));
