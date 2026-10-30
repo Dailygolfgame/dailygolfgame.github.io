@@ -23,7 +23,7 @@ export function renderInvitational({ data, esc, slug, fmtHcp, creatorByName, pag
 
   const body = `<h1>Guess the Internet Invitational Player</h1>
 <p class="lead">A new mystery player from the 2026 Internet Invitational every day. Five guesses, with team, handicap and 2025 appearance as clues. Stuck? The full handicap list is right below the game.</p>
-<a class="ii-promo" href="/internet-invitational/draft/"><span>🆕 Draft Simulator</span><small>Captain your own team in the 2026 draft vs AI captains, then simulate the tournament</small><b>Draft &rarr;</b></a>
+<a class="ii-promo" href="/draft/"><span>🆕 Draft Simulator</span><small>Captain your own team in the 2026 draft vs AI captains, then play scramble and alt shot for the title</small><b>Draft &rarr;</b></a>
 <p class="ii-jump"><a href="#handicap-list">Handicap list ↓</a><a href="#teams">Teams ↓</a><a href="#schedule">Schedule ↓</a></p>
 <div class="card" id="ii-game">
   <div class="ii-top"><span class="tag" id="ii-mode">Daily</span><span class="mut">Guesses: <b id="ii-count">0</b>/5</span></div>
@@ -38,7 +38,7 @@ export function renderInvitational({ data, esc, slug, fmtHcp, creatorByName, pag
   <p class="mut small">Green = match. Yellow = handicap within 1.5. ▲ / ▼ = the mystery player's handicap number is higher / lower (plus handicaps count below zero).</p>
 </div>
 <noscript><p>The game needs JavaScript.</p></noscript>
-<p class="ii-more"><a href="/internet-invitational/draft/">Draft Simulator</a> · More daily golf games: <a href="/">YouTube Golfer</a> · <a href="/#pro">Pro Golfer</a> · <a href="/trivia/">Golf Trivia</a></p>
+<p class="ii-more"><a href="/draft/">Draft Simulator</a> · More daily golf games: <a href="/">YouTube Golfer</a> · <a href="/#pro">Pro Golfer</a> · <a href="/trivia/">Golf Trivia</a></p>
 
 <h2 id="handicap-list">Internet Invitational 2026 handicap list</h2>
 <p>All ${players.length} players sorted from the best handicap down. Plus handicaps (+) are better than scratch. Handicaps are estimates by <a href="https://www.instagram.com/yt_golfstats/" rel="noopener">YT Golf Stats</a>, not official numbers. Tap a name for the player's page.</p>
