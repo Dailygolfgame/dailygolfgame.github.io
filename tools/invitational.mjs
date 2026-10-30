@@ -32,6 +32,7 @@ export function renderInvitational({ data, esc, slug, fmtHcp, creatorByName, pag
   <p class="mut small">Green = match. Yellow = handicap within 1.5. ▲ / ▼ = the mystery player's handicap number is higher / lower (plus handicaps count below zero).</p>
 </div>
 <noscript><p>The game needs JavaScript.</p></noscript>
+<p class="ii-more">More daily golf games: <a href="/">YouTube Golfer</a> · <a href="/#pro">Pro Golfer</a> · <a href="/trivia/">Golf Trivia</a></p>
 
 <h2>Internet Invitational 2026: the essentials</h2>
 <div class="facts">
@@ -85,6 +86,10 @@ ${roster.map(p => `<tr><td>${link(p)}${p.captain ? ' <span class="mut">(C)</span
 #ii-end{text-align:center;margin-top:14px}#ii-end .big{font-size:1.5rem;font-weight:900;color:#fff}
 #ii-end .nav{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:10px}#ii-end .cta{margin:0;border:0;cursor:pointer;font:inherit;font-weight:700}
 #ii-end .alt{background:#1e293b;box-shadow:none}
+.ii-next{display:grid;grid-template-columns:1fr auto;align-items:center;gap:2px 12px;margin-top:16px;padding:14px 16px;border-radius:14px;border:1px solid #16a34a;background:linear-gradient(135deg,rgba(22,163,74,.22),rgba(22,163,74,.06));text-decoration:none;text-align:left}
+.ii-next span{color:#fff;font-weight:800}.ii-next small{grid-column:1;color:var(--mut);font-size:.8rem;line-height:1.35}
+.ii-next b{grid-column:2;grid-row:1/3;background:#16a34a;color:#fff;border-radius:10px;padding:8px 14px;white-space:nowrap}.ii-next:hover b{background:#22c55e}
+.ii-more{text-align:center;font-size:.9rem;color:var(--mut);margin:-6px 0 8px}
 table.roster{min-width:0}
 .ii-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:14px 0 10px}
 .ii-stats div{background:#0b1325;border:1px solid var(--line);border-radius:12px;padding:10px 4px;font-size:.68rem;text-transform:uppercase;color:var(--mut);font-weight:700}
@@ -156,7 +161,8 @@ function finish(restored) {
   el('ii-end').innerHTML = '<div class="big">' + (won ? 'Got it in ' + guesses.length + '!' : 'Out of bounds!') + '</div>' +
     '<p>The mystery player was <b>' + esc(secret.n) + '</b> (' + esc(secret.t) + ', handicap ' + fh(secret.h) + ').</p>' +
     (practice ? '' : statsHtml(won ? guesses.length - 1 : -1)) +
-    '<div class="nav"><button class="cta" id="ii-share" type="button">Share result</button><button class="cta alt" id="ii-again" type="button">' + (practice ? 'Another player' : 'Practice round') + '</button></div>';
+    '<div class="nav"><button class="cta" id="ii-share" type="button">Share result</button><button class="cta alt" id="ii-again" type="button">' + (practice ? 'Another player' : 'Practice round') + '</button></div>' +
+    '<a class="ii-next" href="/"><span>▶ Next: today&rsquo;s YouTube Golfer</span><small>Guess the mystery golf YouTuber by handicap, subscribers and channel</small><b>Play &rarr;</b></a>';
   el('ii-end').hidden = false;
   el('ii-share').onclick = share; el('ii-again').onclick = function () { start(true); };
 }
