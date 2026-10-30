@@ -11,6 +11,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { execFileSync } from 'node:child_process';
 import { renderInvitational, renderInvitationalPlayers, iiSlug } from './invitational.mjs';
+import { renderDraft } from './draft.mjs';
 
 const ROOT = process.cwd();
 const SITE = 'https://dailygolfgame.com';
@@ -262,8 +263,9 @@ cleanDir('youtubers', new Set(CREATORS.map(c => c.slug)));
 const iiPlayers = hasII ? renderInvitationalPlayers({ data: II, esc, slug, fmtHcp, creatorByName, page, ordinal }) : [];
 if (hasII) {
   write('/internet-invitational/', renderInvitational({ data: II, esc, slug, fmtHcp, creatorByName, page }));
+  write('/internet-invitational/draft/', renderDraft({ data: II, esc, page }));
   for (const [s, html] of iiPlayers) write(`/internet-invitational/${s}/`, html);
-  cleanDir('internet-invitational', new Set(iiPlayers.map(x => x[0])));
+  cleanDir('internet-invitational', new Set(['draft', ...iiPlayers.map(x => x[0])]));
 }
 
 // ---------- Answer archive ----------
@@ -325,7 +327,7 @@ const lastmod = u => changed.has(u) ? today : (gitDate(u === '/' ? 'index.html' 
 const urls = [
   ...STATIC, '/golfers/', ...PLAYERS.map(p => `/golfers/${p.slug}/`),
   '/youtubers/', ...CREATORS.map(c => `/youtubers/${c.slug}/`),
-  ...(hasII ? ['/internet-invitational/', ...iiPlayers.map(x => `/internet-invitational/${x[0]}/`)] : []),
+  ...(hasII ? ['/internet-invitational/', '/internet-invitational/draft/', ...iiPlayers.map(x => `/internet-invitational/${x[0]}/`)] : []),
   '/answers/', ...days.map(d => `/answers/${d}/`)
 ].map(u => [u, lastmod(u)]);
 fs.writeFileSync(path.join(ROOT, 'sitemap.xml'), `<?xml version="1.0" encoding="UTF-8"?>
