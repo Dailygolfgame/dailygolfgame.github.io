@@ -182,24 +182,23 @@ function playGame(A, B, f) {
   else { var aw = Math.random() < pA, fav = aw ? pA : 1 - pA; g.w = aw ? 0 : 1; g.m = MARGINS[Math.min(4, Math.floor(Math.random() * (1 + fav * 4)))]; }
   return g;
 }
-// AI captain, like a real one: it saves its best players for the big matchups.
-// Sending out: two players of a similar level from a random part of the roster.
-// Answering: a pair of about the same level as the pair it faces (usually a bit better,
-// sometimes a bit worse), and it avoids splitting a star off on a weak pairing.
-function aiPair(rem, f, vs) {
+// AI captain, like a real one. Players are tiered by their rank on the team:
+// top 4 (A), next 6 (B) and the rest (C). A star usually carries a mid or weak player,
+// mid players pair up with each other or someone better, and two stars together is rare.
+function tierOf(team, p) { var r = rosters[team].slice().sort(byH).indexOf(p); return r < 4 ? 'A' : r < 10 ? 'B' : 'C'; }
+var PAIR_PENALTY = { AA: 1, AB: 0.1, AC: 0, BB: 0, BC: 2.5, CC: 0.8 };
+function pairPenalty(team, pr) { var t = [tierOf(team, pr[0]), tierOf(team, pr[1])].sort().join(''); return PAIR_PENALTY[t]; }
+// Sending out: a sensible pair at random. Answering: a pair of about the same level as the
+// pair it faces (usually a bit better, sometimes a bit worse), so it saves its stars.
+function aiPair(team, rem, f, vs) {
   if (rem.length <= 2) return rem.slice(0, 2);
-  var s = rem.slice().sort(byH);
-  if (!vs) {
-    var i = Math.floor(Math.random() * s.length), j = i + (Math.random() < 0.5 ? -1 : 1) * (1 + Math.floor(Math.random() * 2));
-    j = Math.max(0, Math.min(s.length - 1, j)); if (j === i) j = i ? i - 1 : 1;
-    return [s[i], s[j]];
-  }
-  var target = pairVal(vs, f) - (Math.random() * 2 - 0.5), C = [];
+  var s = rem.slice().sort(byH), C = [], target = vs ? pairVal(vs, f) - (Math.random() * 2 - 0.5) : 0;
   for (var x = 0; x < s.length; x++) for (var y = x + 1; y < s.length; y++) {
-    var pr = [s[x], s[y]]; C.push({ pr: pr, c: Math.abs(pairVal(pr, f) - target) + 0.15 * (s[y].h - s[x].h) });
+    var pr = [s[x], s[y]], pen = pairPenalty(team, pr);
+    C.push({ pr: pr, c: vs ? Math.abs(pairVal(pr, f) - target) + pen : pen + Math.random() * 1.5 });
   }
   C.sort(function (a, b) { return a.c - b.c; });
-  return C[Math.floor(Math.random() * Math.min(3, C.length))].pr;
+  return C[Math.floor(Math.random() * Math.min(vs ? 3 : 2, C.length))].pr;
 }
 
 function newMatch(i, j) { return { t: [i, j], p: [0, 0], rounds: [], fi: 0 }; }
@@ -222,7 +221,7 @@ function place(m, pr) {
   if (m.k % 2 === 0) m.slots.push([null, null]);
   m.slots[m.slots.length - 1][s] = pr; m.k++;
 }
-function aiStep(m) { var s = side(m, turnTeam(m)); place(m, aiPair(m.rem[s], FMT[m.fi][0], facing(m))); }
+function aiStep(m) { var t = turnTeam(m), s = side(m, t); place(m, aiPair(t, m.rem[s], FMT[m.fi][0], facing(m))); }
 function roundDone(m) { return m.k >= PER; }
 function finishRound(m) {
   var f = FMT[m.fi], games = m.slots.map(function (sl) { return playGame(sl[0], sl[1], f[0]); });
