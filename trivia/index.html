@@ -236,7 +236,7 @@ function renderEnd() {
     for (var i = 5; i >= 0; i--) h += '<div class="row"><span>' + i + '</span><div class="bar' + (i === s ? ' me' : '') + '" style="width:' + Math.max(7, stats.dist[i] / mx * 100) + '%">' + stats.dist[i] + '</div></div>';
     h += '</div><p class="st" id="countdown"></p>';
   }
-  h += '<p class="st">While you wait: play <a href="/">Guess the Pro Golfer</a> or <a href="/#youtube">Guess the YouTube Golfer</a>.</p></div>';
+  h += '<p class="st">While you wait: play <a href="/#pro">Guess the Pro Golfer</a> or <a href="/#youtube">Guess the YouTube Golfer</a>.</p></div>';
   box.innerHTML = h;
   document.getElementById('share').onclick = share;
   document.getElementById('again').onclick = function () { start(true); box.scrollIntoView({ behavior: 'smooth', block: 'start' }); };
