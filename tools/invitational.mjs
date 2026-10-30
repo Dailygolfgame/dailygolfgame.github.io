@@ -45,6 +45,8 @@ export function renderInvitational({ data, esc, slug, fmtHcp, creatorByName, pag
 ${sorted.map((p, i) => `<tr><td>${i + 1}</td><td>${link(p)}${p.captain ? ' <span class="mut">(C)</span>' : ''}</td><td>${fmtHcp(p.hcp)}</td><td>${esc(p.team.replace('Team ', ''))}</td></tr>`).join('\n')}
 </tbody></table></div>
 
+<h2>How to play</h2>
+<p>Guess today&rsquo;s mystery player from the Internet Invitational field in five tries. After each guess the clues show whether the player is on the same team, how close the handicap is (yellow means within 1.5, arrows show higher or lower) and whether both played in 2025. Use the handicap list above if you get stuck.</p>
 <h2>Internet Invitational 2026: the essentials</h2>
 <div class="facts">
 <div><span>Players</span><b>${players.length}</b></div>
