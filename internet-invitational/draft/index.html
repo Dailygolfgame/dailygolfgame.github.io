@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Internet Invitational Draft Simulator 2026: Draft Your Team | Dailygolf</title>
-<meta name="description" content="Be a captain in the 2026 Internet Invitational draft. Pick 15 players in the real snake order against AI captains, then pick your semifinal opponent, set your pairs and play scramble and alt shot for the title.">
+<meta name="description" content="Be a captain in the 2026 Internet Invitational draft. Pick 15 players in the real snake order against AI captains, then pick your semifinal opponent and trade pairings with the other captain in scramble and alt shot.">
 <link rel="canonical" href="https://dailygolfgame.com/internet-invitational/draft/">
 <meta name="robots" content="index, follow, max-image-preview:large">
 <meta name="theme-color" content="#020617">
@@ -16,7 +16,7 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Dailygolf">
 <meta property="og:title" content="Internet Invitational Draft Simulator 2026: Draft Your Team | Dailygolf">
-<meta property="og:description" content="Be a captain in the 2026 Internet Invitational draft. Pick 15 players in the real snake order against AI captains, then pick your semifinal opponent, set your pairs and play scramble and alt shot for the title.">
+<meta property="og:description" content="Be a captain in the 2026 Internet Invitational draft. Pick 15 players in the real snake order against AI captains, then pick your semifinal opponent and trade pairings with the other captain in scramble and alt shot.">
 <meta property="og:url" content="https://dailygolfgame.com/internet-invitational/draft/">
 <meta property="og:image" content="https://dailygolfgame.com/og-image.png">
 <meta name="twitter:card" content="summary_large_image">
@@ -115,11 +115,19 @@ footer.site nav{display:flex;flex-wrap:wrap;gap:6px 16px;margin-bottom:8px}foote
 .dr-mt h4{margin:10px 0 4px;font-size:.85rem;color:#fff}.dr-mt h4 small{color:var(--mut);font-weight:600;margin-left:6px}
 .dr-g{display:grid;grid-template-columns:1fr auto 1fr;gap:6px;font-size:.76rem;padding:4px 0;border-bottom:1px solid var(--line);align-items:center}
 .dr-g span:last-child{text-align:right}.dr-g span{color:var(--mut);min-width:0;overflow-wrap:anywhere}.dr-g span.w{color:#fff;font-weight:700}.dr-g i{font-style:normal;font-weight:700;color:var(--acc);white-space:nowrap}
+.dr-chips{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin:10px 0 0}
+.dr-chips button{min-width:0;padding:7px 8px;border-radius:9px;border:1px solid var(--line);background:#0b1325;color:#fff;font:inherit;font-size:.8rem;font-weight:700;text-align:left;cursor:pointer;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.dr-chips button small{display:block;color:var(--mut);font-weight:600;font-size:.7rem}.dr-chips button.on{border-color:var(--acc);background:#14532d}
+.dr-prev{font-size:.88rem;margin:10px 0 0;color:var(--mut)}.dr-prev b{color:#fff}
+#dr-send:disabled{opacity:.45;cursor:default}
+.dr-slots{border:1px solid var(--line);border-radius:12px;padding:4px 10px;background:#0b1325}
+.dr-sl{display:grid;grid-template-columns:1fr 22px 1fr;gap:6px;font-size:.78rem;padding:5px 0;border-bottom:1px solid var(--line);color:#fff}
+.dr-sl:last-child{border-bottom:0}.dr-sl i{font-style:normal;text-align:center;color:var(--mut)}.dr-sl span:last-child{text-align:right}.dr-sl.hd{font-size:.82rem}
 .ii-more{text-align:center;font-size:.9rem;color:var(--mut)}
 #toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:#1e293b;border:1px solid #334155;color:#fff;font-weight:600;font-size:.9rem;padding:10px 16px;border-radius:12px;opacity:0;transition:opacity .2s;pointer-events:none;z-index:60}#toast.show{opacity:1}
 </style>
 <h1>Internet Invitational Draft Simulator</h1>
-<p class="lead">Run the 2026 Internet Invitational draft. Captain one team, two, three or all four (pass the phone to a friend), and AI captains draft the rest. Then a draw decides the semifinals: set your pairs and play a scramble and an alt-shot round, winners meet in the final.</p>
+<p class="lead">Run the 2026 Internet Invitational draft. Captain one team, two, three or all four (pass the phone to a friend), and AI captains draft the rest. Then a draw decides the semifinals, and you and the other captain take turns sending out pairs for a scramble round and an alt-shot round. The winners meet in the final.</p>
 <div id="dr" class="card dr-card">
   <div id="dr-start">
     <h2 class="dr-h">Which teams do you draft?</h2>
@@ -142,7 +150,7 @@ footer.site nav{display:flex;flex-wrap:wrap;gap:6px 16px;margin-bottom:8px}foote
 </div>
 <p class="ii-more">Also try: <a href="/internet-invitational/">Guess the Internet Invitational Player</a> · <a href="/internet-invitational/#handicap-list">Handicap list</a> · <a href="/">YouTube Golfer</a></p>
 <h2>How the simulator works</h2>
-<p>The four captains are fixed, as in the real event: Brad Dalke, Wesley Bryan, Peter Finch and Ryan Ruffels. AI captains mostly take the best available handicap but sometimes reach for someone else, so no two drafts are the same. When the draft is done, one team is drawn at random and picks its semifinal opponent. Every match is eight two-player pairs against eight: one round of scramble and one of alternate shot, a point per pairing, 16 points in total, with a sudden-death playoff at 8–8. You set the pairs for your teams; AI captains set theirs. The winners meet in the final with the same format. Better pairs win more often, but upsets happen, just like on the course.</p>
+<p>The four captains are fixed, as in the real event: Brad Dalke, Wesley Bryan, Peter Finch and Ryan Ruffels. AI captains mostly take the best available handicap but sometimes reach for someone else, so no two drafts are the same. When the draft is done, one team is drawn at random and picks its semifinal opponent. Every match is eight two-player pairs against eight: one round of scramble and one of alternate shot, a point per pairing, 16 points in total, with a sudden-death playoff at 8–8. In each round the captains take turns: one team sends out a pair, the other answers with a pair of its own, until all 16 players are out. The team that leads the scramble answers in the alt shot. The winners meet in the final with the same format. Better pairs win more often, but upsets happen, just like on the course.</p>
 <p class="meta">Fan-made simulation, not affiliated with Barstool Sports, Bob Does Sports or the Internet Invitational. Handicap estimates by <a href="https://www.instagram.com/yt_golfstats/" rel="noopener">YT Golf Stats</a>.</p>
 <script>
 (function () {
@@ -208,8 +216,10 @@ function tab(name) {
 }
 
 // ---- Tournament: draw, semifinals and final ----
-// A match = 8 two-player pairs per team, pair 1 against pair 1 and so on. Each pair plays
-// a scramble round and an alternate-shot round: 16 points. 8-8 goes to a sudden-death playoff.
+// A match has two rounds, scramble then alt shot. In each round the captains take turns:
+// the leading team sends out a pair, the other team answers with a pair, 8 times over.
+// The team that leads the scramble answers in the alt shot. One point per pairing,
+// 16 in total; 8-8 goes to a sudden-death playoff.
 var FMT = [['scr', 'Scramble'], ['alt', 'Alt shot']], K = 0.4;
 var MARGINS = ['1 up', '2 & 1', '3 & 2', '4 & 3', '5 & 4'];
 function strength(r) {
@@ -219,45 +229,68 @@ function strength(r) {
 }
 // Pair rating in strokes (lower is better). Scramble leans on the better player; alt shot needs both.
 function pairVal(pr, f) { var a = Math.min(pr[0].h, pr[1].h), b = Math.max(pr[0].h, pr[1].h); return f === 'scr' ? 0.7 * a + 0.3 * b : (a + b) / 2; }
-function pairSum(pr) { return pairVal(pr, 'scr') + pairVal(pr, 'alt'); }
-function autoPairs(r, jitter) {
-  var s = r.slice().sort(function (a, b) { return a.h - b.h; });
-  if (jitter) for (var k = 0; k < 3; k++) { var i = Math.floor(Math.random() * 15), x = s[i]; s[i] = s[i + 1]; s[i + 1] = x; }
-  var P = []; for (var j = 0; j < PER / 2; j++) P.push([s[j], s[PER - 1 - j]]);
-  return P.sort(function (x, y) { return pairSum(x) - pairSum(y); });
-}
+function byH(a, b) { return a.h - b.h; }
+function balanced(rem) { var s = rem.slice().sort(byH), P = []; for (var j = 0; j < s.length / 2; j++) P.push([s[j], s[s.length - 1 - j]]); return P; }
 function short(n) { var w = n.split(' '); return w.length > 1 ? w[w.length - 1] : n; }
 function pairName(pr) { return esc(short(pr[0].n)) + ' &amp; ' + esc(short(pr[1].n)); }
 function pts(x) { var f = Math.floor(x), h = x % 1 ? '½' : ''; return (f || !h ? f : '') + h; }
 function logi(d) { return 1 / (1 + Math.exp(-K * d)); }
-function playMatch(i, j) {
-  var A = pairs[i], B = pairs[j], res = { t: [i, j], p: [0, 0], rounds: [] };
-  FMT.forEach(function (f) {
-    var games = [];
-    for (var k = 0; k < A.length; k++) {
-      var pA = logi(pairVal(B[k], f[0]) - pairVal(A[k], f[0])), g = { a: A[k], b: B[k] };
-      if (Math.random() < 0.12 * (1 - Math.abs(2 * pA - 1))) { g.w = -1; g.m = 'Halved'; res.p[0] += 0.5; res.p[1] += 0.5; }
-      else { var aw = Math.random() < pA, fav = aw ? pA : 1 - pA; g.w = aw ? 0 : 1; g.m = MARGINS[Math.min(4, Math.floor(Math.random() * (1 + fav * 4)))]; res.p[g.w]++; }
-      games.push(g);
-    }
-    res.rounds.push({ f: f[1], games: games });
-  });
-  if (res.p[0] === res.p[1]) { res.po = Math.random() < logi(2 * (pairVal(B[0], 'scr') - pairVal(A[0], 'scr'))) ? 0 : 1; res.w = res.t[res.po]; }
-  else res.w = res.p[0] > res.p[1] ? i : j;
-  res.l = res.w === i ? j : i;
-  return res;
+function playGame(A, B, f) {
+  var pA = logi(pairVal(B, f) - pairVal(A, f)), g = { a: A, b: B };
+  if (Math.random() < 0.12 * (1 - Math.abs(2 * pA - 1))) { g.w = -1; g.m = 'Halved'; }
+  else { var aw = Math.random() < pA, fav = aw ? pA : 1 - pA; g.w = aw ? 0 : 1; g.m = MARGINS[Math.min(4, Math.floor(Math.random() * (1 + fav * 4)))]; }
+  return g;
 }
-function score(m, side) { return pts(m.p[side]); }
+// AI captain: leads with one of its pairs (often the strongest); answers with the weakest pair
+// that still beats the pair sent out, or sacrifices its weakest pair if nothing does.
+function aiPair(rem, f, vs) {
+  var P = balanced(rem).sort(function (x, y) { return pairVal(x, f) - pairVal(y, f); });
+  if (P.length === 1) return P[0];
+  if (Math.random() < 0.15) return P[Math.floor(Math.random() * P.length)];
+  if (!vs) return Math.random() < 0.5 ? P[0] : P[Math.floor(Math.random() * P.length)];
+  var v = pairVal(vs, f), better = P.filter(function (p) { return pairVal(p, f) < v; });
+  return better.length ? better[better.length - 1] : P[P.length - 1];
+}
+
+function newMatch(i, j) { return { t: [i, j], p: [0, 0], rounds: [], fi: 0 }; }
+function firstLead(m) { var a = m.t[0], b = m.t[1]; return isMine(a) && !isMine(b) ? b : isMine(b) && !isMine(a) ? a : b; }
+function startRound(m) {
+  var fl = firstLead(m);
+  m.rem = [rosters[m.t[0]].slice(), rosters[m.t[1]].slice()]; m.slots = []; m.k = 0; m.auto = false;
+  m.lead = m.fi === 0 ? fl : (fl === m.t[0] ? m.t[1] : m.t[0]);
+}
+function turnTeam(m) { return m.k % 2 === 0 ? m.lead : (m.lead === m.t[0] ? m.t[1] : m.t[0]); }
+function side(m, team) { return m.t.indexOf(team); }
+function facing(m) { var s = side(m, turnTeam(m)); return m.k % 2 ? m.slots[m.slots.length - 1][1 - s] : null; }
+function place(m, pr) {
+  var s = side(m, turnTeam(m));
+  m.rem[s] = m.rem[s].filter(function (p) { return pr.indexOf(p) < 0; });
+  if (m.k % 2 === 0) m.slots.push([null, null]);
+  m.slots[m.slots.length - 1][s] = pr; m.k++;
+}
+function aiStep(m) { var s = side(m, turnTeam(m)); place(m, aiPair(m.rem[s], FMT[m.fi][0], facing(m))); }
+function roundDone(m) { return m.k >= PER; }
+function finishRound(m) {
+  var f = FMT[m.fi], games = m.slots.map(function (sl) { return playGame(sl[0], sl[1], f[0]); });
+  games.forEach(function (g) { if (g.w === -1) { m.p[0] += 0.5; m.p[1] += 0.5; } else m.p[g.w]++; });
+  m.rounds.push({ f: f[1], games: games }); m.fi++;
+}
+function finishMatch(m) {
+  if (m.p[0] === m.p[1]) { var g = m.rounds[0].games[0]; m.po = Math.random() < logi(2 * (pairVal(g.b, 'scr') - pairVal(g.a, 'scr'))) ? 0 : 1; m.w = m.t[m.po]; }
+  else m.w = m.p[0] > m.p[1] ? m.t[0] : m.t[1];
+  m.l = m.w === m.t[0] ? m.t[1] : m.t[0];
+}
+function autoMatch(m) { while (m.fi < 2) { startRound(m); while (!roundDone(m)) aiStep(m); finishRound(m); } finishMatch(m); }
+
+function score(m, s) { return pts(m.p[s]); }
 function line(m) { return esc(T[m.t[0]].short) + ' ' + score(m, 0) + '–' + score(m, 1) + ' ' + esc(T[m.t[1]].short) + (m.po !== undefined ? ' (' + esc(T[m.w].short) + ' won playoff)' : ''); }
 
-var stage, semis, drawn, semiRes, finalRes, queue;
-function finish() {
-  el('dr-draft').hidden = true; el('dr-result').hidden = false;
-  pairs = rosters.map(function (r, i) { return autoPairs(r, !isMine(i)); });
-  draw();
-}
-function show(h) { el('dr-result').innerHTML = '<div class="dr-res">' + h + '</div>'; window.scrollTo({ top: el('dr').offsetTop - 80, behavior: 'smooth' }); }
+var stage, semis, drawn, semiRes, finalRes, cur, picked = [];
+function finish() { el('dr-draft').hidden = true; el('dr-result').hidden = false; draw(); }
+function top() { window.scrollTo({ top: el('dr').offsetTop - 80, behavior: 'smooth' }); }
+function show(h, stay) { el('dr-result').innerHTML = '<div class="dr-res">' + h + '</div>'; if (!stay) top(); }
 function teamTag(i) { return '<b style="color:' + T[i].color + '">' + esc(T[i].short) + '</b>' + (isMine(i) ? ' (you)' : ''); }
+function matchName(m) { return stage === 'final' ? 'Final' : 'Semifinal ' + (semiRes.indexOf(m) + 1); }
 
 function draw() {
   stage = 'semi'; semiRes = finalRes = null;
@@ -273,81 +306,104 @@ function draw() {
   } else {
     // AI usually picks the weakest-looking opponent, sometimes a grudge match.
     var byS = others.slice().sort(function (a, b) { return strength(rosters[b]) - strength(rosters[a]); });
-    var opp = Math.random() < 0.65 ? byS[0] : others[Math.floor(Math.random() * 3)];
-    show(h); setSemis(opp, true);
+    setSemis(Math.random() < 0.65 ? byS[0] : others[Math.floor(Math.random() * 3)], true);
   }
 }
 function setSemis(opp, ai) {
   var rest = [0, 1, 2, 3].filter(function (i) { return i !== drawn && i !== opp; });
   semis = [[drawn, opp], rest];
-  var h = '<h2>🎲 The draw</h2><p class="champ">' + teamTag(drawn) + (ai ? ' chose ' : ' takes on ') + teamTag(opp) + '.</p>' +
-    '<div class="dr-odds"><b>Semifinal 1:</b> ' + teamTag(semis[0][0]) + ' vs ' + teamTag(semis[0][1]) + '<br><b>Semifinal 2:</b> ' + teamTag(semis[1][0]) + ' vs ' + teamTag(semis[1][1]) + '</div>' +
-    '<p class="mut small">Each match: 8 pairs play a scramble and an alt-shot round, 16 points in total. Tied 8–8 means a sudden-death playoff.</p>';
-  lineups(h, [].concat(semis[0], semis[1]));
+  semiRes = [newMatch(drawn, opp), newMatch(rest[0], rest[1])];
+  show('<h2>🎲 The draw</h2><p class="champ">' + teamTag(drawn) + (ai ? ' chose ' : ' takes on ') + teamTag(opp) + '.</p>' +
+    '<div class="dr-odds"><b>Semifinal 1:</b> ' + teamTag(drawn) + ' vs ' + teamTag(opp) + '<br><b>Semifinal 2:</b> ' + teamTag(rest[0]) + ' vs ' + teamTag(rest[1]) + '</div>' +
+    '<p class="mut small">Every match has a scramble round and an alt-shot round. Captains take turns: one team sends out a pair, the other answers with a pair, until all 16 players are out. A point per pairing, 16 in total, sudden-death playoff at 8–8.</p>' +
+    '<div class="dr-nav"><button class="cta" type="button" id="dr-play">Start the semifinals</button></div>');
+  el('dr-play').onclick = proceed;
 }
-function lineups(intro, teamsIn) {
-  queue = teamsIn.filter(isMine);
-  intro = intro || '';
-  if (!queue.length) { show(intro + '<div class="dr-nav"><button class="cta" type="button" id="dr-play">Play ' + (stage === 'semi' ? 'the semifinals' : 'the final') + '</button></div>'); el('dr-play').onclick = play; return; }
-  editor(intro);
+function proceed() {
+  var ms = stage === 'semi' ? semiRes : [finalRes];
+  for (var i = 0; i < ms.length; i++) {
+    var m = ms[i]; if (m.w !== undefined) continue;
+    if (!isMine(m.t[0]) && !isMine(m.t[1])) { autoMatch(m); continue; }
+    cur = m; startRound(m); picked = []; pickStep(); return;
+  }
+  stageDone();
 }
-var sel = null;
-function editor(intro) {
-  var t = queue[0], P = pairs[t], last = queue.length === 1, opp = opponent(t);
-  var h = (intro || '') + '<h3>' + (stage === 'semi' ? 'Semifinal' : 'Final') + ' pairs: ' + teamTag(t) + ' vs ' + teamTag(opp) + '</h3>' +
-    '<p class="mut small" style="margin:0 0 8px">Tap two players to swap them. Pair 1 plays their pair 1, and so on. Pairs play both rounds. AI captains put their strongest pairs on top.</p><div class="dr-pairs">' +
-    P.map(function (pr, k) {
-      return '<div class="dr-pair"><span class="n">' + (k + 1) + '</span>' + pr.map(function (p, s) {
-        var id = k + ':' + s; return '<button type="button" data-p="' + id + '"' + (sel === id ? ' class="on"' : '') + '>' + esc(p.n) + '<small>' + fh(p.h) + '</small></button>';
-      }).join('') + '<span class="r">SCR ' + fh(pairVal(pr, 'scr')) + '<br>ALT ' + fh(pairVal(pr, 'alt')) + '</span></div>';
-    }).join('') + '</div><div class="dr-nav"><button class="cta" type="button" id="dr-ok">' + (last ? 'Play ' + (stage === 'semi' ? 'the semifinals' : 'the final') : 'Next team') + '</button><button class="cta alt" type="button" id="dr-autop">Auto pairs</button></div>';
-  el('dr-result').innerHTML = '<div class="dr-res">' + h + '</div>';
-  el('dr-result').querySelectorAll('[data-p]').forEach(function (b) {
+function pickStep(stay) {
+  var m = cur;
+  while (!roundDone(m)) {
+    var tm = turnTeam(m), s = side(m, tm);
+    if (m.rem[s].length === 2) { place(m, m.rem[s].slice()); continue; }
+    if (isMine(tm) && !m.auto) { picker(m, stay); return; }
+    aiStep(m);
+  }
+  finishRound(m); roundResult(m);
+}
+function slotsHtml(m, pending) {
+  var a = m.t[0], b = m.t[1];
+  return '<div class="dr-slots"><div class="dr-sl hd"><span>' + teamTag(a) + '</span><i></i><span>' + teamTag(b) + '</span></div>' + m.slots.map(function (sl, k) {
+    return '<div class="dr-sl"><span>' + (sl[0] ? pairName(sl[0]) : pending) + '</span><i>' + (k + 1) + '</i><span>' + (sl[1] ? pairName(sl[1]) : pending) + '</span></div>';
+  }).join('') + '</div>';
+}
+function picker(m, stay) {
+  var tm = turnTeam(m), s = side(m, tm), f = FMT[m.fi], vs = facing(m), other = m.t[1 - s], both = isMine(other);
+  var rem = m.rem[s].slice().sort(byH), who = both ? 'Team ' + esc(T[tm].short) + ': ' : '';
+  var msg = vs ? who + teamTag(other) + ' sent out <b>' + pairName(vs) + '</b> (rating ' + fh(pairVal(vs, f[0])) + '). Pick two players to face them.'
+    : who + 'Your turn to send out a pair. ' + teamTag(other) + ' answers.';
+  var h = '<h2>' + matchName(m) + ' · ' + f[1] + '</h2><p class="mut" style="margin:0 0 10px;font-size:.85rem">Pairing ' + (Math.floor(m.k / 2) + 1) + ' of ' + PER / 2 + ' · ' + teamTag(m.t[0]) + ' vs ' + teamTag(m.t[1]) + (m.fi ? ' · after scramble ' + line(m) : '') + '</p>' +
+    '<div class="dr-odds">' + msg + '</div><div class="dr-chips">' + rem.map(function (p, i) {
+      return '<button type="button" data-x="' + i + '"' + (picked.indexOf(p) >= 0 ? ' class="on"' : '') + '>' + esc(p.n) + '<small>' + fh(p.h) + '</small></button>';
+    }).join('') + '</div>';
+  var pr = picked.length === 2 ? picked : null;
+  h += '<p class="dr-prev">' + (pr ? 'Your pair: <b>' + pairName(pr) + '</b> · ' + f[1].toLowerCase() + ' rating ' + fh(pairVal(pr, f[0])) : 'Pick ' + (2 - picked.length) + ' more player' + (picked.length ? '' : 's') + '.') + '</p>' +
+    '<div class="dr-nav"><button class="cta" type="button" id="dr-send"' + (pr ? '' : ' disabled') + '>Send out pair</button><button class="cta alt" type="button" id="dr-ap">AI pick</button><button class="dr-link" type="button" id="dr-ar">AI picks rest of round</button></div>' +
+    '<h3>' + f[1] + ' matchups</h3>' + slotsHtml(m, '…') +
+    '<p class="mut small">Rating = pair strength in strokes, lower is better. Scramble leans on the better player, alt shot needs both.</p>';
+  show(h, stay);
+  el('dr-result').querySelectorAll('[data-x]').forEach(function (b) {
     b.onclick = function () {
-      var id = b.getAttribute('data-p');
-      if (sel === null) sel = id;
-      else if (sel === id) sel = null;
-      else { var a = sel.split(':'), c = id.split(':'), x = P[a[0]][a[1]]; P[a[0]][a[1]] = P[c[0]][c[1]]; P[c[0]][c[1]] = x; sel = null; }
-      editor(intro);
+      var p = rem[+b.getAttribute('data-x')], at = picked.indexOf(p);
+      if (at >= 0) picked.splice(at, 1); else { if (picked.length === 2) picked.shift(); picked.push(p); }
+      picker(m, true);
     };
   });
-  el('dr-autop').onclick = function () { pairs[t] = autoPairs(rosters[t]); sel = null; editor(intro); };
-  el('dr-ok').onclick = function () { sel = null; queue.shift(); if (queue.length) { editor(''); window.scrollTo({ top: el('dr').offsetTop - 80, behavior: 'smooth' }); } else play(); };
+  el('dr-send').onclick = function () { if (picked.length !== 2) return; place(m, picked); picked = []; pickStep(); };
+  el('dr-ap').onclick = function () { picked = []; aiStep(m); pickStep(); };
+  el('dr-ar').onclick = function () { picked = []; m.auto = true; pickStep(); };
 }
-function opponent(t) {
-  if (stage === 'final') return finalists()[0] === t ? finalists()[1] : finalists()[0];
-  var s = semis[0].indexOf(t) >= 0 ? semis[0] : semis[1]; return s[0] === t ? s[1] : s[0];
+function roundHtml(m, r) {
+  var a = 0, b = 0; r.games.forEach(function (g) { if (g.w === 0) a++; else if (g.w === 1) b++; else { a += .5; b += .5; } });
+  return '<h4>' + r.f + ' <small>' + esc(T[m.t[0]].short) + ' ' + pts(a) + '–' + pts(b) + ' ' + esc(T[m.t[1]].short) + '</small></h4>' + r.games.map(function (g) {
+    return '<div class="dr-g"><span' + (g.w === 0 ? ' class="w"' : '') + '>' + pairName(g.a) + '</span><i>' + (g.w === -1 ? 'Halved' : esc(T[m.t[g.w]].short) + ' ' + g.m) + '</i><span' + (g.w === 1 ? ' class="w"' : '') + '>' + pairName(g.b) + '</span></div>';
+  }).join('');
 }
-function finalists() { return [semiRes[0].w, semiRes[1].w]; }
+function roundResult(m) {
+  var r = m.rounds[m.rounds.length - 1], h = '<h2>' + matchName(m) + ' · ' + r.f + ' results</h2>';
+  if (m.fi < 2) {
+    h += '<p class="champ">After the scramble: ' + line(m) + '</p><div class="dr-mt">' + roundHtml(m, r) + '</div>' +
+      '<div class="dr-nav"><button class="cta" type="button" id="dr-next">Alt shot: pick pairs</button></div>';
+    show(h); el('dr-next').onclick = function () { startRound(m); picked = []; pickStep(); };
+  } else {
+    finishMatch(m);
+    h = '<h2>' + matchName(m) + ': ' + esc(T[m.w].short) + ' wins</h2><p class="champ">' + line(m) + '</p>' + matchHtml(m, matchName(m), true) +
+      '<div class="dr-nav"><button class="cta" type="button" id="dr-next">Continue</button></div>';
+    show(h); el('dr-next').onclick = proceed;
+  }
+}
 function matchHtml(m, title, open) {
   var h = '<details class="dr-mt"' + (open ? ' open' : '') + '><summary><span>' + title + '</span><b>' + line(m) + '</b></summary>';
-  m.rounds.forEach(function (r) {
-    var a = 0, b = 0; r.games.forEach(function (g) { if (g.w === 0) a++; else if (g.w === 1) b++; else { a += .5; b += .5; } });
-    h += '<h4>' + r.f + ' <small>' + esc(T[m.t[0]].short) + ' ' + pts(a) + '–' + pts(b) + ' ' + esc(T[m.t[1]].short) + '</small></h4>' + r.games.map(function (g) {
-      return '<div class="dr-g"><span' + (g.w === 0 ? ' class="w"' : '') + '>' + pairName(g.a) + '</span><i>' + (g.w === -1 ? 'Halved' : esc(T[m.t[g.w]].short) + ' ' + g.m) + '</i><span' + (g.w === 1 ? ' class="w"' : '') + '>' + pairName(g.b) + '</span></div>';
-    }).join('');
-  });
+  m.rounds.forEach(function (r) { h += roundHtml(m, r); });
   if (m.po !== undefined) h += '<p class="mut small">Tied 8–8. ' + esc(T[m.w].short) + ' won the sudden-death scramble playoff.</p>';
   return h + '</details>';
 }
-function play() {
-  pairs.forEach(function (P, i) { if (!isMine(i)) pairs[i] = autoPairs(rosters[i], true); });
+function stageDone() {
   if (stage === 'semi') {
-    semiRes = [playMatch(semis[0][0], semis[0][1]), playMatch(semis[1][0], semis[1][1])];
-    var f = finalists();
-    var h = '<h2>Semifinal results</h2>' + matchHtml(semiRes[0], 'Semifinal 1', true) + matchHtml(semiRes[1], 'Semifinal 2', true) +
-      '<p class="champ" style="margin-top:14px">🏆 Final: ' + teamTag(f[0]) + ' vs ' + teamTag(f[1]) + '</p>';
-    stage = 'final';
-    var outIntro = h;
-    if (f.some(isMine)) {
-      show(h + '<div class="dr-nav"><button class="cta" type="button" id="dr-next">Set final pairs</button></div>');
-      el('dr-next').onclick = function () { lineups('', f); window.scrollTo({ top: el('dr').offsetTop - 80, behavior: 'smooth' }); };
-    } else {
-      show(h + '<div class="dr-nav"><button class="cta" type="button" id="dr-play">Play the final</button></div>'); el('dr-play').onclick = play;
-    }
+    var f = [semiRes[0].w, semiRes[1].w];
+    show('<h2>Semifinal results</h2>' + matchHtml(semiRes[0], 'Semifinal 1', !isMine(semiRes[0].t[0]) && !isMine(semiRes[0].t[1])) + matchHtml(semiRes[1], 'Semifinal 2', !isMine(semiRes[1].t[0]) && !isMine(semiRes[1].t[1])) +
+      '<p class="champ" style="margin-top:14px">🏆 Final: ' + teamTag(f[0]) + ' vs ' + teamTag(f[1]) + '</p><div class="dr-nav"><button class="cta" type="button" id="dr-play">Play the final</button></div>');
+    el('dr-play').onclick = function () { stage = 'final'; finalRes = newMatch(f[0], f[1]); proceed(); };
     return;
   }
-  var fs = finalists(); finalRes = playMatch(fs[0], fs[1]); results();
+  results();
 }
 function results() {
   var m = finalRes, ml = mineList(), won = isMine(m.w), all = ml.length === 4;
@@ -359,7 +415,7 @@ function results() {
     '<div class="dr-nav"><button class="cta" type="button" id="dr-share">Share my draft</button><button class="cta alt" type="button" id="dr-resim">Replay from the draw</button><button class="cta alt" type="button" id="dr-new">New draft</button></div>';
   show(h);
   el('dr-resim').onclick = draw;
-  el('dr-new').onclick = function () { auto = false; el('dr-result').hidden = true; el('dr-start').hidden = false; el('dr-draft').hidden = true; window.scrollTo({ top: el('dr').offsetTop - 80, behavior: 'smooth' }); };
+  el('dr-new').onclick = function () { auto = false; el('dr-result').hidden = true; el('dr-start').hidden = false; el('dr-draft').hidden = true; top(); };
   el('dr-share').onclick = share;
 }
 function share() {
