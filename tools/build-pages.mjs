@@ -10,7 +10,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { execFileSync } from 'node:child_process';
-import { renderInvitational } from './invitational.mjs';
+import { renderInvitational, renderInvitationalPlayers, iiSlug } from './invitational.mjs';
 
 const ROOT = process.cwd();
 const SITE = 'https://dailygolfgame.com';
@@ -198,6 +198,12 @@ ${PLAY_CTA}`
 }));
 cleanDir('golfers', new Set(PLAYERS.map(p => p.slug)));
 
+// Internet Invitational data (also used on YouTuber pages)
+const iiFile = 'data/internet-invitational-2026.json';
+const hasII = fs.existsSync(path.join(ROOT, iiFile));
+const II = hasII ? JSON.parse(read(iiFile)) : null;
+const iiByCreator = Object.fromEntries((II ? II.players : []).filter(p => p.creator).map(p => [p.creator, p]));
+
 // ---------- YouTuber pages ----------
 const creatorsSorted = CREATORS.slice().sort((a, b) => a.hcp - b.hcp || a.name.localeCompare(b.name));
 for (const c of CREATORS) {
@@ -218,6 +224,8 @@ for (const c of CREATORS) {
 </div>
 <h2>How good is ${esc(c.name)}?</h2>
 <p>${esc(c.name)} plays off ${c.hcp < 0 ? 'a plus ' + Math.abs(c.hcp).toFixed(1) + ' handicap, better than scratch' : 'a ' + c.hcp.toFixed(1) + ' handicap'}. That is the ${ordinal(hcpRank)} best handicap of the ${CREATORS.length} creators in the game${c.born ? `. ${esc(c.name)} was born on ${fmtDate(c.born)}` : ''}.</p>
+${iiByCreator[c.name] ? (ii => `<h2>Internet Invitational 2026</h2>
+<p>${esc(c.name)} plays in the 2026 Internet Invitational for ${esc(ii.team)}, with a handicap estimate of ${fmtHcp(ii.hcp)} for the event. <a href="/internet-invitational/${iiSlug(slug, ii)}/">${esc(c.name)}'s Internet Invitational page</a> · <a href="/internet-invitational/#handicap-list">full handicap list</a></p>`)(iiByCreator[c.name]) : ''}
 ${mates.length ? `<h2>Also on ${esc(c.channel)}</h2>
 <div class="chips">${mates.map(x => `<a href="/youtubers/${x.slug}/">${esc(x.name)}</a>`).join('')}</div>` : ''}
 <h2>Creators with a similar handicap</h2>
@@ -251,9 +259,12 @@ ${creatorsSorted.map(c => `<tr><td><a href="/youtubers/${c.slug}/">${esc(c.name)
 cleanDir('youtubers', new Set(CREATORS.map(c => c.slug)));
 
 // ---------- Internet Invitational ----------
-const iiFile = 'data/internet-invitational-2026.json';
-const hasII = fs.existsSync(path.join(ROOT, iiFile));
-if (hasII) write('/internet-invitational/', renderInvitational({ data: JSON.parse(read(iiFile)), esc, slug, fmtHcp, creatorByName, page }));
+const iiPlayers = hasII ? renderInvitationalPlayers({ data: II, esc, slug, fmtHcp, creatorByName, page, ordinal }) : [];
+if (hasII) {
+  write('/internet-invitational/', renderInvitational({ data: II, esc, slug, fmtHcp, creatorByName, page }));
+  for (const [s, html] of iiPlayers) write(`/internet-invitational/${s}/`, html);
+  cleanDir('internet-invitational', new Set(iiPlayers.map(x => x[0])));
+}
 
 // ---------- Answer archive ----------
 // A day is published once it is over in every time zone (UTC-12), so answers never spoil a game in progress.
@@ -314,7 +325,7 @@ const lastmod = u => changed.has(u) ? today : (gitDate(u === '/' ? 'index.html' 
 const urls = [
   ...STATIC, '/golfers/', ...PLAYERS.map(p => `/golfers/${p.slug}/`),
   '/youtubers/', ...CREATORS.map(c => `/youtubers/${c.slug}/`),
-  ...(hasII ? ['/internet-invitational/'] : []),
+  ...(hasII ? ['/internet-invitational/', ...iiPlayers.map(x => `/internet-invitational/${x[0]}/`)] : []),
   '/answers/', ...days.map(d => `/answers/${d}/`)
 ].map(u => [u, lastmod(u)]);
 fs.writeFileSync(path.join(ROOT, 'sitemap.xml'), `<?xml version="1.0" encoding="UTF-8"?>
