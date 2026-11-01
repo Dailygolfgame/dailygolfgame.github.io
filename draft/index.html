@@ -235,7 +235,9 @@ function strength(r) {
 function pairVal(pr, f) { var a = Math.min(pr[0].h, pr[1].h), b = Math.max(pr[0].h, pr[1].h); return f === 'scr' ? 0.7 * a + 0.3 * b : (a + b) / 2; }
 function byH(a, b) { return a.h - b.h; }
 function balanced(rem) { var s = rem.slice().sort(byH), P = []; for (var j = 0; j < s.length / 2; j++) P.push([s[j], s[s.length - 1 - j]]); return P; }
-function short(n) { var w = n.split(' '); return w.length > 1 ? w[w.length - 1] : n; }
+// Results show the name a player goes by: surname for most, first name or nickname for some.
+var SHORT = {"Wesley Bryan": "Wesley", "George Bryan": "George", "Garrett Clark": "Garrett", "Micah Morris": "Micah", "Grant Horvat": "Grant", "Paige Spiranac": "Paige", "Tisha Alyn": "Tisha", "Claire Hogle": "Claire", "Sabrina Andolpho": "Sabrina", "Hailey Ostrom": "Hailey", "Sara Winter": "Sara", "Marissa Wenzler": "Marissa", "Karol Priscilla": "Karol", "Cassandra Marie": "Cassandra", "Bubbie Broders": "Bubbie", "Seb Carmichael-Brown": "Seb", "Sam Heung Min": "Sam", "Johnny Manziel": "Manziel", "DOD King": "DOD King", "Short Game King": "Short Game King", "PFT Commenter": "PFT", "Joey Cold Cuts": "Joey Cold Cuts", "The Jet": "The Jet", "Jersey Jerry": "Jersey Jerry", "Big John": "Big John", "Fat Perez": "Fat Perez", "Bobby Fairways": "Bobby Fairways", "The Duke": "The Duke", "Bobby Ray": "Bobby Ray"};
+function short(n) { if (SHORT[n]) return SHORT[n]; var w = n.split(' '); return w.length > 1 ? w[w.length - 1] : n; }
 function pairName(pr) { return esc(short(pr[0].n)) + ' <small>' + fh(pr[0].h) + '</small> &amp; ' + esc(short(pr[1].n)) + ' <small>' + fh(pr[1].h) + '</small>'; }
 function pairFull(pr) { return esc(pr[0].n) + ' (' + fh(pr[0].h) + ') &amp; ' + esc(pr[1].n) + ' (' + fh(pr[1].h) + ')'; }
 function pts(x) { var f = Math.floor(x), h = x % 1 ? '½' : ''; return (f || !h ? f : '') + h; }
