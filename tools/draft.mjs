@@ -8,18 +8,22 @@ export function renderDraft({ data, esc, page }) {
   const COLORS = { Red: '#ef4444', Green: '#22c55e', Blue: '#3b82f6', White: '#e2e8f0' };
   const D = {
     teams: teams.map(t => ({ name: t, short: t.replace('Team ', ''), captain: data.teams[t].captain, color: COLORS[data.teams[t].color] || '#94a3b8' })),
-    players: data.players.map(p => ({ n: p.name, h: p.hcp, t: p.team, y: p.played2025, c: !!p.captain }))
+    players: data.players.map(p => ({ n: p.name, h: p.hcp, t: p.team, y: p.played2025, c: !!p.captain })),
+    final: (data.finalists || []).map(t => teams.indexOf(t)).filter(i => i >= 0)
   };
+  const FIN = D.final.length === 2 ? D.final.map(i => D.teams[i].short).join(' vs ') : '';
 
   const body = `<h1>Internet Invitational Draft Simulator</h1>
 <p class="lead">Run the 2026 Internet Invitational draft. Captain one team, two, three or all four (pass the phone to a friend), and AI captains draft the rest. Then a draw decides the semifinals, and you and the other captain take turns sending out pairs for a scramble round and an alt-shot round. The winners meet in the final.</p>
 <div id="dr" class="card dr-card">
   <div id="dr-start">
-    <h2 class="dr-h">Which teams do you draft?</h2>
+${FIN ? `    <div class="dr-modes" role="group" aria-label="Draft mode"><button type="button" data-m="all" class="on">Full draft · 4 teams</button><button type="button" data-m="final">The real final · ${esc(FIN)}</button></div>
+    <p class="mut small" id="dr-mode-note" hidden style="margin:-4px 0 12px">Only the two teams that made the real final, ${esc(FIN)}, with their 32 players. Draft them, then play the final.</p>
+` : ''}    <h2 class="dr-h">Which teams do you draft?</h2>
     <p class="mut" style="margin:-4px 0 10px;font-size:.88rem">Tap one or more captains. The AI drafts the teams you leave out.</p>
     <div class="dr-caps">${D.teams.map((t, i) => `<button class="dr-cap" data-i="${i}" type="button" aria-pressed="false" style="--c:${t.color}"><b>${esc(t.captain)}</b><span>${esc(t.name)} · picks ${ordinalSmall(i + 1)}</span><i class="dr-chk">✓</i></button>`).join('')}</div>
     <div class="dr-nav"><button class="cta" type="button" id="dr-go" disabled>Start draft</button><button class="dr-link" type="button" id="dr-all">Select all</button></div>
-    <p class="mut small">Snake draft: the pick order reverses every round (${D.teams.map(t => esc(t.short)).join(', ')}, then back). 60 picks, 15 per team. Handicaps are estimates by YT Golf Stats.</p>
+    <p class="mut small" id="dr-rules">Snake draft: the pick order reverses every round (${D.teams.map(t => esc(t.short)).join(', ')}, then back). 60 picks, 15 per team. Handicaps are estimates by YT Golf Stats.</p>
   </div>
   <div id="dr-draft" hidden>
     <div class="dr-status"><span id="dr-round"></span><span id="dr-clock"></span></div>
@@ -50,6 +54,7 @@ export function renderDraft({ data, esc, page }) {
 #dr-go:disabled{opacity:.45;cursor:default}.dr-cap b{display:block;color:#fff}.dr-cap span{font-size:.8rem;color:var(--mut)}
 .dr-status{display:flex;justify-content:space-between;gap:8px;font-size:.85rem;margin-bottom:10px;flex-wrap:wrap}
 .dr-status #dr-clock{font-weight:800;color:#fff}.dr-status #dr-clock.you{color:var(--acc)}
+.dr-modes{display:flex;gap:6px;margin-bottom:14px}.dr-modes button{flex:1;padding:8px 6px;border-radius:10px;border:1px solid var(--line);background:#0b1325;color:var(--txt);font:inherit;font-size:.85rem;font-weight:700;cursor:pointer}.dr-modes button.on{background:#d97706;border-color:#d97706;color:#fff}
 .dr-tabs{display:flex;gap:6px;margin-bottom:10px}.dr-tabs button{flex:1;padding:8px;border-radius:10px;border:1px solid var(--line);background:#0b1325;color:var(--txt);font:inherit;font-weight:700;cursor:pointer}.dr-tabs button.on{background:#16a34a;border-color:#16a34a;color:#fff}
 #dr-q{margin-bottom:8px}
 #dr-list{max-height:420px;overflow:auto;border:1px solid var(--line);border-radius:12px}
@@ -95,21 +100,22 @@ export function renderDraft({ data, esc, page }) {
   const script = `<script>
 (function () {
 var D = ${JSON.stringify(D)};
-var T = D.teams, NT = T.length, PER = 16, PICKS = NT * (PER - 1);
+var T = D.teams, PER = 16, mode = 'all', act = [0, 1, 2, 3], NT = 4, PICKS = NT * (PER - 1);
+var TI = {}; T.forEach(function (t, i) { TI[t.name] = i; });
 var el = function (id) { return document.getElementById(id); };
 function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
 function fh(h) { return h < 0 ? '+' + Math.abs(h).toFixed(1) : h.toFixed(1); }
 var mine = [false, false, false, false], pairs, rosters, avail, pick, timer, q = '', auto = false;
 function isMine(i) { return mine[i]; }
-function mineList() { return [0, 1, 2, 3].filter(isMine); }
+function mineList() { return act.filter(isMine); }
 
 // Snake order: round 1 = 0,1,2,3; round 2 = 3,2,1,0; ...
-function teamFor(k) { var r = Math.floor(k / NT), i = k % NT; return r % 2 === 0 ? i : NT - 1 - i; }
+function teamFor(k) { var r = Math.floor(k / NT), i = k % NT; return act[r % 2 === 0 ? i : NT - 1 - i]; }
 
 function start() {
   pick = 0; auto = false; q = ''; el('dr-q').value = '';
   rosters = T.map(function (t) { return [D.players.filter(function (p) { return p.c && p.t === t.name; })[0]]; });
-  avail = D.players.filter(function (p) { return !p.c; }).sort(function (a, b) { return a.h - b.h || a.n.localeCompare(b.n); });
+  avail = D.players.filter(function (p) { return !p.c && act.indexOf(TI[p.t]) >= 0; }).sort(function (a, b) { return a.h - b.h || a.n.localeCompare(b.n); });
   el('dr-start').hidden = true; el('dr-result').hidden = true; el('dr-draft').hidden = false;
   tab('avail'); el('dr-last').textContent = ''; step();
 }
@@ -144,8 +150,8 @@ function render() {
 }
 function avg(r) { return r.reduce(function (a, p) { return a + p.h; }, 0) / r.length; }
 function board() {
-  return '<div class="dr-board">' + T.map(function (t, i) {
-    var r = rosters[i];
+  return '<div class="dr-board">' + act.map(function (i) {
+    var t = T[i], r = rosters[i];
     return '<div class="dr-team' + (isMine(i) ? ' you' : '') + '" style="--c:' + t.color + '"><h4>' + esc(t.short) + (isMine(i) ? ' (you)' : '') + ' <small>avg ' + fh(avg(r)) + '</small></h4><ol>' +
       r.map(function (p) { return '<li>' + esc(p.n) + ' <span>' + fh(p.h) + '</span></li>'; }).join('') + '</ol></div>';
   }).join('') + '</div>';
@@ -240,7 +246,15 @@ function score(m, s) { return pts(m.p[s]); }
 function line(m) { return esc(T[m.t[0]].short) + ' ' + score(m, 0) + '–' + score(m, 1) + ' ' + esc(T[m.t[1]].short) + (m.po !== undefined ? ' (' + esc(T[m.w].short) + ' won playoff)' : ''); }
 
 var stage, semis, drawn, semiRes, finalRes, cur, picked = [];
-function finish() { el('dr-draft').hidden = true; el('dr-result').hidden = false; draw(); }
+function finish() { el('dr-draft').hidden = true; el('dr-result').hidden = false; if (mode === 'final') finalIntro(); else draw(); }
+// Real-final mode: the two finalists go straight to the final.
+function finalIntro() {
+  stage = 'final'; semiRes = null; finalRes = newMatch(act[0], act[1]);
+  show('<h2>🏆 The final</h2><p class="champ">' + teamTag(act[0]) + ' vs ' + teamTag(act[1]) + '</p>' +
+    '<p class="mut small">A scramble round and an alt-shot round. Captains take turns: one team sends out a pair and the other answers, then they switch, until all 16 players are out. A point per pairing, 16 in total, sudden-death playoff at 8–8.</p>' +
+    '<div class="dr-nav"><button class="cta" type="button" id="dr-play">Start the final</button></div>');
+  el('dr-play').onclick = proceed;
+}
 function top() { window.scrollTo({ top: el('dr').offsetTop - 80, behavior: 'smooth' }); }
 function show(h, stay) { el('dr-result').innerHTML = '<div class="dr-res">' + h + '</div>'; if (!stay) top(); }
 function teamTag(i) { return '<b style="color:' + T[i].color + '">' + esc(T[i].short) + '</b>' + (isMine(i) ? ' (you)' : ''); }
@@ -360,15 +374,15 @@ function stageDone() {
   results();
 }
 function results() {
-  var m = finalRes, ml = mineList(), won = isMine(m.w), all = ml.length === 4;
+  var m = finalRes, ml = mineList(), won = isMine(m.w), all = ml.length === NT;
   var inFinal = ml.indexOf(m.l) >= 0;
   var head = all ? '🏆 ' + esc(T[m.w].name) + ' wins' : won ? '🏆 Champions!' : inFinal ? 'Lost in the final' : 'Out in the semis';
   var h = '<h2>' + head + '</h2><p class="champ">' + esc(T[m.w].name) + ' won the simulated Internet Invitational, beating ' + esc(T[m.l].short) + ' ' + pts(m.p[m.t.indexOf(m.w)]) + '–' + pts(m.p[m.t.indexOf(m.l)]) + (m.po !== undefined ? ' after a playoff' : '') + ' in the final.</p>' +
-    matchHtml(m, 'Final', true) + matchHtml(semiRes[0], 'Semifinal 1', false) + matchHtml(semiRes[1], 'Semifinal 2', false) +
+    matchHtml(m, 'Final', true) + (semiRes ? matchHtml(semiRes[0], 'Semifinal 1', false) + matchHtml(semiRes[1], 'Semifinal 2', false) : '') +
     '<h3>The teams</h3>' + board() +
-    '<div class="dr-nav"><button class="cta" type="button" id="dr-share">Share my draft</button><button class="cta alt" type="button" id="dr-resim">Replay from the draw</button><button class="cta alt" type="button" id="dr-new">New draft</button></div>';
+    '<div class="dr-nav"><button class="cta" type="button" id="dr-share">Share my draft</button><button class="cta alt" type="button" id="dr-resim">' + (mode === 'final' ? 'Replay the final' : 'Replay from the draw') + '</button><button class="cta alt" type="button" id="dr-new">New draft</button></div>';
   show(h);
-  el('dr-resim').onclick = draw;
+  el('dr-resim').onclick = mode === 'final' ? finalIntro : draw;
   el('dr-new').onclick = function () { auto = false; el('dr-result').hidden = true; el('dr-start').hidden = false; el('dr-draft').hidden = true; top(); };
   el('dr-share').onclick = share;
 }
@@ -376,13 +390,13 @@ function share() {
   var ml = mineList(), m = finalRes, text;
   if (ml.length === 1) {
     var me = ml[0], r = rosters[me].slice().sort(function (a, b) { return a.h - b.h; }).slice(1, 6).map(function (p) { return p.n; }).join(', ');
-    var sm = semiRes[0].t.indexOf(me) >= 0 ? semiRes[0] : semiRes[1];
-    text = 'I drafted Team ' + T[me].short + ' in the Internet Invitational draft simulator ' + (m.w === me ? '🏆 and won the title!' : '⛳') +
-      '\\nTop picks: ' + r + '\\nSemi: ' + line(sm) + (sm.w === me ? '\\nFinal: ' + line(m) : '');
+    var sm = semiRes ? (semiRes[0].t.indexOf(me) >= 0 ? semiRes[0] : semiRes[1]) : null;
+    text = 'I drafted Team ' + T[me].short + (mode === 'final' ? ' for the Internet Invitational final ' : ' in the Internet Invitational draft simulator ') + (m.w === me ? '🏆 and won the title!' : '⛳') +
+      '\\nTop picks: ' + r + (sm ? '\\nSemi: ' + line(sm) : '') + (!sm || sm.w === me ? '\\nFinal: ' + line(m) : '');
   } else {
     text = 'I ran the Internet Invitational draft simulator ⛳\\n🏆 ' + T[m.w].name + ' won the final, ' + line(m);
   }
-  text += '\\nhttps://dailygolfgame.com/draft/';
+  text += '\\nhttps://dailygolfgame.com/draft/' + (mode === 'final' ? '?final' : '');
   if (navigator.share && window.matchMedia && matchMedia('(pointer: coarse)').matches) { navigator.share({ text: text }).catch(function () {}); return; }
   var ok = function () { toast('Copied – paste it anywhere!'); };
   if (navigator.clipboard && window.isSecureContext) navigator.clipboard.writeText(text).then(ok, function () { prompt('Copy your draft:', text); });
@@ -397,7 +411,20 @@ function syncCaps() {
   el('dr-go').textContent = mineList().length > 1 ? 'Start draft (' + mineList().length + ' teams)' : 'Start draft';
 }
 document.querySelectorAll('.dr-cap').forEach(function (b) { b.onclick = function () { var i = +b.getAttribute('data-i'); mine[i] = !mine[i]; syncCaps(); }; });
-el('dr-all').onclick = function () { var all = mineList().length === 4; mine = [!all, !all, !all, !all]; syncCaps(); };
+el('dr-all').onclick = function () { var all = mineList().length === NT; mine = T.map(function (_, i) { return !all && act.indexOf(i) >= 0; }); syncCaps(); };
+function setMode(m) {
+  mode = m === 'final' && D.final.length === 2 ? 'final' : 'all';
+  act = mode === 'final' ? D.final.slice() : [0, 1, 2, 3]; NT = act.length; PICKS = NT * (PER - 1);
+  mine = mine.map(function (v, i) { return v && act.indexOf(i) >= 0; });
+  document.querySelectorAll('.dr-modes button').forEach(function (b) { b.classList.toggle('on', b.getAttribute('data-m') === mode); });
+  document.querySelectorAll('.dr-cap[data-i]').forEach(function (b) { b.hidden = act.indexOf(+b.getAttribute('data-i')) < 0; });
+  if (el('dr-mode-note')) el('dr-mode-note').hidden = mode !== 'final';
+  el('dr-rules').textContent = 'Snake draft: the pick order reverses every round (' + act.map(function (i) { return T[i].short; }).join(', ') + ', then back). ' + PICKS + ' picks, ' + (PER - 1) + ' per team. Handicaps are estimates by YT Golf Stats.';
+  syncCaps();
+}
+document.querySelectorAll('.dr-modes button').forEach(function (b) { b.onclick = function () { setMode(b.getAttribute('data-m')); }; });
+// Shared links like /draft/?final open the real-final mode.
+if (/[?&]final(=|&|$)/.test(location.search)) setMode('final');
 el('dr-go').onclick = function () { if (mineList().length) start(); };
 document.querySelectorAll('.dr-tabs button').forEach(function (b) { b.onclick = function () { tab(b.getAttribute('data-tab')); }; });
 el('dr-list').addEventListener('click', function (e) {
