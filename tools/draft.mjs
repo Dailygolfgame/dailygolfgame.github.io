@@ -9,7 +9,8 @@ export function renderDraft({ data, esc, page }) {
   const D = {
     teams: teams.map(t => ({ name: t, short: t.replace('Team ', ''), captain: data.teams[t].captain, color: COLORS[data.teams[t].color] || '#94a3b8' })),
     players: data.players.map(p => ({ n: p.name, h: p.hcp, t: p.team, y: p.played2025, c: !!p.captain })),
-    final: (data.finalists || []).map(t => teams.indexOf(t)).filter(i => i >= 0)
+    final: (data.finalists || []).map(t => teams.indexOf(t)).filter(i => i >= 0),
+    fstart: (data.finalists || []).map(t => (data.finalStart || {})[t] || 0)
   };
   const FIN = D.final.length === 2 ? D.final.map(i => D.teams[i].short).join(' vs ') : '';
 
@@ -18,9 +19,9 @@ export function renderDraft({ data, esc, page }) {
 <div id="dr" class="card dr-card">
   <div id="dr-start">
 ${FIN ? `    <div class="dr-modes" role="group" aria-label="Draft mode"><button type="button" data-m="all" class="on">Full draft · 4 teams</button><button type="button" data-m="final">The real final · ${esc(FIN)}</button></div>
-    <p class="mut small" id="dr-mode-note" hidden style="margin:-4px 0 12px">Only the two teams that made the real final, ${esc(FIN)}, with their 32 players. Draft them, then play the final.</p>
-` : ''}    <h2 class="dr-h">Which teams do you draft?</h2>
-    <p class="mut" style="margin:-4px 0 10px;font-size:.88rem">Tap one or more captains. The AI drafts the teams you leave out.</p>
+    <p class="mut small" id="dr-mode-note" hidden style="margin:-4px 0 12px">The real final with the real rosters, no draft. ${esc(D.final.map((i, k) => D.teams[i].short + ' ' + D.fstart[k]).join(', '))} going into the singles: pick the team you captain, send out your players and simulate the 16 singles.</p>
+` : ''}    <h2 class="dr-h" id="dr-hd">Which teams do you draft?</h2>
+    <p class="mut" id="dr-sub" style="margin:-4px 0 10px;font-size:.88rem">Tap one or more captains. The AI drafts the teams you leave out.</p>
     <div class="dr-caps">${D.teams.map((t, i) => `<button class="dr-cap" data-i="${i}" type="button" aria-pressed="false" style="--c:${t.color}"><b>${esc(t.captain)}</b><span>${esc(t.name)} · picks ${ordinalSmall(i + 1)}</span><i class="dr-chk">✓</i></button>`).join('')}</div>
     <div class="dr-nav"><button class="cta" type="button" id="dr-go" disabled>Start draft</button><button class="dr-link" type="button" id="dr-all">Select all</button></div>
     <p class="mut small" id="dr-rules">Snake draft: the pick order reverses every round (${D.teams.map(t => esc(t.short)).join(', ')}, then back). 60 picks, 15 per team. Handicaps are estimates by YT Golf Stats.</p>
@@ -166,7 +167,10 @@ function tab(name) {
 // one team sends out a pair and the other answers, and they switch roles every pairing.
 // The team that sends first in the scramble answers first in the alt shot. One point per pairing,
 // 16 in total; 8-8 goes to a sudden-death playoff.
-var FMT = [['scr', 'Scramble'], ['alt', 'Alt shot']], K = 0.4;
+var FMT = [['scr', 'Scramble'], ['alt', 'Alt shot']], SINGLES = [['sgl', 'Singles']], K = 0.4;
+// Players per side in a format: two in scramble and alt shot, one in singles.
+function size(f) { return f === 'sgl' ? 1 : 2; }
+function fmtOf(m) { return m.fmts[m.fi]; }
 var MARGINS = ['1 up', '2 & 1', '3 & 2', '4 & 3', '5 & 4'];
 function strength(r) {
   var s = r.map(function (p) { return p.h; }).sort(function (a, b) { return a - b; }), w = 1, sw = 0, sum = 0;
@@ -174,14 +178,14 @@ function strength(r) {
   return sum / sw;
 }
 // Pair rating in strokes (lower is better). Scramble leans on the better player; alt shot needs both.
-function pairVal(pr, f) { var a = Math.min(pr[0].h, pr[1].h), b = Math.max(pr[0].h, pr[1].h); return f === 'scr' ? 0.7 * a + 0.3 * b : (a + b) / 2; }
+function pairVal(pr, f) { if (pr.length === 1) return pr[0].h; var a = Math.min(pr[0].h, pr[1].h), b = Math.max(pr[0].h, pr[1].h); return f === 'scr' ? 0.7 * a + 0.3 * b : (a + b) / 2; }
 function byH(a, b) { return a.h - b.h; }
 function balanced(rem) { var s = rem.slice().sort(byH), P = []; for (var j = 0; j < s.length / 2; j++) P.push([s[j], s[s.length - 1 - j]]); return P; }
 // Results show the name a player goes by: surname for most, first name or nickname for some.
 var SHORT = {"Wesley Bryan": "Wesley", "George Bryan": "George", "Garrett Clark": "Garrett", "Micah Morris": "Micah", "Grant Horvat": "Grant", "Paige Spiranac": "Paige", "Tisha Alyn": "Tisha", "Claire Hogle": "Claire", "Sabrina Andolpho": "Sabrina", "Hailey Ostrom": "Hailey", "Sara Winter": "Sara", "Marissa Wenzler": "Marissa", "Karol Priscilla": "Karol", "Cassandra Marie": "Cassandra", "Bubbie Broders": "Bubbie", "Seb Carmichael-Brown": "Seb", "Chaz Bowker": "Chazzy", "Sam Heung Min": "Sam", "Johnny Manziel": "Manziel", "DOD King": "DOD King", "Short Game King": "Short Game King", "PFT Commenter": "PFT", "Joey Cold Cuts": "Joey Cold Cuts", "The Jet": "The Jet", "Jersey Jerry": "Jersey Jerry", "Big John": "Big John", "Fat Perez": "Fat Perez", "Bobby Fairways": "Bobby Fairways", "The Duke": "The Duke", "Bobby Ray": "Bobby Ray"};
 function short(n) { if (SHORT[n]) return SHORT[n]; var w = n.split(' '); return w.length > 1 ? w[w.length - 1] : n; }
-function pairName(pr) { return esc(short(pr[0].n)) + ' <small>' + fh(pr[0].h) + '</small> &amp; ' + esc(short(pr[1].n)) + ' <small>' + fh(pr[1].h) + '</small>'; }
-function pairFull(pr) { return esc(pr[0].n) + ' (' + fh(pr[0].h) + ') &amp; ' + esc(pr[1].n) + ' (' + fh(pr[1].h) + ')'; }
+function pairName(pr) { if (pr.length === 1) return esc(short(pr[0].n)) + ' <small>' + fh(pr[0].h) + '</small>'; return esc(short(pr[0].n)) + ' <small>' + fh(pr[0].h) + '</small> &amp; ' + esc(short(pr[1].n)) + ' <small>' + fh(pr[1].h) + '</small>'; }
+function pairFull(pr) { if (pr.length === 1) return esc(pr[0].n) + ' (' + fh(pr[0].h) + ')'; return esc(pr[0].n) + ' (' + fh(pr[0].h) + ') &amp; ' + esc(pr[1].n) + ' (' + fh(pr[1].h) + ')'; }
 function pts(x) { var f = Math.floor(x), h = x % 1 ? '½' : ''; return (f || !h ? f : '') + h; }
 function logi(d) { return 1 / (1 + Math.exp(-K * d)); }
 function playGame(A, B, f) {
@@ -195,8 +199,15 @@ function playGame(A, B, f) {
 // Answering: a pair of about the same level as the pair it faces (usually a bit better,
 // sometimes a bit worse), and it avoids splitting a star off on a weak pairing.
 function aiPair(rem, f, vs) {
-  if (rem.length <= 2) return rem.slice(0, 2);
   var s = rem.slice().sort(byH);
+  if (size(f) === 1) {
+    // Singles: lead with anyone; answer with a player of about the same level.
+    if (!vs) return [s[Math.floor(Math.random() * s.length)]];
+    var t1 = vs[0].h - (Math.random() * 2.5 - 0.5);
+    var c1 = s.slice().sort(function (a, b) { return Math.abs(a.h - t1) - Math.abs(b.h - t1); });
+    return [c1[Math.floor(Math.random() * Math.min(2, c1.length))]];
+  }
+  if (rem.length <= 2) return rem.slice(0, 2);
   if (!vs) {
     var i = Math.floor(Math.random() * s.length), j = i + (Math.random() < 0.5 ? -1 : 1) * (1 + Math.floor(Math.random() * 2));
     j = Math.max(0, Math.min(s.length - 1, j)); if (j === i) j = i ? i - 1 : 1;
@@ -210,7 +221,7 @@ function aiPair(rem, f, vs) {
   return C[Math.floor(Math.random() * Math.min(3, C.length))].pr;
 }
 
-function newMatch(i, j) { return { t: [i, j], p: [0, 0], rounds: [], fi: 0 }; }
+function newMatch(i, j, fmts, start) { return { t: [i, j], p: start ? start.slice() : [0, 0], start: start, rounds: [], fi: 0, fmts: fmts || FMT }; }
 function firstLead(m) { var a = m.t[0], b = m.t[1]; return isMine(a) && !isMine(b) ? b : isMine(b) && !isMine(a) ? a : b; }
 function startRound(m) {
   var fl = firstLead(m);
@@ -230,19 +241,19 @@ function place(m, pr) {
   if (m.k % 2 === 0) m.slots.push([null, null]);
   m.slots[m.slots.length - 1][s] = pr; m.k++;
 }
-function aiStep(m) { var s = side(m, turnTeam(m)); place(m, aiPair(m.rem[s], FMT[m.fi][0], facing(m))); }
-function roundDone(m) { return m.k >= PER; }
+function aiStep(m) { var s = side(m, turnTeam(m)); place(m, aiPair(m.rem[s], fmtOf(m)[0], facing(m))); }
+function roundDone(m) { return m.k >= 2 * PER / size(fmtOf(m)[0]); }
 function finishRound(m) {
-  var f = FMT[m.fi], games = m.slots.map(function (sl) { return playGame(sl[0], sl[1], f[0]); });
+  var f = fmtOf(m), games = m.slots.map(function (sl) { return playGame(sl[0], sl[1], f[0]); });
   games.forEach(function (g) { if (g.w === -1) { m.p[0] += 0.5; m.p[1] += 0.5; } else m.p[g.w]++; });
-  m.rounds.push({ f: f[1], games: games }); m.fi++;
+  m.rounds.push({ f: f[1], key: f[0], games: games }); m.fi++;
 }
 function finishMatch(m) {
-  if (m.p[0] === m.p[1]) { var g = m.rounds[0].games[0]; m.po = Math.random() < logi(2 * (pairVal(g.b, 'scr') - pairVal(g.a, 'scr'))) ? 0 : 1; m.w = m.t[m.po]; }
+  if (m.p[0] === m.p[1]) { var r0 = m.rounds[0], g = r0.games[0]; m.po = Math.random() < logi(2 * (pairVal(g.b, r0.key) - pairVal(g.a, r0.key))) ? 0 : 1; m.w = m.t[m.po]; }
   else m.w = m.p[0] > m.p[1] ? m.t[0] : m.t[1];
   m.l = m.w === m.t[0] ? m.t[1] : m.t[0];
 }
-function autoMatch(m) { while (m.fi < 2) { startRound(m); while (!roundDone(m)) aiStep(m); finishRound(m); } finishMatch(m); }
+function autoMatch(m) { while (m.fi < m.fmts.length) { startRound(m); while (!roundDone(m)) aiStep(m); finishRound(m); } finishMatch(m); }
 
 function score(m, s) { return pts(m.p[s]); }
 function line(m) { return esc(T[m.t[0]].short) + ' ' + score(m, 0) + '–' + score(m, 1) + ' ' + esc(T[m.t[1]].short) + (m.po !== undefined ? ' (' + esc(T[m.w].short) + ' won playoff)' : ''); }
@@ -251,9 +262,9 @@ var stage, semis, drawn, semiRes, finalRes, cur, picked = [];
 function finish() { el('dr-draft').hidden = true; el('dr-result').hidden = false; if (mode === 'final') finalIntro(); else draw(); }
 // Real-final mode: the two finalists go straight to the final.
 function finalIntro() {
-  stage = 'final'; semiRes = null; finalRes = newMatch(act[0], act[1]);
-  show('<h2>🏆 The final</h2><p class="champ">' + teamTag(act[0]) + ' vs ' + teamTag(act[1]) + '</p>' +
-    '<p class="mut small">A scramble round and an alt-shot round. Captains take turns: one team sends out a pair and the other answers, then they switch, until all 16 players are out. A point per pairing, 16 in total, sudden-death playoff at 8–8.</p>' +
+  stage = 'final'; semiRes = null; finalRes = newMatch(act[0], act[1], SINGLES, D.fstart);
+  show('<h2>🏆 The final: singles</h2><p class="champ">' + teamTag(act[0]) + ' ' + D.fstart[0] + '–' + D.fstart[1] + ' ' + teamTag(act[1]) + ' going into the singles</p>' +
+    '<p class="mut small">16 singles matches, one against one. Captains take turns: one team sends out a player and the other answers, then they switch, until all 16 players are out. A point per match, 24 in total: 12½ wins the title, and 12–12 goes to a sudden-death playoff.</p>' +
     '<div class="dr-nav"><button class="cta" type="button" id="dr-play">Start the final</button></div>');
   el('dr-play').onclick = proceed;
 }
@@ -302,7 +313,7 @@ function pickStep(stay) {
   var m = cur;
   while (!roundDone(m)) {
     var tm = turnTeam(m), s = side(m, tm);
-    if (m.rem[s].length === 2) { place(m, m.rem[s].slice()); continue; }
+    if (m.rem[s].length === size(fmtOf(m)[0])) { place(m, m.rem[s].slice()); continue; }
     if (isMine(tm) && !m.auto) { picker(m, stay); return; }
     aiStep(m);
   }
@@ -315,28 +326,28 @@ function slotsHtml(m, pending) {
   }).join('') + '</div>';
 }
 function picker(m, stay) {
-  var tm = turnTeam(m), s = side(m, tm), f = FMT[m.fi], vs = facing(m), other = m.t[1 - s], both = isMine(other);
+  var tm = turnTeam(m), s = side(m, tm), f = fmtOf(m), n = size(f[0]), vs = facing(m), other = m.t[1 - s], both = isMine(other);
   var rem = m.rem[s].slice().sort(byH), who = both ? 'Team ' + esc(T[tm].short) + ': ' : '';
-  var msg = vs ? who + teamTag(other) + ' sent out <b>' + pairFull(vs) + '</b>. Pick two players to face them.'
-    : who + 'Your turn to send out a pair. ' + teamTag(other) + ' answers.';
-  var h = '<h2>' + matchName(m) + ' · ' + f[1] + '</h2><p class="mut" style="margin:0 0 10px;font-size:.85rem">Pairing ' + (Math.floor(m.k / 2) + 1) + ' of ' + PER / 2 + ' · ' + teamTag(m.t[0]) + ' vs ' + teamTag(m.t[1]) + (m.fi ? ' · after scramble ' + line(m) : '') + '</p>' +
+  var msg = vs ? who + teamTag(other) + ' sent out <b>' + pairFull(vs) + '</b>. Pick ' + (n === 1 ? 'a player' : 'two players') + ' to face them.'
+    : who + 'Your turn to send out ' + (n === 1 ? 'a player' : 'a pair') + '. ' + teamTag(other) + ' answers.';
+  var h = '<h2>' + matchName(m) + ' · ' + f[1] + '</h2><p class="mut" style="margin:0 0 10px;font-size:.85rem">' + (n === 1 ? 'Match ' : 'Pairing ') + (Math.floor(m.k / 2) + 1) + ' of ' + PER / n + ' · ' + teamTag(m.t[0]) + ' vs ' + teamTag(m.t[1]) + (m.fi ? ' · after ' + m.rounds[m.fi - 1].f.toLowerCase() + ' ' + line(m) : '') + '</p>' +
     '<div class="dr-odds">' + msg + '</div><div class="dr-chips">' + rem.map(function (p, i) {
       return '<button type="button" data-x="' + i + '"' + (picked.indexOf(p) >= 0 ? ' class="on"' : '') + '>' + esc(p.n) + '<small>' + fh(p.h) + '</small></button>';
     }).join('') + '</div>';
-  var pr = picked.length === 2 ? picked : null;
-  h += '<p class="dr-prev">' + (pr ? 'Your pair: <b>' + pairFull(pr) + '</b>' : 'Pick ' + (2 - picked.length) + ' more player' + (picked.length ? '' : 's') + '.') + '</p>' +
-    '<div class="dr-nav"><button class="cta" type="button" id="dr-send"' + (pr ? '' : ' disabled') + '>Send out pair</button><button class="cta alt" type="button" id="dr-ap">AI pick</button><button class="dr-link" type="button" id="dr-ar">AI picks rest of round</button></div>' +
+  var pr = picked.length === n ? picked : null;
+  h += '<p class="dr-prev">' + (pr ? (n === 1 ? 'Your player: <b>' : 'Your pair: <b>') + pairFull(pr) + '</b>' : 'Pick ' + (n - picked.length) + ' more player' + (n - picked.length === 1 ? '' : 's') + '.') + '</p>' +
+    '<div class="dr-nav"><button class="cta" type="button" id="dr-send"' + (pr ? '' : ' disabled') + '>Send out ' + (n === 1 ? 'player' : 'pair') + '</button><button class="cta alt" type="button" id="dr-ap">AI pick</button><button class="dr-link" type="button" id="dr-ar">AI picks rest of round</button></div>' +
     '<h3>' + f[1] + ' matchups</h3>' + slotsHtml(m, '…') +
     '<p class="mut small">Handicaps by YT Golf Stats. In a scramble the better player carries the pair; in alt shot both players hit every other shot.</p>';
   show(h, stay);
   el('dr-result').querySelectorAll('[data-x]').forEach(function (b) {
     b.onclick = function () {
       var p = rem[+b.getAttribute('data-x')], at = picked.indexOf(p);
-      if (at >= 0) picked.splice(at, 1); else { if (picked.length === 2) picked.shift(); picked.push(p); }
+      if (at >= 0) picked.splice(at, 1); else { if (picked.length === n) picked.shift(); picked.push(p); }
       picker(m, true);
     };
   });
-  el('dr-send').onclick = function () { if (picked.length !== 2) return; place(m, picked); picked = []; pickStep(); };
+  el('dr-send').onclick = function () { if (picked.length !== n) return; place(m, picked); picked = []; pickStep(); };
   el('dr-ap').onclick = function () { picked = []; aiStep(m); pickStep(); };
   el('dr-ar').onclick = function () { picked = []; m.auto = true; pickStep(); };
 }
@@ -348,9 +359,9 @@ function roundHtml(m, r) {
 }
 function roundResult(m) {
   var r = m.rounds[m.rounds.length - 1], h = '<h2>' + matchName(m) + ' · ' + r.f + ' results</h2>';
-  if (m.fi < 2) {
-    h += '<p class="champ">After the scramble: ' + line(m) + '</p><div class="dr-mt">' + roundHtml(m, r) + '</div>' +
-      '<div class="dr-nav"><button class="cta" type="button" id="dr-next">Alt shot: pick pairs</button></div>';
+  if (m.fi < m.fmts.length) {
+    h += '<p class="champ">After the ' + r.f.toLowerCase() + ': ' + line(m) + '</p><div class="dr-mt">' + roundHtml(m, r) + '</div>' +
+      '<div class="dr-nav"><button class="cta" type="button" id="dr-next">' + fmtOf(m)[1] + ': pick pairs</button></div>';
     show(h); el('dr-next').onclick = function () { startRound(m); picked = []; pickStep(); };
   } else {
     finishMatch(m);
@@ -362,7 +373,8 @@ function roundResult(m) {
 function matchHtml(m, title, open) {
   var h = '<details class="dr-mt"' + (open ? ' open' : '') + '><summary><span>' + title + '</span><b>' + line(m) + '</b></summary>';
   m.rounds.forEach(function (r) { h += roundHtml(m, r); });
-  if (m.po !== undefined) h += '<p class="mut small">Tied 8–8. ' + esc(T[m.w].short) + ' won the sudden-death scramble playoff.</p>';
+  if (m.start) h = h.replace('</summary>', '</summary><p class="mut small">Before the singles: ' + esc(T[m.t[0]].short) + ' ' + pts(m.start[0]) + '–' + pts(m.start[1]) + ' ' + esc(T[m.t[1]].short) + '</p>');
+  if (m.po !== undefined) h += '<p class="mut small">Tied ' + pts(m.p[0]) + '–' + pts(m.p[1]) + '. ' + esc(T[m.w].short) + ' won the sudden-death playoff.</p>';
   return h + '</details>';
 }
 function stageDone() {
@@ -393,10 +405,11 @@ function share() {
   if (ml.length === 1) {
     var me = ml[0], r = rosters[me].slice().sort(function (a, b) { return a.h - b.h; }).slice(1, 6).map(function (p) { return p.n; }).join(', ');
     var sm = semiRes ? (semiRes[0].t.indexOf(me) >= 0 ? semiRes[0] : semiRes[1]) : null;
-    text = 'I drafted Team ' + T[me].short + (mode === 'final' ? ' for the Internet Invitational final ' : ' in the Internet Invitational draft simulator ') + (m.w === me ? '🏆 and won the title!' : '⛳') +
+    if (mode === 'final') text = 'I captained Team ' + T[me].short + ' in the Internet Invitational final singles ' + (m.w === me ? '🏆 and won the title!' : '⛳') + '\\nFinal: ' + line(m);
+    else text = 'I drafted Team ' + T[me].short + ' in the Internet Invitational draft simulator ' + (m.w === me ? '🏆 and won the title!' : '⛳') +
       '\\nTop picks: ' + r + (sm ? '\\nSemi: ' + line(sm) : '') + (!sm || sm.w === me ? '\\nFinal: ' + line(m) : '');
   } else {
-    text = 'I ran the Internet Invitational draft simulator ⛳\\n🏆 ' + T[m.w].name + ' won the final, ' + line(m);
+    text = (mode === 'final' ? 'I simulated the Internet Invitational final singles ⛳' : 'I ran the Internet Invitational draft simulator ⛳') + '\\n🏆 ' + T[m.w].name + ' won the final, ' + line(m);
   }
   text += '\\nhttps://dailygolfgame.com/draft/' + (mode === 'final' ? '?final' : '');
   if (navigator.share && window.matchMedia && matchMedia('(pointer: coarse)').matches) { navigator.share({ text: text }).catch(function () {}); return; }
@@ -410,7 +423,8 @@ function toast(m) { var x = el('toast'); if (!x) { x = document.createElement('d
 function syncCaps() {
   document.querySelectorAll('.dr-cap').forEach(function (b) { b.setAttribute('aria-pressed', mine[+b.getAttribute('data-i')] ? 'true' : 'false'); });
   el('dr-go').disabled = !mineList().length;
-  el('dr-go').textContent = mineList().length > 1 ? 'Start draft (' + mineList().length + ' teams)' : 'Start draft';
+  var lbl = mode === 'final' ? 'Start the final' : 'Start draft';
+  el('dr-go').textContent = mineList().length > 1 ? lbl + ' (' + mineList().length + ' teams)' : lbl;
 }
 document.querySelectorAll('.dr-cap').forEach(function (b) { b.onclick = function () { var i = +b.getAttribute('data-i'); mine[i] = !mine[i]; syncCaps(); }; });
 el('dr-all').onclick = function () { var all = mineList().length === NT; mine = T.map(function (_, i) { return !all && act.indexOf(i) >= 0; }); syncCaps(); };
@@ -421,13 +435,21 @@ function setMode(m) {
   document.querySelectorAll('.dr-modes button').forEach(function (b) { b.classList.toggle('on', b.getAttribute('data-m') === mode); });
   document.querySelectorAll('.dr-cap[data-i]').forEach(function (b) { b.hidden = act.indexOf(+b.getAttribute('data-i')) < 0; });
   if (el('dr-mode-note')) el('dr-mode-note').hidden = mode !== 'final';
+  el('dr-rules').hidden = mode === 'final';
+  el('dr-hd').textContent = mode === 'final' ? 'Which team do you captain?' : 'Which teams do you draft?';
+  el('dr-sub').textContent = mode === 'final' ? 'Tap one captain, or both to play against a friend. The AI captains the other team.' : 'Tap one or more captains. The AI drafts the teams you leave out.';
   el('dr-rules').textContent = 'Snake draft: the pick order reverses every round (' + act.map(function (i) { return T[i].short; }).join(', ') + ', then back). ' + PICKS + ' picks, ' + (PER - 1) + ' per team. Handicaps are estimates by YT Golf Stats.';
   syncCaps();
 }
 document.querySelectorAll('.dr-modes button').forEach(function (b) { b.onclick = function () { setMode(b.getAttribute('data-m')); }; });
 // Shared links like /draft/?final open the real-final mode.
 if (/[?&]final(=|&|$)/.test(location.search)) setMode('final');
-el('dr-go').onclick = function () { if (mineList().length) start(); };
+el('dr-go').onclick = function () { if (!mineList().length) return; if (mode === 'final') startFinal(); else start(); };
+// Real-final mode: the real rosters, no draft, straight to the singles.
+function startFinal() {
+  rosters = T.map(function (t) { return D.players.filter(function (p) { return p.t === t.name; }).sort(function (a, b) { return (b.c ? 1 : 0) - (a.c ? 1 : 0) || a.h - b.h; }); });
+  el('dr-start').hidden = true; el('dr-draft').hidden = true; el('dr-result').hidden = false; finalIntro();
+}
 document.querySelectorAll('.dr-tabs button').forEach(function (b) { b.onclick = function () { tab(b.getAttribute('data-tab')); }; });
 el('dr-list').addEventListener('click', function (e) {
   var b = e.target.closest('button[data-n]'); if (!b || b.disabled) return;

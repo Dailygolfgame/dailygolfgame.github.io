@@ -515,5 +515,9 @@
  "finalists": [
   "Team Bryan",
   "Team Ruffels"
- ]
+ ],
+ "finalStart": {
+  "Team Bryan": 2,
+  "Team Ruffels": 6
+ }
 }
