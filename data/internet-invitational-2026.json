@@ -244,9 +244,10 @@
   {
    "name": "Sabrina Andolpho",
    "team": "Team Bryan",
-   "hcp": 10.0,
+   "hcp": 5.0,
    "played2025": false,
-   "captain": false
+   "captain": false,
+   "hcpSource": "scores"
   },
   {
    "name": "Cheddy",
