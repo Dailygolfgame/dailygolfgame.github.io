@@ -246,12 +246,21 @@ function roundDone(m) { return m.k >= 2 * PER / size(fmtOf(m)[0]); }
 function finishRound(m) {
   var f = fmtOf(m), games = m.slots.map(function (sl) { return playGame(sl[0], sl[1], f[0]); });
   games.forEach(function (g) { if (g.w === -1) { m.p[0] += 0.5; m.p[1] += 0.5; } else m.p[g.w]++; });
-  m.rounds.push({ f: f[1], key: f[0], games: games }); m.fi++;
+  m.rounds.push({ f: f[1], key: f[0], slots: m.slots.slice(), games: games }); m.fi++;
 }
 function finishMatch(m) {
   if (m.p[0] === m.p[1]) { var r0 = m.rounds[0], g = r0.games[0]; m.po = Math.random() < logi(2 * (pairVal(g.b, r0.key) - pairVal(g.a, r0.key))) ? 0 : 1; m.w = m.t[m.po]; }
   else m.w = m.p[0] > m.p[1] ? m.t[0] : m.t[1];
   m.l = m.w === m.t[0] ? m.t[1] : m.t[0];
+}
+// Play every round again with the same matchups (same pairs or players in the same slots).
+function resimMatch(m) {
+  m.p = m.start ? m.start.slice() : [0, 0]; delete m.po; delete m.w; delete m.l;
+  m.rounds.forEach(function (r) {
+    r.games = r.slots.map(function (sl) { return playGame(sl[0], sl[1], r.key); });
+    r.games.forEach(function (g) { if (g.w === -1) { m.p[0] += 0.5; m.p[1] += 0.5; } else m.p[g.w]++; });
+  });
+  finishMatch(m);
 }
 function autoMatch(m) { while (m.fi < m.fmts.length) { startRound(m); while (!roundDone(m)) aiStep(m); finishRound(m); } finishMatch(m); }
 
@@ -394,9 +403,10 @@ function results() {
   var h = '<h2>' + head + '</h2><p class="champ">' + esc(T[m.w].name) + ' won the simulated Internet Invitational, beating ' + esc(T[m.l].short) + ' ' + pts(m.p[m.t.indexOf(m.w)]) + '–' + pts(m.p[m.t.indexOf(m.l)]) + (m.po !== undefined ? ' after a playoff' : '') + ' in the final.</p>' +
     matchHtml(m, 'Final', true) + (semiRes ? matchHtml(semiRes[0], 'Semifinal 1', false) + matchHtml(semiRes[1], 'Semifinal 2', false) : '') +
     '<h3>The teams</h3>' + board() +
-    '<div class="dr-nav"><button class="cta" type="button" id="dr-share">Share my draft</button><button class="cta alt" type="button" id="dr-resim">' + (mode === 'final' ? 'Replay the final' : 'Replay from the draw') + '</button><button class="cta alt" type="button" id="dr-new">New draft</button></div>';
+    '<div class="dr-nav"><button class="cta" type="button" id="dr-share">Share my draft</button><button class="cta" type="button" id="dr-same">Simulate again, same matchups</button><button class="cta alt" type="button" id="dr-resim">' + (mode === 'final' ? 'New matchups' : 'Replay from the draw') + '</button><button class="cta alt" type="button" id="dr-new">New draft</button></div>';
   show(h);
   el('dr-resim').onclick = mode === 'final' ? finalIntro : draw;
+  el('dr-same').onclick = function () { resimMatch(finalRes); results(); };
   el('dr-new').onclick = function () { auto = false; el('dr-result').hidden = true; el('dr-start').hidden = false; el('dr-draft').hidden = true; top(); };
   el('dr-share').onclick = share;
 }
