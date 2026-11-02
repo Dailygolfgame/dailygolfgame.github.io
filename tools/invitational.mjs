@@ -40,7 +40,7 @@ export function renderInvitational({ data, esc, slug, fmtHcp, creatorByName, pag
 <p class="ii-more"><a href="/draft/">Draft Simulator</a> · More daily golf games: <a href="/#youtube">YouTube Golfer</a> · <a href="/#pro">Pro Golfer</a> · <a href="/trivia/">Golf Trivia</a></p>
 
 <h2 id="handicap-list">Internet Invitational 2026 handicap list</h2>
-<p>All ${players.length} players sorted from the best handicap down. Plus handicaps (+) are better than scratch. Handicaps are estimates by <a href="https://www.instagram.com/yt_golfstats/" rel="noopener">YT Golf Stats</a>, not official numbers. Tap a name for the player's page.</p>
+<p>All ${players.length} players sorted from the best handicap down. Plus handicaps (+) are better than scratch. Handicaps come from <a href="https://handicap-tracker.com" rel="noopener">handicap-tracker.com</a> where listed (November 2026), otherwise estimates by <a href="https://www.instagram.com/yt_golfstats/" rel="noopener">YT Golf Stats</a>, not official numbers. Tap a name for the player's page.</p>
 <div class="tbl"><table class="roster"><thead><tr><th>#</th><th>Player</th><th>Handicap</th><th>Team</th></tr></thead><tbody>
 ${sorted.map((p, i) => `<tr><td>${i + 1}</td><td>${link(p)}${p.captain ? ' <span class="mut">(C)</span>' : ''}</td><td>${fmtHcp(p.hcp)}</td><td>${esc(p.team.replace('Team ', ''))}</td></tr>`).join('\n')}
 </tbody></table></div>
@@ -65,7 +65,7 @@ ${data.episodes.map((d, i) => `<tr><td>${i === data.episodes.length - 1 ? 'Final
 </tbody></table></div>
 
 <h2 id="teams">The four teams (groups)</h2>
-<p>The field is split into four teams of 16. Handicaps are estimates by <a href="https://www.instagram.com/yt_golfstats/" rel="noopener">YT Golf Stats</a> (@yt_golfstats), not official numbers; plus handicaps (+) are better than scratch. ✓ = also played in 2025. This page has no results, so it is safe to read before you watch.</p>
+<p>The field is split into four teams of 16. Handicaps come from <a href="https://handicap-tracker.com" rel="noopener">handicap-tracker.com</a> where listed (November 2026), otherwise estimates by <a href="https://www.instagram.com/yt_golfstats/" rel="noopener">YT Golf Stats</a> (@yt_golfstats), not official numbers; plus handicaps (+) are better than scratch. ✓ = also played in 2025. This page has no results, so it is safe to read before you watch.</p>
 ${teamNames.map(t => {
     const team = data.teams[t];
     const roster = players.filter(p => p.team === t);
@@ -78,7 +78,7 @@ ${roster.map(p => `<tr><td>${link(p)}${p.captain ? ' <span class="mut">(C)</span
 <h2>Season 1 in short</h2>
 <p>The first Internet Invitational in 2025 had 48 players in two teams, captained by Bob Does Sports' Robby Berger and Fore Play's Riggs, and a $1 million prize. Brad Dalke, Francis Ellis and Cody "Beef" Franke won it. Dalke and Ellis are back as defending champions, now on different teams.</p>
 <p>Find the handicaps of more golf creators on our <a href="/youtubers/">YouTube golfer handicaps</a> page, or play the daily <a href="/#youtube">Guess the YouTube Golfer</a>.</p>
-<p class="meta">Teams and 2025 appearances from public roster pages; handicap estimates by <a href="https://ytgolfstats.com/internet-invitational/2026/" rel="noopener">YT Golf Stats</a>. Dailygolf is an independent fan project, not affiliated with Barstool Sports, Bob Does Sports or the Internet Invitational.</p>`;
+<p class="meta">Teams and 2025 appearances from public roster pages; handicaps from <a href="https://handicap-tracker.com" rel="noopener">handicap-tracker.com</a> where listed, otherwise estimates by <a href="https://ytgolfstats.com/internet-invitational/2026/" rel="noopener">YT Golf Stats</a>. Dailygolf is an independent fan project, not affiliated with Barstool Sports, Bob Does Sports or the Internet Invitational.</p>`;
 
   const css = `<style>
 #ii-game{padding:16px}
@@ -265,7 +265,7 @@ ${c ? `<p>${esc(p.name)} is also in our <a href="/youtubers/${c.slug}/">golf You
 <h2>Can you guess ${esc(p.name)}?</h2>
 <p>Every day there is a new mystery player from the Internet Invitational field. You get five guesses, with team, handicap and 2025 appearance as clues.</p>
 <p><a class="cta" href="/internet-invitational/">Play Guess the Internet Invitational Player &rarr;</a></p>
-<p class="meta">Handicap estimate by <a href="https://www.instagram.com/yt_golfstats/" rel="noopener">YT Golf Stats</a>, not an official number. Teams from public roster pages. <a href="/internet-invitational/#handicap-list">Full Internet Invitational handicap list</a></p>`;
+<p class="meta">${p.hcpSource ? 'Handicap from <a href="https://handicap-tracker.com" rel="noopener">handicap-tracker.com</a> (November 2026)' : 'Handicap estimate by <a href="https://www.instagram.com/yt_golfstats/" rel="noopener">YT Golf Stats</a>'}, not an official number. Teams from public roster pages. <a href="/internet-invitational/#handicap-list">Full Internet Invitational handicap list</a></p>`;
     out.push([s, page({
       howto: 'invitational',
       urlPath: `/internet-invitational/${s}/`,

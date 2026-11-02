@@ -57,7 +57,7 @@
    "countries": [
     "USA"
    ],
-   "hcp": -5.7,
+   "hcp": -5.4,
    "subs": 18.0,
    "channel": "ParYard Golf",
    "born": null
@@ -77,7 +77,7 @@
    "countries": [
     "New Zealand"
    ],
-   "hcp": -5.1,
+   "hcp": -5.2,
    "subs": 116.0,
    "channel": "Tooms Golf",
    "born": null
@@ -220,7 +220,7 @@
     "New Zealand",
     "South Korea"
    ],
-   "hcp": -3.0,
+   "hcp": -3.9,
    "subs": 445.0,
    "channel": "Luke Kwon Golf",
    "born": "1992-08-11"
@@ -261,7 +261,7 @@
    "countries": [
     "USA"
    ],
-   "hcp": -2.4,
+   "hcp": -2.6,
    "subs": 242.0,
    "channel": "BustaJack Golf",
    "born": null
@@ -361,7 +361,7 @@
    "countries": [
     "USA"
    ],
-   "hcp": 0.1,
+   "hcp": -0.2,
    "subs": 56.0,
    "channel": "ShortGameKing",
    "born": null
@@ -371,7 +371,7 @@
    "countries": [
     "USA"
    ],
-   "hcp": 0.1,
+   "hcp": 0.0,
    "subs": 289.0,
    "channel": "gabbygolfgirl",
    "born": null
@@ -541,7 +541,7 @@
    "countries": [
     "Sweden"
    ],
-   "hcp": 12.4,
+   "hcp": 12.7,
    "subs": null,
    "channel": "Carl Déman",
    "born": "1992-11-11"
