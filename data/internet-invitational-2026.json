@@ -32,50 +32,56 @@
   {
    "name": "Brad Dalke",
    "team": "Team Dalke",
-   "hcp": -6.0,
+   "hcp": -7.8,
    "played2025": true,
    "captain": true,
-   "creator": "Brad Dalke"
+   "creator": "Brad Dalke",
+   "hcpSource": "handicap-tracker.com"
   },
   {
    "name": "Tooms",
    "team": "Team Dalke",
-   "hcp": -4.5,
+   "hcp": -5.2,
    "played2025": false,
    "captain": false,
-   "creator": "Luke Toomey (Tooms)"
+   "creator": "Luke Toomey (Tooms)",
+   "hcpSource": "handicap-tracker.com"
   },
   {
    "name": "Taco",
    "team": "Team Dalke",
-   "hcp": -3.0,
+   "hcp": -3.8,
    "played2025": false,
    "captain": false,
-   "creator": "Taco"
+   "creator": "Taco",
+   "hcpSource": "handicap-tracker.com"
   },
   {
    "name": "Garrett Clark",
    "team": "Team Dalke",
-   "hcp": -3.0,
+   "hcp": -4.1,
    "played2025": true,
    "captain": false,
-   "creator": "Garrett Clark"
+   "creator": "Garrett Clark",
+   "hcpSource": "handicap-tracker.com"
   },
   {
    "name": "Mason Nutt",
    "team": "Team Dalke",
-   "hcp": -2.0,
+   "hcp": -2.1,
    "played2025": true,
    "captain": false,
-   "creator": "Mason Nutt"
+   "creator": "Mason Nutt",
+   "hcpSource": "handicap-tracker.com"
   },
   {
    "name": "DOD King",
    "team": "Team Dalke",
-   "hcp": 4.5,
+   "hcp": -0.1,
    "played2025": true,
    "captain": false,
-   "creator": "The DoD King"
+   "creator": "The DoD King",
+   "hcpSource": "handicap-tracker.com"
   },
   {
    "name": "Andrew Santino",
@@ -101,10 +107,11 @@
   {
    "name": "Hailey Ostrom",
    "team": "Team Dalke",
-   "hcp": -0.5,
+   "hcp": 0.8,
    "played2025": false,
    "captain": false,
-   "creator": "Hailey Ostrom"
+   "creator": "Hailey Ostrom",
+   "hcpSource": "handicap-tracker.com"
   },
   {
    "name": "Keith Yandle",
@@ -116,10 +123,11 @@
   {
    "name": "Sara Winter",
    "team": "Team Dalke",
-   "hcp": 1.5,
+   "hcp": -0.8,
    "played2025": true,
    "captain": false,
-   "creator": "Sara Winter"
+   "creator": "Sara Winter",
+   "hcpSource": "handicap-tracker.com"
   },
   {
    "name": "Daltoosh",
@@ -152,42 +160,47 @@
   {
    "name": "Wesley Bryan",
    "team": "Team Bryan",
-   "hcp": -5.0,
+   "hcp": -5.8,
    "played2025": true,
    "captain": true,
-   "creator": "Wesley Bryan"
+   "creator": "Wesley Bryan",
+   "hcpSource": "handicap-tracker.com"
   },
   {
    "name": "George Bryan",
    "team": "Team Bryan",
-   "hcp": -4.0,
+   "hcp": -4.8,
    "played2025": true,
    "captain": false,
-   "creator": "George Bryan"
+   "creator": "George Bryan",
+   "hcpSource": "handicap-tracker.com"
   },
   {
    "name": "Sam Heung Min",
    "team": "Team Bryan",
-   "hcp": -2.5,
+   "hcp": -3.5,
    "played2025": false,
    "captain": false,
-   "creator": "Sam Heung Min"
+   "creator": "Sam Heung Min",
+   "hcpSource": "handicap-tracker.com"
   },
   {
    "name": "Evan Thompson",
    "team": "Team Bryan",
-   "hcp": -3.5,
+   "hcp": -3.1,
    "played2025": false,
    "captain": false,
-   "creator": "Evan Thompson"
+   "creator": "Evan Thompson",
+   "hcpSource": "handicap-tracker.com"
   },
   {
    "name": "Cole Lantz",
    "team": "Team Bryan",
-   "hcp": -2.5,
+   "hcp": -2.6,
    "played2025": true,
    "captain": false,
-   "creator": "Cole Lantz"
+   "creator": "Cole Lantz",
+   "hcpSource": "handicap-tracker.com"
   },
   {
    "name": "Mac Boucher",
@@ -199,17 +212,19 @@
   {
    "name": "Chaz Bowker",
    "team": "Team Bryan",
-   "hcp": 3.2,
+   "hcp": 4.1,
    "played2025": true,
    "captain": false,
-   "creator": "Chaz"
+   "creator": "Chaz",
+   "hcpSource": "handicap-tracker.com"
   },
   {
    "name": "Seb Carmichael-Brown",
    "team": "Team Bryan",
-   "hcp": 2.0,
+   "hcp": -1.3,
    "played2025": false,
-   "captain": false
+   "captain": false,
+   "hcpSource": "handicap-tracker.com"
   },
   {
    "name": "Tisha Alyn",
@@ -221,9 +236,10 @@
   {
    "name": "Claire Hogle",
    "team": "Team Bryan",
-   "hcp": 8.0,
+   "hcp": -2.3,
    "played2025": true,
-   "captain": false
+   "captain": false,
+   "hcpSource": "handicap-tracker.com"
   },
   {
    "name": "Sabrina Andolpho",
@@ -242,10 +258,11 @@
   {
    "name": "Bobby Fairways",
    "team": "Team Bryan",
-   "hcp": 12.9,
+   "hcp": 10.1,
    "played2025": true,
    "captain": false,
-   "creator": "Bobby Fairways"
+   "creator": "Bobby Fairways",
+   "hcpSource": "handicap-tracker.com"
   },
   {
    "name": "Kyle Forgeard",
@@ -260,7 +277,8 @@
    "hcp": 22.5,
    "played2025": false,
    "captain": false,
-   "creator": "Callux"
+   "creator": "Callux",
+   "hcpSource": "handicap-tracker.com"
   },
   {
    "name": "PFT Commenter",
@@ -272,18 +290,20 @@
   {
    "name": "Peter Finch",
    "team": "Team Finch",
-   "hcp": -3.0,
+   "hcp": -3.7,
    "played2025": true,
    "captain": true,
-   "creator": "Peter Finch"
+   "creator": "Peter Finch",
+   "hcpSource": "handicap-tracker.com"
   },
   {
    "name": "Luke Kwon",
    "team": "Team Finch",
-   "hcp": -3.0,
+   "hcp": -3.9,
    "played2025": true,
    "captain": false,
-   "creator": "Luke Kwon"
+   "creator": "Luke Kwon",
+   "hcpSource": "handicap-tracker.com"
   },
   {
    "name": "Roger Steele",
@@ -295,42 +315,47 @@
   {
    "name": "Rick Shiels",
    "team": "Team Finch",
-   "hcp": -1.5,
+   "hcp": -2.6,
    "played2025": true,
    "captain": false,
-   "creator": "Rick Shiels"
+   "creator": "Rick Shiels",
+   "hcpSource": "handicap-tracker.com"
   },
   {
    "name": "Josh Kelley",
    "team": "Team Finch",
-   "hcp": -1.5,
+   "hcp": -2.1,
    "played2025": true,
    "captain": false,
-   "creator": "Josh Kelley"
+   "creator": "Josh Kelley",
+   "hcpSource": "handicap-tracker.com"
   },
   {
    "name": "Malosi Togisala",
    "team": "Team Finch",
-   "hcp": -0.7,
+   "hcp": -1.0,
    "played2025": true,
    "captain": false,
-   "creator": "Malosi Togisala"
+   "creator": "Malosi Togisala",
+   "hcpSource": "handicap-tracker.com"
   },
   {
    "name": "Martin Borgmeier",
    "team": "Team Finch",
-   "hcp": 2.0,
+   "hcp": -2.1,
    "played2025": false,
    "captain": false,
-   "creator": "Martin Borgmeier"
+   "creator": "Martin Borgmeier",
+   "hcpSource": "handicap-tracker.com"
   },
   {
    "name": "Short Game King",
    "team": "Team Finch",
-   "hcp": 1.0,
+   "hcp": -0.2,
    "played2025": false,
    "captain": false,
-   "creator": "ShortGameKing"
+   "creator": "ShortGameKing",
+   "hcpSource": "handicap-tracker.com"
   },
   {
    "name": "Cassandra Marie",
@@ -342,18 +367,20 @@
   {
    "name": "Francis Ellis",
    "team": "Team Finch",
-   "hcp": 7.5,
+   "hcp": 6.7,
    "played2025": true,
    "captain": false,
-   "creator": "Francis Ellis"
+   "creator": "Francis Ellis",
+   "hcpSource": "handicap-tracker.com"
   },
   {
    "name": "Frankie Borrelli",
    "team": "Team Finch",
-   "hcp": 6.0,
+   "hcp": 5.3,
    "played2025": true,
    "captain": false,
-   "creator": "Frankie Borrelli"
+   "creator": "Frankie Borrelli",
+   "hcpSource": "handicap-tracker.com"
   },
   {
    "name": "Jason Williams",
@@ -365,10 +392,11 @@
   {
    "name": "Joey Cold Cuts",
    "team": "Team Finch",
-   "hcp": 10.0,
+   "hcp": 10.5,
    "played2025": true,
    "captain": false,
-   "creator": "Joey Cold Cuts"
+   "creator": "Joey Cold Cuts",
+   "hcpSource": "handicap-tracker.com"
   },
   {
    "name": "The Jet",
@@ -380,10 +408,11 @@
   {
    "name": "Trent Ryan",
    "team": "Team Finch",
-   "hcp": 14.0,
+   "hcp": 14.6,
    "played2025": true,
    "captain": false,
-   "creator": "Trent Ryan"
+   "creator": "Trent Ryan",
+   "hcpSource": "handicap-tracker.com"
   },
   {
    "name": "Jersey Jerry",
@@ -395,33 +424,37 @@
   {
    "name": "Ryan Ruffels",
    "team": "Team Ruffels",
-   "hcp": -6.0,
+   "hcp": -6.9,
    "played2025": false,
    "captain": true,
-   "creator": "Ryan Ruffels"
+   "creator": "Ryan Ruffels",
+   "hcpSource": "handicap-tracker.com"
   },
   {
    "name": "Micah Morris",
    "team": "Team Ruffels",
-   "hcp": -4.0,
+   "hcp": -4.9,
    "played2025": true,
    "captain": false,
-   "creator": "Micah Morris"
+   "creator": "Micah Morris",
+   "hcpSource": "handicap-tracker.com"
   },
   {
    "name": "Grant Horvat",
    "team": "Team Ruffels",
-   "hcp": -1.9,
+   "hcp": -2.2,
    "played2025": true,
    "captain": false,
-   "creator": "Grant Horvat"
+   "creator": "Grant Horvat",
+   "hcpSource": "handicap-tracker.com"
   },
   {
    "name": "Big John",
    "team": "Team Ruffels",
-   "hcp": 0.0,
+   "hcp": -3.2,
    "played2025": false,
-   "captain": false
+   "captain": false,
+   "hcpSource": "handicap-tracker.com"
   },
   {
    "name": "Marissa Wenzler",
@@ -433,18 +466,20 @@
   {
    "name": "Fat Perez",
    "team": "Team Ruffels",
-   "hcp": 1.0,
+   "hcp": 0.3,
    "played2025": true,
    "captain": false,
-   "creator": "Fat Perez"
+   "creator": "Fat Perez",
+   "hcpSource": "handicap-tracker.com"
   },
   {
    "name": "Paige Spiranac",
    "team": "Team Ruffels",
-   "hcp": -2.4,
+   "hcp": -3.2,
    "played2025": true,
    "captain": false,
-   "creator": "Paige Spiranac"
+   "creator": "Paige Spiranac",
+   "hcpSource": "handicap-tracker.com"
   },
   {
    "name": "Ryan Whitney",
@@ -456,9 +491,10 @@
   {
    "name": "Jake Adams",
    "team": "Team Ruffels",
-   "hcp": 5.0,
+   "hcp": 0.1,
    "played2025": true,
-   "captain": false
+   "captain": false,
+   "hcpSource": "handicap-tracker.com"
   },
   {
    "name": "Bobby Ray",
@@ -470,18 +506,20 @@
   {
    "name": "Bubbie Broders",
    "team": "Team Ruffels",
-   "hcp": 4.0,
+   "hcp": 3.6,
    "played2025": true,
    "captain": false,
-   "creator": "Bubbie Broders"
+   "creator": "Bubbie Broders",
+   "hcpSource": "handicap-tracker.com"
   },
   {
    "name": "Riggs",
    "team": "Team Ruffels",
-   "hcp": 5.0,
+   "hcp": 4.1,
    "played2025": true,
    "captain": false,
-   "creator": "Riggs"
+   "creator": "Riggs",
+   "hcpSource": "handicap-tracker.com"
   },
   {
    "name": "Justin Gaethje",
@@ -519,5 +557,6 @@
  "finalStart": {
   "Team Bryan": 2,
   "Team Ruffels": 6
- }
+ },
+ "hcpUpdated": "2026-11-02"
 }

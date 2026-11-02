@@ -24,7 +24,7 @@ ${FIN ? `    <div class="dr-modes" role="group" aria-label="Draft mode"><button 
     <p class="mut" id="dr-sub" style="margin:-4px 0 10px;font-size:.88rem">Tap one or more captains. The AI drafts the teams you leave out.</p>
     <div class="dr-caps">${D.teams.map((t, i) => `<button class="dr-cap" data-i="${i}" type="button" aria-pressed="false" style="--c:${t.color}"><b>${esc(t.captain)}</b><span>${esc(t.name)} · picks ${ordinalSmall(i + 1)}</span><i class="dr-chk">✓</i></button>`).join('')}</div>
     <div class="dr-nav"><button class="cta" type="button" id="dr-go" disabled>Start draft</button><button class="dr-link" type="button" id="dr-all">Select all</button></div>
-    <p class="mut small" id="dr-rules">Snake draft: the pick order reverses every round (${D.teams.map(t => esc(t.short)).join(', ')}, then back). 60 picks, 15 per team. Handicaps are estimates by YT Golf Stats.</p>
+    <p class="mut small" id="dr-rules">Snake draft: the pick order reverses every round (${D.teams.map(t => esc(t.short)).join(', ')}, then back). 60 picks, 15 per team. Handicaps from handicap-tracker.com and YT Golf Stats.</p>
   </div>
   <div id="dr-draft" hidden>
     <div class="dr-status"><span id="dr-round"></span><span id="dr-clock"></span></div>
@@ -41,7 +41,7 @@ ${FIN ? `    <div class="dr-modes" role="group" aria-label="Draft mode"><button 
 <p class="ii-more">Also try: <a href="/internet-invitational/">Guess the Internet Invitational Player</a> · <a href="/internet-invitational/#handicap-list">Handicap list</a> · <a href="/#youtube">YouTube Golfer</a></p>
 <h2>How the simulator works</h2>
 <p>The four captains are fixed, as in the real event: Brad Dalke, Wesley Bryan, Peter Finch and Ryan Ruffels. AI captains mostly take the best available handicap but sometimes reach for someone else, so no two drafts are the same. When the draft is done, one team is drawn at random and picks its semifinal opponent. Every match is eight two-player pairs against eight: one round of scramble and one of alternate shot, a point per pairing, 16 points in total, with a sudden-death playoff at 8–8. In each round the captains take turns: one team sends out a pair and the other answers with a pair of its own, then they switch roles, until all 16 players are out. The winners meet in the final with the same format. Better pairs win more often, but upsets happen, just like on the course.</p>
-<p class="meta">Fan-made simulation, not affiliated with Barstool Sports, Bob Does Sports or the Internet Invitational. Handicap estimates by <a href="https://www.instagram.com/yt_golfstats/" rel="noopener">YT Golf Stats</a>.</p>`;
+<p class="meta">Fan-made simulation, not affiliated with Barstool Sports, Bob Does Sports or the Internet Invitational. Handicaps from <a href="https://handicap-tracker.com" rel="noopener">handicap-tracker.com</a> and <a href="https://www.instagram.com/yt_golfstats/" rel="noopener">YT Golf Stats</a>.</p>`;
 
   const css = `<style>
 .dr-card{padding:16px}
@@ -347,7 +347,7 @@ function picker(m, stay) {
   h += '<p class="dr-prev">' + (pr ? (n === 1 ? 'Your player: <b>' : 'Your pair: <b>') + pairFull(pr) + '</b>' : 'Pick ' + (n - picked.length) + ' more player' + (n - picked.length === 1 ? '' : 's') + '.') + '</p>' +
     '<div class="dr-nav"><button class="cta" type="button" id="dr-send"' + (pr ? '' : ' disabled') + '>Send out ' + (n === 1 ? 'player' : 'pair') + '</button><button class="cta alt" type="button" id="dr-ap">AI pick</button><button class="dr-link" type="button" id="dr-ar">AI picks rest of round</button></div>' +
     '<h3>' + f[1] + ' matchups</h3>' + slotsHtml(m, '…') +
-    '<p class="mut small">Handicaps by YT Golf Stats. In a scramble the better player carries the pair; in alt shot both players hit every other shot.</p>';
+    '<p class="mut small">Handicaps from handicap-tracker.com and YT Golf Stats. In a scramble the better player carries the pair; in alt shot both players hit every other shot.</p>';
   show(h, stay);
   el('dr-result').querySelectorAll('[data-x]').forEach(function (b) {
     b.onclick = function () {
@@ -448,7 +448,7 @@ function setMode(m) {
   el('dr-rules').hidden = mode === 'final';
   el('dr-hd').textContent = mode === 'final' ? 'Which team do you captain?' : 'Which teams do you draft?';
   el('dr-sub').textContent = mode === 'final' ? 'Tap one captain, or both to play against a friend. The AI captains the other team.' : 'Tap one or more captains. The AI drafts the teams you leave out.';
-  el('dr-rules').textContent = 'Snake draft: the pick order reverses every round (' + act.map(function (i) { return T[i].short; }).join(', ') + ', then back). ' + PICKS + ' picks, ' + (PER - 1) + ' per team. Handicaps are estimates by YT Golf Stats.';
+  el('dr-rules').textContent = 'Snake draft: the pick order reverses every round (' + act.map(function (i) { return T[i].short; }).join(', ') + ', then back). ' + PICKS + ' picks, ' + (PER - 1) + ' per team. Handicaps from handicap-tracker.com and YT Golf Stats.';
   syncCaps();
 }
 document.querySelectorAll('.dr-modes button').forEach(function (b) { b.onclick = function () { setMode(b.getAttribute('data-m')); }; });
