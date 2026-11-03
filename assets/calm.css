@@ -1,0 +1,13 @@
+/* Original Dailygolf colours, without decoration: no gradients, no glass/blur, no glows or shadows. */
+* { box-shadow: none !important; text-shadow: none !important; }
+[class*="backdrop-blur"], header.site { -webkit-backdrop-filter: none !important; backdrop-filter: none !important; }
+/* solid header instead of see-through */
+header.site { background: #0f172a !important; }
+html body > header[class] { background-color: #0f172a !important; }
+/* logo: solid green square */
+.logo, .bg-gradient-to-br.from-golf-500 { background: #16a34a !important; background-image: none !important; }
+/* brand name: plain white with a green "GOLF" look kept simple: solid white */
+.bt, .bg-clip-text { background: none !important; -webkit-background-clip: border-box !important; background-clip: border-box !important; color: #fff !important; -webkit-text-fill-color: #fff !important; }
+/* any other gradient backgrounds become flat */
+.bg-gradient-to-r, .bg-gradient-to-b, .bg-gradient-to-br { background-image: none !important; }
+#game-over-card, #yt-end { background-color: #0f172a !important; }
