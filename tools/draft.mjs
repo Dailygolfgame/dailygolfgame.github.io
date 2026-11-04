@@ -29,11 +29,13 @@ ${FIN ? `    <div class="dr-modes" role="group" aria-label="Draft mode"><button 
   <div id="dr-draft" hidden>
     <div class="dr-status"><span id="dr-round"></span><span id="dr-clock"></span></div>
     <div class="dr-tabs"><button type="button" class="on" data-tab="avail">Available</button><button type="button" data-tab="board">Teams</button></div>
+    <div class="dr-split">
     <div id="dr-avail">
       <input id="dr-q" type="search" placeholder="Search players" autocomplete="off" aria-label="Search players">
       <div id="dr-list"></div>
     </div>
     <div id="dr-board" hidden></div>
+    </div>
     <div class="dr-foot"><span id="dr-last" class="mut"></span><button type="button" id="dr-auto" class="dr-link">Let the AI finish the draft</button></div>
   </div>
   <div id="dr-result" hidden></div>
@@ -94,6 +96,16 @@ ${FIN ? `    <div class="dr-modes" role="group" aria-label="Draft mode"><button 
 .dr-slots{border:1px solid var(--line);border-radius:12px;padding:4px 10px;background:#0b1325}
 .dr-sl{display:grid;grid-template-columns:1fr 22px 1fr;gap:6px;font-size:.78rem;padding:5px 0;border-bottom:1px solid var(--line);color:#fff}
 .dr-sl:last-child{border-bottom:0}.dr-sl i{font-style:normal;text-align:center;color:var(--mut)}.dr-sl span:last-child{text-align:right}.dr-sl.hd{font-size:.82rem}
+@media (min-width:1000px){
+.wrap{max-width:1100px}
+#dr-draft .dr-tabs{display:none}
+.dr-split{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:16px;align-items:start}
+.dr-split #dr-board,.dr-split #dr-board[hidden],.dr-split #dr-avail[hidden]{display:block!important}
+#dr-list{max-height:640px}
+.dr-split .dr-board{position:sticky;top:90px}
+.dr-caps{grid-template-columns:repeat(4,1fr)}
+.lead{max-width:780px}
+}
 .ii-more{text-align:center;font-size:.9rem;color:var(--mut)}
 #toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:#1e293b;border:1px solid #334155;color:#fff;font-weight:600;font-size:.9rem;padding:10px 16px;border-radius:12px;opacity:0;transition:opacity .2s;pointer-events:none;z-index:60}#toast.show{opacity:1}
 </style>`;
