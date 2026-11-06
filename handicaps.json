@@ -143,6 +143,17 @@
    "born": "1996-11-01"
   },
   {
+   "name": "Luke Kwon",
+   "countries": [
+    "New Zealand",
+    "South Korea"
+   ],
+   "hcp": -3.9,
+   "subs": 445.0,
+   "channel": "Luke Kwon Golf",
+   "born": "1992-08-11"
+  },
+  {
    "name": "Taco",
    "countries": [
     "New Zealand",
@@ -213,17 +224,6 @@
    "subs": 120.0,
    "channel": "Evan Thompson",
    "born": null
-  },
-  {
-   "name": "Luke Kwon",
-   "countries": [
-    "New Zealand",
-    "South Korea"
-   ],
-   "hcp": -3.9,
-   "subs": 445.0,
-   "channel": "Luke Kwon Golf",
-   "born": "1992-08-11"
   },
   {
    "name": "Harry Na",
@@ -307,6 +307,16 @@
    "born": null
   },
   {
+   "name": "Jakedezgolf",
+   "countries": [
+    "USA"
+   ],
+   "hcp": -2.1,
+   "subs": 21.0,
+   "channel": "jakedezgolf",
+   "born": null
+  },
+  {
    "name": "Blake Mullen",
    "countries": [
     "USA"
@@ -347,16 +357,6 @@
    "born": "2007-05-12"
   },
   {
-   "name": "The DoD King",
-   "countries": [
-    "USA"
-   ],
-   "hcp": -0.1,
-   "subs": 126.0,
-   "channel": "The DoD King",
-   "born": null
-  },
-  {
    "name": "ShortGameKing",
    "countries": [
     "USA"
@@ -364,6 +364,16 @@
    "hcp": -0.2,
    "subs": 56.0,
    "channel": "ShortGameKing",
+   "born": null
+  },
+  {
+   "name": "The DoD King",
+   "countries": [
+    "USA"
+   ],
+   "hcp": -0.1,
+   "subs": 126.0,
+   "channel": "The DoD King",
    "born": null
   },
   {
@@ -587,6 +597,16 @@
    "born": "1992-03-11"
   },
   {
+   "name": "Kåt",
+   "countries": [
+    "England"
+   ],
+   "hcp": 25.1,
+   "subs": 861.0,
+   "channel": "Big Wedge Golf",
+   "born": null
+  },
+  {
    "name": "Simon (Miniminter)",
    "countries": [
     "England"
@@ -595,6 +615,16 @@
    "subs": 861.0,
    "channel": "Big Wedge Golf",
    "born": "1992-09-07"
+  },
+  {
+   "name": "LeBron James",
+   "countries": [
+    "USA"
+   ],
+   "hcp": 29.5,
+   "subs": 550.0,
+   "channel": "LeBron",
+   "born": "1984-12-30"
   },
   {
    "name": "Josh (Zerkaa)",
@@ -615,26 +645,6 @@
    "subs": 150.0,
    "channel": "Kevin Hart Golfs",
    "born": "1979-07-06"
-  },
-  {
-   "name": "Jakedezgolf",
-   "countries": [
-    "USA"
-   ],
-   "hcp": -2.1,
-   "subs": 21.0,
-   "channel": "jakedezgolf",
-   "born": null
-  },
-  {
-   "name": "Kåt",
-   "countries": [
-    "England"
-   ],
-   "hcp": 25.1,
-   "subs": 861.0,
-   "channel": "Big Wedge Golf",
-   "born": null
   }
  ]
 }

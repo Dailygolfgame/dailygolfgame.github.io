@@ -143,7 +143,21 @@ function cleanDir(dir, keep) {
   }
 }
 const PLAY_CTA = `<p><a class="cta" href="/">Play today's Dailygolf &rarr;</a></p>`;
-const PRO_CTA = `<p><a class="cta" href="/#pro">Play Guess the Pro Golfer &rarr;</a></p>`;
+// Guess the Pro Golfer has its own page, /pro/: the same game file as the start page, opened on the Pro game.
+{
+  const PT = 'Guess the Pro Golfer – Daily Pro Golf Game | Dailygolf';
+  const PD = 'Guess the mystery tour pro in 5 tries using country, tour, age, majors and PGA Tour wins. A free daily pro golf game from Dailygolf.';
+  let pro = indexHtml
+    .replace(/<title>[^<]*<\/title>/, `<title>${PT}</title>`)
+    .replace(/(<meta (?:property="og:title"|name="twitter:title") content=")[^"]*"/g, `$1${PT}"`)
+    .replace(/(<meta (?:name="description"|property="og:description"|name="twitter:description") content=")[^"]*"/g, `$1${PD}"`)
+    .replace('<link rel="canonical" href="https://dailygolfgame.com/">', '<link rel="canonical" href="https://dailygolfgame.com/pro/">')
+    .replace('<meta property="og:url" content="https://dailygolfgame.com/">', '<meta property="og:url" content="https://dailygolfgame.com/pro/">')
+    .replace(/<script type="application\/ld\+json">[\s\S]*?<\/script>\s*/, '')
+    .replace('<head>', '<head>\n    <script>window.DG_PAGE = \'pro\';</script>');
+  write('/pro/', pro);
+}
+const PRO_CTA = `<p><a class="cta" href="/pro/">Play Guess the Pro Golfer &rarr;</a></p>`;
 
 // ---------- Golfer pages ----------
 const golfersSorted = PLAYERS.slice().sort((a, b) => b.majors - a.majors || b.wins - a.wins || a.name.localeCompare(b.name));
@@ -321,7 +335,7 @@ function gitDate(rel) {
   try { return execFileSync('git', ['log', '-1', '--format=%cs', '--', rel], { cwd: ROOT, encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] }).trim() || null; } catch { return null; }
 }
 const today = NOW.toISOString().slice(0, 10);
-const STATIC = ['/', '/trivia/', '/how-to-play/', '/articles/', ...fs.readdirSync(path.join(ROOT, 'articles'), { withFileTypes: true })
+const STATIC = ['/', '/pro/', '/trivia/', '/how-to-play/', '/articles/', ...fs.readdirSync(path.join(ROOT, 'articles'), { withFileTypes: true })
   .filter(e => e.isDirectory()).map(e => `/articles/${e.name}/`).sort(), '/about/', '/contact/', '/privacy/'];
 // lastmod = when the page last really changed: today if this run changed it, else its last commit.
 const lastmod = u => changed.has(u) ? today : (gitDate(u === '/' ? 'index.html' : u.slice(1) + 'index.html') || today);
