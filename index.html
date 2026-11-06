@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Daily Golf Game – Guess the Golf YouTuber & Pro Golfer | Dailygolf</title>
-    <meta name="description" content="Free daily golf guessing games. Guess the mystery golf YouTuber or pro golfer in 5 tries using clues like handicap, subscribers, country, majors and PGA Tour wins. Like Wordle for golf fans.">
+    <title>Dailygolf – Daily YouTube Golf Games: Guess the Golf YouTuber</title>
+    <meta name="description" content="Free daily games for YouTube golf fans: guess the mystery golf YouTuber in 5 tries, guess the Internet Invitational player, draft your own team and play YouTube golf trivia.">
     <link rel="canonical" href="https://dailygolfgame.com/">
     <meta name="robots" content="index, follow, max-image-preview:large">
     <meta name="theme-color" content="#08170e">
@@ -14,15 +14,15 @@
     <link rel="apple-touch-icon" href="/apple-touch-icon.png">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="Dailygolf">
-    <meta property="og:title" content="Daily Golf Game – Guess the Golf YouTuber & Pro Golfer | Dailygolf">
-    <meta property="og:description" content="Free daily golf guessing games. Guess the mystery golf YouTuber or pro golfer in 5 tries using clues like handicap, subscribers, country, majors and PGA Tour wins. Like Wordle for golf fans.">
+    <meta property="og:title" content="Dailygolf – Daily YouTube Golf Games: Guess the Golf YouTuber">
+    <meta property="og:description" content="Free daily games for YouTube golf fans: guess the mystery golf YouTuber in 5 tries, guess the Internet Invitational player, draft your own team and play YouTube golf trivia.">
     <meta property="og:url" content="https://dailygolfgame.com/">
     <meta property="og:image" content="https://dailygolfgame.com/og-image.png">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Daily Golf Game – Guess the Golf YouTuber & Pro Golfer | Dailygolf">
-    <meta name="twitter:description" content="Free daily golf guessing games. Guess the mystery golf YouTuber or pro golfer in 5 tries using clues like handicap, subscribers, country, majors and PGA Tour wins. Like Wordle for golf fans.">
+    <meta name="twitter:title" content="Dailygolf – Daily YouTube Golf Games: Guess the Golf YouTuber">
+    <meta name="twitter:description" content="Free daily games for YouTube golf fans: guess the mystery golf YouTuber in 5 tries, guess the Internet Invitational player, draft your own team and play YouTube golf trivia.">
     <meta name="twitter:image" content="https://dailygolfgame.com/og-image.png">
     <script type="application/ld+json">
     {
@@ -30,7 +30,7 @@
       "@type": "WebApplication",
       "name": "Dailygolf",
       "url": "https://dailygolfgame.com/",
-      "description": "Free daily golf guessing games. Guess the mystery golf YouTuber or pro golfer in 5 tries using clues like handicap, subscribers, country, majors and PGA Tour wins. Like Wordle for golf fans.",
+      "description": "Free daily games for YouTube golf fans: guess the mystery golf YouTuber in 5 tries, guess the Internet Invitational player, draft your own team and play YouTube golf trivia.",
       "applicationCategory": "GameApplication",
       "genre": "Puzzle",
       "operatingSystem": "Any",
@@ -74,7 +74,7 @@
     <meta name="google-adsense-account" content="ca-pub-4913143800554205">
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4913143800554205" crossorigin="anonymous"></script>
 <script data-goatcounter="https://dailygolf.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
-    <script>if (/^#(pro|youtube)$/.test(location.hash)) document.documentElement.classList.add('in-game');</script>
+    <script>if (window.DG_PAGE === 'pro' || location.hash === '#youtube') document.documentElement.classList.add('in-game'); else if (location.hash === '#pro') location.replace('/pro/');</script>
     <style>html:not(.in-game) .game-only{display:none!important}html.in-game #hub{display:none}</style>
 <link rel="stylesheet" href="/assets/calm.css">
 </head>
@@ -118,17 +118,12 @@
     <!-- GAME PICKER (start page) -->
     <section id="hub" class="max-w-3xl lg:max-w-5xl mx-auto px-4 py-6 lg:py-10 w-full">
         <h2 class="text-xl lg:text-3xl font-black text-white">Choose today&rsquo;s game</h2>
-        <p class="text-sm lg:text-base text-slate-400 mb-4 lg:mb-6">Free daily golf games. New puzzles every midnight.</p>
+        <p class="text-sm lg:text-base text-slate-400 mb-4 lg:mb-6">Free daily games for YouTube golf fans. New puzzles every midnight.</p>
         <div class="grid gap-2.5 lg:gap-4 md:grid-cols-2 lg:grid-cols-3">
             <a href="#youtube" class="group flex items-center lg:flex-col lg:items-start gap-3 lg:gap-4 rounded-2xl border border-slate-800 bg-slate-900/70 hover:border-golf-500/60 hover:bg-slate-800/70 transition p-3.5 lg:p-5">
                 <span class="w-12 h-12 lg:w-14 lg:h-14 flex-shrink-0 rounded-xl bg-golf-500/15 flex items-center justify-center text-2xl">▶️</span>
                 <span class="min-w-0 flex-1"><span class="block font-bold text-white lg:text-lg">YouTube Golfer</span><span class="block text-xs lg:text-sm text-slate-400 leading-snug mt-0.5 lg:mt-1">Guess the golf YouTuber from handicap, subscribers and channel.</span></span>
                 <span class="flex flex-col items-end lg:flex-row lg:items-center lg:justify-between lg:w-full lg:mt-auto gap-1 flex-shrink-0"><span class="hub-st text-[10px] font-bold uppercase tracking-wide text-golf-400" data-k="yt"></span><i class="fa-solid fa-chevron-right text-slate-500 group-hover:text-white"></i></span>
-            </a>
-            <a href="#pro" class="group flex items-center lg:flex-col lg:items-start gap-3 lg:gap-4 rounded-2xl border border-slate-800 bg-slate-900/70 hover:border-golf-500/60 hover:bg-slate-800/70 transition p-3.5 lg:p-5">
-                <span class="w-12 h-12 lg:w-14 lg:h-14 flex-shrink-0 rounded-xl bg-golf-500/15 flex items-center justify-center text-2xl">⛳</span>
-                <span class="min-w-0 flex-1"><span class="block font-bold text-white lg:text-lg">Pro Golfer</span><span class="block text-xs lg:text-sm text-slate-400 leading-snug mt-0.5 lg:mt-1">Guess the tour pro from country, majors and PGA Tour wins.</span></span>
-                <span class="flex flex-col items-end lg:flex-row lg:items-center lg:justify-between lg:w-full lg:mt-auto gap-1 flex-shrink-0"><span class="hub-st text-[10px] font-bold uppercase tracking-wide text-golf-400" data-k="pro"></span><i class="fa-solid fa-chevron-right text-slate-500 group-hover:text-white"></i></span>
             </a>
             <a href="/internet-invitational/" class="group flex items-center lg:flex-col lg:items-start gap-3 lg:gap-4 rounded-2xl border border-slate-800 bg-slate-900/70 hover:border-amber-500/60 hover:bg-slate-800/70 transition p-3.5 lg:p-5">
                 <span class="w-12 h-12 lg:w-14 lg:h-14 flex-shrink-0 rounded-xl bg-amber-500/15 flex items-center justify-center text-2xl">🏆</span>
@@ -142,18 +137,19 @@
             </a>
             <a href="/trivia/" class="group flex items-center lg:flex-col lg:items-start gap-3 lg:gap-4 rounded-2xl border border-slate-800 bg-slate-900/70 hover:border-sky-500/60 hover:bg-slate-800/70 transition p-3.5 lg:p-5">
                 <span class="w-12 h-12 lg:w-14 lg:h-14 flex-shrink-0 rounded-xl bg-sky-500/15 flex items-center justify-center text-2xl">❓</span>
-                <span class="min-w-0 flex-1"><span class="block font-bold text-white lg:text-lg">Daily Golf Trivia</span><span class="block text-xs lg:text-sm text-slate-400 leading-snug mt-0.5 lg:mt-1">Five golf questions, new every day.</span></span>
+                <span class="min-w-0 flex-1"><span class="block font-bold text-white lg:text-lg">Daily Golf Trivia</span><span class="block text-xs lg:text-sm text-slate-400 leading-snug mt-0.5 lg:mt-1">Five YouTube golf questions every day.</span></span>
                 <span class="flex flex-col items-end lg:flex-row lg:items-center lg:justify-between lg:w-full lg:mt-auto gap-1 flex-shrink-0"><span class="hub-st text-[10px] font-bold uppercase tracking-wide text-golf-400" data-k="trivia"></span><i class="fa-solid fa-chevron-right text-slate-500 group-hover:text-white"></i></span>
             </a>
         </div>
+        <p class="text-sm text-slate-400 mt-4">More: <a class="text-golf-400 hover:underline" href="/pro/">Guess the Pro Golfer</a>, a daily game for tour pros.</p>
         <div class="text-sm lg:text-base text-slate-400 leading-relaxed mt-10 lg:mt-14 max-w-3xl">
             <h2 class="text-lg font-bold text-slate-200 mb-2">About Dailygolf</h2>
-            <p class="mb-3">Dailygolf is a free set of golf games for golf fans, like Wordle for golf. Every day there is a new mystery golfer to find in YouTube Golfer, Pro Golfer and Internet Invitational, plus five new trivia questions. In the Internet Invitational Draft you captain a team and play for the title whenever you like. New here? Read <a class="text-golf-400 hover:underline" href="/how-to-play/">how to play</a>.</p>
+            <p class="mb-3">Dailygolf is a free set of daily games for fans of YouTube golf, like Wordle for golf. Every day there is a new mystery golf YouTuber and a new Internet Invitational player to find, plus five new YouTube golf trivia questions. In the Internet Invitational Draft you captain a team and play for the title whenever you like. New here? Read <a class="text-golf-400 hover:underline" href="/how-to-play/">how to play</a>.</p>
             <h2 class="text-lg font-bold text-slate-200 mt-6 mb-2">Frequently asked questions</h2>
             <h3 class="font-semibold text-slate-300 mt-3">When do the new games start?</h3>
             <p>Every day at midnight, your local time. Play every day to keep your streaks going.</p>
             <h3 class="font-semibold text-slate-300 mt-3">Which golfers are in the games?</h3>
-            <p>Tour stars and legends in <a class="text-golf-400 hover:underline" href="/golfers/">Pro Golfer</a>, more than 60 <a class="text-golf-400 hover:underline" href="/youtubers/">golf YouTubers</a>, and the 64 players of the <a class="text-golf-400 hover:underline" href="/internet-invitational/#handicap-list">2026 Internet Invitational</a>.</p>
+            <p>More than 60 <a class="text-golf-400 hover:underline" href="/youtubers/">golf YouTubers</a> and celebrities like LeBron James and Kevin Hart, with their handicaps, and the 64 players of the <a class="text-golf-400 hover:underline" href="/internet-invitational/#handicap-list">2026 Internet Invitational</a>.</p>
             <h3 class="font-semibold text-slate-300 mt-3">Do I need an account?</h3>
             <p>No. Your results and streaks are saved in your own browser.</p>
             <h3 class="font-semibold text-slate-300 mt-3">Is Dailygolf free?</h3>
@@ -163,7 +159,7 @@
 
     <!-- GAME TABS -->
     <div class="game-only max-w-3xl mx-auto px-4 pt-3 w-full"><a href="/" class="text-xs font-semibold text-slate-400 hover:text-white">&larr; All games</a></div>
-    <div class="game-only max-w-3xl mx-auto px-4 pt-2 w-full flex gap-2" role="tablist">
+    <div class="hidden" role="tablist">
         <button id="tab-btn-yt" role="tab" class="flex-1 px-4 py-2.5 rounded-xl text-sm font-bold border border-slate-700/80 transition bg-golf-500 text-white">▶ YouTube Golfer</button>
         <button id="tab-btn-pro" role="tab" class="flex-1 px-4 py-2.5 rounded-xl text-sm font-bold border border-slate-700/80 transition bg-slate-800 text-slate-300 hover:bg-slate-700">⛳ Pro Golfer</button>
     </div>
@@ -476,7 +472,7 @@
         <p>Yes. It is free to play in your browser on phone or desktop, with no account needed.</p>
         <h2 class="text-lg font-bold text-slate-200 mt-6 mb-2">YouTubers in the game</h2>
         <p class="mb-2">See every creator's handicap on the <a class="text-golf-400 hover:underline" href="/youtubers/">YouTube golfer handicaps</a> page.</p>
-        <p class="text-xs">Brad Dalke, Sean Walsh, Ryan Ruffels, Chance Taylor, Wesley Bryan, Jean-Philippe Mehu, Asaeli Batibasaga (Bat), Luke Toomey (Tooms), Micah Morris, George Bryan, James Robinson, Ben Hadden, Garrett Clark, Kyle Berkshire, Taco, Peter Finch, Sam Heung Min, Paige Spiranac, Ben Kruper, Mariano Di Vaio, Evan Thompson, Luke Kwon, Harry Na, Jimmy Bullard, Rick Shiels, Cole Lantz, Grant Horvat, Martin Borgmeier, Josh Kelley, Mason Nutt, Blake Mullen, Malosi Togisala, Sara Winter, Kai Trump, The DoD King, ShortGameKing, Gabby Golf Girl, Fat Perez, Hailey Ostrom, Matt Scharff, Guy Charnock, Stimpen, Stephen Castaneda, Bubbie Broders, Abbe, Riggs, Chaz, Erik Anders Lang, Frankie Borrelli, Francis Ellis, D'Angelo Russell, Bobby Fairways, Joey Cold Cuts, Carl Déman, Harry (W2S), Calfreezy, Trent Ryan, Callux, Simon (Miniminter), Josh (Zerkaa), Kevin Hart, Jakedezgolf, Kåt.</p>
+        <p class="text-xs">Brad Dalke, Sean Walsh, Ryan Ruffels, Chance Taylor, Wesley Bryan, Jean-Philippe Mehu, Asaeli Batibasaga (Bat), Luke Toomey (Tooms), Micah Morris, George Bryan, James Robinson, Ben Hadden, Garrett Clark, Kyle Berkshire, Luke Kwon, Taco, Peter Finch, Sam Heung Min, Paige Spiranac, Ben Kruper, Mariano Di Vaio, Evan Thompson, Harry Na, Jimmy Bullard, Rick Shiels, Cole Lantz, Grant Horvat, Martin Borgmeier, Josh Kelley, Mason Nutt, Jakedezgolf, Blake Mullen, Malosi Togisala, Sara Winter, Kai Trump, ShortGameKing, The DoD King, Gabby Golf Girl, Fat Perez, Hailey Ostrom, Matt Scharff, Guy Charnock, Stimpen, Stephen Castaneda, Bubbie Broders, Abbe, Riggs, Chaz, Erik Anders Lang, Frankie Borrelli, Francis Ellis, D'Angelo Russell, Bobby Fairways, Joey Cold Cuts, Carl Déman, Harry (W2S), Calfreezy, Trent Ryan, Callux, Kåt, Simon (Miniminter), LeBron James, Josh (Zerkaa), Kevin Hart.</p>
       </div>
       <div id="text-pro" class="hidden">
         <h2 class="text-lg font-bold text-slate-200 mb-2">How to play Guess the Pro Golfer</h2>
@@ -1022,7 +1018,7 @@
                 const c = compare(g);
                 return [c.country, c.tour, c.age[0], c.majors[0], c.wins[0]].map(k => EMOJI[k]).join('');
             }).join('\n');
-            shareResult(`Dailygolf ${label} ⛳ ${won ? guesses.length : 'X'}/${maxGuesses}\n\n${grid}\n${SITE_URL}#pro`);
+            shareResult(`Dailygolf ${label} ⛳ ${won ? guesses.length : 'X'}/${maxGuesses}\n\n${grid}\n${SITE_URL}pro/`);
         }
     </script>
     <script>
@@ -1066,7 +1062,7 @@
             { const mt = el('mode-button-text');
               if (yt) { if (mt.dataset.pro === undefined) mt.dataset.pro = mt.textContent; mt.textContent = practice ? 'Daily Mode' : 'Practice Mode'; }
               else if (mt.dataset.pro !== undefined) { mt.textContent = mt.dataset.pro; delete mt.dataset.pro; } }
-            try { history.replaceState(null, '', yt ? '#youtube' : '#pro'); } catch (e) {}
+            if (window.DG_PAGE !== 'pro') { try { history.replaceState(null, '', '#youtube'); } catch (e) {} }
         }
         el('tab-btn-pro').onclick = () => showTab('pro');
         el('tab-btn-yt').onclick = () => showTab('yt');
@@ -1088,6 +1084,7 @@
         Ben Hadden|USA|-4.1|100|Ben Hadden Golf|
         Garrett Clark|USA|-4.1|2200|Good Good|2000-04-08
         Kyle Berkshire|USA|-4.0|260|Kyle Berkshire|1996-11-01
+        Luke Kwon|New Zealand,South Korea|-3.9|445|Luke Kwon Golf|1992-08-11
         Taco|New Zealand,South Korea|-3.8|297|Taco Golf|
         Peter Finch|England|-3.7|844|Peter Finch Golf|1986-08-14
         Sam Heung Min|New Zealand,South Korea|-3.5|175|Sam Heung Min Golf|
@@ -1095,7 +1092,6 @@
         Ben Kruper|USA|-3.2|268|Ben Kruper Golf|2003-06-30
         Mariano Di Vaio|Italy|-3.1||Mariano Di Vaio|1989
         Evan Thompson|USA|-3.1|120|Evan Thompson|
-        Luke Kwon|New Zealand,South Korea|-3.9|445|Luke Kwon Golf|1992-08-11
         Harry Na|New Zealand,South Korea|-2.9|40|Dimchae|
         Jimmy Bullard|England|-2.8||GOLF LIFE|1978-10-23
         Rick Shiels|England|-2.6|3100|Rick Shiels Golf|1986-07-03
@@ -1104,12 +1100,13 @@
         Martin Borgmeier|Germany|-2.1|211|Martin Borgmeier|1991-05-25
         Josh Kelley|USA|-2.1|149|Josh Kelley Golf|
         Mason Nutt|USA|-2.1|242|BustaJack Golf|
+        Jakedezgolf|USA|-2.1|21|jakedezgolf|
         Blake Mullen|USA|-1.2|2200|Good Good|
         Malosi Togisala|USA|-1.0|2200|Good Good|1997-02-15
         Sara Winter|Canada|-0.8|14|Sara Winter Golf|1997-08-04
         Kai Trump|USA|-0.7||Kai Trump|2007-05-12
-        The DoD King|USA|-0.1|126|The DoD King|
         ShortGameKing|USA|-0.2|56|ShortGameKing|
+        The DoD King|USA|-0.1|126|The DoD King|
         Gabby Golf Girl|USA|0.0|289|gabbygolfgirl|
         Fat Perez|USA|0.3|1500|Bob Does Sports|
         Hailey Ostrom|USA|0.8|177|Hailey Ostrom|1994-02-19
@@ -1132,13 +1129,14 @@
         Calfreezy|England|13.1|861|Big Wedge Golf|1994-11-17
         Trent Ryan|USA|14.6|657|Fore Play Golf|
         Callux|England|22.5|861|Big Wedge Golf|1992-03-11
-        Simon (Miniminter)|England|26.5|861|Big Wedge Golf|1992-09-07
-        Josh (Zerkaa)|England|30.3|861|Big Wedge Golf|1992-09-04
-        Kevin Hart|USA|36.0|150|Kevin Hart Golfs|1979-07-06
-        Jakedezgolf|USA|-2.1|21|jakedezgolf|
         Kåt|England|25.1|861|Big Wedge Golf|
+        Simon (Miniminter)|England|26.5|861|Big Wedge Golf|1992-09-07
+        LeBron James|USA|29.5|550|LeBron|1984-12-30
+        Josh (Zerkaa)|England|30.3|861|Big Wedge Golf|1992-09-04
+        Kevin Hart|USA|36.0|187|Kevin Hart Golfs|1979-07-06
         `;
-        const NO_DAILY = new Set(["Harry (W2S)", "Simon (Miniminter)", "Josh (Zerkaa)", "Calfreezy", "Callux", "Kåt"]);
+        // Guessable but never the daily answer (keeps the daily order stable when players are added).
+        const NO_DAILY = new Set(["Harry (W2S)", "Simon (Miniminter)", "Josh (Zerkaa)", "Calfreezy", "Callux", "Kåt", "LeBron James", "Kevin Hart"]);
         let Y = [], POOL = [];
         function setData(list) {
             Y = list;
@@ -1323,7 +1321,8 @@
             document.querySelectorAll('.hub-st').forEach(x => { x.textContent = map[x.dataset.k] || ''; });
         }
         function route() {
-            const h = location.hash, g = h === '#pro' ? 'pro' : h === '#youtube' ? 'yt' : null;
+            const h = location.hash, g = window.DG_PAGE === 'pro' ? 'pro' : h === '#youtube' ? 'yt' : null;
+            if (!g && h === '#pro') { location.replace('/pro/'); return; }
             document.documentElement.classList.toggle('in-game', !!g);
             if (g) showTab(g); else hubStatus();
             el('howto-link').href = '/how-to-play/' + (g ? (g === 'pro' ? '#pro' : '#youtube') : '');
