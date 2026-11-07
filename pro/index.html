@@ -59,7 +59,7 @@
     <meta name="google-adsense-account" content="ca-pub-4913143800554205">
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4913143800554205" crossorigin="anonymous"></script>
 <script data-goatcounter="https://dailygolf.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
-    <script>if (window.DG_PAGE === 'pro' || location.hash === '#youtube') document.documentElement.classList.add('in-game'); else if (location.hash === '#pro') location.replace('/pro/');</script>
+    <script>if (window.DG_PAGE === 'pro' || location.hash === '#youtube' || location.hash === '#invitational') document.documentElement.classList.add('in-game'); else if (location.hash === '#pro') location.replace('/pro/');</script>
     <style>html:not(.in-game) .game-only{display:none!important}html.in-game #hub{display:none}</style>
 <link rel="stylesheet" href="/assets/calm.css">
 </head>
@@ -110,7 +110,7 @@
                 <span class="min-w-0 flex-1"><span class="block font-bold text-white lg:text-lg">YouTube Golfer</span><span class="block text-xs lg:text-sm text-slate-400 leading-snug mt-0.5 lg:mt-1">Guess the golf YouTuber from handicap, subscribers and channel.</span></span>
                 <span class="flex flex-col items-end lg:flex-row lg:items-center lg:justify-between lg:w-full lg:mt-auto gap-1 flex-shrink-0"><span class="hub-st text-[10px] font-bold uppercase tracking-wide text-golf-400" data-k="yt"></span><i class="fa-solid fa-chevron-right text-slate-500 group-hover:text-white"></i></span>
             </a>
-            <a href="/internet-invitational/" class="group flex items-center lg:flex-col lg:items-start gap-3 lg:gap-4 rounded-2xl border border-slate-800 bg-slate-900/70 hover:border-amber-500/60 hover:bg-slate-800/70 transition p-3.5 lg:p-5">
+            <a href="#invitational" class="group flex items-center lg:flex-col lg:items-start gap-3 lg:gap-4 rounded-2xl border border-slate-800 bg-slate-900/70 hover:border-amber-500/60 hover:bg-slate-800/70 transition p-3.5 lg:p-5">
                 <span class="w-12 h-12 lg:w-14 lg:h-14 flex-shrink-0 rounded-xl bg-amber-500/15 flex items-center justify-center text-2xl">🏆</span>
                 <span class="min-w-0 flex-1"><span class="block font-bold text-white lg:text-lg">Internet Invitational</span><span class="block text-xs lg:text-sm text-slate-400 leading-snug mt-0.5 lg:mt-1">Guess the Internet Invitational player by team and handicap.</span></span>
                 <span class="flex flex-col items-end lg:flex-row lg:items-center lg:justify-between lg:w-full lg:mt-auto gap-1 flex-shrink-0"><span class="hub-st text-[10px] font-bold uppercase tracking-wide text-golf-400" data-k="ii"></span><i class="fa-solid fa-chevron-right text-slate-500 group-hover:text-white"></i></span>
@@ -343,6 +343,103 @@
         <p class="text-xs text-slate-500 mt-4 leading-relaxed">Handicaps and countries come from the handicap-tracker.com YouTube golf leaderboard (Oct 2026). Subscribers come from YT Golf Stats and are the creator's own channel when tracked, otherwise the channel shown on the leaderboard (— = unknown). Creators with two flags show both countries. All numbers change over time.</p>
     </main>
 
+    <!-- INTERNET INVITATIONAL GAME -->
+    <main id="tab-ii" class="game-only hidden max-w-3xl mx-auto px-4 py-6 flex-grow w-full">
+
+        <!-- GAME STATUS HEADER -->
+        <div class="flex items-center justify-between mb-6 bg-slate-900/60 border border-slate-800 rounded-2xl p-3.5 shadow-inner">
+            <div class="flex items-center gap-2.5">
+                <span class="relative flex h-3 w-3">
+                  <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-golf-400 opacity-75"></span>
+                  <span class="relative inline-flex rounded-full h-3 w-3 bg-golf-500"></span>
+                </span>
+                <span id="ii-mode" class="text-xs font-bold text-slate-200 tracking-wide">Dailygolf Internet Invitational (#1)</span>
+            </div>
+            <div class="text-xs font-medium text-slate-400">
+                Guesses: <span id="ii-count" class="text-white font-bold">0</span>/5
+            </div>
+        </div>
+
+        <!-- SEARCH INPUT AREA -->
+        <div class="relative mb-6" id="ii-search">
+            <div class="relative">
+                <input type="text" id="ii-inp" autocomplete="off" placeholder="Search player (e.g. Grant Horvat, Riggs, Paige Spiranac)..." aria-label="Player name"
+                    class="w-full bg-slate-900 border-2 border-slate-800 focus:border-golf-500 rounded-2xl px-5 py-4 pl-12 pr-28 text-ellipsis text-sm md:text-base text-white placeholder-slate-500 outline-none transition shadow-lg focus:shadow-golf-500/10">
+                <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-slate-500"></i>
+                <button id="ii-go" class="absolute right-2.5 top-1/2 -translate-y-1/2 bg-golf-600 hover:bg-golf-500 active:scale-95 text-white px-5 py-2.5 rounded-xl text-sm font-bold transition shadow-md shadow-golf-600/20 disabled:opacity-50 disabled:cursor-not-allowed">
+                    Guess
+                </button>
+            </div>
+            <div id="ii-ac" class="absolute left-0 right-0 top-full mt-2 bg-slate-900 border border-slate-800 rounded-2xl shadow-2xl max-h-64 overflow-y-auto z-50 hidden divide-y divide-slate-800"></div>
+        </div>
+
+        <!-- GUESSES TABLE HEADER -->
+        <div class="mb-3">
+            <div class="grid grid-cols-4 gap-1.5 md:gap-2 text-center text-[10px] md:text-xs font-bold text-slate-400 uppercase tracking-wider pb-1">
+                <div class="flex items-center justify-center bg-slate-900/40 py-1.5 rounded-lg border border-slate-800/50">Player</div>
+                <div class="flex items-center justify-center bg-slate-900/40 py-1.5 rounded-lg border border-slate-800/50">Team</div>
+                <div class="flex items-center justify-center bg-slate-900/40 py-1.5 rounded-lg border border-slate-800/50">Handicap</div>
+                <div class="flex items-center justify-center bg-slate-900/40 py-1.5 rounded-lg border border-slate-800/50 leading-tight">Played 2025</div>
+            </div>
+        </div>
+
+        <!-- GUESSES FEEDBACK LIST -->
+        <div id="ii-rows" class="space-y-2 mb-8"></div>
+
+        <!-- GAME OVER CARD -->
+        <div id="ii-end" class="hidden bg-gradient-to-b from-slate-800 to-slate-900 border border-slate-700/80 rounded-2xl p-6 text-center animate-pop shadow-2xl mb-8">
+            <div class="w-16 h-16 rounded-2xl bg-golf-500/20 text-golf-400 flex items-center justify-center mx-auto mb-3 text-3xl shadow-inner">
+                <i class="fa-solid fa-trophy"></i>
+            </div>
+            <h2 id="ii-end-t" class="text-2xl font-black text-white mb-1"></h2>
+            <p id="ii-end-p" class="text-sm text-slate-300 mb-5"></p>
+            <div class="bg-slate-950/80 rounded-xl p-4 mb-6 border border-slate-800 flex items-center justify-center gap-4">
+                <div class="text-center">
+                    <p class="text-xs text-slate-400 uppercase tracking-wider font-semibold">Mystery Player</p>
+                    <p id="ii-secret-name" class="text-xl font-bold text-golf-400 mt-0.5"></p>
+                    <p id="ii-secret-details" class="text-xs text-slate-400 mt-1"></p>
+                </div>
+            </div>
+            <div class="flex items-center justify-center gap-3">
+                <button id="ii-share" class="bg-slate-700 hover:bg-slate-600 text-white px-5 py-3 rounded-xl text-sm font-bold transition flex items-center gap-2 shadow-md">
+                    <i class="fa-solid fa-share-nodes"></i> Share Score
+                </button>
+                <button id="ii-practice" class="bg-golf-600 hover:bg-golf-500 text-white px-5 py-3 rounded-xl text-sm font-bold transition flex items-center gap-2 shadow-lg shadow-golf-600/30">
+                    <i class="fa-solid fa-rotate-right"></i> <span id="ii-practice-l">Play Practice Mode</span>
+                </button>
+            </div>
+            <p class="text-sm text-slate-400 mt-5">Next: <a class="text-golf-400 hover:underline font-semibold" href="#youtube">today&rsquo;s YouTube Golfer</a> · <a class="text-golf-400 hover:underline font-semibold" href="/draft/">Draft simulator</a></p>
+        </div>
+
+        <!-- COLOR GUIDE LEGEND -->
+        <div class="bg-slate-900/50 border border-slate-800/80 rounded-2xl p-4 text-xs text-slate-400">
+            <p class="font-bold text-slate-300 mb-2.5 flex items-center gap-1.5">
+                <i class="fa-solid fa-palette text-golf-400"></i> Feedback Color Guide:
+            </p>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+                <div class="flex items-center gap-2 bg-slate-950/40 p-2 rounded-lg border border-slate-800">
+                    <span class="w-4 h-4 rounded bg-emerald-600 flex-shrink-0 shadow-sm"></span>
+                    <span><strong class="text-emerald-400">Green:</strong> Exact match (same team, handicap or 2025 status)</span>
+                </div>
+                <div class="flex items-center gap-2 bg-slate-950/40 p-2 rounded-lg border border-slate-800">
+                    <span class="w-4 h-4 rounded bg-amber-600 flex-shrink-0 shadow-sm"></span>
+                    <span><strong class="text-amber-400">Yellow:</strong> Close (handicap within ±1.5)</span>
+                </div>
+                <div class="flex items-center gap-2 bg-slate-950/40 p-2 rounded-lg border border-slate-800">
+                    <span class="w-4 h-4 rounded bg-slate-800 flex-shrink-0 shadow-sm border border-slate-700"></span>
+                    <span><strong class="text-slate-300">Gray:</strong> No match</span>
+                </div>
+            </div>
+            <p class="mt-3 text-slate-500">▲ = the mystery player's handicap number is higher, ▼ = lower. Plus handicaps (+) are better than scratch.</p>
+        </div>
+        <p id="ii-stats" class="text-center text-sm text-slate-400 mt-5"></p>
+        <a href="/internet-invitational/" class="mt-5 flex items-center justify-between gap-3 rounded-2xl border border-slate-800 bg-slate-900/70 hover:border-golf-500/60 transition p-4">
+            <span><span class="block font-bold text-white">Stuck? Handicap list, teams &amp; schedule</span><span class="block text-xs text-slate-400 mt-0.5">All 64 Internet Invitational players with their handicaps</span></span>
+            <i class="fa-solid fa-chevron-right text-slate-500"></i>
+        </a>
+        <p class="text-xs text-slate-500 mt-4 leading-relaxed">Handicaps come from handicap-tracker.com where listed (November 2026), otherwise estimates by YT Golf Stats. Teams and 2025 appearances from public roster pages. Dailygolf is an independent fan project, not affiliated with the Internet Invitational.</p>
+    </main>
+
     <!-- INSTRUCTIONS MODAL -->
     <div id="modal-help" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
         <div class="bg-slate-900 border border-slate-800 rounded-2xl max-w-md w-full p-6 shadow-2xl relative">
@@ -384,6 +481,17 @@
                     <li class="flex items-start gap-2"><span class="w-3.5 h-3.5 rounded bg-slate-800 border border-slate-700 mt-0.5 flex-shrink-0"></span><span><strong class="text-slate-300">Gray:</strong> No match.</span></li>
                     <li class="flex items-start gap-2"><span class="text-golf-400 font-bold mt-0.5">▲ / ▼</span><span><strong>Arrows:</strong> the mystery creator's number is higher or lower. Plus handicaps (+) are better than scratch.</span></li>
                 </ul>
+            </div>
+            <div id="help-ii" class="hidden text-xs text-slate-300 space-y-3 leading-relaxed">
+                <p>Guess the mystery Internet Invitational 2026 player in <strong>5 guesses or less</strong>.</p>
+                <p>Each guess compares your player with the mystery player:</p>
+                <ul class="space-y-2 text-slate-400 pl-1">
+                    <li class="flex items-start gap-2"><span class="w-3.5 h-3.5 rounded bg-emerald-600 mt-0.5 flex-shrink-0"></span><span><strong class="text-emerald-400">Green:</strong> Same team, same handicap, or both played (or both missed) the 2025 event.</span></li>
+                    <li class="flex items-start gap-2"><span class="w-3.5 h-3.5 rounded bg-amber-600 mt-0.5 flex-shrink-0"></span><span><strong class="text-amber-400">Yellow:</strong> Handicap within ±1.5.</span></li>
+                    <li class="flex items-start gap-2"><span class="w-3.5 h-3.5 rounded bg-slate-800 border border-slate-700 mt-0.5 flex-shrink-0"></span><span><strong class="text-slate-300">Gray:</strong> No match.</span></li>
+                    <li class="flex items-start gap-2"><span class="text-golf-400 font-bold mt-0.5">▲ / ▼</span><span><strong>Arrows:</strong> the mystery player's handicap number is higher or lower. Plus handicaps (+) are better than scratch.</span></li>
+                </ul>
+                <p>Stuck? The <a class="text-golf-400 hover:underline" href="/internet-invitational/#handicap-list">full handicap list</a> has every player.</p>
             </div>
             <button class="close-modal w-full mt-6 bg-golf-600 hover:bg-golf-500 text-white py-3 rounded-xl font-bold text-sm transition">Got it, let's play!</button>
         </div>
@@ -441,6 +549,23 @@
         </div>
     </div>
 
+    <!-- INTERNET INVITATIONAL STATS MODAL -->
+    <div id="modal-ii-stats" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl max-w-md w-full p-6 shadow-2xl relative">
+            <button id="ist-x" class="absolute top-4 right-4 text-slate-400 hover:text-white text-lg w-8 h-8 flex items-center justify-center rounded-lg hover:bg-slate-800"><i class="fa-solid fa-xmark"></i></button>
+            <h3 class="text-xl font-bold text-white mb-4 flex items-center gap-2"><i class="fa-solid fa-chart-line text-golf-400"></i> Internet Invitational Statistics</h3>
+            <div class="grid grid-cols-4 gap-2 text-center mb-5">
+                <div class="bg-slate-950/60 p-3 rounded-xl border border-slate-800"><p id="ist-played" class="text-2xl font-black text-white">0</p><p class="text-[10px] text-slate-400 uppercase font-semibold">Played</p></div>
+                <div class="bg-slate-950/60 p-3 rounded-xl border border-slate-800"><p id="ist-rate" class="text-2xl font-black text-emerald-400">0%</p><p class="text-[10px] text-slate-400 uppercase font-semibold">Win %</p></div>
+                <div class="bg-slate-950/60 p-3 rounded-xl border border-slate-800"><p id="ist-streak" class="text-2xl font-black text-amber-400">0</p><p class="text-[10px] text-slate-400 uppercase font-semibold">Streak</p></div>
+                <div class="bg-slate-950/60 p-3 rounded-xl border border-slate-800"><p id="ist-max" class="text-2xl font-black text-golf-400">0</p><p class="text-[10px] text-slate-400 uppercase font-semibold">Max</p></div>
+            </div>
+            <p class="text-xs text-slate-400 uppercase font-semibold mb-2">Guess distribution</p>
+            <div id="ist-dist" class="space-y-1.5 mb-5"></div>
+            <button id="ist-close" class="w-full bg-slate-800 hover:bg-slate-700 text-white py-2.5 rounded-xl font-bold text-sm transition">Close</button>
+        </div>
+    </div>
+
     <!-- CRAWLABLE CONTENT (SEO) -->
     <section class="game-only max-w-3xl mx-auto w-full px-4 py-8 text-sm text-slate-400 leading-relaxed">
       <div id="text-yt">
@@ -458,6 +583,11 @@
         <h2 class="text-lg font-bold text-slate-200 mt-6 mb-2">YouTubers in the game</h2>
         <p class="mb-2">See every creator's handicap on the <a class="text-golf-400 hover:underline" href="/youtubers/">YouTube golfer handicaps</a> page.</p>
         <p class="text-xs">Brad Dalke, Sean Walsh, Ryan Ruffels, Chance Taylor, Wesley Bryan, Jean-Philippe Mehu, Asaeli Batibasaga (Bat), Luke Toomey (Tooms), Micah Morris, George Bryan, James Robinson, Ben Hadden, Garrett Clark, Kyle Berkshire, Luke Kwon, Taco, Peter Finch, Sam Heung Min, Paige Spiranac, Ben Kruper, Mariano Di Vaio, Evan Thompson, Harry Na, Jimmy Bullard, Rick Shiels, Cole Lantz, Grant Horvat, Martin Borgmeier, Josh Kelley, Mason Nutt, Jakedezgolf, Blake Mullen, Malosi Togisala, Sara Winter, Kai Trump, ShortGameKing, The DoD King, Gabby Golf Girl, Fat Perez, Hailey Ostrom, Matt Scharff, Guy Charnock, Stimpen, Stephen Castaneda, Bubbie Broders, Abbe, Riggs, Chaz, Erik Anders Lang, Frankie Borrelli, Francis Ellis, D'Angelo Russell, Bobby Fairways, Joey Cold Cuts, Carl Déman, Harry (W2S), Calfreezy, Trent Ryan, Callux, Kåt, Simon (Miniminter), LeBron James, Josh (Zerkaa), Kevin Hart.</p>
+      </div>
+      <div id="text-ii" class="hidden">
+        <h2 class="text-lg font-bold text-slate-200 mb-2">How to play Guess the Internet Invitational Player</h2>
+        <p class="mb-3">Find today&rsquo;s mystery player from the 2026 Internet Invitational in five guesses. After each guess the clues show whether the player is on the same team, how close the handicap is (yellow means within 1.5, arrows show higher or lower) and whether both played in 2025. A new player appears every day at midnight.</p>
+        <p class="mb-3">Need help? The <a class="text-golf-400 hover:underline" href="/internet-invitational/">Internet Invitational page</a> has the handicap list for all 64 players, the four teams and the episode schedule, and every player has a page of their own.</p>
       </div>
       <div id="text-pro" class="hidden">
         <h2 class="text-lg font-bold text-slate-200 mb-2">How to play Guess the Pro Golfer</h2>
@@ -805,8 +935,10 @@
             // Modals
             document.getElementById('btn-help').addEventListener('click', () => {
                 const yt = !document.getElementById('tab-yt').classList.contains('hidden');
-                document.getElementById('help-pro').classList.toggle('hidden', yt);
+                const ii = !document.getElementById('tab-ii').classList.contains('hidden');
+                document.getElementById('help-pro').classList.toggle('hidden', yt || ii);
                 document.getElementById('help-yt').classList.toggle('hidden', !yt);
+                document.getElementById('help-ii').classList.toggle('hidden', !ii);
                 document.getElementById('modal-help').classList.remove('hidden');
             });
             document.getElementById('btn-stats').addEventListener('click', () => {
@@ -1033,21 +1165,23 @@
         const el = id => document.getElementById(id);
         const ACTIVE = ['bg-golf-500', 'text-white'], IDLE = ['bg-slate-800', 'text-slate-300', 'hover:bg-slate-700'];
         function showTab(name) {
-            const yt = name === 'yt';
-            el('tab-pro').classList.toggle('hidden', yt);
+            const yt = name === 'yt', ii = name === 'ii', pro = !yt && !ii;
+            el('tab-pro').classList.toggle('hidden', !pro);
             el('tab-yt').classList.toggle('hidden', !yt);
-            el('text-pro').classList.toggle('hidden', yt);
+            el('tab-ii').classList.toggle('hidden', !ii);
+            el('text-pro').classList.toggle('hidden', !pro);
             el('text-yt').classList.toggle('hidden', !yt);
-            [['tab-btn-pro', !yt], ['tab-btn-yt', yt]].forEach(([id, on]) => {
+            el('text-ii').classList.toggle('hidden', !ii);
+            [['tab-btn-pro', pro], ['tab-btn-yt', yt]].forEach(([id, on]) => {
                 const b = el(id);
                 ACTIVE.forEach(c => b.classList.toggle(c, on));
                 IDLE.forEach(c => b.classList.toggle(c, !on));
                 b.setAttribute('aria-selected', on);
             });
             { const mt = el('mode-button-text');
-              if (yt) { if (mt.dataset.pro === undefined) mt.dataset.pro = mt.textContent; mt.textContent = practice ? 'Daily Mode' : 'Practice Mode'; }
+              if (!pro) { if (mt.dataset.pro === undefined) mt.dataset.pro = mt.textContent; mt.textContent = (yt ? practice : window.iiPractice && window.iiPractice()) ? 'Daily Mode' : 'Practice Mode'; }
               else if (mt.dataset.pro !== undefined) { mt.textContent = mt.dataset.pro; delete mt.dataset.pro; } }
-            if (window.DG_PAGE !== 'pro') { try { history.replaceState(null, '', '#youtube'); } catch (e) {} }
+            if (window.DG_PAGE !== 'pro') { try { history.replaceState(null, '', ii ? '#invitational' : '#youtube'); } catch (e) {} }
         }
         el('tab-btn-pro').onclick = () => showTab('pro');
         el('tab-btn-yt').onclick = () => showTab('yt');
@@ -1295,7 +1429,128 @@
                 }
             }).catch(() => {});
         }
-        // Start page = game picker; #youtube and #pro open a game (the back button returns to the picker).
+
+        // ---- INTERNET INVITATIONAL GAME (#invitational) ----
+        // Same daily player and saved state (dg_ii_day / dg_ii_stats) as the old game on /internet-invitational/.
+        (function () {
+            const IMAX = 5;
+            let IP = [], IPOOL = [], iSecret, iGuesses = [], iOver = false, iPractice = false, iDay = dayNumber(), iActed = false;
+            let iStats = { played: 0, wins: 0, streak: 0, max: 0, last: 0, dist: [0, 0, 0, 0, 0] };
+            try { iStats = JSON.parse(localStorage.getItem('dg_ii_stats')) || iStats; } catch (e) {}
+            if (!Array.isArray(iStats.dist) || iStats.dist.length !== 5) iStats.dist = [0, 0, 0, 0, 0];
+            if (!iStats.last) delete iStats.last;
+            decayStreak(iStats, iDay);
+            window.iiPractice = () => iPractice;
+            const iFind = n => IP.find(p => p.n === n) || null;
+            function iHash(s) { let h = 2166136261; for (let i = 0; i < s.length; i++) { h ^= s.charCodeAt(i); h = Math.imul(h, 16777619); } return h >>> 0; }
+            function iShuffle(a, seed) { a = a.slice(); let t = seed >>> 0; const r = () => { t = (t + 0x6D2B79F5) >>> 0; let x = Math.imul(t ^ (t >>> 15), 1 | t); x ^= x + Math.imul(x ^ (x >>> 7), 61 | x); return ((x ^ (x >>> 14)) >>> 0) / 4294967296; };
+                for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(r() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
+            function iDaily(day) { const names = IPOOL.map(p => p.n).sort(), n = names.length, k = day - 302, c = Math.floor(k / n);
+                return iFind(iShuffle(names, iHash('ii2026:' + c))[((k % n) + n) % n]); }
+            const iFh = h => h === null ? '—' : fmtH(h);
+            function iCells(g) {
+                let hc = '', ht = iFh(g.h);
+                if (g.h !== null && iSecret.h !== null) { const d = iSecret.h - g.h, ex = Math.abs(d) < 0.05; hc = ex ? 'g' : (Math.abs(d) <= 1.5 ? 'y' : ''); if (!ex) ht += d > 0 ? ' ▲' : ' ▼'; }
+                return [[g === iSecret ? 'g' : 'n', g.n + (g.c ? ' (C)' : '')], [g.t === iSecret.t ? 'g' : '', g.t.replace('Team ', '')], [hc, ht], [g.y === iSecret.y ? 'g' : '', g.y ? 'Yes' : 'No']];
+            }
+            const iEsc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+            function iRender() {
+                const BG = { g: 'bg-emerald-600 border-emerald-500', y: 'bg-amber-600 border-amber-500', n: 'bg-slate-900 text-white border-slate-800', '': 'bg-slate-900 border-slate-800' };
+                el('ii-rows').innerHTML = iGuesses.slice().reverse().map(g => '<div class="grid grid-cols-4 gap-1.5 md:gap-2 text-center text-xs md:text-sm font-bold animate-pop">' + iCells(g).map(c => `<div class="${BG[c[0]]} text-white p-2 md:p-3 rounded-xl border flex items-center justify-center break-words text-[11px] md:text-xs shadow-md font-semibold leading-tight min-h-[52px]">${iEsc(c[1])}</div>`).join('') + '</div>').join('');
+                el('ii-count').textContent = iGuesses.length;
+            }
+            const iStatsText = () => `Played ${iStats.played} · Wins ${iStats.wins} · Streak ${iStats.streak} · Max ${iStats.max}`;
+            function iSave() { if (!iPractice) saveJSON('dg_ii_day', { day: iDay, s: iSecret.n, g: iGuesses.map(g => g.n), over: !!iOver, won: !!iOver && iGuesses.includes(iSecret) }); }
+            const iOn = () => !el('tab-ii').classList.contains('hidden');
+            function iStart() {
+                iGuesses = []; iOver = false; iDay = dayNumber();
+                let saved = null; try { saved = JSON.parse(localStorage.getItem('dg_ii_day') || 'null'); } catch (e) {}
+                const today = !iPractice && saved && saved.day === iDay && iFind(saved.s) ? saved : null;
+                iSecret = iPractice ? IPOOL[Math.floor(Math.random() * IPOOL.length)] : (today ? iFind(today.s) : iDaily(iDay));
+                el('ii-mode').textContent = iPractice ? 'Practice Mode (Random)' : 'Dailygolf Internet Invitational (#' + iDay + ')';
+                el('ii-practice-l').textContent = iPractice ? 'Next Player' : 'Play Practice Mode';
+                if (iOn()) el('mode-button-text').textContent = iPractice ? 'Daily Mode' : 'Practice Mode';
+                el('ii-end').classList.add('hidden');
+                el('ii-inp').disabled = el('ii-go').disabled = false;
+                if (today) { iGuesses = today.g.map(iFind).filter(Boolean); iRender(); if (today.over) iFinish(iGuesses.includes(iSecret), true); return; }
+                iRender();
+            }
+            const iac = el('ii-ac');
+            const iAcHide = () => iac.classList.add('hidden');
+            el('ii-inp').addEventListener('input', () => {
+                const q = el('ii-inp').value.toLowerCase().trim();
+                if (!q) { iAcHide(); return; }
+                const m = IP.filter(p => !iGuesses.includes(p) && (p.n.toLowerCase().includes(q) || p.t.toLowerCase().includes(q))).slice(0, 40);
+                if (!m.length) { iAcHide(); return; }
+                iac.innerHTML = '';
+                m.forEach(p => {
+                    const d = document.createElement('div');
+                    d.className = 'px-4 py-3 hover:bg-slate-800 cursor-pointer flex items-center justify-between gap-3 transition text-sm';
+                    d.innerHTML = `<span class="font-bold text-white truncate">${iEsc(p.n)}</span><span class="text-xs font-semibold text-slate-400 bg-slate-800 px-2 py-0.5 rounded border border-slate-700 whitespace-nowrap">${iEsc(p.t)}</span>`;
+                    d.addEventListener('click', () => { el('ii-inp').value = p.n; iAcHide(); iGuess(); });
+                    iac.appendChild(d);
+                });
+                iac.classList.remove('hidden');
+            });
+            document.addEventListener('click', e => { if (!el('ii-search').contains(e.target)) iAcHide(); });
+            function iGuess() {
+                if (iOver || !iSecret) return;
+                iActed = true;
+                const v = el('ii-inp').value.trim().toLowerCase(), p = IP.find(x => x.n.toLowerCase() === v);
+                if (!p) { toast(v ? 'Player not found – pick one from the list.' : 'Type a player’s name first.'); return; }
+                if (iGuesses.includes(p)) { toast('You already guessed ' + p.n + '.'); return; }
+                iGuesses.push(p); el('ii-inp').value = ''; iAcHide(); iRender();
+                if (p === iSecret || iGuesses.length >= IMAX) iFinish(p === iSecret, false); else iSave();
+            }
+            function iFinish(won, restored) {
+                iOver = true; el('ii-inp').disabled = el('ii-go').disabled = true;
+                if (!iPractice && !restored) {
+                    recordResult(iStats, iDay, won, 'max');
+                    if (won) iStats.dist[iGuesses.length - 1]++;
+                    saveJSON('dg_ii_stats', iStats); iSave();
+                }
+                el('ii-end-t').textContent = won ? TITLES[iGuesses.length - 1] : 'Out of Bounds! ⛳️';
+                el('ii-end-p').textContent = won ? 'You guessed the mystery player!' : (iPractice ? 'You ran out of guesses. Better luck next time!' : 'You ran out of guesses. A new player is waiting tomorrow!');
+                el('ii-secret-name').textContent = iSecret.n;
+                el('ii-secret-details').textContent = `${iSecret.t} · Handicap ${iFh(iSecret.h)} · ${iSecret.y ? 'Played' : 'New in'} 2025`.replace('New in 2025', 'Debut in 2026');
+                el('ii-end').classList.remove('hidden');
+                el('ii-stats').textContent = iStatsText();
+            }
+            el('ii-go').onclick = iGuess;
+            el('ii-inp').addEventListener('keydown', e => { if (e.key === 'Enter') iGuess(); });
+            el('ii-practice').onclick = () => { iPractice = true; iActed = true; iStart(); };
+            function iShowStats() {
+                el('ist-played').textContent = iStats.played;
+                el('ist-rate').textContent = (iStats.played ? Math.round(iStats.wins / iStats.played * 100) : 0) + '%';
+                el('ist-streak').textContent = iStats.streak; el('ist-max').textContent = iStats.max;
+                const mx = Math.max(1, ...iStats.dist);
+                el('ist-dist').innerHTML = iStats.dist.map((n, i) => `<div class="flex items-center gap-2 text-xs"><span class="w-24 text-slate-400">${TITLES[i].replace(/[^A-Za-z ]/g, '').trim()}</span><div class="flex-1 bg-slate-950/60 rounded"><div class="bg-golf-500 text-white font-bold rounded px-2 py-0.5 text-right" style="width:${Math.max(8, n / mx * 100)}%">${n}</div></div></div>`).join('');
+                el('modal-ii-stats').classList.remove('hidden');
+            }
+            el('header-controls').addEventListener('click', e => {
+                if (!iOn()) return;
+                const b = e.target.closest('button'); if (!b) return;
+                if (b.id === 'btn-mode-toggle') { e.stopPropagation(); iPractice = !iPractice; iActed = true; iStart(); }
+                else if (b.id === 'btn-stats') { e.stopPropagation(); iShowStats(); }
+            }, true);
+            ['ist-x', 'ist-close'].forEach(id => el(id).onclick = () => el('modal-ii-stats').classList.add('hidden'));
+            el('ii-share').onclick = () => {
+                const won = iGuesses.includes(iSecret);
+                const grid = iGuesses.map(g => iCells(g).slice(1).map(c => EMOJI[c[0]]).join('')).join('\n');
+                shareResult(`Dailygolf Internet Invitational ${iPractice ? 'Practice' : '#' + iDay} ⛳ ${won ? iGuesses.length : 'X'}/${IMAX}\n\n${grid}\n${SITE_URL}#invitational`);
+            };
+            el('ii-stats').textContent = iStatsText();
+            if (window.fetch) fetch('/data/internet-invitational-2026.json', { cache: 'no-cache' }).then(r => r.ok ? r.json() : null).then(d => {
+                if (!d || !Array.isArray(d.players)) return;
+                IP = d.players.map(p => ({ n: p.name, t: p.team, h: p.hcp, y: !!p.played2025, c: !!p.captain }));
+                IPOOL = IP.filter(p => p.h !== null);
+                iStart();
+            }).catch(() => {});
+            document.addEventListener('visibilitychange', () => {
+                if (document.visibilityState === 'visible' && !iPractice && IP.length && dayNumber() !== iDay) { decayStreak(iStats, dayNumber()); iStart(); el('ii-stats').textContent = iStatsText(); }
+            });
+        })();
+        // Start page = game picker; #youtube and #invitational open a game, /pro/ has its own page (back returns to the picker).
         function hubStatus() {
             const d = dayNumber(), get = k => { try { return JSON.parse(localStorage.getItem(k) || 'null'); } catch (e) { return null; } };
             const st = (o, done) => !o || o.day !== d ? 'New today' : done(o) ? (o.won ? '✓ Solved' : '✓ Played') : 'In progress';
@@ -1306,11 +1561,11 @@
             document.querySelectorAll('.hub-st').forEach(x => { x.textContent = map[x.dataset.k] || ''; });
         }
         function route() {
-            const h = location.hash, g = window.DG_PAGE === 'pro' ? 'pro' : h === '#youtube' ? 'yt' : null;
+            const h = location.hash, g = window.DG_PAGE === 'pro' ? 'pro' : h === '#youtube' ? 'yt' : h === '#invitational' ? 'ii' : null;
             if (!g && h === '#pro') { location.replace('/pro/'); return; }
             document.documentElement.classList.toggle('in-game', !!g);
             if (g) showTab(g); else hubStatus();
-            el('howto-link').href = '/how-to-play/' + (g ? (g === 'pro' ? '#pro' : '#youtube') : '');
+            el('howto-link').href = '/how-to-play/' + (g ? (g === 'pro' ? '#pro' : g === 'ii' ? '#invitational' : '#youtube') : '');
         }
         window.addEventListener('hashchange', () => { route(); window.scrollTo(0, 0); });
         route();
