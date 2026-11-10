@@ -99,7 +99,7 @@ const EXTRA_CSS = `<style>
 </style>`;
 
 const AD_SCRIPT = /\s*<script async src="https:\/\/pagead2\.googlesyndication\.com[^>]*><\/script>/;
-function page({ urlPath, title, description, body, jsonld, crumbs, noAds, howto }) {
+function page({ urlPath, title, description, body, jsonld, crumbs, noAds, howto, image }) {
   const url = SITE + urlPath;
   const ld = jsonld ? `<script type="application/ld+json">${JSON.stringify(jsonld)}</script>\n` : '';
   const bc = crumbs ? `<div class="crumbs">${crumbs.map(([t, h]) => h ? `<a href="${h}">${esc(t)}</a>` : esc(t)).join(' › ')}</div>\n` : '';
@@ -114,7 +114,8 @@ function page({ urlPath, title, description, body, jsonld, crumbs, noAds, howto 
 <meta name="robots" content="index, follow, max-image-preview:large">
 ${(noAds ? headTail.replace(AD_SCRIPT, '') : headTail).replace(/<meta property="og:title" content="[^"]*">/, `<meta property="og:title" content="${esc(title)}">`)
   .replace(/<meta property="og:description" content="[^"]*">/, `<meta property="og:description" content="${esc(description)}">`)
-  .replace(/<meta property="og:url" content="[^"]*">/, `<meta property="og:url" content="${url}">`).trim()}
+  .replace(/<meta property="og:url" content="[^"]*">/, `<meta property="og:url" content="${url}">`)
+  .replace(/og-(?:home|image)\.png/g, image || 'og-home.png').trim()}
 ${EXTRA_CSS}
 ${ld}</head>
 <body>
@@ -154,6 +155,7 @@ const PLAY_CTA = `<p><a class="cta" href="/">Play today's Dailygolf &rarr;</a></
     .replace('<link rel="canonical" href="https://dailygolfgame.com/">', '<link rel="canonical" href="https://dailygolfgame.com/pro/">')
     .replace('<meta property="og:url" content="https://dailygolfgame.com/">', '<meta property="og:url" content="https://dailygolfgame.com/pro/">')
     .replace(/<script type="application\/ld\+json">[\s\S]*?<\/script>\s*/, '')
+    .replace(/og-home\.png/g, 'og-pro.png')
     .replace('<head>', '<head>\n    <script>window.DG_PAGE = \'pro\';</script>');
   write('/pro/', pro);
 }
@@ -189,7 +191,7 @@ ${sameCountry.length ? `<h2>Other golfers from ${esc(p.country)}</h2>
 <p>In Guess the Pro Golfer you get five tries to find the mystery golfer. Every guess compares country, tour, age, majors and PGA Tour wins with the answer. ${esc(p.name)} is one of the possible answers.</p>
 ${PRO_CTA}
 <p class="meta">Numbers checked October 2026. Wins are official PGA Tour victories, majors included. <a href="/golfers/">All golfers in the game</a></p>`;
-  write(`/golfers/${p.slug}/`, page({
+  write(`/golfers/${p.slug}/`, page({ image: 'og-pro.png',
     urlPath: `/golfers/${p.slug}/`,
     title: `${p.name}: Age, Majors, PGA Tour Wins & Country | Dailygolf`,
     description: `${p.name} (${p.country}, ${p.tour}): ${p.died ? 'age at death ' + p.age : 'age ' + p.age}, ${p.majors} major${p.majors === 1 ? '' : 's'} and ${p.wins} PGA Tour win${p.wins === 1 ? '' : 's'}. Quick facts and similar golfers.`,
@@ -198,7 +200,7 @@ ${PRO_CTA}
     jsonld: { '@context': 'https://schema.org', '@type': 'Person', name: p.name, birthDate: p.born, ...(p.died ? { deathDate: p.died } : {}), nationality: p.country, jobTitle: 'Professional golfer', url: `${SITE}/golfers/${p.slug}/` }
   }));
 }
-write('/golfers/', page({
+write('/golfers/', page({ image: 'og-pro.png',
   urlPath: '/golfers/',
   title: `All ${PLAYERS.length} Pro Golfers in Dailygolf: Majors, Wins & Age`,
   description: `Every pro golfer in the Dailygolf guessing game, from Scottie Scheffler and Rory McIlroy to Jack Nicklaus: country, tour, age, majors and PGA Tour wins.`,

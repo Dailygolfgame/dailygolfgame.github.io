@@ -482,7 +482,7 @@ el('dr-auto').onclick = function () { auto = true; step(); };
 })();
 </script>`;
 
-  return page({
+  return page({ image: 'og-draft.png',
     howto: 'draft',
     urlPath: '/draft/',
     title: 'Internet Invitational Draft Simulator 2026: Draft Your Team | Dailygolf',

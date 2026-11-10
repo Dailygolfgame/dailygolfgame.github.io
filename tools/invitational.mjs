@@ -90,7 +90,7 @@ document.querySelectorAll('time.ep').forEach(function (t) {
 });
 </script>`;
 
-  return page({
+  return page({ image: 'og-invitational.png',
     howto: 'invitational',
     urlPath: '/internet-invitational/',
     title: 'Internet Invitational 2026: Handicaps, Teams & Schedule',
@@ -137,7 +137,7 @@ ${c ? `<p>${esc(p.name)} is also in our <a href="/youtubers/${c.slug}/">golf You
 <p>Every day there is a new mystery player from the Internet Invitational field. You get five guesses, with team, handicap and 2025 appearance as clues.</p>
 <p><a class="cta" href="/#invitational">Play Guess the Internet Invitational Player &rarr;</a></p>
 <p class="meta">${p.hcpSource === 'scores' ? 'Handicap estimate based on recent tournament scores' : p.hcpSource ? 'Handicap from <a href="https://handicap-tracker.com" rel="noopener">handicap-tracker.com</a> (November 2026)' : 'Handicap estimate by <a href="https://www.instagram.com/yt_golfstats/" rel="noopener">YT Golf Stats</a>'}, not an official number. Teams from public roster pages. <a href="/internet-invitational/#handicap-list">Full Internet Invitational handicap list</a></p>`;
-    out.push([s, page({
+    out.push([s, page({ image: 'og-invitational.png',
       howto: 'invitational',
       urlPath: `/internet-invitational/${s}/`,
       title: `${p.name} Handicap: Internet Invitational 2026 | Dailygolf`,
