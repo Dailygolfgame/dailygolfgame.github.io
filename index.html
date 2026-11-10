@@ -1571,7 +1571,7 @@
             const st = (o, done) => !o || o.day !== d ? 'New today' : done(o) ? (o.won ? '✓ Solved' : '✓ Played') : 'In progress';
             const map = {
                 yt: st(get('dailygolf_yt_done'), o => o.over), pro: st(get('dailygolf_day'), o => o.over),
-                ii: st(get('dg_ii_day'), o => o.over), trivia: st(get('dg_trivia_day'), o => (o.answers || []).length >= 5), draft: 'Play anytime'
+                ii: st(get('dg_ii_day'), o => o.over), trivia: st(get('dg_tg9_day'), o => o.S && o.S.hole >= 9), draft: 'Play anytime'
             };
             document.querySelectorAll('.hub-st').forEach(x => { x.textContent = map[x.dataset.k] || ''; });
         }
