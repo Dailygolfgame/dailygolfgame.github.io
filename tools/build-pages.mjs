@@ -338,7 +338,8 @@ function gitDate(rel) {
 }
 const today = NOW.toISOString().slice(0, 10);
 const STATIC = ['/', '/pro/', '/trivia/', '/how-to-play/', '/articles/', ...fs.readdirSync(path.join(ROOT, 'articles'), { withFileTypes: true })
-  .filter(e => e.isDirectory()).map(e => `/articles/${e.name}/`).sort(), '/about/', '/contact/', '/privacy/'];
+  .filter(e => e.isDirectory() && !/http-equiv="refresh"/.test(fs.readFileSync(path.join(ROOT, 'articles', e.name, 'index.html'), 'utf8')))
+  .map(e => `/articles/${e.name}/`).sort(), '/about/', '/contact/', '/privacy/'];
 // lastmod = when the page last really changed: today if this run changed it, else its last commit.
 const lastmod = u => changed.has(u) ? today : (gitDate(u === '/' ? 'index.html' : u.slice(1) + 'index.html') || today);
 const urls = [

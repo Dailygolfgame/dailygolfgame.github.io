@@ -1,0 +1,935 @@
+{
+"note": "2026 Internet Invitational results. Sources: episodes; handicap-tracker.com, Caddy Bytes, my9iron, The Big Lead, YT Golf Stats.",
+"matches": [
+{
+"day": 1,
+"session": "Morning scramble",
+"teamA": "Team Finch",
+"teamB": "Team Ruffels",
+"a": [
+"Frankie Borrelli",
+"Francis Ellis"
+],
+"b": [
+"Bubbie Broders",
+"Marissa Wenzler"
+],
+"w": "H",
+"score": ""
+},
+{
+"day": 1,
+"session": "Morning scramble",
+"teamA": "Team Finch",
+"teamB": "Team Ruffels",
+"a": [
+"Roger Steele",
+"Short Game King"
+],
+"b": [
+"Paige Spiranac",
+"Bobby Ray"
+],
+"w": "A",
+"score": "4&2"
+},
+{
+"day": 1,
+"session": "Morning scramble",
+"teamA": "Team Finch",
+"teamB": "Team Ruffels",
+"a": [
+"Peter Finch",
+"The Jet"
+],
+"b": [
+"Grant Horvat",
+"Riggs"
+],
+"w": "A",
+"score": "4&3"
+},
+{
+"day": 1,
+"session": "Morning scramble",
+"teamA": "Team Finch",
+"teamB": "Team Ruffels",
+"a": [
+"Jersey Jerry",
+"Trent Ryan"
+],
+"b": [
+"Micah Morris",
+"Ryan Whitney"
+],
+"w": "B",
+"score": "5&3"
+},
+{
+"day": 1,
+"session": "Morning scramble",
+"teamA": "Team Finch",
+"teamB": "Team Ruffels",
+"a": [
+"Martin Borgmeier",
+"Josh Kelley"
+],
+"b": [
+"Ryan Ruffels",
+"Justin Gaethje"
+],
+"w": "B",
+"score": "2&1"
+},
+{
+"day": 1,
+"session": "Morning scramble",
+"teamA": "Team Finch",
+"teamB": "Team Ruffels",
+"a": [
+"Luke Kwon",
+"Jason Williams"
+],
+"b": [
+"Big John",
+"Fat Perez"
+],
+"w": "B",
+"score": "1 up"
+},
+{
+"day": 1,
+"session": "Morning scramble",
+"teamA": "Team Finch",
+"teamB": "Team Ruffels",
+"a": [
+"Rick Shiels",
+"Joey Cold Cuts"
+],
+"b": [
+"Jake Adams",
+"Salim"
+],
+"w": "A",
+"score": "2&1"
+},
+{
+"day": 1,
+"session": "Morning scramble",
+"teamA": "Team Finch",
+"teamB": "Team Ruffels",
+"a": [
+"Malosi Togisala",
+"Cassandra Marie"
+],
+"b": [
+"Jon Gruden",
+"The Duke"
+],
+"w": "A",
+"score": "4&3"
+},
+{
+"day": 1,
+"session": "Afternoon alternate shot",
+"teamA": "Team Finch",
+"teamB": "Team Ruffels",
+"a": [
+"Trent Ryan",
+"Jersey Jerry"
+],
+"b": [
+"Salim",
+"The Duke"
+],
+"w": "A",
+"score": "1 up"
+},
+{
+"day": 1,
+"session": "Afternoon alternate shot",
+"teamA": "Team Finch",
+"teamB": "Team Ruffels",
+"a": [
+"Peter Finch",
+"Josh Kelley"
+],
+"b": [
+"Marissa Wenzler",
+"Bubbie Broders"
+],
+"w": "A",
+"score": "1 up"
+},
+{
+"day": 1,
+"session": "Afternoon alternate shot",
+"teamA": "Team Finch",
+"teamB": "Team Ruffels",
+"a": [
+"Luke Kwon",
+"Malosi Togisala"
+],
+"b": [
+"Big John",
+"Fat Perez"
+],
+"w": "A",
+"score": "2&1"
+},
+{
+"day": 1,
+"session": "Afternoon alternate shot",
+"teamA": "Team Finch",
+"teamB": "Team Ruffels",
+"a": [
+"Roger Steele",
+"Short Game King"
+],
+"b": [
+"Grant Horvat",
+"Justin Gaethje"
+],
+"w": "B",
+"score": "1 up"
+},
+{
+"day": 1,
+"session": "Afternoon alternate shot",
+"teamA": "Team Finch",
+"teamB": "Team Ruffels",
+"a": [
+"Rick Shiels",
+"Martin Borgmeier"
+],
+"b": [
+"Ryan Ruffels",
+"Riggs"
+],
+"w": "B",
+"score": "5&4"
+},
+{
+"day": 1,
+"session": "Afternoon alternate shot",
+"teamA": "Team Finch",
+"teamB": "Team Ruffels",
+"a": [
+"Frankie Borrelli",
+"Francis Ellis"
+],
+"b": [
+"Bobby Ray",
+"Jon Gruden"
+],
+"w": "H",
+"score": ""
+},
+{
+"day": 1,
+"session": "Afternoon alternate shot",
+"teamA": "Team Finch",
+"teamB": "Team Ruffels",
+"a": [
+"Cassandra Marie",
+"Jason Williams"
+],
+"b": [
+"Micah Morris",
+"Ryan Whitney"
+],
+"w": "B",
+"score": "3&2"
+},
+{
+"day": 1,
+"session": "Afternoon alternate shot",
+"teamA": "Team Finch",
+"teamB": "Team Ruffels",
+"a": [
+"Joey Cold Cuts",
+"The Jet"
+],
+"b": [
+"Paige Spiranac",
+"Jake Adams"
+],
+"w": "B",
+"score": "5&4"
+},
+{
+"day": 1,
+"session": "Morning scramble",
+"teamA": "Team Bryan",
+"teamB": "Team Dalke",
+"a": [
+"George Bryan",
+"Chaz Bowker"
+],
+"b": [
+"Brad Dalke",
+"Tyler Toney"
+],
+"w": "H",
+"score": ""
+},
+{
+"day": 1,
+"session": "Morning scramble",
+"teamA": "Team Bryan",
+"teamB": "Team Dalke",
+"a": [
+"Mac Boucher",
+"Sabrina Andolpho"
+],
+"b": [
+"Taco",
+"Daltoosh"
+],
+"w": "H",
+"score": ""
+},
+{
+"day": 1,
+"session": "Morning scramble",
+"teamA": "Team Bryan",
+"teamB": "Team Dalke",
+"a": [
+"Tisha Alyn",
+"Evan Thompson"
+],
+"b": [
+"Johnny Manziel",
+"Karol Priscilla"
+],
+"w": "A",
+"score": "4&2"
+},
+{
+"day": 1,
+"session": "Morning scramble",
+"teamA": "Team Bryan",
+"teamB": "Team Dalke",
+"a": [
+"Sam Heung Min",
+"Claire Hogle"
+],
+"b": [
+"Mason Nutt",
+"Hailey Ostrom"
+],
+"w": "A",
+"score": "3&2"
+},
+{
+"day": 1,
+"session": "Morning scramble",
+"teamA": "Team Bryan",
+"teamB": "Team Dalke",
+"a": [
+"Cheddy",
+"Kyle Forgeard"
+],
+"b": [
+"Biz",
+"Keith Yandle"
+],
+"w": "A",
+"score": "3&2"
+},
+{
+"day": 1,
+"session": "Morning scramble",
+"teamA": "Team Bryan",
+"teamB": "Team Dalke",
+"a": [
+"Cole Lantz",
+"Seb Carmichael-Brown"
+],
+"b": [
+"Garrett Clark",
+"Sara Winter"
+],
+"w": "A",
+"score": "4&3"
+},
+{
+"day": 1,
+"session": "Morning scramble",
+"teamA": "Team Bryan",
+"teamB": "Team Dalke",
+"a": [
+"Wesley Bryan",
+"Bobby Fairways"
+],
+"b": [
+"DOD King",
+"Andrew Santino"
+],
+"w": "A",
+"score": "2&1"
+},
+{
+"day": 1,
+"session": "Morning scramble",
+"teamA": "Team Bryan",
+"teamB": "Team Dalke",
+"a": [
+"PFT Commenter",
+"Callux"
+],
+"b": [
+"Tooms",
+"Josh Richards"
+],
+"w": "B",
+"score": "3&2"
+},
+{
+"day": 1,
+"session": "Afternoon alternate shot",
+"teamA": "Team Bryan",
+"teamB": "Team Dalke",
+"a": [
+"Cheddy",
+"Kyle Forgeard"
+],
+"b": [
+"Mason Nutt",
+"Josh Richards"
+],
+"w": "B",
+"score": "3&2"
+},
+{
+"day": 1,
+"session": "Afternoon alternate shot",
+"teamA": "Team Bryan",
+"teamB": "Team Dalke",
+"a": [
+"George Bryan",
+"Chaz Bowker"
+],
+"b": [
+"Johnny Manziel",
+"Tyler Toney"
+],
+"w": "A",
+"score": "3&2"
+},
+{
+"day": 1,
+"session": "Afternoon alternate shot",
+"teamA": "Team Bryan",
+"teamB": "Team Dalke",
+"a": [
+"PFT Commenter",
+"Callux"
+],
+"b": [
+"Keith Yandle",
+"Daltoosh"
+],
+"w": "B",
+"score": "5&4"
+},
+{
+"day": 1,
+"session": "Afternoon alternate shot",
+"teamA": "Team Bryan",
+"teamB": "Team Dalke",
+"a": [
+"Tisha Alyn",
+"Evan Thompson"
+],
+"b": [
+"Brad Dalke",
+"Karol Priscilla"
+],
+"w": "H",
+"score": ""
+},
+{
+"day": 1,
+"session": "Afternoon alternate shot",
+"teamA": "Team Bryan",
+"teamB": "Team Dalke",
+"a": [
+"Mac Boucher",
+"Sabrina Andolpho"
+],
+"b": [
+"Tooms",
+"Hailey Ostrom"
+],
+"w": "H",
+"score": ""
+},
+{
+"day": 1,
+"session": "Afternoon alternate shot",
+"teamA": "Team Bryan",
+"teamB": "Team Dalke",
+"a": [
+"Cole Lantz",
+"Seb Carmichael-Brown"
+],
+"b": [
+"Garrett Clark",
+"Sara Winter"
+],
+"w": "A",
+"score": "3&1"
+},
+{
+"day": 1,
+"session": "Afternoon alternate shot",
+"teamA": "Team Bryan",
+"teamB": "Team Dalke",
+"a": [
+"Sam Heung Min",
+"Claire Hogle"
+],
+"b": [
+"DOD King",
+"Andrew Santino"
+],
+"w": "H",
+"score": ""
+},
+{
+"day": 1,
+"session": "Afternoon alternate shot",
+"teamA": "Team Bryan",
+"teamB": "Team Dalke",
+"a": [
+"Wesley Bryan",
+"Bobby Fairways"
+],
+"b": [
+"Taco",
+"Biz"
+],
+"w": "A",
+"score": "4&3"
+},
+{
+"day": 2,
+"session": "Morning scramble",
+"teamA": "Team Ruffels",
+"teamB": "Team Bryan",
+"a": [
+"Bobby Ray",
+"The Duke"
+],
+"b": [
+"Cheddy",
+"Kyle Forgeard"
+],
+"w": "A",
+"score": "3&2"
+},
+{
+"day": 2,
+"session": "Morning scramble",
+"teamA": "Team Ruffels",
+"teamB": "Team Bryan",
+"a": [
+"Salim",
+"Jon Gruden"
+],
+"b": [
+"PFT Commenter",
+"Callux"
+],
+"w": "A",
+"score": "3&1"
+},
+{
+"day": 2,
+"session": "Morning scramble",
+"teamA": "Team Ruffels",
+"teamB": "Team Bryan",
+"a": [
+"Ryan Whitney",
+"Micah Morris"
+],
+"b": [
+"Claire Hogle",
+"Sam Heung Min"
+],
+"w": "H",
+"score": ""
+},
+{
+"day": 2,
+"session": "Morning scramble",
+"teamA": "Team Ruffels",
+"teamB": "Team Bryan",
+"a": [
+"Grant Horvat",
+"Justin Gaethje"
+],
+"b": [
+"Seb Carmichael-Brown",
+"Cole Lantz"
+],
+"w": "H",
+"score": ""
+},
+{
+"day": 2,
+"session": "Morning scramble",
+"teamA": "Team Ruffels",
+"teamB": "Team Bryan",
+"a": [
+"Paige Spiranac",
+"Jake Adams"
+],
+"b": [
+"Sabrina Andolpho",
+"Mac Boucher"
+],
+"w": "A",
+"score": "1 up"
+},
+{
+"day": 2,
+"session": "Morning scramble",
+"teamA": "Team Ruffels",
+"teamB": "Team Bryan",
+"a": [
+"Bubbie Broders",
+"Marissa Wenzler"
+],
+"b": [
+"Tisha Alyn",
+"Evan Thompson"
+],
+"w": "A",
+"score": "2 up"
+},
+{
+"day": 2,
+"session": "Morning scramble",
+"teamA": "Team Ruffels",
+"teamB": "Team Bryan",
+"a": [
+"Big John",
+"Fat Perez"
+],
+"b": [
+"George Bryan",
+"Chaz Bowker"
+],
+"w": "A",
+"score": "2&1"
+},
+{
+"day": 2,
+"session": "Morning scramble",
+"teamA": "Team Ruffels",
+"teamB": "Team Bryan",
+"a": [
+"Ryan Ruffels",
+"Riggs"
+],
+"b": [
+"Bobby Fairways",
+"Wesley Bryan"
+],
+"w": "B",
+"score": "1 up"
+},
+{
+"day": 2,
+"session": "Afternoon singles",
+"teamA": "Team Ruffels",
+"teamB": "Team Bryan",
+"a": [
+"Riggs"
+],
+"b": [
+"Cheddy"
+],
+"w": "H",
+"score": ""
+},
+{
+"day": 2,
+"session": "Afternoon singles",
+"teamA": "Team Ruffels",
+"teamB": "Team Bryan",
+"a": [
+"Justin Gaethje"
+],
+"b": [
+"Bobby Fairways"
+],
+"w": "A",
+"score": "4&3"
+},
+{
+"day": 2,
+"session": "Afternoon singles",
+"teamA": "Team Ruffels",
+"teamB": "Team Bryan",
+"a": [
+"Big John"
+],
+"b": [
+"Sam Heung Min"
+],
+"w": "A",
+"score": "3&2"
+},
+{
+"day": 2,
+"session": "Afternoon singles",
+"teamA": "Team Ruffels",
+"teamB": "Team Bryan",
+"a": [
+"Ryan Ruffels"
+],
+"b": [
+"Wesley Bryan"
+],
+"w": "H",
+"score": ""
+},
+{
+"day": 2,
+"session": "Afternoon singles",
+"teamA": "Team Ruffels",
+"teamB": "Team Bryan",
+"a": [
+"Paige Spiranac"
+],
+"b": [
+"Claire Hogle"
+],
+"w": "B",
+"score": "1 up"
+},
+{
+"day": 2,
+"session": "Afternoon singles",
+"teamA": "Team Ruffels",
+"teamB": "Team Bryan",
+"a": [
+"Bubbie Broders"
+],
+"b": [
+"Mac Boucher"
+],
+"w": "B",
+"score": "4&3"
+},
+{
+"day": 2,
+"session": "Afternoon singles",
+"teamA": "Team Ruffels",
+"teamB": "Team Bryan",
+"a": [
+"Grant Horvat"
+],
+"b": [
+"Evan Thompson"
+],
+"w": "B",
+"score": "1 up"
+},
+{
+"day": 2,
+"session": "Afternoon singles",
+"teamA": "Team Ruffels",
+"teamB": "Team Bryan",
+"a": [
+"Micah Morris"
+],
+"b": [
+"George Bryan"
+],
+"w": "H",
+"score": ""
+},
+{
+"day": 2,
+"session": "Afternoon singles",
+"teamA": "Team Ruffels",
+"teamB": "Team Bryan",
+"a": [
+"Jon Gruden"
+],
+"b": [
+"PFT Commenter"
+],
+"w": "A",
+"score": "3&2"
+},
+{
+"day": 2,
+"session": "Afternoon singles",
+"teamA": "Team Ruffels",
+"teamB": "Team Bryan",
+"a": [
+"Salim"
+],
+"b": [
+"Kyle Forgeard"
+],
+"w": "A",
+"score": "1 up"
+},
+{
+"day": 2,
+"session": "Afternoon singles",
+"teamA": "Team Ruffels",
+"teamB": "Team Bryan",
+"a": [
+"Fat Perez"
+],
+"b": [
+"Seb Carmichael-Brown"
+],
+"w": "A",
+"score": "2&1"
+},
+{
+"day": 2,
+"session": "Afternoon singles",
+"teamA": "Team Ruffels",
+"teamB": "Team Bryan",
+"a": [
+"Ryan Whitney"
+],
+"b": [
+"Sabrina Andolpho"
+],
+"w": "U",
+"score": ""
+},
+{
+"day": 2,
+"session": "Afternoon singles",
+"teamA": "Team Ruffels",
+"teamB": "Team Bryan",
+"a": [
+"Marissa Wenzler"
+],
+"b": [
+"Chaz Bowker"
+],
+"w": "U",
+"score": ""
+},
+{
+"day": 2,
+"session": "Afternoon singles",
+"teamA": "Team Ruffels",
+"teamB": "Team Bryan",
+"a": [
+"Jake Adams"
+],
+"b": [
+"Cole Lantz"
+],
+"w": "U",
+"score": ""
+},
+{
+"day": 2,
+"session": "Afternoon singles",
+"teamA": "Team Ruffels",
+"teamB": "Team Bryan",
+"a": [
+"Bobby Ray"
+],
+"b": [
+"Tisha Alyn"
+],
+"w": "U",
+"score": ""
+},
+{
+"day": 2,
+"session": "Afternoon singles",
+"teamA": "Team Ruffels",
+"teamB": "Team Bryan",
+"a": [
+"The Duke"
+],
+"b": [
+"Callux"
+],
+"w": "U",
+"score": ""
+}
+],
+"finish": {
+"Brad Dalke": "Out on Day 1: Team Bryan beat Team Dalke 10&#189;&#8211;5&#189;.",
+"Tooms": "Out on Day 1: Team Bryan beat Team Dalke 10&#189;&#8211;5&#189;.",
+"Taco": "Out on Day 1: Team Bryan beat Team Dalke 10&#189;&#8211;5&#189;.",
+"Garrett Clark": "Out on Day 1: Team Bryan beat Team Dalke 10&#189;&#8211;5&#189;.",
+"Mason Nutt": "Out on Day 1: Team Bryan beat Team Dalke 10&#189;&#8211;5&#189;.",
+"DOD King": "Out on Day 1: Team Bryan beat Team Dalke 10&#189;&#8211;5&#189;.",
+"Andrew Santino": "Out on Day 1: Team Bryan beat Team Dalke 10&#189;&#8211;5&#189;.",
+"Johnny Manziel": "Out on Day 1: Team Bryan beat Team Dalke 10&#189;&#8211;5&#189;.",
+"Tyler Toney": "Out on Day 1: Team Bryan beat Team Dalke 10&#189;&#8211;5&#189;.",
+"Hailey Ostrom": "Out on Day 1: Team Bryan beat Team Dalke 10&#189;&#8211;5&#189;.",
+"Keith Yandle": "Out on Day 1: Team Bryan beat Team Dalke 10&#189;&#8211;5&#189;.",
+"Sara Winter": "Out on Day 1: Team Bryan beat Team Dalke 10&#189;&#8211;5&#189;.",
+"Daltoosh": "Out on Day 1: Team Bryan beat Team Dalke 10&#189;&#8211;5&#189;.",
+"Josh Richards": "Out on Day 1: Team Bryan beat Team Dalke 10&#189;&#8211;5&#189;.",
+"Karol Priscilla": "Out on Day 1: Team Bryan beat Team Dalke 10&#189;&#8211;5&#189;.",
+"Biz": "Out on Day 1: Team Bryan beat Team Dalke 10&#189;&#8211;5&#189;.",
+"Wesley Bryan": "Out on Day 2: Team Ruffels beat Team Bryan 12&#189;&#8211;6&#189;.",
+"George Bryan": "Out on Day 2: Team Ruffels beat Team Bryan 12&#189;&#8211;6&#189;.",
+"Sam Heung Min": "Out on Day 2: Team Ruffels beat Team Bryan 12&#189;&#8211;6&#189;.",
+"Evan Thompson": "Out on Day 2: Team Ruffels beat Team Bryan 12&#189;&#8211;6&#189;.",
+"Cole Lantz": "Out on Day 2: Team Ruffels beat Team Bryan 12&#189;&#8211;6&#189;.",
+"Mac Boucher": "Out on Day 2: Team Ruffels beat Team Bryan 12&#189;&#8211;6&#189;.",
+"Chaz Bowker": "Out on Day 2: Team Ruffels beat Team Bryan 12&#189;&#8211;6&#189;.",
+"Seb Carmichael-Brown": "Out on Day 2: Team Ruffels beat Team Bryan 12&#189;&#8211;6&#189;.",
+"Tisha Alyn": "Out on Day 2: Team Ruffels beat Team Bryan 12&#189;&#8211;6&#189;.",
+"Claire Hogle": "Out on Day 2: Team Ruffels beat Team Bryan 12&#189;&#8211;6&#189;.",
+"Sabrina Andolpho": "Out on Day 2: Team Ruffels beat Team Bryan 12&#189;&#8211;6&#189;.",
+"Cheddy": "Out on Day 2: Team Ruffels beat Team Bryan 12&#189;&#8211;6&#189;.",
+"Bobby Fairways": "Out on Day 2: Team Ruffels beat Team Bryan 12&#189;&#8211;6&#189;.",
+"Kyle Forgeard": "Out on Day 2: Team Ruffels beat Team Bryan 12&#189;&#8211;6&#189;.",
+"Callux": "Out on Day 2: Team Ruffels beat Team Bryan 12&#189;&#8211;6&#189;.",
+"PFT Commenter": "Out on Day 2: Team Ruffels beat Team Bryan 12&#189;&#8211;6&#189;.",
+"Peter Finch": "Out on Day 1: Team Finch and Team Ruffels finished 8&#8211;8, and Team Ruffels won the playoff on the 18th.",
+"Luke Kwon": "Out on Day 1: Team Finch and Team Ruffels finished 8&#8211;8, and Team Ruffels won the playoff on the 18th.",
+"Roger Steele": "Out on Day 1: Team Finch and Team Ruffels finished 8&#8211;8, and Team Ruffels won the playoff on the 18th.",
+"Rick Shiels": "Out on Day 1: Team Finch and Team Ruffels finished 8&#8211;8, and Team Ruffels won the playoff on the 18th.",
+"Josh Kelley": "Out on Day 1: Team Finch and Team Ruffels finished 8&#8211;8, and Team Ruffels won the playoff on the 18th.",
+"Malosi Togisala": "Out on Day 1: Team Finch and Team Ruffels finished 8&#8211;8, and Team Ruffels won the playoff on the 18th.",
+"Martin Borgmeier": "Out on Day 1: Team Finch and Team Ruffels finished 8&#8211;8, and Team Ruffels won the playoff on the 18th.",
+"Short Game King": "Out on Day 1: Team Finch and Team Ruffels finished 8&#8211;8, and Team Ruffels won the playoff on the 18th.",
+"Cassandra Marie": "Out on Day 1: Team Finch and Team Ruffels finished 8&#8211;8, and Team Ruffels won the playoff on the 18th.",
+"Francis Ellis": "Out on Day 1: Team Finch and Team Ruffels finished 8&#8211;8, and Team Ruffels won the playoff on the 18th.",
+"Frankie Borrelli": "Out on Day 1: Team Finch and Team Ruffels finished 8&#8211;8, and Team Ruffels won the playoff on the 18th.",
+"Jason Williams": "Out on Day 1: Team Finch and Team Ruffels finished 8&#8211;8, and Team Ruffels won the playoff on the 18th.",
+"Joey Cold Cuts": "Out on Day 1: Team Finch and Team Ruffels finished 8&#8211;8, and Team Ruffels won the playoff on the 18th.",
+"The Jet": "Out on Day 1: Team Finch and Team Ruffels finished 8&#8211;8, and Team Ruffels won the playoff on the 18th.",
+"Trent Ryan": "Out on Day 1: Team Finch and Team Ruffels finished 8&#8211;8, and Team Ruffels won the playoff on the 18th.",
+"Jersey Jerry": "Out on Day 1: Team Finch and Team Ruffels finished 8&#8211;8, and Team Ruffels won the playoff on the 18th.",
+"Grant Horvat": "Out in Episode 5: Team Horvat lost the knockout holes at Payne&#8217;s Valley, the first cut after Team Ruffels was split up.",
+"Jake Adams": "Out in Episode 5: Team Horvat lost the knockout holes at Payne&#8217;s Valley, the first cut after Team Ruffels was split up.",
+"Paige Spiranac": "Out in Episode 5: Team Horvat lost the knockout holes at Payne&#8217;s Valley, the first cut after Team Ruffels was split up.",
+"Jon Gruden": "Out in Episode 5: Team Horvat lost the knockout holes at Payne&#8217;s Valley, the first cut after Team Ruffels was split up.",
+"Micah Morris": "Out in the semifinal: their team finished +5 in the nine-hole alternate-shot semifinal, one shot from the final.",
+"Bubbie Broders": "Out in the semifinal: their team finished +5 in the nine-hole alternate-shot semifinal, one shot from the final.",
+"Justin Gaethje": "Out in the semifinal: their team finished +5 in the nine-hole alternate-shot semifinal, one shot from the final.",
+"Ryan Ruffels": "Out in the semifinal: their team finished +7 in the nine-hole alternate-shot semifinal.",
+"Marissa Wenzler": "Out in the semifinal: their team finished +7 in the nine-hole alternate-shot semifinal.",
+"The Duke": "Out in the semifinal: their team finished +7 in the nine-hole alternate-shot semifinal.",
+"Big John": "Runner-up: reached the final with Team Big John (+4 in the semifinal) and lost 5&amp;3 to Team Fat Perez.",
+"Ryan Whitney": "Runner-up: reached the final with Team Big John (+4 in the semifinal) and lost 5&amp;3 to Team Fat Perez.",
+"Salim": "Runner-up: reached the final with Team Big John (+4 in the semifinal) and lost 5&amp;3 to Team Fat Perez.",
+"Fat Perez": "🏆 Champion: won the 2026 Internet Invitational with Team Fat Perez, beating Team Big John 5&amp;3 in the final, and shared the $4 million prize.",
+"Riggs": "🏆 Champion: won the 2026 Internet Invitational with Team Fat Perez, beating Team Big John 5&amp;3 in the final, and shared the $4 million prize.",
+"Bobby Ray": "🏆 Champion: won the 2026 Internet Invitational with Team Fat Perez, beating Team Big John 5&amp;3 in the final, and shared the $4 million prize."
+}
+}

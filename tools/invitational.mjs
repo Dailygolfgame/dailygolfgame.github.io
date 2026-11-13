@@ -5,6 +5,10 @@
 // Player slug used for /internet-invitational/<slug>/ pages.
 export const iiSlug = (slug, p) => slug(p.name);
 
+import fs from 'node:fs';
+const RES = JSON.parse(fs.readFileSync(new URL('../data/internet-invitational-2026-results.json', import.meta.url), 'utf8'));
+const SHORT_FINISH = t => t.startsWith('🏆') ? 'Champion' : t.startsWith('Runner-up') ? 'Runner-up' : t.startsWith('Out in the semifinal') ? 'Semifinal' : t.startsWith('Out in Episode 5') ? 'Episode 5' : t.startsWith('Out on Day 2') ? 'Day 2' : 'Day 1';
+
 export function renderInvitational({ data, esc, slug, fmtHcp, creatorByName, page }) {
   const players = data.players;
   const sorted = players.slice().sort((a, b) => a.hcp - b.hcp || a.name.localeCompare(b.name));
@@ -19,6 +23,7 @@ export function renderInvitational({ data, esc, slug, fmtHcp, creatorByName, pag
 
   const body = `<h1>Internet Invitational 2026: Handicaps, Teams &amp; Schedule</h1>
 <p class="lead">Every player's handicap, the four teams and the episode schedule for the 2026 Internet Invitational, the YouTube golf team event run by Barstool Sports and Bob Does Sports.</p>
+<div class="ii-champ"><b>🏆 2026 champions: Fat Perez, Riggs and Bobby Ray</b><span>They beat Big John, Ryan Whitney and Salim 5&amp;3 in the final at Payne&#8217;s Valley and split the $4 million prize. <a href="/articles/internet-invitational-2026-results/">Every result from all six episodes &rarr;</a></span></div>
 <a class="ii-play" href="/#invitational"><span>▶ Guess the Internet Invitational Player</span><small>A new mystery player every day. Five guesses, with team, handicap and 2025 appearance as clues.</small><b>Play &rarr;</b></a>
 <p class="ii-jump"><a href="#handicap-list">Handicap list ↓</a><a href="#teams">Teams ↓</a><a href="#schedule">Schedule ↓</a><a href="/draft/">Draft simulator</a></p>
 
@@ -62,6 +67,7 @@ ${roster.map(p => `<tr><td>${link(p)}${p.captain ? ' <span class="mut">(C)</span
 <p class="meta">Teams and 2025 appearances from public roster pages; handicaps from <a href="https://handicap-tracker.com" rel="noopener">handicap-tracker.com</a> where listed, otherwise estimates by <a href="https://ytgolfstats.com/internet-invitational/2026/" rel="noopener">YT Golf Stats</a>. Dailygolf is an independent fan project, not affiliated with Barstool Sports, Bob Does Sports or the Internet Invitational.</p>`;
 
   const css = `<style>
+.ii-champ{margin:4px 0 12px;padding:14px 16px;border-radius:14px;border:1px solid #f59e0b;background:rgba(245,158,11,.10)}.ii-champ b{display:block;color:#fff;font-size:1.05rem}.ii-champ span{color:var(--txt);font-size:.92rem}
 .ii-play{display:grid;grid-template-columns:1fr auto;align-items:center;gap:2px 12px;margin:4px 0 16px;padding:16px;border-radius:14px;border:1px solid #16a34a;background:rgba(22,163,74,.12);text-decoration:none;text-align:left}
 .ii-play span{color:#fff;font-weight:800;font-size:1.05rem}.ii-play small{grid-column:1;color:var(--mut);font-size:.85rem;line-height:1.35}
 .ii-play b{grid-column:2;grid-row:1/3;background:#16a34a;color:#fff;border-radius:10px;padding:10px 16px;white-space:nowrap}.ii-play:hover b{background:#22c55e}
@@ -117,6 +123,19 @@ export function renderInvitationalPlayers({ data, esc, slug, fmtHcp, creatorByNa
     const hcpText = p.hcp < 0 ? `a plus ${Math.abs(p.hcp).toFixed(1)} handicap, better than scratch` : `a ${p.hcp.toFixed(1)} handicap`;
     const avg = teamAvg(p.team);
     const c = p.creator && creatorByName[p.creator];
+    const fin = RES.finish[p.name] || '';
+    const mine = RES.matches.filter(m => m.a.includes(p.name) || m.b.includes(p.name)).map(m => {
+      const onA = m.a.includes(p.name), mates = (onA ? m.a : m.b).filter(x => x !== p.name), opp = onA ? m.b : m.a;
+      const r = m.w === 'H' ? 'Halved' : m.w === 'U' ? 'Not completed' : ((m.w === 'A') === onA ? 'Won ' : 'Lost ') + m.score;
+      return { m, mates, opp, r };
+    });
+    const pl = n => { const x = players.find(y => y.name === n); return x ? `<a href="/internet-invitational/${iiSlug(slug, x)}/">${esc(n)}</a>` : esc(n); };
+    const W = mine.filter(x => x.r.startsWith('Won')).length, L = mine.filter(x => x.r.startsWith('Lost')).length, Hh = mine.filter(x => x.r === 'Halved').length;
+    const resHtml = !fin ? '' : `<h2>${esc(p.name)} at the 2026 Internet Invitational</h2>
+<p><b>${fin.startsWith('🏆') ? fin : esc(fin).replace(/&amp;(#?\w+;)/g, '&$1')}</b></p>
+${mine.length ? `<p>${esc(p.name)}'s record in the team matches was ${W} won, ${L} lost and ${Hh} halved${mine.length - W - L - Hh ? `, with ${mine.length - W - L - Hh} not completed` : ''}.</p>
+<div style="overflow-x:auto"><table class="mres"><tr><th>Match</th><th>With</th><th>Against</th><th>Result</th></tr>${mine.map(x => `<tr><td>Day ${x.m.day}<br><small>${esc(x.m.session.replace(/^(Morning|Afternoon) /, ''))}</small></td><td>${x.mates.length ? x.mates.map(pl).join(' &amp; ') : '&ndash;'}</td><td>${x.opp.map(pl).join(' &amp; ')}</td><td style="white-space:nowrap">${esc(x.r)}</td></tr>`).join('')}</table></div>` : ''}
+<p><a href="/articles/internet-invitational-2026-results/">All results from the 2026 Internet Invitational</a></p>`;
     const body = `<h1>${esc(p.name)} Handicap</h1>
 <p class="lead">${esc(p.name)} plays in the 2026 Internet Invitational for ${esc(p.team)}${p.captain ? ' as captain' : ` (captain ${esc(team.captain)})`}, with ${hcpText}.</p>
 <div class="facts">
@@ -125,7 +144,9 @@ export function renderInvitationalPlayers({ data, esc, slug, fmtHcp, creatorByNa
 <div><span>Captain</span><b>${esc(team.captain)}</b></div>
 <div><span>Rank in field</span><b>${ordinal(rank)} of ${n}</b></div>
 <div><span>2025 Invitational</span><b>${p.played2025 ? 'Played' : 'Debut in 2026'}</b></div>
+${fin ? `<div><span>2026 finish</span><b>${SHORT_FINISH(fin)}</b></div>` : ''}
 </div>
+${resHtml}
 <h2>How ${esc(p.name)} compares</h2>
 <p>${esc(p.name)}'s handicap of ${fmtHcp(p.hcp)} is the ${ordinal(rank)} best of the ${n} players in the 2026 Internet Invitational. ${esc(p.team)} has an average handicap of ${fmtHcp(Math.round(avg * 10) / 10)}, so ${esc(p.name)} is ${Math.abs(p.hcp - avg) < 0.5 ? 'right at' : p.hcp < avg ? 'better than' : 'above'} the team average. ${p.played2025 ? `${esc(p.name)} also played the first Internet Invitational in 2025.` : `2026 is ${esc(p.name)}'s first Internet Invitational.`}</p>
 ${c ? `<p>${esc(p.name)} is also in our <a href="/youtubers/${c.slug}/">golf YouTuber list</a>, where the handicap from a public YouTube golf leaderboard is ${fmtHcp(c.hcp)}. Different sources and dates can give different numbers.</p>` : ''}
@@ -141,7 +162,7 @@ ${c ? `<p>${esc(p.name)} is also in our <a href="/youtubers/${c.slug}/">golf You
       howto: 'invitational',
       urlPath: `/internet-invitational/${s}/`,
       title: `${p.name} Handicap: Internet Invitational 2026 | Dailygolf`,
-      description: `${p.name}'s handicap is ${fmtHcp(p.hcp)} (estimate) in the 2026 Internet Invitational, playing for ${p.team}. Rank ${rank} of ${n} in the field, teammates and similar handicaps.`,
+      description: `${p.name}'s handicap is ${fmtHcp(p.hcp)} (estimate) in the 2026 Internet Invitational, playing for ${p.team}. Rank ${rank} of ${n} in the field, plus every 2026 match result${fin ? ' (' + SHORT_FINISH(fin).toLowerCase() + ')' : ''}.`,
       crumbs: [['Home', '/'], ['Internet Invitational', '/internet-invitational/'], [p.name]],
       body,
       jsonld: { '@context': 'https://schema.org', '@type': 'Person', name: p.name, url: `https://dailygolfgame.com/internet-invitational/${s}/` }

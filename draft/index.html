@@ -142,8 +142,8 @@ footer.site nav{display:flex;flex-wrap:wrap;gap:6px 16px;margin-bottom:8px}foote
 <p class="lead">Run the 2026 Internet Invitational draft. Captain one team, two, three or all four (pass the phone to a friend), and AI captains draft the rest. Then a draw decides the semifinals, and you and the other captain take turns sending out pairs for a scramble round and an alt-shot round. The winners meet in the final.</p>
 <div id="dr" class="card dr-card">
   <div id="dr-start">
-    <div class="dr-modes" role="group" aria-label="Draft mode"><button type="button" data-m="all" class="on">Full draft · 4 teams</button><button type="button" data-m="final">The real final · Bryan vs Ruffels</button></div>
-    <p class="mut small" id="dr-mode-note" hidden style="margin:-4px 0 12px">The real final with the real rosters, no draft. Bryan 2, Ruffels 6 going into the singles: pick the team you captain, send out your players and simulate the 16 singles.</p>
+    <div class="dr-modes" role="group" aria-label="Draft mode"><button type="button" data-m="all" class="on">Full draft · 4 teams</button><button type="button" data-m="final">Real Day 2 singles · Bryan vs Ruffels</button></div>
+    <p class="mut small" id="dr-mode-note" hidden style="margin:-4px 0 12px">Day 2 of the real event with the real rosters, no draft. Bryan 2, Ruffels 6 going into the singles: pick the team you captain, send out your players and simulate the 16 singles.</p>
     <h2 class="dr-h" id="dr-hd">Which teams do you draft?</h2>
     <p class="mut" id="dr-sub" style="margin:-4px 0 10px;font-size:.88rem">Tap one or more captains. The AI drafts the teams you leave out.</p>
     <div class="dr-caps"><button class="dr-cap" data-i="0" type="button" aria-pressed="false" style="--c:#ef4444"><b>Brad Dalke</b><span>Team Dalke · picks 1st</span><i class="dr-chk">✓</i></button><button class="dr-cap" data-i="1" type="button" aria-pressed="false" style="--c:#22c55e"><b>Wesley Bryan</b><span>Team Bryan · picks 2nd</span><i class="dr-chk">✓</i></button><button class="dr-cap" data-i="2" type="button" aria-pressed="false" style="--c:#3b82f6"><b>Peter Finch</b><span>Team Finch · picks 3rd</span><i class="dr-chk">✓</i></button><button class="dr-cap" data-i="3" type="button" aria-pressed="false" style="--c:#e2e8f0"><b>Ryan Ruffels</b><span>Team Ruffels · picks 4th</span><i class="dr-chk">✓</i></button></div>
@@ -342,15 +342,15 @@ function finish() { el('dr-draft').hidden = true; el('dr-result').hidden = false
 // Real-final mode: the two finalists go straight to the final.
 function finalIntro() {
   stage = 'final'; semiRes = null; finalRes = newMatch(act[0], act[1], SINGLES, D.fstart);
-  show('<h2>🏆 The final: singles</h2><p class="champ">' + teamTag(act[0]) + ' ' + D.fstart[0] + '–' + D.fstart[1] + ' ' + teamTag(act[1]) + ' going into the singles</p>' +
+  show('<h2>🏆 Day 2: the singles</h2><p class="champ">' + teamTag(act[0]) + ' ' + D.fstart[0] + '–' + D.fstart[1] + ' ' + teamTag(act[1]) + ' going into the singles</p>' +
     '<p class="mut small">16 singles matches, one against one. Captains take turns: one team sends out a player and the other answers, then they switch, until all 16 players are out. A point per match, 24 in total: 12½ wins the title, and 12–12 goes to a sudden-death playoff.</p>' +
-    '<div class="dr-nav"><button class="cta" type="button" id="dr-play">Start the final</button></div>');
+    '<div class="dr-nav"><button class="cta" type="button" id="dr-play">Start the singles</button></div>');
   el('dr-play').onclick = proceed;
 }
 function top() { window.scrollTo({ top: el('dr').offsetTop - 80, behavior: 'smooth' }); }
 function show(h, stay) { el('dr-result').innerHTML = '<div class="dr-res">' + h + '</div>'; if (!stay) top(); }
 function teamTag(i) { return '<b style="color:' + T[i].color + '">' + esc(T[i].short) + '</b>' + (isMine(i) ? ' (you)' : ''); }
-function matchName(m) { return stage === 'final' ? 'Final' : 'Semifinal ' + (semiRes.indexOf(m) + 1); }
+function matchName(m) { return stage === 'final' ? (mode === 'final' ? 'Day 2 singles' : 'Final') : 'Semifinal ' + (semiRes.indexOf(m) + 1); }
 
 function draw() {
   stage = 'semi'; semiRes = finalRes = null;
@@ -469,9 +469,10 @@ function stageDone() {
 function results() {
   var m = finalRes, ml = mineList(), won = isMine(m.w), all = ml.length === NT;
   var inFinal = ml.indexOf(m.l) >= 0;
-  var head = all ? '🏆 ' + esc(T[m.w].name) + ' wins' : won ? '🏆 Champions!' : inFinal ? 'Lost in the final' : 'Out in the semis';
-  var h = '<h2>' + head + '</h2><p class="champ">' + esc(T[m.w].name) + ' won the simulated Internet Invitational, beating ' + esc(T[m.l].short) + ' ' + pts(m.p[m.t.indexOf(m.w)]) + '–' + pts(m.p[m.t.indexOf(m.l)]) + (m.po !== undefined ? ' after a playoff' : '') + ' in the final.</p>' +
-    matchHtml(m, 'Final', true) + (semiRes ? matchHtml(semiRes[0], 'Semifinal 1', false) + matchHtml(semiRes[1], 'Semifinal 2', false) : '') +
+  var D2 = mode === 'final';
+  var head = all ? '🏆 ' + esc(T[m.w].name) + ' wins' : won ? (D2 ? '🏆 You won Day 2!' : '🏆 Champions!') : inFinal ? (D2 ? 'Lost Day 2' : 'Lost in the final') : 'Out in the semis';
+  var h = '<h2>' + head + '</h2><p class="champ">' + esc(T[m.w].name) + (D2 ? ' won the simulated Day 2, beating ' : ' won the simulated Internet Invitational, beating ') + esc(T[m.l].short) + ' ' + pts(m.p[m.t.indexOf(m.w)]) + '–' + pts(m.p[m.t.indexOf(m.l)]) + (m.po !== undefined ? ' after a playoff' : '') + (D2 ? '.</p>' : ' in the final.</p>') +
+    matchHtml(m, D2 ? 'Day 2' : 'Final', true) + (semiRes ? matchHtml(semiRes[0], 'Semifinal 1', false) + matchHtml(semiRes[1], 'Semifinal 2', false) : '') +
     '<h3>The teams</h3>' + board() +
     '<div class="dr-nav"><button class="cta" type="button" id="dr-share">Share my draft</button><button class="cta" type="button" id="dr-same">Simulate again, same matchups</button><button class="cta alt" type="button" id="dr-resim">' + (mode === 'final' ? 'New matchups' : 'Replay from the draw') + '</button><button class="cta alt" type="button" id="dr-new">New draft</button></div>';
   show(h);
@@ -485,11 +486,11 @@ function share() {
   if (ml.length === 1) {
     var me = ml[0], r = rosters[me].slice().sort(function (a, b) { return a.h - b.h; }).slice(1, 6).map(function (p) { return p.n; }).join(', ');
     var sm = semiRes ? (semiRes[0].t.indexOf(me) >= 0 ? semiRes[0] : semiRes[1]) : null;
-    if (mode === 'final') text = 'I captained Team ' + T[me].short + ' in the Internet Invitational final singles ' + (m.w === me ? '🏆 and won the title!' : '⛳') + '\nFinal: ' + line(m);
+    if (mode === 'final') text = 'I captained Team ' + T[me].short + ' in the Internet Invitational Day 2 singles ' + (m.w === me ? '🏆 and won!' : '⛳') + '\nDay 2: ' + line(m);
     else text = 'I drafted Team ' + T[me].short + ' in the Internet Invitational draft simulator ' + (m.w === me ? '🏆 and won the title!' : '⛳') +
       '\nTop picks: ' + r + (sm ? '\nSemi: ' + line(sm) : '') + (!sm || sm.w === me ? '\nFinal: ' + line(m) : '');
   } else {
-    text = (mode === 'final' ? 'I simulated the Internet Invitational final singles ⛳' : 'I ran the Internet Invitational draft simulator ⛳') + '\n🏆 ' + T[m.w].name + ' won the final, ' + line(m);
+    text = (mode === 'final' ? 'I simulated the Internet Invitational Day 2 singles ⛳' : 'I ran the Internet Invitational draft simulator ⛳') + '\n🏆 ' + T[m.w].name + (mode === 'final' ? ' won Day 2, ' : ' won the final, ') + line(m);
   }
   text += '\nhttps://dailygolfgame.com/draft/' + (mode === 'final' ? '?final' : '');
   if (navigator.share && window.matchMedia && matchMedia('(pointer: coarse)').matches) { navigator.share({ text: text }).catch(function () {}); return; }
@@ -503,7 +504,7 @@ function toast(m) { var x = el('toast'); if (!x) { x = document.createElement('d
 function syncCaps() {
   document.querySelectorAll('.dr-cap').forEach(function (b) { b.setAttribute('aria-pressed', mine[+b.getAttribute('data-i')] ? 'true' : 'false'); });
   el('dr-go').disabled = !mineList().length;
-  var lbl = mode === 'final' ? 'Start the final' : 'Start draft';
+  var lbl = mode === 'final' ? 'Start the singles' : 'Start draft';
   el('dr-go').textContent = mineList().length > 1 ? lbl + ' (' + mineList().length + ' teams)' : lbl;
 }
 document.querySelectorAll('.dr-cap').forEach(function (b) { b.onclick = function () { var i = +b.getAttribute('data-i'); mine[i] = !mine[i]; syncCaps(); }; });
