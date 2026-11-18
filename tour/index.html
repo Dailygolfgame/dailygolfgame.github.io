@@ -41,6 +41,8 @@ body.playing .top{padding:6px 10px}
 .top b{color:#fff;font-size:1.05rem;flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .back{display:none;width:34px;height:34px;border-radius:10px;border:1px solid var(--line);background:#1e293b;color:#fff;font-weight:900;font-size:1.2rem;line-height:1}
 body.playing .back{display:block}
+.home{flex:0 0 auto;display:inline-flex;align-items:center;height:34px;padding:0 11px;border-radius:10px;border:1px solid var(--line);background:#1e293b;color:#fff;font-weight:800;font-size:.85rem;text-decoration:none;white-space:nowrap}
+body.playing .home{display:none}
 .coins{color:var(--gold);font-weight:800;white-space:nowrap}
 .pill{font-size:.62rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#0b1325;background:var(--gold);border-radius:999px;padding:2px 7px;margin-left:6px;vertical-align:2px}
 .screen{display:none;flex:1;flex-direction:column}
@@ -129,7 +131,7 @@ table.lb{border-collapse:collapse;width:100%;font-size:.88rem}
 </head>
 <body class="menu">
 <div class="app">
-  <div class="top"><button class="back" id="back" aria-label="Back">‹</button><b id="ttl"><a href="/" style="color:#fff;text-decoration:none">⛳ Dailygolf</a> Tour</b><span class="coins" id="coins">🪙 0</span></div>
+  <div class="top"><a class="home" id="home" href="/" aria-label="All Dailygolf games">‹ Games</a><button class="back" id="back" aria-label="Back to the clubhouse">‹</button><b id="ttl"><a href="/" style="color:#fff;text-decoration:none">⛳ Dailygolf</a> Tour</b><span class="coins" id="coins">🪙 0</span></div>
 
   <!-- HUB -->
   <section class="screen on" id="s-menu">
