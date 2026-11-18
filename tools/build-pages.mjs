@@ -99,7 +99,7 @@ const EXTRA_CSS = `<style>
 </style>`;
 
 const AD_SCRIPT = /\s*<script async src="https:\/\/pagead2\.googlesyndication\.com[^>]*><\/script>/;
-function page({ urlPath, title, description, body, jsonld, crumbs, noAds, howto, image }) {
+function page({ urlPath, title, description, body, jsonld, crumbs, noAds, howto, image, noindex }) {
   const url = SITE + urlPath;
   const ld = jsonld ? `<script type="application/ld+json">${JSON.stringify(jsonld)}</script>\n` : '';
   const bc = crumbs ? `<div class="crumbs">${crumbs.map(([t, h]) => h ? `<a href="${h}">${esc(t)}</a>` : esc(t)).join(' › ')}</div>\n` : '';
@@ -111,7 +111,7 @@ function page({ urlPath, title, description, body, jsonld, crumbs, noAds, howto,
 <title>${esc(title)}</title>
 <meta name="description" content="${esc(description)}">
 <link rel="canonical" href="${url}">
-<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="robots" content="${noindex ? 'noindex, follow' : 'index, follow, max-image-preview:large'}">
 ${(noAds ? headTail.replace(AD_SCRIPT, '') : headTail).replace(/<meta property="og:title" content="[^"]*">/, `<meta property="og:title" content="${esc(title)}">`)
   .replace(/<meta property="og:description" content="[^"]*">/, `<meta property="og:description" content="${esc(description)}">`)
   .replace(/<meta property="og:url" content="[^"]*">/, `<meta property="og:url" content="${url}">`)
@@ -156,6 +156,7 @@ const PLAY_CTA = `<p><a class="cta" href="/">Play today's Dailygolf &rarr;</a></
     .replace('<meta property="og:url" content="https://dailygolfgame.com/">', '<meta property="og:url" content="https://dailygolfgame.com/pro/">')
     .replace(/<script type="application\/ld\+json">[\s\S]*?<\/script>\s*/, '')
     .replace(/og-home\.png/g, 'og-pro.png')
+    .replace('<meta name="robots" content="index, follow, max-image-preview:large">', '<meta name="robots" content="noindex, follow">')
     .replace('<head>', '<head>\n    <script>window.DG_PAGE = \'pro\';</script>');
   write('/pro/', pro);
 }
@@ -191,7 +192,7 @@ ${sameCountry.length ? `<h2>Other golfers from ${esc(p.country)}</h2>
 <p>In Guess the Pro Golfer you get five tries to find the mystery golfer. Every guess compares country, tour, age, majors and PGA Tour wins with the answer. ${esc(p.name)} is one of the possible answers.</p>
 ${PRO_CTA}
 <p class="meta">Numbers checked October 2026. Wins are official PGA Tour victories, majors included. <a href="/golfers/">All golfers in the game</a></p>`;
-  write(`/golfers/${p.slug}/`, page({ image: 'og-pro.png',
+  write(`/golfers/${p.slug}/`, page({ image: 'og-pro.png', noindex: true,
     urlPath: `/golfers/${p.slug}/`,
     title: `${p.name}: Age, Majors, PGA Tour Wins & Country | Dailygolf`,
     description: `${p.name} (${p.country}, ${p.tour}): ${p.died ? 'age at death ' + p.age : 'age ' + p.age}, ${p.majors} major${p.majors === 1 ? '' : 's'} and ${p.wins} PGA Tour win${p.wins === 1 ? '' : 's'}. Quick facts and similar golfers.`,
@@ -200,7 +201,7 @@ ${PRO_CTA}
     jsonld: { '@context': 'https://schema.org', '@type': 'Person', name: p.name, birthDate: p.born, ...(p.died ? { deathDate: p.died } : {}), nationality: p.country, jobTitle: 'Professional golfer', url: `${SITE}/golfers/${p.slug}/` }
   }));
 }
-write('/golfers/', page({ image: 'og-pro.png',
+write('/golfers/', page({ image: 'og-pro.png', noindex: true,
   urlPath: '/golfers/',
   title: `All ${PLAYERS.length} Pro Golfers in Dailygolf: Majors, Wins & Age`,
   description: `Every pro golfer in the Dailygolf guessing game, from Scottie Scheffler and Rory McIlroy to Jack Nicklaus: country, tour, age, majors and PGA Tour wins.`,
@@ -309,7 +310,7 @@ ${p ? `<p style="margin:0">${esc(p.country)} · ${esc(p.tour)} · ${p.majors} ma
 ${c ? `<p style="margin:0">Handicap ${fmtHcp(c.hcp)} · ${esc(c.countries.join(' / '))} · ${esc(c.channel)}</p>` : ''}</div>
 <p>${prev ? `<a href="/answers/${prev}/">&larr; #${prev}</a>` : ''}${prev && next ? ' &nbsp;·&nbsp; ' : ''}${next ? `<a href="/answers/${next}/">#${next} &rarr;</a>` : ''}${prev || next ? ' &nbsp;·&nbsp; ' : ''}<a href="/answers/">All answers</a></p>
 ${PLAY_CTA}`;
-  write(`/answers/${d}/`, page({
+  write(`/answers/${d}/`, page({ noindex: true,
     urlPath: `/answers/${d}/`,
     title: `Dailygolf #${d} Answer (${fmtDay(d)}) | Pro Golfer & YouTube Golfer`,
     description: `Dailygolf #${d} answers for ${fmtDay(d)}: the mystery pro golfer was ${a.pro} and the mystery YouTube golfer was ${a.yt}.`,
@@ -317,7 +318,7 @@ ${PLAY_CTA}`;
     body
   }));
 }
-write('/answers/', page({
+write('/answers/', page({ noindex: true,
   urlPath: '/answers/',
   title: 'Dailygolf Answers: Every Past Mystery Golfer | Dailygolf',
   noAds: days.length === 0,
@@ -337,16 +338,15 @@ function gitDate(rel) {
   try { return execFileSync('git', ['log', '-1', '--format=%cs', '--', rel], { cwd: ROOT, encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] }).trim() || null; } catch { return null; }
 }
 const today = NOW.toISOString().slice(0, 10);
-const STATIC = ['/', '/pro/', '/trivia/', '/how-to-play/', '/articles/', ...fs.readdirSync(path.join(ROOT, 'articles'), { withFileTypes: true })
+const STATIC = ['/', '/trivia/', '/how-to-play/', '/articles/', ...fs.readdirSync(path.join(ROOT, 'articles'), { withFileTypes: true })
   .filter(e => e.isDirectory() && !/http-equiv="refresh"/.test(fs.readFileSync(path.join(ROOT, 'articles', e.name, 'index.html'), 'utf8')))
   .map(e => `/articles/${e.name}/`).sort(), '/about/', '/contact/', '/privacy/'];
 // lastmod = when the page last really changed: today if this run changed it, else its last commit.
 const lastmod = u => changed.has(u) ? today : (gitDate(u === '/' ? 'index.html' : u.slice(1) + 'index.html') || today);
 const urls = [
-  ...STATIC, '/golfers/', ...PLAYERS.map(p => `/golfers/${p.slug}/`),
+  ...STATIC,
   '/youtubers/', ...CREATORS.map(c => `/youtubers/${c.slug}/`),
   ...(hasII ? ['/internet-invitational/', '/draft/', ...iiPlayers.map(x => `/internet-invitational/${x[0]}/`)] : []),
-  '/answers/', ...days.map(d => `/answers/${d}/`)
 ].map(u => [u, lastmod(u)]);
 fs.writeFileSync(path.join(ROOT, 'sitemap.xml'), `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
