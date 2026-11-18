@@ -1054,6 +1054,12 @@ function animateRoll(x0,y0,x1,y1,cb){
 function drawFollow(b){ draw(b); }
 
 /* boot */
+(function(){ // a private link unlocks every outfit item in this browser
+  var m=/^#u-([0-9a-f]+)$/.exec(location.hash||''); if(!m || hash(m[1])!==329592269) return;
+  Object.keys(CAT).forEach(function(c){ CAT[c].items.forEach(function(it){ P.own[c+':'+it[0]]=1; }); }); save();
+  try{ history.replaceState(null,'',location.pathname); }catch(e){}
+  setTimeout(function(){ toastMsg('Everything in the locker is unlocked in this browser'); },300);
+})();
 refreshMenu();
 window.__P=P;
 </script>
