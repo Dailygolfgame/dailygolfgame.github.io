@@ -1,0 +1,1018 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Dailygolf Tour: Free Golf Game with a Daily Hole and Weekly Tour | Dailygolf</title>
+<meta name="description" content="Play golf in your browser: design your golfer, play the daily hole, a weekly 4-round tour event and a 20-event career on courses from Florida and Arizona to English links. Earn coins, upgrade your clubs.">
+<link rel="canonical" href="https://dailygolfgame.com/tour/">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#020617">
+<link rel="icon" href="/favicon.ico" sizes="48x48">
+<link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Dailygolf">
+<meta property="og:title" content="Dailygolf Tour: a free golf game in your browser">
+<meta property="og:description" content="Design your golfer, play the daily hole, a weekly tour event and a full career. Earn coins and upgrade your clubs.">
+<meta property="og:url" content="https://dailygolfgame.com/tour/">
+<meta property="og:image" content="https://dailygolfgame.com/og-tour.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="google-adsense-account" content="ca-pub-4913143800554205">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4913143800554205" crossorigin="anonymous"></script>
+<script data-goatcounter="https://dailygolf.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+<script src="/assets/coins.js"></script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"VideoGame","name":"Dailygolf Tour","url":"https://dailygolfgame.com/tour/","genre":"Sports","gamePlatform":"Web browser","isAccessibleForFree":true,"applicationCategory":"GameApplication","operatingSystem":"Any"}</script>
+<style>
+:root{--bg:#020617;--card:#0f172a;--line:#1e293b;--txt:#cbd5e1;--mut:#94a3b8;--acc:#4ade80;--gold:#facc15}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;height:100%;background:var(--bg);color:var(--txt);font:15px/1.4 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;overscroll-behavior:none}
+button{font:inherit;cursor:pointer}
+.app{max-width:480px;margin:0 auto;min-height:100%;display:flex;flex-direction:column}
+body.playing .app{height:100vh;height:100dvh;min-height:0;overflow:hidden}
+body.playing .note{display:none}
+body:not(.menu) .about{display:none}
+body.playing .top{padding:6px 10px}
+#s-play{min-height:0}
+#s-play .stagewrap{flex:1;min-height:0}
+#s-play .ctrl{flex:0 0 auto;padding:6px 10px calc(10px + env(safe-area-inset-bottom))}
+.top{display:flex;align-items:center;gap:8px;padding:10px 14px}
+.top b{color:#fff;font-size:1.05rem;flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.back{display:none;width:34px;height:34px;border-radius:10px;border:1px solid var(--line);background:#1e293b;color:#fff;font-weight:900;font-size:1.2rem;line-height:1}
+body.playing .back{display:block}
+.coins{color:var(--gold);font-weight:800;white-space:nowrap}
+.pill{font-size:.62rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#0b1325;background:var(--gold);border-radius:999px;padding:2px 7px;margin-left:6px;vertical-align:2px}
+.screen{display:none;flex:1;flex-direction:column}
+.screen.on{display:flex}
+.hero{display:flex;gap:14px;align-items:center;padding:6px 14px 10px}
+.hero canvas{background:#0d3b20;border-radius:16px;border:1px solid var(--line);flex:0 0 auto}
+.hero h1{margin:0;color:#fff;font-size:1.4rem;line-height:1.1}
+.hero p{margin:5px 0 0;color:var(--mut);font-size:.88rem}
+.big{display:block;width:calc(100% - 28px);margin:6px 14px;padding:14px;border:0;border-radius:14px;background:#16a34a;color:#fff;font-weight:800;font-size:1.05rem}
+.big.sec{background:#1e293b}
+.big small{display:block;font-weight:600;font-size:.78rem;opacity:.85}
+.row2{display:flex;gap:8px;margin:0 14px}.row2 .big{margin:6px 0;width:auto;flex:1}
+.mode{margin:8px 14px;border-radius:16px;overflow:hidden;border:1px solid var(--line);background:var(--card)}
+.mode .band{height:74px;position:relative;display:flex;align-items:flex-end;padding:10px 14px;color:#fff}
+.mode .band b{font-size:1.15rem;line-height:1.15;text-shadow:0 1px 3px rgba(0,0,0,.6)}
+.mode .band .k{position:absolute;left:14px;top:10px;font-size:.68rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;text-shadow:0 1px 3px rgba(0,0,0,.6)}
+.mode .band .em{position:absolute;right:12px;top:8px;font-size:1.8rem}
+.mode .body{padding:10px 14px 12px;font-size:.86rem;color:var(--mut)}
+.mode .body .big{width:100%;margin:10px 0 0}
+.tabs{display:flex;gap:6px;padding:4px 14px;overflow-x:auto}
+.tabs button{flex:0 0 auto;border:1px solid var(--line);background:#0b1325;color:var(--txt);border-radius:999px;padding:7px 12px;font-weight:700;font-size:.85rem}
+.tabs button.on{background:var(--acc);color:#04230f;border-color:var(--acc)}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;padding:10px 14px}
+.item{position:relative;border:2px solid var(--line);background:#0b1325;border-radius:12px;padding:8px 4px;text-align:center;color:var(--txt);font-size:.75rem;font-weight:700;min-height:64px}
+.item.sel{border-color:var(--acc)}
+.item .sw{display:block;width:28px;height:28px;border-radius:50%;margin:0 auto 4px;border:2px solid rgba(255,255,255,.2)}
+.item .lock{position:absolute;inset:0;border-radius:10px;background:rgba(2,6,23,.72);display:flex;align-items:center;justify-content:center;flex-direction:column;color:var(--gold);font-weight:800;font-size:.8rem}
+.namebox{margin:6px 14px;display:flex;gap:8px;align-items:center}
+.namebox input{flex:1;background:#0b1325;border:1px solid var(--line);color:#fff;border-radius:10px;padding:10px;font:inherit;font-size:16px}
+.clubs{padding:0 14px 6px;color:var(--mut);font-size:.85rem}
+.clubrow{display:flex;justify-content:space-between;align-items:center;border:1px solid var(--line);background:#0b1325;border-radius:10px;padding:8px 10px;margin:6px 0}
+.clubrow b{color:#fff}
+.clubrow button{border:1px solid var(--line);background:#1e293b;color:#fff;border-radius:8px;padding:4px 10px;font-weight:700}
+.clubrow button.on{background:var(--acc);color:#04230f}
+/* play */
+.stagewrap{position:relative;margin:0 10px;border-radius:16px;overflow:hidden;border:1px solid var(--line);background:#0d3b20;touch-action:none}
+#game{display:block;width:100%;height:100%}
+.hud{position:absolute;left:6px;right:6px;top:6px;display:flex;justify-content:space-between;gap:6px;pointer-events:none}
+.hud div{background:rgba(2,6,23,.72);color:#fff;border-radius:10px;padding:3px 8px;font-weight:800;font-size:.82rem;line-height:1.25}
+.hud small{display:block;color:var(--mut);font-weight:600;font-size:.68rem}
+#h-score{pointer-events:auto;cursor:pointer}
+.msg{position:absolute;left:50%;top:45%;transform:translate(-50%,-50%);background:rgba(2,6,23,.85);color:#fff;font-weight:900;font-size:1.4rem;padding:10px 18px;border-radius:14px;opacity:0;transition:opacity .25s;pointer-events:none;white-space:nowrap}
+.msg.on{opacity:1}
+.ctrl{padding:8px 10px 14px}
+.row{display:flex;gap:6px;align-items:center}
+.clubsel{flex:1;min-width:0;display:flex;align-items:center;justify-content:space-between;background:#0b1325;border:1px solid var(--line);border-radius:12px;padding:5px}
+.clubsel button,.aim button{width:38px;height:38px;border-radius:10px;border:1px solid var(--line);background:#1e293b;color:#fff;font-weight:900;font-size:1.05rem;padding:0}
+.clubsel span{color:#fff;font-weight:800;text-align:center;font-size:.95rem}
+.clubsel small{display:block;color:var(--mut);font-weight:600;font-size:.7rem}
+.aim{display:flex;gap:5px}
+.aim button.on{background:var(--acc);color:#04230f}
+.meter{position:relative;height:26px;margin:7px 0;border-radius:10px;background:#0b1325;border:1px solid var(--line);overflow:hidden}
+.meter .fill{position:absolute;left:0;top:0;bottom:0;width:0;background:linear-gradient(90deg,#16a34a,#facc15 85%,#ef4444)}
+.meter .sweet{position:absolute;left:6.5%;width:6%;top:0;bottom:0;background:rgba(255,255,255,.35)}
+.meter .full{position:absolute;left:84%;width:2px;top:0;bottom:0;background:#fff}
+.meter .mk{position:absolute;top:-2px;bottom:-2px;width:4px;background:#fff;border-radius:2px;box-shadow:0 0 0 1px #000}
+.meter .pw{position:absolute;top:0;bottom:0;width:3px;background:#38bdf8}
+.swing{width:100%;padding:13px;border:0;border-radius:14px;background:#16a34a;color:#fff;font-weight:900;font-size:1.15rem;letter-spacing:.02em;user-select:none}
+.swing:active{background:#22c55e}
+.hint{color:var(--mut);font-size:.7rem;text-align:center;margin-top:4px;line-height:1.3}
+.card{margin:10px 14px;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px}
+.card h2{margin:0 0 8px;color:#fff;font-size:1.1rem}
+.kick{color:var(--acc);font-weight:800;font-size:.72rem;letter-spacing:.08em;text-transform:uppercase}
+table.sc{border-collapse:collapse;width:100%;text-align:center;font-size:.82rem;margin-top:8px}
+.sc td,.sc th{border:1px solid var(--line);padding:4px 1px}
+.sc th{color:#fff}
+table.lb{border-collapse:collapse;width:100%;font-size:.88rem}
+.lb td{padding:6px 4px;border-bottom:1px solid var(--line)}
+.lb td:first-child{width:38px;color:var(--mut);font-weight:700}
+.lb td:last-child{text-align:right;font-weight:800;color:#fff}
+.lb tr.me td{color:var(--acc)!important;font-weight:800}
+.lb tr.gap td{text-align:center;color:var(--mut);border:0;padding:2px}
+.sched{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--line)}
+.sched .n{width:22px;color:var(--mut);font-weight:700;font-size:.8rem}
+.sched .e{font-size:1.2rem}
+.sched .t{flex:1;min-width:0}.sched .t b{color:#fff;display:block;font-size:.9rem}.sched .t small{color:var(--mut);font-size:.75rem}
+.sched .r{font-weight:800;color:#fff;font-size:.85rem;text-align:right}
+.sched.next{background:rgba(74,222,128,.08);border-radius:10px;padding-left:6px}
+.modal{position:fixed;inset:0;background:rgba(2,6,23,.7);display:none;align-items:center;justify-content:center;z-index:20;padding:14px}
+.modal.on{display:flex}
+.modal .card{width:100%;max-width:440px;max-height:85vh;overflow:auto;margin:0}
+.note{color:var(--mut);font-size:.84rem;padding:8px 14px 22px}.note a{color:var(--acc)}.note p{margin:0 0 8px}
+.share{display:block;width:100%;margin-top:10px;padding:11px;border-radius:12px;border:1px solid var(--line);background:#1e293b;color:#fff;font-weight:800}
+.mk2{display:inline-flex;width:22px;height:22px;align-items:center;justify-content:center}
+</style>
+</head>
+<body class="menu">
+<div class="app">
+  <div class="top"><button class="back" id="back" aria-label="Back">‹</button><b id="ttl"><a href="/" style="color:#fff;text-decoration:none">⛳ Dailygolf</a> Tour</b><span class="coins" id="coins">🪙 0</span></div>
+
+  <!-- HUB -->
+  <section class="screen on" id="s-menu">
+    <div class="hero"><canvas id="av" width="120" height="150"></canvas>
+      <div><h1 id="pname">Golfer</h1><p id="pinfo"></p></div></div>
+    <div class="mode" id="m-daily"></div>
+    <div class="mode" id="m-career"></div>
+    <div class="mode" id="m-career2"></div>
+    <button class="big sec" id="b-locker">Locker: golfer, gear &amp; bag</button>
+  </section>
+
+  <!-- LOCKER -->
+  <section class="screen" id="s-locker">
+    <div class="hero"><canvas id="av2" width="120" height="150"></canvas>
+      <div><h1 id="lk-h">Your golfer</h1><p id="lk-p">Everything here is made up: no real brands.</p></div></div>
+    <div class="namebox"><input id="nm" maxlength="16" placeholder="Your golfer's name"></div>
+    <div class="tabs" id="tabs"></div>
+    <div class="grid" id="grid"></div>
+    <div class="clubs" id="clubs" style="display:none"></div>
+    <button class="big" id="b-done">Done</button>
+  </section>
+
+  <!-- LIST (schedule / standings) -->
+  <section class="screen" id="s-list">
+    <div class="card" id="listcard"></div>
+    <button class="big sec" id="b-back2">Back</button>
+  </section>
+
+  <!-- PLAY -->
+  <section class="screen" id="s-play">
+    <div class="stagewrap" id="stage"><canvas id="game" width="460" height="560"></canvas>
+      <div class="hud"><div id="h-hole">Hole 1<small>Par 4</small></div><div id="h-wind">Wind<small></small></div><div id="h-score">E<small>Stroke 1</small></div></div>
+      <div class="msg" id="msg"></div></div>
+    <div class="ctrl">
+      <div class="row">
+        <div class="aim"><button id="al" aria-label="Aim left">⟲</button><button id="ar" aria-label="Aim right">⟳</button><button id="ov" title="Whole hole" aria-label="Whole hole">🗺</button></div>
+        <div class="clubsel"><button id="cp">‹</button><span id="cn">Driver<small>250 yds</small></span><button id="cnx">›</button></div>
+      </div>
+      <div class="meter" id="meter"><div class="fill" id="fill"></div><div class="full"></div><div class="sweet"></div><div class="pw" id="pw" style="display:none"></div><div class="mk" id="mk" style="left:0"></div></div>
+      <button class="swing" id="swing">SWING</button>
+      <div class="hint" id="hint"></div>
+    </div>
+  </section>
+
+  <!-- END -->
+  <section class="screen" id="s-end">
+    <div class="card" id="endcard"></div>
+    <button class="big" id="b-next">Continue</button>
+  </section>
+  <div class="note about">
+  <h2 style="color:#fff;font-size:1.05rem;margin:6px 0">How Dailygolf Tour works</h2>
+  <p>Design your own golfer, name them and fill your bag with up to 14 clubs. Swing with three taps: start, power (the white line is the distance you picked) and accuracy (the light zone hits it straight). Drag on the course to aim and to pick your landing spot.</p>
+  <p><b>Daily hole:</b> one new hole a day, the same for everyone. <b>Weekly tour:</b> a new event every week, four rounds of nine holes from Thursday to Sunday with a cut after round two. <b>Career:</b> a 20-event season with four majors at your own pace.</p>
+  <p>The courses go from Florida palms and Arizona desert to English links, heathland, mountains and island coasts. Every course and player is made up: no real brands or tours.</p>
+  <p>Coins from every Dailygolf game, like <a href="/trivia/">Daily Golf Trivia</a>, <a href="/draft/">Scramble Draft</a> and <a href="/">Guess the YouTube Golfer</a>, buy gear and club upgrades. Progress is saved in this browser. <a href="/">More daily games</a></p>
+</div>
+</div>
+<div class="modal" id="modal"><div class="card" id="modalcard"></div></div>
+
+<script>
+window.onerror=function(m,src,l,c){ var d=document.getElementById('errbox'); if(!d){ d=document.createElement('div'); d.id='errbox'; d.style.cssText='position:fixed;left:8px;right:8px;bottom:8px;background:#7f1d1d;color:#fff;padding:10px;border-radius:10px;font:12px monospace;z-index:99'; document.body.appendChild(d); } d.textContent='Error: '+m+' (line '+l+')'; };
+if(window.CanvasRenderingContext2D && !CanvasRenderingContext2D.prototype.roundRect){ CanvasRenderingContext2D.prototype.roundRect=function(x,y,w,h,r){ r=Math.min(r,w/2,h/2); this.moveTo(x+r,y); this.arcTo(x+w,y,x+w,y+h,r); this.arcTo(x+w,y+h,x,y+h,r); this.arcTo(x,y+h,x,y,r); this.arcTo(x,y,x+w,y,r); this.closePath(); return this; }; }
+var SPEED=1; // animation speed factor (tests use < 1)
+/* ================= data ================= */
+var CAT = {
+  skin:   {label:'Skin',  items:[['#f5d0b5',0],['#e8b48f',0],['#c98d63',0],['#9c6644',0],['#6b4226',0],['#3d2817',0]]},
+  hair:   {label:'Hair',  items:[['short',0],['buzz',0],['long',0],['curly',40],['mullet',80],['bald',0]]},
+  hairc:  {label:'Hair colour', items:[['#2b1d14',0],['#5a3825',0],['#c8a165',0],['#e6e2d8',30],['#d9483b',60],['#7c3aed',120]]},
+  hat:    {label:'Hat',   items:[['none',0],['cap',0],['bucket',50],['visor',60],['flatcap',90],['crown',400]]},
+  hatc:   {label:'Hat colour', items:[['#ffffff',0],['#0f172a',0],['#16a34a',0],['#dc2626',40],['#2563eb',40],['#facc15',80]]},
+  shirt:  {label:'Shirt', items:[['#ffffff',0],['#16a34a',0],['#2563eb',0],['#0f172a',30],['#f472b6',60],['#f59e0b',60],['#14b8a6',80],['stripes',150]]},
+  pants:  {label:'Pants', items:[['#e5e7eb',0],['#1f2937',0],['#a3a3a3',0],['#b45309',40],['#1e3a8a',40],['check',150]]},
+  bag:    {label:'Bag',   items:[['#ffffff',0],['#0f172a',0],['#16a34a',0],['#dc2626',50],['#2563eb',50],['#facc15',100],['camo',200],['gold',500]]}
+};
+var NAMES = {short:'Short',buzz:'Buzz',long:'Long',curly:'Curly',mullet:'Mullet',bald:'Bald',none:'None',cap:'Cap',bucket:'Bucket',visor:'Visor',flatcap:'Flat cap',crown:'Crown',stripes:'Stripes',check:'Check',camo:'Camo',gold:'Gold'};
+var CLUBS = [
+  {id:'D', n:'Driver', c:250, sp:6, roll:.12},
+  {id:'3W',n:'3 wood', c:230, sp:5.5,roll:.10},
+  {id:'5W',n:'5 wood', c:215, sp:5, roll:.09},
+  {id:'3H',n:'3 hybrid',c:205, sp:4.6,roll:.08},
+  {id:'4I',n:'4 iron', c:195, sp:4.6,roll:.075},
+  {id:'5I',n:'5 iron', c:185, sp:4.4,roll:.07},
+  {id:'6I',n:'6 iron', c:172, sp:4.2,roll:.065},
+  {id:'7I',n:'7 iron', c:160, sp:4, roll:.06},
+  {id:'8I',n:'8 iron', c:148, sp:3.8,roll:.055},
+  {id:'9I',n:'9 iron', c:136, sp:3.5,roll:.05},
+  {id:'PW',n:'Pitching wedge', c:122, sp:3.2,roll:.04},
+  {id:'GW',n:'Gap wedge', c:105, sp:3, roll:.035},
+  {id:'SW',n:'Sand wedge', c:88, sp:3, roll:.03},
+  {id:'LW',n:'Lob wedge', c:68, sp:3, roll:.02},
+  {id:'P', n:'Putter', c:30, sp:2, roll:0}
+];
+var DEFAULT_BAG = ['D','3W','5W','4I','5I','6I','7I','8I','9I','PW','GW','SW','LW','P'];
+var BAG_MAX = 14;
+var UPG_COST = [800,1200,1700,2300,3000]; // coins for level 1..5, each level +3% distance
+function clubLvl(id){ return (P.lvl&&P.lvl[id])||0; }
+function fullCarry(cl){ return Math.round(cl.c*(1+0.03*clubLvl(cl.id))); }
+
+/* course themes: colours, trees, hazards, wind */
+var THEMES = {
+  florida:  {label:'Florida',          em:'🌴', bg:'#2c6236', rough:'#3d8b3d', fair:'#5cc24e', green:'#74e07c', sand:'#f6f1df', water:'#2563eb', tree:'palm',   trees:[7,12],  pond:.85, sea:0,   wind:[3,12],  fw:36},
+  desert:   {label:'Arizona desert',   em:'🌵', bg:'#b98f58', rough:'#d6b47c', roughLie:'waste', fair:'#4caf50', green:'#66d36c', sand:'#f3e3bb', water:'#0e7490', tree:'cactus', trees:[12,20], pond:.25, sea:0, wind:[2,10], fw:30, decor:'desert'},
+  coastal:  {label:'Ocean coast',      em:'🌊', bg:'#2a5f37', rough:'#3a873f', fair:'#55b84f', green:'#6ad874', sand:'#ece2c4', water:'#1d4ed8', sea:.8, seaCol:'#1e40af', tree:'cypress', trees:[5,9], pond:.25, wind:[6,16], fw:34},
+  parkland: {label:'Parkland',         em:'🌳', bg:'#1c4a2b', rough:'#2f7d3a', fair:'#4fb34a', green:'#66d46f', sand:'#efe6c8', water:'#2563eb', tree:'oak',    trees:[16,24], pond:.45, sea:0, wind:[0,8],  fw:32},
+  links:    {label:'English links',    em:'🌾', bg:'#77804a', rough:'#b9a65e', roughLie:'fescue', fair:'#7fb860', green:'#8ed37b', sand:'#e8d8a8', water:'#1e40af', sea:.35, seaCol:'#1e3a8a', tree:'gorse', trees:[4,8], pond:.1, wind:[10,22], fw:42, pots:true, decor:'tufts'},
+  heath:    {label:'Heathland',        em:'🪻', bg:'#3f3548', rough:'#6b5a76', roughLie:'heather', fair:'#5fae55', green:'#73d17a', sand:'#eee3c6', water:'#1d4ed8', tree:'pine', trees:[9,15], pond:.15, sea:0, wind:[4,12], fw:34, decor:'heather'},
+  mountain: {label:'Mountains',        em:'🏔️', bg:'#183626', rough:'#2b6a3a', fair:'#4caf50', green:'#63d06b', sand:'#e6ddc2', water:'#0284c7', tree:'pine',   trees:[18,26], pond:.6, creek:true, sea:0, wind:[2,10], fw:32},
+  tropical: {label:'Tropical island',  em:'🏝️', bg:'#287046', rough:'#38994a', fair:'#5ccf5a', green:'#7be584', sand:'#fbf3dc', water:'#0ea5b7', sea:.85, seaCol:'#0891b2', tree:'palm', trees:[7,12], pond:.35, wind:[5,14], fw:34},
+  autumn:   {label:'Autumn parkland',  em:'🍁', bg:'#36482a', rough:'#4d7a35', fair:'#6bb04f', green:'#7bd07c', sand:'#ecdfc2', water:'#2563eb', tree:'maple',  trees:[15,22], pond:.4, sea:0, wind:[2,10], fw:32}
+};
+/* the 20-event season: [name, theme, location, major] */
+var EVENTS = [
+  ['Palmetto Bay Classic','florida','Palmetto Bay, Florida'],
+  ['Saguaro Springs Open','desert','Saguaro Springs, Arizona'],
+  ['Driftwood Coast Invitational','coastal','Driftwood Coast, California'],
+  ['Heron Lake Classic','parkland','Heron Lake, Texas'],
+  ['The Highcrest Championship','parkland','Highcrest, Georgia',1],
+  ['Pelican Shores Open','florida','Pelican Shores, Florida'],
+  ['Red Mesa Classic','desert','Red Mesa, Arizona'],
+  ['Kingsmere Links Trophy','links','Kingsmere, England'],
+  ['Hollowbrook Heritage','autumn','Hollowbrook, Vermont'],
+  ['The Ironwood National','parkland','Ironwood, New York',1],
+  ['Heatherfield Open','heath','Heatherfield, Surrey'],
+  ['Thistle Bay Links','links','Thistle Bay, Scotland'],
+  ['The Saltmarsh Championship','links','Saltmarsh, England',1],
+  ['Pine Ridge Classic','mountain','Pine Ridge, Colorado'],
+  ['Coral Cay Invitational','tropical','Coral Cay, Bahamas'],
+  ['Copper Dunes Championship','desert','Copper Dunes, Nevada'],
+  ['Harbour Lights Open','coastal','Harbour Lights, Ireland'],
+  ['Maple Hollow Classic','autumn','Maple Hollow, Ontario'],
+  ['The Summit Championship','mountain','Summit Lake, Montana',1],
+  ['Ocean Crest Finale','tropical','Ocean Crest, Hawaii']
+];
+/* made-up tour players */
+var FIELD = ['Theo Hartley','Rafael Ondra','Kasper Lund','Dougie McBride','Jonah Pell','Arlo Fitch','Bruno Castell','Hugo Varga','Felix Ahn','Cormac Doyle','Ellis Brandt','Nico Sauer','Ravi Lowe','Otis Crane','Lars Eklund','Mason Quill','Tadeo Ibarra','Wes Holloway','Callum Rook','Jasper Wynn','Kenji Arai','Dario Fenn','Silas Okoro','Brody Kettle','Finn Galloway','Max Duroc','Andre Laval','Tobias Renn','Emil Strand','Cash Whitlock','Pablo Serra','Gus Tremaine','Leif Nyberg','Sami Haddad','Dex Monroe','Harvey Pike','Jules Marchand','Ollie Brennan','Quinn Ashby'];
+
+/* ================= storage ================= */
+var KEY='dg_tour_v1';
+var P = load() || {name:'', skin:'#e8b48f', hair:'short', hairc:'#5a3825', hat:'cap', hatc:'#ffffff', shirt:'#16a34a', pants:'#1f2937', bag:'#ffffff', clubs:DEFAULT_BAG.slice(), coins:0, own:{}};
+if(P.name==='Golfer') P.name='';
+if(P.coins){ DGCoins.add(P.coins); P.coins=0; }
+if(P.bagV!==2){ P.clubs=DEFAULT_BAG.slice(); P.bagV=2; }
+P.lvl=P.lvl||{};
+var WALLET_KEY='dg_coins_v1';
+var DGCoins = window.DGCoins || {
+  _g:function(){ try{ return JSON.parse(localStorage.getItem(WALLET_KEY))||{c:0,log:{}}; }catch(e){ return {c:0,log:{}}; } },
+  _p:function(w){ try{ localStorage.setItem(WALLET_KEY,JSON.stringify(w)); }catch(e){} },
+  balance:function(){ return this._g().c; },
+  add:function(n){ var w=this._g(); w.c+=n; this._p(w); return w.c; },
+  spend:function(n){ var w=this._g(); if(w.c<n) return false; w.c-=n; this._p(w); return true; },
+  award:function(key,n){ var w=this._g(); if(w.log[key]!=null) return 0; w.log[key]=n; w.c+=n; var ks=Object.keys(w.log); if(ks.length>500) ks.slice(0,ks.length-500).forEach(function(k){ delete w.log[k]; }); this._p(w); return n; }
+};
+function load(){ try{ return JSON.parse(localStorage.getItem(KEY)); }catch(e){ return null; } }
+function save(){ try{ localStorage.setItem(KEY, JSON.stringify(P)); }catch(e){} }
+function owned(cat,val){ var it=CAT[cat].items.find(function(i){return i[0]===val;}); return !it || it[1]===0 || P.own[cat+':'+val]; }
+function $(id){ return document.getElementById(id); }
+function show(id){ document.querySelectorAll('.screen').forEach(function(s){ s.classList.toggle('on', s.id===id); }); document.body.classList.toggle('playing', id==='s-play'); document.body.classList.toggle('menu', id==='s-menu'); if(id!=='s-play') $('ttl').innerHTML='<a href="/" style="color:#fff;text-decoration:none">⛳ Dailygolf</a> Tour'; updateCoins(); if(id==='s-play') fitCanvas(); window.scrollTo(0,0); }
+function updateCoins(){ $('coins').textContent='🪙 '+DGCoins.balance(); }
+function esc(s){ return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];}); }
+function fmtPar(n){ return n===0?'E':(n>0?'+'+n:'−'+(-n)); }
+function ord(n){ var s=['th','st','nd','rd'], v=n%100; return n+(s[(v-20)%10]||s[v]||s[0]); }
+
+/* ================= random ================= */
+function rng(seed){ var a=seed>>>0; return function(){ a=(a+0x6D2B79F5)|0; var t=Math.imul(a^(a>>>15),1|a); t=(t+Math.imul(t^(t>>>7),61|t))^t; return ((t^(t>>>14))>>>0)/4294967296; }; }
+function hash(s){ var h=2166136261; for(var i=0;i<s.length;i++){ h^=s.charCodeAt(i); h=Math.imul(h,16777619); } return h>>>0; }
+
+/* ================= course generator ================= */
+function d2(x1,y1,x2,y2){ return Math.hypot(x1-x2,y1-y2); }
+function distToPath(x,y,pts){ var m=1e9; for(var i=0;i<pts.length-1;i++){ m=Math.min(m,segDist(x,y,pts[i],pts[i+1])); } return m; }
+function segDist(x,y,a,b){ var dx=b[0]-a[0], dy=b[1]-a[1], L=dx*dx+dy*dy, t=L?((x-a[0])*dx+(y-a[1])*dy)/L:0; t=Math.max(0,Math.min(1,t)); return d2(x,y,a[0]+t*dx,a[1]+t*dy); }
+function inEll(x,y,e){ return ((x-e[0])/e[2])*((x-e[0])/e[2])+((y-e[1])/e[3])*((y-e[1])/e[3])<=1; }
+var TREE_R={palm:[6,9],cactus:[3,5],cypress:[7,10],oak:[9,14],gorse:[5,9],pine:[7,11],maple:[9,13]};
+
+function genHole(themeKey, par, seed, major, n){
+  var T=THEMES[themeKey], R=rng(seed), rr=function(a,b){ return a+R()*(b-a); };
+  var w=190, len=Math.round((par===3?rr(140,215):par===4?rr(350,460):rr(500,580))*(major?1.04:1));
+  var fw=T.fw*(major?0.88:1)*rr(.9,1.1);
+  var seaSide=R()<(T.sea||0)?(R()<.5?-1:1):0;
+  var xmin=seaSide<0?62:30, xmax=seaSide>0?w-62:w-30;
+  var cl=function(x){ return Math.max(xmin,Math.min(xmax,x)); };
+  var gr=par===3?rr(11,14):rr(13,17)*(major?0.92:1), gx=cl(w/2+rr(-40,40)+seaSide*18), gy=gr+12;
+  var tee=[cl(w/2+rr(-35,35)), len-6];
+  var fair=[], lands=[];
+  if(par===4){ var l1=[cl(tee[0]+rr(-50,50)), len-rr(235,262)]; lands.push(l1); fair=[[tee[0],len-38],l1,[gx,gy+gr*.4]]; }
+  if(par===5){ var a=[cl(tee[0]+rr(-45,45)), len-rr(235,262)], b=[cl(gx+rr(-55,55)), gy+rr(95,140)]; lands.push(a,b); fair=[[tee[0],len-38],a,b,[gx,gy+gr*.4]]; }
+  var bunkers=[], water=[], trees=[], decor=[];
+  // greenside bunkers
+  var nb=T.pots?2+Math.floor(R()*3):1+Math.floor(R()*3)+(major?1:0);
+  for(var i=0;i<nb;i++){ var ang=rr(-0.5,Math.PI+0.5), bw=T.pots?rr(3,4):rr(6,9), bh=T.pots?rr(2.6,3.4):rr(3.5,5.5); bunkers.push([gx+Math.cos(ang)*(gr+bw*.7), gy+Math.sin(ang)*(gr+bh*.9), bw, bh]); }
+  // fairway bunkers
+  lands.forEach(function(L){
+    if(R()<(T.pots?0.9:.6)){ var sd=R()<.5?-1:1; bunkers.push([L[0]+sd*(fw/2+rr(1,6)), L[1]+rr(-14,14), T.pots?rr(3,4):rr(7,11), T.pots?rr(2.6,3.4):rr(4,6)]); }
+    if(T.pots && R()<.35) bunkers.push([L[0]+rr(-6,6), L[1]-rr(15,30), rr(3,3.8), rr(2.6,3.2)]);
+  });
+  // water
+  if(R()<T.pond){
+    if(par===3){ water.push([gx+rr(-12,12), gy+gr+rr(18,30), rr(22,38), rr(9,15)]); }
+    else if(T.creek && R()<.65){ water.push([w/2, len-rr(150,180), w*.62, rr(4,6)]); }
+    else { var L=lands[Math.floor(R()*lands.length)], sd=R()<.5?-1:1, rx=rr(14,24); water.push([L[0]+sd*(fw/2+rx+rr(3,8)), L[1]+rr(-25,15), rx, rr(22,40)]); }
+    if(themeKey==='florida' && R()<.6){ var s2=gx<w/2?1:-1; water.push([gx+s2*(gr+rr(16,22)), gy+rr(-2,12), rr(9,14), rr(14,22)]); }
+  }
+  var fairLine=fair.length?fair:[[tee[0],tee[1]],[gx,gy]];
+  var halfFw=fair.length?fw/2:12;
+  var sea=seaSide?{side:seaSide, x:seaSide<0?24:w-24}:null;
+  function blocked(x,y,r){
+    if(distToPath(x,y,fairLine)<halfFw+r+3) return true;
+    if(d2(x,y,gx,gy)<gr+r+8) return true;
+    if(d2(x,y,tee[0],tee[1])<14+r) return true;
+    if(sea && (seaSide<0?x<sea.x+6+r:x>sea.x-6-r)) return true;
+    for(var k=0;k<water.length;k++){ var e=water[k]; if(inEll(x,y,[e[0],e[1],e[2]+r,e[3]+r])) return true; }
+    for(k=0;k<bunkers.length;k++){ var e2=bunkers[k]; if(d2(x,y,e2[0],e2[1])<Math.max(e2[2],e2[3])+r+2) return true; }
+    for(k=0;k<trees.length;k++){ if(d2(x,y,trees[k][0],trees[k][1])<trees[k][2]+r-2) return true; }
+    return false;
+  }
+  var nt=Math.round(rr(T.trees[0],T.trees[1])*(len/430)), tr=TREE_R[T.tree];
+  for(var tries=0; trees.length<nt && tries<400; tries++){
+    var r=rr(tr[0],tr[1]), x=rr(4,w-4), y=rr(gy-12,len);
+    if(!blocked(x,y,r)) trees.push([x,y,r,Math.floor(R()*4)]);
+  }
+  if(T.decor){ for(i=0;i<70;i++){ var dx=rr(0,w), dy=rr(-10,len+10); if(distToPath(dx,dy,fairLine)>halfFw+3 && d2(dx,dy,gx,gy)>gr+4) decor.push([dx,dy,R()]); } }
+  var pin=[gx+rr(-.5,.5)*gr, gy+rr(-.45,.45)*gr];
+  return {n:n, par:par, w:w, len:len, tee:tee, pin:pin, fair:fair, fw:fw, green:[gx,gy,gr], bunkers:bunkers, water:water, trees:trees, sea:sea, decor:decor, theme:themeKey, T:T, major:!!major};
+}
+function coursePars(name){
+  var R=rng(hash(name+'#pars'));
+  function nine(){ var a=[4,3,5,4,4,3,4,5]; for(var i=a.length-1;i>0;i--){ var j=Math.floor(R()*(i+1)), t=a[i]; a[i]=a[j]; a[j]=t; } return [4].concat(a); }
+  return nine().concat(nine());
+}
+var COURSE_CACHE={};
+function eventHole(ei, h){
+  var k=ei+':'+h; if(COURSE_CACHE[k]) return COURSE_CACHE[k];
+  var E=EVENTS[ei], pars=coursePars(E[0]);
+  return COURSE_CACHE[k]=genHole(E[1], pars[h], hash(E[0])+h*7919, E[3], h+1);
+}
+
+/* ================= daily hole ================= */
+var EPOCH=Date.UTC(2026,10,1);
+function todayKey(){ var d=new Date(); return d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate(); }
+function dailyNo(){ var d=new Date(); return Math.floor((Date.UTC(d.getFullYear(),d.getMonth(),d.getDate())-EPOCH)/864e5)+1; }
+function dailyHole(){
+  var no=dailyNo(), R=rng(hash('daily#'+no)), keys=Object.keys(THEMES), th=keys[Math.floor(R()*keys.length)];
+  var par=[3,4,4,5,4,3,5][Math.floor(R()*7)];
+  var H=genHole(th, par, hash('dailyhole#'+no), false, 1); H.daily=no; return H;
+}
+
+/* ================= weekly tour ================= */
+var SK=(function(){ var R=rng(hash('field-skills')); return FIELD.map(function(){ return Math.round((0.08+R()*0.82)*100)/100; }); })();
+function now(){ return window.__NOW?new Date(window.__NOW):new Date(); }
+var MON0=Date.UTC(2026,9,26); // a Monday
+function weekNo(d){ d=d||now(); return Math.floor((Date.UTC(d.getFullYear(),d.getMonth(),d.getDate())-MON0)/(7*864e5)); }
+function dayIdx(){ return (now().getDay()+6)%7; } // Mon=0 … Sun=6
+function roundsOpen(){ return Math.max(0,Math.min(4,dayIdx()-2)); } // Thu opens round 1 … Sun round 4
+var RDAYS=['Thursday','Friday','Saturday','Sunday'];
+function weekEvent(wk){ return ((wk%EVENTS.length)+EVENTS.length)%EVENTS.length; }
+function seasonOf(wk){ return Math.floor(wk/EVENTS.length)+1; }
+function weekDate(wk, plusDays){ var d=new Date(MON0+(wk*7+plusDays)*864e5); return d.toLocaleDateString('en-GB',{day:'numeric',month:'short',timeZone:'UTC'}); }
+function roundHole(r,h){ return (r%2)*9+h; } // rounds 1 and 3 play the front nine, 2 and 4 the back nine
+/* the field adapts to how you play: winners shoot about -5 to -6 per 18 holes, more if you are on form */
+function fieldBoost(){ var f=P.form==null?-4:P.form, w=Math.max(-12,Math.min(-4,f-1.5)); return Math.max(-0.05,Math.min(0.2,(-5.5-w)*0.03)); }
+function updateForm(per18){ P.form=P.form==null?per18:Math.round((0.7*P.form+0.3*per18)*10)/10; }
+function simHole(par, sk, major, R, boost){
+  boost=(boost||0)-0.08;
+  var e=Math.max(0,par===5?0.025+.06*sk+boost*.3:par===4?0.005:.002), b=Math.max(.03,.10+.18*sk+(par===5?0.11:0)-(major?0.03:0)+boost),
+      bo=Math.max(.02,.18-.10*sk+(par===3?0.02:0)+(major?0.04:0)-boost*.6), db=Math.max(.005,.04-.03*sk+(major?0.015:0)-boost*.15), r=R();
+  if(r<e) return -2; r-=e; if(r<b) return -1; r-=b; if(r<db) return 2; r-=db; if(r<bo) return 1; return 0;
+}
+var FS_CACHE={};
+function fieldScores(wk, ei, boost){ // fixed for the week once the event starts
+  boost=boost||0; var k=wk+':'+ei+':'+boost; if(FS_CACHE[k]) return FS_CACHE[k];
+  var E=EVENTS[ei], pars=coursePars(E[0]);
+  return FS_CACHE[k]=SK.map(function(sk,i){ var R=rng(hash('wk'+wk+'#'+i)), a=[]; for(var r=0;r<4;r++) for(var h=0;h<9;h++) a.push(simHole(pars[roundHole(r,h)], Math.min(1,sk+(E[3]?0.05:0)), E[3], R, boost)); return a; });
+}
+function initSeason(){ var s=seasonOf(weekNo()); if(!P.ts||P.ts.season!==s) P.ts={season:s, pts:{}, wins:0, majors:0, top10:0, events:0, hist:[]}; }
+function ensureTour(){
+  var wk=weekNo();
+  if(P.tour && P.tour.week!==wk){ if(!P.tour.final && P.tour.cards[0].length) finalizeTour(true); P.tour=null; }
+  initSeason();
+  if(!P.tour){ P.tour={week:wk, ev:weekEvent(wk), cards:[[],[],[],[]], round:0, live:null, final:null, boost:Math.round(fieldBoost()*1000)/1000}; save(); }
+  return P.tour;
+}
+function sum(a){ return a.reduce(function(x,y){return x+y;},0); }
+function myHoles(t){ var a=[]; t.cards.forEach(function(c){ c.forEach(function(x){ a.push(x.s-x.par); }); }); return a; }
+function board(t, nField){
+  var fs=fieldScores(t.week,t.ev,t.boost), mine=myHoles(t), n=nField!=null?nField:mine.length;
+  var rows=FIELD.map(function(nm,i){ return {n:nm, s:fs[i]}; }); rows.push({n:P.name||'You', s:mine, me:1});
+  var cutMade=null;
+  if(n>=18){ // 36-hole cut: top 20 and ties
+    rows.forEach(function(r){ r.t18=sum(r.s.slice(0,18)); });
+    var sorted=rows.map(function(r){return r.t18;}).sort(function(a,b){return a-b;}), line=sorted[19];
+    rows.forEach(function(r){ r.mc=r.t18>line; }); cutMade=line;
+  }
+  rows.forEach(function(r){ r.t=sum(r.s.slice(0, r.mc?18:(r.me?r.s.length:n))); });
+  rows.sort(function(a,b){ return (a.mc?1:0)-(b.mc?1:0) || a.t-b.t || (b.me?1:0)-(a.me?1:0); });
+  rows.forEach(function(r){ if(r.mc){ r.lbl='MC'; r.pos=99; return; } var pool=rows.filter(function(o){return !o.mc;}), better=pool.filter(function(o){return o.t<r.t;}).length, same=pool.filter(function(o){return o.t===r.t;}).length; r.pos=better+1; r.lbl=(same>1?'T':'')+(better+1); });
+  rows.cut=cutMade; return rows;
+}
+function lbHTML(rows, note){
+  var me=rows.findIndex(function(r){return r.me;}), h='<table class="lb">', last=-1;
+  rows.forEach(function(r,i){ if(i<10 || Math.abs(i-me)<=1){ if(last>=0 && i>last+1) h+='<tr class="gap"><td colspan="3">···</td></tr>'; last=i; h+='<tr class="'+(r.me?'me':'')+'"><td>'+r.lbl+'</td><td>'+esc(r.n)+'</td><td>'+fmtPar(r.t)+'</td></tr>'; } });
+  return h+'</table>'+(note?'<p style="margin:8px 0 0;font-size:.78rem;color:var(--mut)">'+note+'</p>':'');
+}
+var PTS=[500,300,190,135,110,100,90,85,80,75,70,65,60,57,54,51,48,45,42,40];
+function ptsFor(pos){ return pos>=99?0:(PTS[pos-1]||Math.max(4,40-(pos-20)*2)); }
+function prizeFor(pos){ return pos>=99?10:pos===1?250:pos<=3?150:pos<=5?110:pos<=10?70:pos<=20?35:15; }
+function finalizeTour(withdrawn){
+  var t=P.tour, E=EVENTS[t.ev], major=!!E[3], rows=board(t,36), you=rows.find(function(r){return r.me;}), playoff='';
+  if(withdrawn && !you.mc){ you.lbl='WD'; you.pos=99; }
+  var leaders=rows.filter(function(r){return r.pos===1;});
+  if(leaders.length>1){ var R=rng(hash('playoff'+t.week)), win=leaders[Math.floor(R()*leaders.length)];
+    playoff=win.me?'You won a '+leaders.length+'-man playoff!':esc(win.n)+' won the playoff.';
+    leaders.forEach(function(r){ r.pos=r===win?1:2; r.lbl=r===win?'1':(leaders.length>2?'T2':'2'); });
+    rows.sort(function(a,b){ return a.pos-b.pos || a.t-b.t; }); }
+  initSeason(); var S=P.ts;
+  rows.forEach(function(r){ var key=r.me?'@me':r.n; S.pts[key]=(S.pts[key]||0)+ptsFor(r.pos)*(major?2:1); });
+  var pts=ptsFor(you.pos)*(major?2:1), prize=prizeFor(you.pos)*(major?2:1);
+  DGCoins.award('tour:'+t.week, prize); S.events++; if(you.pos===1){ S.wins++; if(major) S.majors++; } if(you.pos<=10) S.top10++;
+  S.hist.push({week:t.week, ev:t.ev, lbl:you.lbl, score:you.t});
+  t.final={lbl:you.lbl, pos:you.pos, score:you.t, pts:pts, prize:prize, playoff:playoff}; save();
+  return rows;
+}
+
+/* ================= avatar ================= */
+function pattern(ctx,kind,x,y,w,h){
+  if(kind==='stripes'){ ctx.fillStyle='#fff'; ctx.fillRect(x,y,w,h); ctx.fillStyle='#16a34a'; for(var i=0;i<h;i+=8) ctx.fillRect(x,y+i,w,4); return; }
+  if(kind==='check'){ for(var a=0;a<w;a+=6) for(var b=0;b<h;b+=6){ ctx.fillStyle=((a+b)/6)%2?'#7f1d1d':'#f5f5f4'; ctx.fillRect(x+a,y+b,6,6);} return; }
+  if(kind==='camo'){ ctx.fillStyle='#4d5d32'; ctx.fillRect(x,y,w,h); var c=['#6b7c45','#2f3a1f','#8a7f55']; for(var k=0;k<14;k++){ ctx.fillStyle=c[k%3]; ctx.beginPath(); ctx.ellipse(x+((k*37)%w), y+((k*53)%h), 6, 4, k, 0, 7); ctx.fill(); } return; }
+  if(kind==='gold'){ var g=ctx.createLinearGradient(x,y,x+w,y+h); g.addColorStop(0,'#fde68a'); g.addColorStop(.5,'#f59e0b'); g.addColorStop(1,'#fde68a'); ctx.fillStyle=g; ctx.fillRect(x,y,w,h); return; }
+  ctx.fillStyle=kind; ctx.fillRect(x,y,w,h);
+}
+function drawAvatar(cv, p){
+  var c=cv.getContext('2d'), W=cv.width, H=cv.height; c.clearRect(0,0,W,H);
+  var s=W/120; c.save(); c.scale(s,s);
+  c.save(); c.translate(92,92); c.rotate(.18);
+  c.beginPath(); c.roundRect(-11,-30,22,58,6); c.save(); c.clip(); pattern(c,p.bag,-11,-30,22,58); c.restore();
+  c.strokeStyle='rgba(0,0,0,.35)'; c.lineWidth=1.5; c.stroke();
+  c.fillStyle='#94a3b8'; [[-6,-40],[0,-44],[6,-39]].forEach(function(q){ c.fillRect(q[0]-1,q[1],2,12); c.beginPath(); c.arc(q[0],q[1],3,0,7); c.fill(); });
+  c.restore();
+  c.save(); c.beginPath(); c.rect(42,92,36,40); c.clip(); pattern(c,p.pants,42,92,36,40); c.restore();
+  c.fillStyle=p.pants==='check'?'#020617':'rgba(0,0,0,.25)'; c.fillRect(59,100,2,32);
+  c.fillStyle='#f8fafc'; c.fillRect(40,130,18,7); c.fillRect(62,130,18,7);
+  c.save(); c.beginPath(); c.roundRect(36,58,48,40,10); c.clip(); pattern(c,p.shirt,36,58,48,40); c.restore();
+  c.fillStyle=p.skin; c.fillRect(28,62,9,26); c.fillRect(83,62,9,26);
+  c.save(); c.beginPath(); c.rect(28,58,9,12); c.rect(83,58,9,12); c.clip(); pattern(c,p.shirt,26,58,70,12); c.restore();
+  c.fillStyle='#fff'; c.beginPath(); c.arc(32,90,5,0,7); c.fill();
+  c.fillStyle=p.skin; c.fillRect(54,50,12,10);
+  c.beginPath(); c.arc(60,36,18,0,7); c.fill();
+  c.fillStyle=p.hairc;
+  if(p.hair==='short'){ c.beginPath(); c.arc(60,32,18,Math.PI*1.05,Math.PI*1.95); c.fill(); c.fillRect(42,28,6,10); c.fillRect(72,28,6,10);}
+  if(p.hair==='buzz'){ c.globalAlpha=.7; c.beginPath(); c.arc(60,34,18,Math.PI,0); c.fill(); c.globalAlpha=1; }
+  if(p.hair==='long'){ c.beginPath(); c.arc(60,32,19,Math.PI,0); c.fill(); c.fillRect(41,30,8,30); c.fillRect(71,30,8,30); }
+  if(p.hair==='curly'){ for(var i=0;i<9;i++){ c.beginPath(); c.arc(44+i*4,22+Math.sin(i)*3,6,0,7); c.fill(); } c.fillRect(41,26,5,12); c.fillRect(74,26,5,12); }
+  if(p.hair==='mullet'){ c.beginPath(); c.arc(60,32,18,Math.PI*1.05,Math.PI*1.95); c.fill(); c.fillRect(42,28,6,10); c.fillRect(72,28,6,24); c.fillRect(42,34,6,18); }
+  c.fillStyle='#0f172a'; c.beginPath(); c.arc(53,38,2,0,7); c.arc(67,38,2,0,7); c.fill();
+  c.strokeStyle='#7c2d12'; c.lineWidth=1.6; c.beginPath(); c.arc(60,42,6,.2*Math.PI,.8*Math.PI); c.stroke();
+  var hc=p.hatc;
+  if(p.hat==='cap'){ c.fillStyle=hc; c.beginPath(); c.arc(60,30,19,Math.PI,0); c.fill(); c.fillRect(60,26,28,6); c.fillStyle='rgba(0,0,0,.15)'; c.fillRect(60,30,28,2);}
+  if(p.hat==='bucket'){ c.fillStyle=hc; c.beginPath(); c.roundRect(44,12,32,18,6); c.fill(); c.beginPath(); c.ellipse(60,30,27,6,0,0,7); c.fill(); }
+  if(p.hat==='visor'){ c.fillStyle=hc; c.fillRect(42,24,36,6); c.beginPath(); c.ellipse(70,30,16,4,0,0,7); c.fill(); }
+  if(p.hat==='flatcap'){ c.fillStyle=hc; c.beginPath(); c.ellipse(62,24,22,10,0,Math.PI,0); c.fill(); c.beginPath(); c.ellipse(68,26,20,5,0,0,7); c.fill(); }
+  if(p.hat==='crown'){ c.fillStyle='#facc15'; c.beginPath(); c.moveTo(44,24); c.lineTo(44,8); c.lineTo(52,16); c.lineTo(60,4); c.lineTo(68,16); c.lineTo(76,8); c.lineTo(76,24); c.closePath(); c.fill(); c.fillStyle='#dc2626'; c.beginPath(); c.arc(60,18,3,0,7); c.fill(); }
+  c.restore();
+}
+
+/* ================= career mode ================= */
+function newCareer(){
+    return {season:1, ev:0, pts:{}, res:[], sk:SK.slice(), cur:null, wins:0, majors:0, top10:0, events:0};
+}
+function startEvent(){
+  var C=P.career, E=EVENTS[C.ev], pars=coursePars(E[0]);
+  C.cur={ev:C.ev, hole:0, cards:[], opp:C.sk.map(function(sk){ return pars.map(function(p){ return simHole(p, Math.min(1,sk+(E[3]?0.05:0)), E[3], Math.random, fieldBoost()); }); }), live:null};
+  save();
+}
+function careerBoard(){ // standings after the player's completed holes
+  var C=P.career, cur=C.cur, k=cur.cards.length, rows=FIELD.map(function(n,i){ var t=0; for(var h=0;h<k;h++) t+=cur.opp[i][h]; return {n:n,t:t}; });
+  rows.push({n:P.name||'You', t:cur.cards.reduce(function(a,c){return a+c.s-c.par;},0), me:1});
+  rows.sort(function(a,b){ return a.t-b.t || (b.me?1:0)-(a.me?1:0); });
+  rows.forEach(function(r){ var better=rows.filter(function(o){return o.t<r.t;}).length, same=rows.filter(function(o){return o.t===r.t;}).length; r.pos=better+1; r.lbl=(same>1?'T':'')+(better+1); });
+  return rows;
+}
+function seasonBonus(rank){ return rank===1?3000:rank<=3?2000:rank<=10?1200:rank<=20?600:300; }
+function careerRows(){
+  var C=P.career, rows=FIELD.map(function(n){ return {n:n, p:C.pts[n]||0}; }); rows.push({n:P.name||'You', p:C.pts['@me']||0, me:1});
+  rows.sort(function(a,b){ return b.p-a.p || (b.me?1:0)-(a.me?1:0); }); return rows;
+}
+function showCareerSchedule(){
+  var C=P.career, h='<div class="kick">Season '+C.season+'</div><h2>Schedule</h2>';
+  EVENTS.forEach(function(E,i){ var r=C.res.find(function(x){return x.ev===i;}), T=THEMES[E[1]];
+    h+='<div class="sched'+(i===C.ev?' next':'')+'"><span class="n">'+(i+1)+'</span><span class="e">'+T.em+'</span><span class="t"><b>'+esc(E[0])+(E[3]?' <span class="pill">Major</span>':'')+'</b><small>'+esc(E[2])+'</small></span><span class="r">'+(r?r.lbl+'<br><small style="color:var(--mut)">'+fmtPar(r.score)+'</small>':(i===C.ev?'Next':''))+'</span></div>'; });
+  $('listcard').innerHTML=h; show('s-list');
+}
+function showCareerStandings(){
+  var rows=careerRows(), me=rows.findIndex(function(r){return r.me;}), h='<div class="kick">Season '+P.career.season+' · after '+P.career.events+' events</div><h2>Season standings</h2><table class="lb">';
+  rows.forEach(function(r,i){ if(i<20 || i===me) h+='<tr class="'+(r.me?'me':'')+'"><td>'+(i+1)+'</td><td>'+esc(r.n)+'</td><td>'+r.p+' pts</td></tr>'; });
+  $('listcard').innerHTML=h+'</table><p style="margin:8px 0 0;font-size:.78rem;color:var(--mut)">Win = 500 pts, majors count double. Season bonus: 1st 🪙 3000 · top 3 🪙 2000 · top 10 🪙 1200 · top 20 🪙 600 · others 🪙 300. Every event also pays prize money (win 🪙 250, double at majors).</p>'; show('s-list');
+}
+function playCareer(){
+  var C=P.career, cur=C.cur, E=EVENTS[cur.ev];
+  G={mode:'career', hole:cur.hole, total:18};
+  show('s-play'); $('ttl').innerHTML=esc(E[0])+(E[3]?'<span class="pill">Major</span>':'');
+  startHole(eventHole(cur.ev, cur.hole), cur.live);
+}
+function finishEvent(){
+  var C=P.career, cur=C.cur, E=EVENTS[cur.ev], major=!!E[3], rows=careerBoard(), you=rows.find(function(r){return r.me;}), playoff='';
+  var leaders=rows.filter(function(r){return r.pos===1;});
+  if(leaders.length>1){ // sudden-death playoff, each player equally likely
+    var win=leaders[Math.floor(Math.random()*leaders.length)];
+    playoff=win.me?'You won a '+leaders.length+'-man playoff!':esc(win.n)+' won the playoff.';
+    leaders.forEach(function(r){ r.pos=r===win?1:2; r.lbl=r===win?'1':(leaders.length>2?'T2':'2'); });
+    rows.sort(function(a,b){ return a.pos-b.pos || a.t-b.t; });
+  }
+  rows.forEach(function(r){ var key=r.me?'@me':r.n; C.pts[key]=(C.pts[key]||0)+ptsFor(r.pos)*(major?2:1); });
+  var pos=you.pos, pts=ptsFor(pos)*(major?2:1), prize=prizeFor(pos)*(major?2:1);
+  DGCoins.add(prize); updateForm(you.t); C.events++; if(pos===1){ C.wins++; if(major) C.majors++; } if(pos<=10) C.top10++;
+  var score=you.t, cards=cur.cards, holeCoins=cur.coins||0;
+  C.res.push({ev:cur.ev, pos:pos, lbl:you.lbl, score:score});
+  C.ev++; C.cur=null; save();
+  var title=pos===1?(major?'MAJOR CHAMPION!':'CHAMPION!'):pos<=10?'Top 10 finish':'Event complete';
+  $('endcard').innerHTML='<div class="kick">'+esc(E[0])+(major?' · Major':'')+'</div><h2 style="font-size:1.5rem;margin:4px 0">'+title+'</h2>'+
+    '<div style="font-size:2rem;font-weight:900;color:#fff">'+you.lbl+' <span style="font-size:1.1rem;color:var(--mut)">'+fmtPar(score)+' ('+(72+score)+')</span></div>'+
+    (playoff?'<p style="margin:4px 0;color:#facc15;font-weight:800">'+playoff+'</p>':'')+cardHTML(cards)+
+    '<p style="margin:12px 0 4px;color:#fff;font-weight:800">+🪙 '+(prize+holeCoins)+' · +'+pts+' season points</p>'+
+    '<div class="kick" style="margin-top:12px">Final leaderboard</div>'+lbHTML(rows,'');
+  $('b-next').textContent=C.ev>=EVENTS.length?'Season finale results →':'Back to the clubhouse';
+  $('b-next').onclick=function(){ if(C.ev>=EVENTS.length) seasonEnd(); else { show('s-menu'); refreshMenu(); } };
+  G=null; show('s-end');
+}
+function seasonEnd(){
+  var C=P.career, rows=careerRows(), rank=rows.findIndex(function(r){return r.me;})+1, bonus=seasonBonus(rank);
+  var h='<div class="kick">Season '+C.season+' complete</div><h2 style="font-size:1.5rem;margin:4px 0">'+(rank===1?'Season champion! 🏆':'You finished '+ord(rank))+'</h2>'+
+    '<p style="margin:0 0 8px">'+C.wins+' wins · '+C.majors+' majors · '+C.top10+' top 10s · season bonus 🪙 '+bonus+'</p><table class="lb">';
+  rows.forEach(function(r,i){ if(i<10||r.me) h+='<tr class="'+(r.me?'me':'')+'"><td>'+(i+1)+'</td><td>'+esc(r.n)+'</td><td>'+r.p+' pts</td></tr>'; });
+  $('endcard').innerHTML=h+'</table>';
+  $('b-next').textContent='Start season '+(C.season+1)+' →';
+  $('b-next').onclick=function(){
+    DGCoins.add(bonus); var R=Math.random; C.sk=C.sk.map(function(s){ return Math.max(.05,Math.min(.95,Math.round((s+(R()-.5)*.12)*100)/100)); });
+    C.season++; C.ev=0; C.pts={}; C.res=[]; C.cur=null; C.wins=0; C.majors=0; C.top10=0; C.events=0; save(); show('s-menu'); refreshMenu(); };
+  show('s-end');
+}
+
+/* ================= hub ================= */
+function band(T, kicker, title, em){
+  return '<div class="band" style="background:linear-gradient(135deg,'+T.fair+' 0%,'+T.rough+' 55%,'+(T.seaCol||T.bg)+' 100%)"><span class="k">'+kicker+'</span><span class="em">'+em+'</span><b>'+title+'</b></div>';
+}
+function refreshMenu(){
+  if(!P.name){ openLocker(true); return; }
+  var t=ensureTour(), S=P.ts, E=EVENTS[t.ev], T=THEMES[E[1]], open=roundsOpen();
+  drawAvatar($('av'),P); $('pname').textContent=P.name;
+  var rank=seasonRows().findIndex(function(r){return r.me;})+1;
+  $('pinfo').innerHTML='Season '+S.season+' · '+(S.events?ord(rank)+' in the standings':'Rookie')+'<br>'+S.wins+' wins · '+S.majors+' majors · '+S.top10+' top 10s';
+  // daily
+  var dH=dailyHole(), dd=P.daily&&P.daily.no===dH.daily?P.daily:null;
+  $('m-daily').innerHTML=band(dH.T,'Daily hole #'+dH.daily,'Par '+dH.par+' · '+dH.len+' yds',dH.T.em)+
+    '<div class="body">'+dH.T.label+' · same hole for everyone, your first try counts.'+
+    (dd?'<br><b style="color:#fff">Today: '+scoreName(dd.s,dH.par)+' ('+dd.s+')</b><button class="share" id="b-dshare">Share result</button><button class="big sec" id="b-daily">Practice it again</button>':'<button class="big" id="b-daily">Play today\'s hole</button>')+'</div>';
+  $('b-daily').onclick=startDaily; if($('b-dshare')) $('b-dshare').onclick=function(){ shareDaily(dd.s,dH); };
+  // weekly tour
+  var mine=sum(myHoles(t)), btn, info;
+  if(t.final){ info='<br><b style="color:#fff">Final: '+t.final.lbl+' · '+fmtPar(t.final.score)+'</b>'; btn='<button class="big sec" id="b-car">Next event starts Thursday</button>'; }
+  else if(t.round<open){ var cc=t.cards[t.round].length; btn='<button class="big" id="b-car">'+(cc||t.live?'Continue round '+(t.round+1)+' · hole '+(cc+1):'Play round '+(t.round+1)+' of 4')+'</button>'; info=t.round?'<br><b style="color:#fff">'+fmtPar(mine)+' after '+t.round+' round'+(t.round>1?'s':'')+'</b>':''; }
+  else { btn='<button class="big sec" id="b-car" disabled>Round '+(t.round+1)+' opens '+RDAYS[t.round]+'</button>'; info=t.round?'<br><b style="color:#fff">'+fmtPar(mine)+' after '+t.round+' round'+(t.round>1?'s':'')+'</b>':''; }
+  $('m-career').innerHTML=band(T,'Weekly tour · '+weekDate(t.week,3)+'–'+weekDate(t.week,6)+(E[3]?' · <span style="color:#facc15">Major</span>':''),esc(E[0]),T.em)+
+    '<div class="body">'+esc(E[2])+' · '+T.label+' · 4 rounds of 9 holes, one a day Thu–Sun · cut after round 2'+info+btn+
+    '<div class="row2" style="margin:0"><button class="big sec" id="b-lb">Leaderboard</button><button class="big sec" id="b-stand">Season</button></div></div>';
+  $('b-car').onclick=function(){ if(t.final){ showFinal(); return; } if(t.round<roundsOpen()) playRound(); };
+  if(t.final) $('b-car').textContent='Final leaderboard · next event Thursday';
+  $('b-lb').onclick=function(){ var n=myHoles(t).length; openModal('<div class="kick">'+esc(E[0])+'</div><h2>Leaderboard</h2>'+(n||t.final?lbHTML(t.final?board(t,36):board(t),t.final?'Final':'Thru '+n+' of 36 holes'):'<p>The field tees off on Thursday. Round 1 opens then.</p>')+'<button class="share" id="mclose">Close</button>'); };
+  $('b-stand').onclick=showStandings;
+  // career mode
+  if(!P.career){ $('m-career2').innerHTML=band(THEMES.coastal,'Career mode','Your own tour career','🧢')+'<div class="body">Play a full 20-event season at your own pace: 18-hole events, 4 majors, season standings.<button class="big" id="b-c2">Start a career</button></div>'; $('b-c2').onclick=function(){ P.career=newCareer(); save(); refreshMenu(); }; return; }
+  var C=P.career;
+  if(C.ev>=EVENTS.length){ $('m-career2').innerHTML=band(THEMES.parkland,'Career · Season '+C.season+' complete','Season over','🏆')+'<div class="body"><button class="big" id="b-c2">See the final standings</button></div>'; $('b-c2').onclick=seasonEnd; return; }
+  var CE=EVENTS[C.ev], CT=THEMES[CE[1]], cur=C.cur&&C.cur.ev===C.ev?C.cur:null;
+  $('m-career2').innerHTML=band(CT,'Career · Season '+C.season+' · Event '+(C.ev+1)+' of '+EVENTS.length+(CE[3]?' · <span style="color:#facc15">Major</span>':''),esc(CE[0]),CT.em)+
+    '<div class="body">'+esc(CE[2])+' · 18 holes · '+C.wins+' wins · '+C.top10+' top 10s'+
+    '<button class="big" id="b-c2">'+(cur?'Continue · hole '+(cur.hole+1)+' ('+fmtPar(cur.cards.reduce(function(a,c){return a+c.s-c.par;},0))+')':'Tee off')+'</button>'+
+    '<div class="row2" style="margin:0"><button class="big sec" id="b-csched">Schedule</button><button class="big sec" id="b-cstand">Standings</button></div></div>';
+  $('b-c2').onclick=function(){ if(!cur) startEvent(); playCareer(); };
+  $('b-csched').onclick=showCareerSchedule; $('b-cstand').onclick=showCareerStandings;
+}
+function seasonRows(){
+  var S=P.ts, rows=FIELD.map(function(n){ return {n:n, p:S.pts[n]||0}; }); rows.push({n:P.name||'You', p:S.pts['@me']||0, me:1});
+  rows.sort(function(a,b){ return b.p-a.p || (b.me?1:0)-(a.me?1:0); }); return rows;
+}
+function showStandings(){
+  var S=P.ts, rows=seasonRows(), me=rows.findIndex(function(r){return r.me;}), wk0=(S.season-1)*EVENTS.length;
+  var h='<div class="kick">Season '+S.season+'</div><h2>Season standings</h2><table class="lb">';
+  rows.forEach(function(r,i){ if(i<15 || i===me) h+='<tr class="'+(r.me?'me':'')+'"><td>'+(i+1)+'</td><td>'+esc(r.n)+'</td><td>'+r.p+' pts</td></tr>'; });
+  h+='</table><p style="margin:8px 0 14px;font-size:.78rem;color:var(--mut)">Win = 500 pts. Majors count double.</p><h2>Schedule</h2>';
+  EVENTS.forEach(function(E,i){ var wk=wk0+i, r=S.hist.find(function(x){return x.week===wk;}), T=THEMES[E[1]], cur=wk===weekNo();
+    h+='<div class="sched'+(cur?' next':'')+'"><span class="n">'+(i+1)+'</span><span class="e">'+T.em+'</span><span class="t"><b>'+esc(E[0])+(E[3]?' <span class="pill">Major</span>':'')+'</b><small>'+weekDate(wk,3)+'–'+weekDate(wk,6)+' · '+esc(E[2])+'</small></span><span class="r">'+(r?r.lbl+'<br><small style="color:var(--mut)">'+fmtPar(r.score)+'</small>':(cur?'This week':''))+'</span></div>'; });
+  $('listcard').innerHTML=h; show('s-list');
+}
+$('b-back2').onclick=function(){ show('s-menu'); refreshMenu(); };
+
+/* ================= locker ================= */
+var tab='skin', creating=false;
+function openLocker(create){ creating=!!create; show('s-locker'); renderLocker(); }
+function renderLocker(){
+  drawAvatar($('av2'),P); $('nm').value=P.name;
+  $('lk-h').textContent=creating?'Create your golfer':'Your golfer';
+  $('lk-p').textContent=creating?'Name them and pick a look. You can change it any time.':'Everything here is made up: no real brands.';
+  $('b-done').textContent=creating?'Start playing →':'Done';
+  var tabs=Object.keys(CAT).concat(['clubs']);
+  $('tabs').innerHTML=tabs.map(function(t){ return '<button data-t="'+t+'" class="'+(t===tab?'on':'')+'">'+(t==='clubs'?'Clubs':CAT[t].label)+'</button>'; }).join('');
+  $('tabs').querySelectorAll('button').forEach(function(b){ b.onclick=function(){ tab=b.dataset.t; renderLocker(); }; });
+  if(tab==='clubs'){ $('grid').style.display='none'; $('clubs').style.display='block'; renderClubs(); return; }
+  $('grid').style.display='grid'; $('clubs').style.display='none';
+  $('grid').innerHTML=CAT[tab].items.map(function(it){
+    var v=it[0], isCol=v[0]==='#', own=owned(tab,v);
+    var face = isCol ? '<span class="sw" style="background:'+v+'"></span>' : (['stripes','check','camo','gold'].indexOf(v)>=0 ? '<span class="sw" style="background:'+({stripes:'repeating-linear-gradient(#fff 0 4px,#16a34a 4px 8px)',check:'repeating-conic-gradient(#7f1d1d 0 25%,#f5f5f4 0 50%) 0 0/10px 10px',camo:'#4d5d32',gold:'linear-gradient(135deg,#fde68a,#f59e0b)'})[v]+'"></span>' : '');
+    return '<button class="item'+(P[tab]===v?' sel':'')+'" data-v="'+v+'">'+face+(isCol?'':(NAMES[v]||v))+(own?'':'<span class="lock">🔒<span>🪙 '+it[1]+'</span></span>')+'</button>';
+  }).join('');
+  $('grid').querySelectorAll('.item').forEach(function(b){ b.onclick=function(){
+    var v=b.dataset.v, it=CAT[tab].items.find(function(i){return i[0]===v;});
+    if(!owned(tab,v)){ if(!DGCoins.spend(it[1])){ toastMsg('Need 🪙 '+it[1]+'. Play the daily games to earn coins!'); return; } P.own[tab+':'+v]=1; }
+    P[tab]=v; save(); renderLocker(); updateCoins();
+  }; });
+}
+function renderClubs(){
+  var h='<p>All clubs are yours. Carry up to '+BAG_MAX+' in the bag (putter always in). Upgrades add distance and take a while to save up for: play the daily games to earn coins. 🪙 '+DGCoins.balance()+'</p>';
+  CLUBS.forEach(function(cl){ var on=P.clubs.indexOf(cl.id)>=0, lv=clubLvl(cl.id), cost=UPG_COST[lv];
+    h+='<div class="clubrow"><span><b>'+cl.n+'</b> · '+(cl.id==='P'?'greens':fullCarry(cl)+' yds')+'<br><small style="color:var(--gold)">'+'★'.repeat(lv)+'<span style="color:#475569">'+'★'.repeat(5-lv)+'</span></small></span><span style="display:flex;gap:6px">'+
+      (cl.id!=='P'?(cost?'<button data-u="'+cl.id+'">⬆ 🪙 '+cost+'</button>':'<button disabled>Max</button>'):'')+
+      '<button data-c="'+cl.id+'" class="'+(on?'on':'')+'">'+(on?'In bag':'Add')+'</button></span></div>'; });
+  $('clubs').innerHTML=h;
+  $('clubs').querySelectorAll('button[data-c]').forEach(function(b){ b.onclick=function(){
+    var id=b.dataset.c, i=P.clubs.indexOf(id);
+    if(id==='P') return;
+    if(i>=0){ if(P.clubs.length<=3) return; P.clubs.splice(i,1); }
+    else { if(P.clubs.length>=BAG_MAX){ toastMsg('Bag is full ('+BAG_MAX+' clubs). Take one out first.'); return; } P.clubs.push(id); }
+    P.clubs.sort(function(a,b){ return CLUBS.findIndex(function(c){return c.id===a;})-CLUBS.findIndex(function(c){return c.id===b;}); });
+    save(); renderClubs();
+  }; });
+  $('clubs').querySelectorAll('button[data-u]').forEach(function(b){ b.onclick=function(){
+    var id=b.dataset.u, lv=clubLvl(id), cost=UPG_COST[lv]; if(!cost) return;
+    if(!DGCoins.spend(cost)){ toastMsg('Need 🪙 '+cost+' (you have '+DGCoins.balance()+')'); return; }
+    P.lvl[id]=lv+1; save(); updateCoins(); renderClubs(); toastMsg(CLUBS.find(function(c){return c.id===id;}).n+' upgraded! +3% distance');
+  }; });
+}
+$('nm').oninput=function(){ P.name=this.value.trim().slice(0,16); save(); };
+$('b-locker').onclick=function(){ openLocker(false); };
+$('b-done').onclick=function(){
+  if(!P.name){ toastMsg('Give your golfer a name'); $('nm').focus(); return; }
+  creating=false; show('s-menu'); refreshMenu();
+};
+
+/* ================= game ================= */
+var cv=$('game'), g=cv.getContext('2d'), CW=cv.width, CH=cv.height;
+function fitCanvas(){ var r=$('stage').getBoundingClientRect(); if(!r.width||!r.height) return; var dpr=Math.min(window.devicePixelRatio||1,2); CW=Math.round(r.width); CH=Math.round(r.height); cv.width=CW*dpr; cv.height=CH*dpr; g.setTransform(dpr,0,0,dpr,0,0); if(G&&G.H) draw(); }
+window.addEventListener('resize', fitCanvas);
+var G=null;
+
+function playRound(){
+  var t=P.tour, E=EVENTS[t.ev], h=t.cards[t.round].length;
+  G={mode:'tour', total:9};
+  show('s-play'); $('ttl').innerHTML=esc(E[0])+(E[3]?'<span class="pill">Major</span>':'');
+  startHole(eventHole(t.ev, roundHole(t.round,h)), t.live);
+  if(!t.live && !h) flash('Round '+(t.round+1)+' · Hole '+G.H.n);
+}
+function startDaily(){
+  var H=dailyHole(), first=!(P.daily&&P.daily.no===H.daily);
+  G={mode:'daily', hole:0, total:1, official:first};
+  show('s-play'); $('ttl').innerHTML='Daily hole #'+H.daily+(first?'':'<span class="pill">Practice</span>');
+  startHole(H, null);
+}
+$('back').onclick=function(){ if(G&&G.busy) return; G=null; show('s-menu'); refreshMenu(); };
+
+function startHole(H, live){
+  G.H=H; G.done=false; G.busy=false; G.overview=false; G.from=null;
+  if(live){ G.ball={x:live.x,y:live.y}; G.strokes=live.s; G.lie=live.lie; G.wind=live.wind; }
+  else { G.ball={x:H.tee[0],y:H.tee[1]}; G.strokes=0; G.lie='tee'; var T=H.T, R=Math.random; G.wind={a:R()*Math.PI*2, s:Math.round(T.wind[0]+R()*(T.wind[1]-T.wind[0]))}; }
+  $('ov').classList.remove('on');
+  autoClub(); setHud(); meterReset(); draw();
+  if(!live) flash('Hole '+H.n+' · Par '+H.par);
+  saveLive();
+}
+function saveLive(){ if(!G) return; var L=G.done?null:{x:G.ball.x,y:G.ball.y,s:G.strokes,lie:G.lie,wind:G.wind}; if(G.mode==='tour'&&P.tour){ P.tour.live=L; save(); } if(G.mode==='career'&&P.career&&P.career.cur){ P.career.cur.live=L; save(); } }
+$('ov').onclick=function(){ if(!G||G.busy) return; G.overview=!G.overview; $('ov').classList.toggle('on',G.overview); draw(); };
+function toPin(){ return d2(G.ball.x,G.ball.y,G.H.pin[0],G.H.pin[1]); }
+function bagClubs(){ return CLUBS.filter(function(c){ return P.clubs.indexOf(c.id)>=0; }); }
+function onGreen(){ var gr=G.H.green; return d2(G.ball.x,G.ball.y,gr[0],gr[1])<=gr[2]; }
+function autoClub(){
+  var bag=bagClubs(), d=toPin();
+  if(onGreen()){ G.club=bag.find(function(c){return c.id==='P';}); }
+  else {
+    var cand=bag.filter(function(c){ return c.id!=='P' && !(c.id==='D' && G.lie!=='tee'); });
+    var best=cand[cand.length-1];
+    for(var i=cand.length-1;i>=0;i--){ best=cand[i]; if(fullCarry(cand[i])*lieFactor()>=d*0.97) break; }
+    G.club=best;
+  }
+  G.aim=Math.atan2(G.H.pin[1]-G.ball.y, G.H.pin[0]-G.ball.x);
+  setAimDist();
+  showClub();
+}
+function clubMax(){ return G.club.id==='P'?30:fullCarry(G.club)*lieFactor(); }
+function setAimDist(){ G.aimDist=G.club.id==='P'?Math.min(toPin()+0.35,30):Math.min(clubMax(), toPin()); }
+function showClub(){ var c=G.club, mx=clubMax(); $('cn').innerHTML=c.n+'<small>'+(c.id==='P'?'Aim '+Math.round(G.aimDist*3)+' ft · hole '+Math.round(toPin()*3)+' ft':Math.round(G.aimDist)+(G.aimDist<mx-1?' of '+Math.round(mx):'')+' yds · '+Math.round(toPin())+' to pin')+'</small>'; }
+function cycleClub(dir){
+  if(!G||G.busy) return; var bag=bagClubs().filter(function(c){ return onGreen() ? c.id==='P' : (c.id!=='P' || toPin()<35); });
+  var i=bag.findIndex(function(c){return c.id===G.club.id;}); i=(i+dir+bag.length)%bag.length; G.club=bag[i]; setAimDist(); showClub(); meterReset(); draw();
+}
+$('cp').onclick=function(){ cycleClub(-1); }; $('cnx').onclick=function(){ cycleClub(1); };
+var aimHold=null;
+function aimStep(d){ if(!G||G.busy) return; G.aim+=d*(G.club.id==='P'?0.012:0.025); draw(); }
+['al','ar'].forEach(function(id,k){ var b=$(id), dir=k?1:-1;
+  var start=function(e){ e.preventDefault(); aimStep(dir); clearInterval(aimHold); aimHold=setInterval(function(){ aimStep(dir); },60); };
+  var stop=function(){ clearInterval(aimHold); };
+  b.addEventListener('pointerdown',start); b.addEventListener('pointerup',stop); b.addEventListener('pointerleave',stop); b.addEventListener('pointercancel',stop); });
+var dragging=false;
+cv.addEventListener('pointerdown',function(e){ if(G&&!G.busy&&!G.done){ dragging=true; aimAt(e); } });
+cv.addEventListener('pointermove',function(e){ if(dragging) aimAt(e); });
+window.addEventListener('pointerup',function(){ dragging=false; });
+function aimAt(e){ var r=cv.getBoundingClientRect(), sx=(e.clientX-r.left)*CW/r.width, sy=(e.clientY-r.top)*CH/r.height; var w=screenToWorld(sx,sy); G.aim=Math.atan2(w.y-G.ball.y, w.x-G.ball.x); var dd=d2(w.x,w.y,G.ball.x,G.ball.y); G.aimDist=G.club.id==='P'?Math.max(0.5,Math.min(30,dd)):Math.max(5,Math.min(clubMax(),dd)); showClub(); draw(); }
+
+function lieAt(x,y){
+  var H=G.H, T=H.T;
+  if(H.sea){ var beyond=H.sea.side<0?x<H.sea.x:x>H.sea.x; if(beyond) return 'water'; if(Math.abs(x-H.sea.x)<5) return 'bunker'; }
+  if(x<0||x>H.w||y<-10||y>H.len+10) return 'ob';
+  for(var i=0;i<H.water.length;i++){ if(inEll(x,y,H.water[i])) return 'water'; }
+  if(d2(x,y,H.green[0],H.green[1])<=H.green[2]) return 'green';
+  for(i=0;i<H.bunkers.length;i++){ if(inEll(x,y,H.bunkers[i])) return 'bunker'; }
+  for(i=0;i<H.trees.length;i++){ var t=H.trees[i]; if(d2(x,y,t[0],t[1])<=t[2]) return 'trees'; }
+  if(H.fair.length && distToPath(x,y,H.fair)<=H.fw/2) return 'fairway';
+  if(d2(x,y,H.tee[0],H.tee[1])<7) return 'fairway';
+  return T.roughLie||'rough';
+}
+var LIE_F={tee:1,fairway:1,green:1,rough:.85,fescue:.75,waste:.82,heather:.75,bunker:.6,trees:.5};
+function lieFactor(){ return LIE_F[G.lie]||1; }
+var LIE_NAME={tee:'Tee box',fairway:'Fairway',rough:'Rough',fescue:'Fescue',waste:'Desert',heather:'Heather',bunker:'Bunker',trees:'Trees',green:'Green'};
+
+/* swing meter */
+var M={phase:0,pos:0,dir:1,power:0,raf:0};
+function meterReset(){ cancelAnimationFrame(M.raf); M.phase=0; M.pos=0; M.dir=1; $('mk').style.left='0%'; $('fill').style.width='0%'; $('pw').style.display='none'; $('swing').textContent='SWING'; if(G&&G.club) $('hint').textContent=G.club.id==='P'?'Drag on the green to set where the ball should stop · the white line = that distance':'Drag on the course to pick your landing spot · tap at the white line to hit that far · tap in the light zone to hit it straight'; }
+function meterLoop(){
+  var speed=(G.club.id==='P'?0.9:1.25)*(M.phase===2?0.75:1);
+  M.pos+=M.dir*speed; if(M.pos>=100){ M.pos=100; M.dir=-1; } if(M.pos<=0 && M.phase===2){ M.pos=0; finishSwing(-12); return; }
+  $('mk').style.left=M.pos+'%'; if(M.phase===1) $('fill').style.width=M.pos+'%';
+  M.raf=requestAnimationFrame(meterLoop);
+}
+$('swing').addEventListener('pointerdown',function(e){ e.preventDefault(); if(!G||G.done||(G.busy&&M.phase===0)) return;
+  if(M.phase===0){ if(G.overview){ G.overview=false; $('ov').classList.remove('on'); draw(); } G.busy=true; M.phase=1; M.pos=0; M.dir=1; $('swing').textContent='POWER'; M.raf=requestAnimationFrame(meterLoop); }
+  else if(M.phase===1){ M.power=Math.min(M.pos,100)/84; M.phase=2; M.dir=-1; $('pw').style.left=M.pos+'%'; $('pw').style.display='block'; $('swing').textContent='ACCURACY'; }
+  else if(M.phase===2){ finishSwing(M.pos-9.5); }
+});
+function finishSwing(acc){ cancelAnimationFrame(M.raf); M.phase=3; hitBall(M.power, acc); }
+
+function hitBall(power, acc){
+  var cl=G.club, lf=lieFactor();
+  G.strokes++; G.from={x:G.ball.x,y:G.ball.y};
+  var over=Math.max(0,power-1);
+  var dz=cl.id==='P'?3.5:2.2, err=Math.sign(acc)*Math.max(0,Math.abs(acc)-dz)*0.9 + (over*40)*(Math.random()-.5)*2;
+  if(G.lie==='rough'||G.lie==='heather'||G.lie==='fescue') err+=(Math.random()-.5)*4;
+  if(G.lie==='trees') err+=(Math.random()-.5)*10;
+  var ang=G.aim + err*Math.PI/180*(cl.id==='P'?0.15:1);
+  if(cl.id==='P') return putt(power, ang);
+  var carry=G.aimDist*Math.min(power,1.1)*(1-Math.abs(err)*0.006);
+  var wx=Math.cos(G.wind.a)*G.wind.s, wy=Math.sin(G.wind.a)*G.wind.s, air=carry/250;
+  var tx=G.ball.x+Math.cos(ang)*carry + wx*air*2.2, ty=G.ball.y+Math.sin(ang)*carry + wy*air*2.2;
+  var land=lieAt(tx,ty);
+  var roll={fairway:cl.roll,green:cl.roll*.6,rough:cl.roll*.3,fescue:cl.roll*.35,heather:cl.roll*.25,waste:cl.roll*.5}[land]||0;
+  var rx=tx+Math.cos(ang)*carry*roll, ry=ty+Math.sin(ang)*carry*roll;
+  if(roll){ var end=lieAt(rx,ry); if(end==='water'||end==='ob'||end==='trees'){ rx=tx; ry=ty; } else land=end; } else { rx=tx; ry=ty; }
+  animateFlight(G.ball.x,G.ball.y,tx,ty,rx,ry,carry,function(){ settle(land,rx,ry); });
+}
+function putt(power, ang){
+  var H=G.H, d=power*G.aimDist, startD=toPin();
+  var ex=G.ball.x+Math.cos(ang)*d, ey=G.ball.y+Math.sin(ang)*d;
+  var gauss=(Math.random()+Math.random()+Math.random()-1.5)/0.5, sig=0.06*startD+0.012*startD*startD; ang+=gauss*sig/Math.max(0.5,startD); // reading the break
+  ex=G.ball.x+Math.cos(ang)*d; ey=G.ball.y+Math.sin(ang)*d;
+  var px=H.pin[0]-G.ball.x, py=H.pin[1]-G.ball.y, t=(px*Math.cos(ang)+py*Math.sin(ang)), lat=Math.abs(-px*Math.sin(ang)+py*Math.cos(ang));
+  var holed = t>0 && t<=d && lat<=0.16 && (d-t)<=Math.max(2.2, startD*0.35);
+  if(holed){ ex=H.pin[0]; ey=H.pin[1]; }
+  animateRoll(G.ball.x,G.ball.y,ex,ey,function(){ if(holed) return holeOut(); settle(lieAt(ex,ey),ex,ey); });
+}
+function settle(land,x,y){
+  var msg='';
+  if(land==='water'){ G.strokes++; msg='Splash! +1 · drop'; var b=dropFrom(x,y); x=b.x; y=b.y; land=lieAt(x,y); }
+  else if(land==='ob'){ G.strokes++; msg='Out of bounds! +1'; x=G.from.x; y=G.from.y; land=G.lie; }
+  G.ball={x:x,y:y}; G.lie=land; G.from=null;
+  if(toPin()<0.5) return holeOut();
+  if(!msg) msg=G.lie==='green'?Math.round(toPin()*3)+' ft':(LIE_NAME[G.lie]||'');
+  if(G.lie==='trees') msg='In the trees';
+  if(G.strokes>=G.H.par+4){ G.strokes=G.H.par+4; flash('Pick up'); return endHole(); }
+  flash(msg); G.busy=false; autoClub(); setHud(); meterReset(); draw(); saveLive();
+}
+function dropFrom(x,y){ // walk back along the shot line to where it went in, then a club-length out
+  var fx=G.from.x, fy=G.from.y, D=d2(x,y,fx,fy);
+  for(var t=0;t<=D;t+=0.5){ var px=x+(fx-x)*t/D, py=y+(fy-y)*t/D, l=lieAt(px,py); if(l!=='water'&&l!=='ob'){ var t2=Math.min(D,t+2); return {x:x+(fx-x)*t2/D, y:y+(fy-y)*t2/D}; } }
+  return {x:fx,y:fy};
+}
+function scoreName(s,par){ var d=s-par; if(s===1) return 'Hole in one'; return {'-3':'Albatross','-2':'Eagle','-1':'Birdie','0':'Par','1':'Bogey','2':'Double bogey'}[d]||(d>0?'+'+d:''+d); }
+function holeOut(){ flash(scoreName(G.strokes,G.H.par)+(G.strokes===1?'!!':G.strokes<G.H.par?'!':'')); G.ball={x:G.H.pin[0],y:G.H.pin[1]}; endHole(); }
+function endHole(){
+  G.done=true; var d=G.strokes-G.H.par, coins=G.strokes===1?100:d<=-2?25:d===-1?10:d===0?3:1;
+  if(G.mode==='daily'){ coins=G.official?DGCoins.award('hole:'+G.H.daily, G.strokes===1?150:d<=-2?60:d===-1?30:d===0?15:d===1?8:4):0; }
+  else if(G.mode==='tour'){ coins=0; if(P.tour.cards[P.tour.round].length===8) coins=DGCoins.award('tourR:'+P.tour.week+':'+P.tour.round, 20); }
+  else coins=0;
+  if(coins) setTimeout(function(){ flash('+🪙 '+coins); },900*SPEED);
+  updateCoins();
+  if(G.mode==='tour'){ var t=P.tour; t.cards[t.round].push({par:G.H.par,s:G.strokes}); t.live=null; }
+  if(G.mode==='career'){ var cur=P.career.cur; cur.cards.push({par:G.H.par,s:G.strokes}); cur.hole++; cur.live=null; cur.coins=(cur.coins||0)+coins; }
+  if(G.mode==='daily' && G.official){ P.daily={no:G.H.daily, s:G.strokes}; }
+  save(); setHud(); draw();
+  var myG=G;
+  setTimeout(function(){ if(G!==myG) return;
+    if(G.mode==='daily') return endDaily();
+    if(G.mode==='career'){ if(P.career.cur.hole<18) startHole(eventHole(P.career.cur.ev, P.career.cur.hole), null); else finishEvent(); return; }
+    var t=P.tour; if(t.cards[t.round].length<9) startHole(eventHole(t.ev, roundHole(t.round,t.cards[t.round].length)), null);
+    else endRound();
+  },1600*SPEED);
+}
+function setHud(){
+  var H=G.H; $('h-hole').innerHTML=(G.mode==='daily'?'Daily #'+H.daily:'Hole '+H.n)+' · Par '+H.par+'<small>'+H.len+' yds · '+H.T.em+' '+H.T.label+'</small>';
+  var arrows=['→','↘','↓','↙','←','↖','↑','↗'], k=Math.round(((G.wind.a%(2*Math.PI))+2*Math.PI)%(2*Math.PI)/(Math.PI/4))%8;
+  $('h-wind').innerHTML='Wind '+(G.wind.s?arrows[k]:'')+'<small>'+G.wind.s+' mph</small>';
+  var lie=G.done?'Holed':'Shot '+(G.strokes+1)+' · '+(LIE_NAME[G.lie]||'');
+  if(G.mode==='tour'){ var rows=board(P.tour), me=rows.find(function(r){return r.me;}); $('h-score').innerHTML=fmtPar(me.t)+' · '+me.lbl+' 🏆<small>R'+(P.tour.round+1)+' · '+lie+'</small>'; }
+  else if(G.mode==='career'){ var cr=careerBoard(), cm=cr.find(function(r){return r.me;}); $('h-score').innerHTML=fmtPar(cm.t)+' · '+cm.lbl+' 🏆<small>'+lie+'</small>'; }
+  else $('h-score').innerHTML='Shot '+(G.done?G.strokes:G.strokes+1)+'<small>'+(G.done?'Holed':(LIE_NAME[G.lie]||''))+'</small>';
+}
+$('h-score').onclick=function(){ if(G&&G.mode==='career'){ var cu=P.career.cur; openModal('<div class="kick">'+esc(EVENTS[cu.ev][0])+'</div><h2>Leaderboard</h2>'+lbHTML(careerBoard(),'Thru '+cu.cards.length+' · 40 players')+'<button class="share" id="mclose">Close</button>'); return; } if(!G||G.mode!=='tour') return; var t=P.tour; openModal('<div class="kick">'+esc(EVENTS[t.ev][0])+' · Round '+(t.round+1)+'</div><h2>Leaderboard</h2>'+lbHTML(board(t),'Thru '+myHoles(t).length+' of 36 holes · 40 players')+'<button class="share" id="mclose">Close</button>'); };
+function openModal(h){ $('modalcard').innerHTML=h; $('modal').classList.add('on'); var c=$('mclose'); if(c) c.onclick=closeModal; }
+function closeModal(){ $('modal').classList.remove('on'); }
+$('modal').onclick=function(e){ if(e.target===$('modal')) closeModal(); };
+var flashT;
+function flash(t){ var m=$('msg'); m.textContent=t; m.classList.add('on'); clearTimeout(flashT); flashT=setTimeout(function(){ m.classList.remove('on'); },1300); }
+function toastMsg(t){ if($('s-play').classList.contains('on')) return flash(t); var d=document.createElement('div'); d.textContent=t; d.style.cssText='position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:#1e293b;color:#fff;padding:10px 14px;border-radius:12px;font-weight:700;z-index:30'; document.body.appendChild(d); setTimeout(function(){ d.remove(); },1800); }
+
+/* ================= end screens ================= */
+function mark(s,par){ var d=s-par, st=d<=-2?'border:2px solid #4ade80;border-radius:50%;outline:2px solid #4ade80;outline-offset:2px':d===-1?'border:2px solid #4ade80;border-radius:50%':d===1?'border:2px solid #f59e0b':d>=2?'border:2px solid #ef4444;outline:2px solid #ef4444;outline-offset:2px':''; return '<span class="mk2" style="'+st+'">'+s+'</span>'; }
+function cardHTML(cards,first){ first=first||0;
+  var h='';
+  [0,9].forEach(function(o){ var part=cards.slice(o,o+9); if(!part.length) return;
+    var ps=part.reduce(function(a,c){return a+c.par;},0), ss=part.reduce(function(a,c){return a+c.s;},0);
+    h+='<table class="sc"><tr><th></th>'+part.map(function(_,i){return '<th>'+(first+o+i+1)+'</th>';}).join('')+'<th>'+(cards.length<=9?'Tot':(o?'In':'Out'))+'</th></tr><tr><td>Par</td>'+part.map(function(c){return '<td>'+c.par+'</td>';}).join('')+'<td>'+ps+'</td></tr><tr><td></td>'+part.map(function(c){return '<td>'+mark(c.s,c.par)+'</td>';}).join('')+'<td><b>'+ss+'</b></td></tr></table>'; });
+  return h;
+}
+function endRound(){
+  var t=P.tour, E=EVENTS[t.ev], r=t.round, cards=t.cards[r], rs=sum(cards.map(function(c){return c.s-c.par;}));
+  t.round++; t.live=null; updateForm(rs*2); save();
+  var rows=board(t), you=rows.find(function(x){return x.me;}), note='';
+  if(r===1 && you.mc){ finalizeTour(false); note='<p style="color:#f87171;font-weight:800;margin:8px 0 0">Missed the cut (top 20 and ties make it, the line was '+fmtPar(rows.cut)+').</p>'; }
+  if(t.round===4){ G=null; return showFinal(true); }
+  if(r===1 && !you.mc) note='<p style="color:#4ade80;font-weight:800;margin:8px 0 0">Made the cut! The line was '+fmtPar(rows.cut)+'.</p>';
+  var nextOpen=t.round<roundsOpen();
+  $('endcard').innerHTML='<div class="kick">'+esc(E[0])+' · Round '+(r+1)+' of 4</div><h2 style="font-size:1.5rem;margin:4px 0">Round '+(r+1)+': '+fmtPar(rs)+' ('+sum(cards.map(function(c){return c.s;}))+')</h2>'+
+    '<div style="font-size:1.05rem;color:#fff;font-weight:800">'+(you.mc?'MC':you.lbl)+' · '+fmtPar(you.t)+' total</div>'+note+cardHTML(cards,roundHole(r,0))+
+    '<div class="kick" style="margin-top:12px">Leaderboard</div>'+lbHTML(rows,'Thru '+myHoles(t).length+' of 36 holes')+
+    (t.final?'':'<p style="margin:10px 0 0;color:var(--mut);font-size:.85rem">'+(nextOpen?'Round '+(t.round+1)+' is open now.':'Round '+(t.round+1)+' opens '+RDAYS[t.round]+'.')+'</p>');
+  $('b-next').textContent=t.final?'Back to the clubhouse':(nextOpen?'Play round '+(t.round+1)+' →':'Back to the clubhouse');
+  $('b-next').onclick=function(){ if(!t.final && t.round<roundsOpen()) playRound(); else { show('s-menu'); refreshMenu(); } };
+  G=null; show('s-end');
+}
+function showFinal(fresh){
+  var t=P.tour, E=EVENTS[t.ev], major=!!E[3], rows=fresh?finalizeTour(false):board(t,36), F=t.final;
+  var title=F.pos===1?(major?'MAJOR CHAMPION!':'CHAMPION!'):F.pos<=10?'Top 10 finish':F.lbl==='MC'?'Missed cut':'Tournament complete';
+  var all=[]; t.cards.forEach(function(c){ all=all.concat(c); });
+  $('endcard').innerHTML='<div class="kick">'+esc(E[0])+(major?' · Major':'')+' · Final</div><h2 style="font-size:1.5rem;margin:4px 0">'+title+'</h2>'+
+    '<div style="font-size:2rem;font-weight:900;color:#fff">'+F.lbl+' <span style="font-size:1.1rem;color:var(--mut)">'+fmtPar(F.score)+'</span></div>'+
+    (F.playoff?'<p style="margin:4px 0;color:#facc15;font-weight:800">'+F.playoff+'</p>':'')+
+    '<p style="margin:8px 0 4px;color:#fff;font-weight:800">+🪙 '+F.prize+' · +'+F.pts+' season points</p>'+
+    '<div class="kick" style="margin-top:12px">Final leaderboard</div>'+lbHTML(rows,'A new event starts every Thursday.');
+  $('b-next').textContent='Back to the clubhouse'; $('b-next').onclick=function(){ show('s-menu'); refreshMenu(); };
+  show('s-end');
+}
+function endDaily(){
+  var H=G.H, s=G.strokes, off=G.official; G=null;
+  $('endcard').innerHTML='<div class="kick">Daily hole #'+H.daily+' · '+H.T.label+'</div><h2 style="font-size:1.6rem;margin:4px 0">'+scoreName(s,H.par)+'</h2>'+
+    '<div style="font-size:1.1rem;color:var(--mut)">'+s+' shots on a par '+H.par+', '+H.len+' yds</div>'+
+    (off?'<button class="share" id="b-share">Share result</button>':'<p style="color:var(--mut)">Practice round: your first score of the day is the one that counts.</p>')+
+    '<p style="margin:10px 0 0;font-size:.85rem;color:var(--mut)">A new hole every day. Play the weekly tour event while you wait.</p>';
+  if(off) $('b-share').onclick=function(){ shareDaily(s,H); };
+  $('b-next').textContent='Back to the clubhouse'; $('b-next').onclick=function(){ show('s-menu'); refreshMenu(); };
+  show('s-end');
+}
+function shareDaily(s,H){
+  var d=s-H.par, sq=''; for(var i=0;i<s;i++) sq+= i===s-1?'⛳':'⚪';
+  var t='Dailygolf Hole #'+H.daily+' '+H.T.em+' '+scoreName(s,H.par)+' ('+s+' on a par '+H.par+')\n'+sq+'\ndailygolfgame.com';
+  if(navigator.share){ navigator.share({text:t}).catch(function(){}); } else if(navigator.clipboard){ navigator.clipboard.writeText(t).then(function(){ toastMsg('Copied!'); }); }
+}
+
+/* ================= rendering ================= */
+var VIEW={s:2,ox:0,oy:0}, TOPPAD=44;
+function updateView(){
+  var H=G.H, b=(G.busy&&G.from)?G.from:G.ball, pin=H.pin;
+  if(!G.overview && G.club && G.club.id==='P' && !G.done){
+    var dd=Math.max(d2(b.x,b.y,pin[0],pin[1]), G.aimDist||0);
+    VIEW.s=Math.max(8,Math.min(42,Math.min(CW,CH-TOPPAD)*0.55/(dd+1.5)));
+    var cx=(b.x+pin[0])/2, cy=(b.y+pin[1])/2; VIEW.ox=cx-CW/2/VIEW.s; VIEW.oy=cy-(CH+TOPPAD)/2/VIEW.s; return;
+  }
+  // show everything from the ball (or tee) to beyond the green
+  var top=H.green[1]-H.green[2]-12, bot=(G.overview||G.done)?H.len+12:Math.max(b.y+14, top+70), x0, x1;
+  if(G.overview||G.done){ x0=-4; x1=H.w+4; }
+  else { x0=Math.min(b.x,H.green[0])-40; x1=Math.max(b.x,H.green[0])+40;
+    H.fair.forEach(function(p){ if(p[1]<=b.y+5){ x0=Math.min(x0,p[0]-H.fw/2-10); x1=Math.max(x1,p[0]+H.fw/2+10); } });
+    var minW=Math.min(H.w+8,(bot-top)*CW/Math.max(1,CH-TOPPAD)); if(x1-x0<minW){ var m=(x0+x1)/2; x0=m-minW/2; x1=m+minW/2; } }
+  VIEW.s=Math.min(3.2, CW/(x1-x0), (CH-TOPPAD-8)/(bot-top));
+  var spare=Math.max(0,(CH-TOPPAD-8)-(bot-top)*VIEW.s);
+  VIEW.ox=(x0+x1)/2-CW/2/VIEW.s; VIEW.oy=bot-(CH-6-spare/2)/VIEW.s;
+}
+function W2S(x,y){ return [(x-VIEW.ox)*VIEW.s,(y-VIEW.oy)*VIEW.s]; }
+function screenToWorld(sx,sy){ return {x:sx/VIEW.s+VIEW.ox, y:sy/VIEW.s+VIEW.oy}; }
+function ell(x,y,rx,ry){ var q=W2S(x,y); g.beginPath(); g.ellipse(q[0],q[1],Math.max(.5,rx*VIEW.s),Math.max(.5,ry*VIEW.s),0,0,7); }
+function draw(extra){
+  if(!G||!G.H) return; updateView(); var H=G.H, T=H.T, s=VIEW.s;
+  g.fillStyle=T.bg; g.fillRect(0,0,CW,CH);
+  var p0=W2S(0,-10), p1=W2S(H.w,H.len+10);
+  g.fillStyle=T.rough; g.fillRect(p0[0],p0[1],p1[0]-p0[0],p1[1]-p0[1]);
+  g.fillStyle='rgba(255,255,255,.03)'; for(var yy=-10;yy<H.len+10;yy+=20){ var a=W2S(0,yy), bb=W2S(H.w,yy+10); g.fillRect(a[0],a[1],bb[0]-a[0],bb[1]-a[1]); }
+  // out of bounds stakes
+  g.setLineDash([2,7]); g.strokeStyle='rgba(255,255,255,.45)'; g.lineWidth=1.5; g.strokeRect(p0[0],p0[1],p1[0]-p0[0],p1[1]-p0[1]); g.setLineDash([]);
+  // decor
+  H.decor.forEach(function(d){ var q=W2S(d[0],d[1]);
+    if(T.decor==='desert'){ g.fillStyle=d[2]<.5?'rgba(120,96,70,.55)':'rgba(110,130,70,.6)'; g.beginPath(); g.arc(q[0],q[1],Math.max(1.2,(1+d[2]*1.5)*s),0,7); g.fill(); }
+    else if(T.decor==='tufts'){ g.strokeStyle='rgba(120,100,40,.55)'; g.lineWidth=1; g.beginPath(); g.moveTo(q[0]-2,q[1]+2); g.lineTo(q[0],q[1]-2); g.lineTo(q[0]+2,q[1]+2); g.stroke(); }
+    else if(T.decor==='heather'){ g.fillStyle=d[2]<.5?'rgba(168,85,247,.45)':'rgba(190,120,220,.35)'; g.beginPath(); g.arc(q[0],q[1],Math.max(1.5,2*s),0,7); g.fill(); } });
+  // sea
+  if(H.sea){ var sx=W2S(H.sea.x,0)[0], L=H.sea.side<0;
+    g.fillStyle=T.seaCol||'#1e40af'; if(L) g.fillRect(0,0,sx,CH); else g.fillRect(sx,0,CW-sx,CH);
+    g.fillStyle=T.sand; if(L) g.fillRect(sx,0,5*s,CH); else g.fillRect(sx-5*s,0,5*s,CH);
+    g.strokeStyle='rgba(255,255,255,.35)'; g.lineWidth=1.5; for(var wy=-10;wy<H.len+40;wy+=26){ var wq=W2S(H.sea.x+H.sea.side*(10+(wy%3)*6),wy); g.beginPath(); g.arc(wq[0],wq[1],5,Math.PI*1.1,Math.PI*1.9); g.stroke(); } }
+  // fairway
+  if(H.fair.length){ g.strokeStyle=T.fair; g.lineWidth=H.fw*s; g.lineCap='round'; g.lineJoin='round'; g.beginPath(); H.fair.forEach(function(p,i){ var q=W2S(p[0],p[1]); i?g.lineTo(q[0],q[1]):g.moveTo(q[0],q[1]); }); g.stroke();
+    g.strokeStyle='rgba(255,255,255,.06)'; g.lineWidth=H.fw*s*.45; g.stroke(); }
+  H.water.forEach(function(w){ g.fillStyle=T.water; ell(w[0],w[1],w[2],w[3]); g.fill(); g.strokeStyle='rgba(255,255,255,.3)'; g.lineWidth=1.5; g.stroke(); });
+  g.fillStyle=T.green; ell(H.green[0],H.green[1],H.green[2]+1.5,H.green[2]+1.5); g.globalAlpha=.55; g.fill(); g.globalAlpha=1;
+  ell(H.green[0],H.green[1],H.green[2],H.green[2]); g.fill(); g.fillStyle='rgba(255,255,255,.07)'; ell(H.green[0],H.green[1],H.green[2]*.7,H.green[2]*.7); g.fill();
+  H.bunkers.forEach(function(b){ g.fillStyle=T.sand; ell(b[0],b[1],b[2],b[3]); g.fill(); g.strokeStyle='rgba(0,0,0,.12)'; g.lineWidth=1; g.stroke(); });
+  var tq=W2S(H.tee[0],H.tee[1]); g.fillStyle=T.fair; g.fillRect(tq[0]-6*s,tq[1]-3*s,12*s,8*s); g.fillStyle='#fff'; g.fillRect(tq[0]-4*s-1,tq[1]-1,2,2); g.fillRect(tq[0]+4*s-1,tq[1]-1,2,2);
+  H.trees.forEach(function(t){ drawTree(T.tree,t); });
+  // pin
+  var pq=W2S(H.pin[0],H.pin[1]); g.fillStyle='#020617'; g.beginPath(); g.arc(pq[0],pq[1],Math.max(2.5,0.22*s),0,7); g.fill();
+  var fh=s>6?30:22; g.strokeStyle='#fff'; g.lineWidth=2; g.beginPath(); g.moveTo(pq[0],pq[1]); g.lineTo(pq[0],pq[1]-fh); g.stroke(); g.fillStyle='#facc15'; g.beginPath(); g.moveTo(pq[0],pq[1]-fh); g.lineTo(pq[0]+14,pq[1]-fh+5); g.lineTo(pq[0],pq[1]-fh+10); g.fill();
+  // aim guide
+  if(!G.busy && !G.done){
+    var bq=W2S(G.ball.x,G.ball.y), Ld=G.aimDist;
+    var ex=G.ball.x+Math.cos(G.aim)*Ld, ey=G.ball.y+Math.sin(G.aim)*Ld, eq=W2S(ex,ey);
+    g.setLineDash([5,5]); g.strokeStyle='rgba(255,255,255,.8)'; g.lineWidth=2; g.beginPath(); g.moveTo(bq[0],bq[1]); g.lineTo(eq[0],eq[1]); g.stroke(); g.setLineDash([]);
+    g.strokeStyle='rgba(255,255,255,.9)'; g.beginPath(); g.arc(eq[0],eq[1],Math.max(6,G.club.sp*Ld/57*s*0.6),0,7); g.stroke();
+  }
+  if(!G.done){ var gp=G.busy&&G.from?G.from:G.ball, gq=W2S(gp.x,gp.y); drawMini(gq[0]-12,gq[1]+2); }
+  var ball=extra||{x:G.ball.x,y:G.ball.y,h:0}, q=W2S(ball.x,ball.y), br=Math.max(2.6,Math.min(4,1.2*s));
+  g.fillStyle='rgba(0,0,0,.35)'; g.beginPath(); g.ellipse(q[0]+ball.h*.4,q[1]+ball.h*.5,br+.5,br*.7,0,0,7); g.fill();
+  g.fillStyle='#fff'; g.beginPath(); g.arc(q[0],q[1]-ball.h,br+ball.h*.05,0,7); g.fill(); g.strokeStyle='#0f172a'; g.lineWidth=1; g.stroke();
+}
+var MAPLE=['#c2410c','#ea580c','#b91c1c','#d97706'];
+function drawTree(kind,t){
+  var q=W2S(t[0],t[1]), r=Math.max(2,t[2]*VIEW.s), x=q[0], y=q[1], i;
+  g.fillStyle='rgba(0,0,0,.22)'; g.beginPath(); g.arc(x+r*.25,y+r*.3,r,0,7); g.fill();
+  if(kind==='oak'||kind==='maple'){ g.fillStyle=kind==='oak'?'#065f46':MAPLE[t[3]%4]; g.beginPath(); g.arc(x,y,r,0,7); g.fill(); g.fillStyle=kind==='oak'?'#047857':'rgba(255,255,255,.15)'; g.beginPath(); g.arc(x-r*.25,y-r*.25,r*.6,0,7); g.fill(); }
+  else if(kind==='pine'){ g.fillStyle='#14432a'; g.beginPath(); for(i=0;i<16;i++){ var a=i*Math.PI/8, rad=i%2?r*.6:r; g.lineTo(x+Math.cos(a)*rad,y+Math.sin(a)*rad); } g.fill(); g.fillStyle='#1d5c37'; g.beginPath(); g.arc(x,y,r*.4,0,7); g.fill(); }
+  else if(kind==='palm'){ g.strokeStyle='#22a04b'; g.lineCap='round'; g.lineWidth=Math.max(1.5,r*.3); for(i=0;i<7;i++){ var a2=i*Math.PI*2/7+t[3]; g.beginPath(); g.moveTo(x,y); g.quadraticCurveTo(x+Math.cos(a2)*r*.7,y+Math.sin(a2)*r*.7-r*.2,x+Math.cos(a2)*r,y+Math.sin(a2)*r); g.stroke(); } g.fillStyle='#a16207'; g.beginPath(); g.arc(x,y,Math.max(1,r*.12),0,7); g.fill(); }
+  else if(kind==='cactus'){ g.fillStyle='#3f7d3a'; g.beginPath(); g.arc(x,y,r,0,7); g.fill(); g.strokeStyle='rgba(255,255,255,.35)'; g.lineWidth=1; for(i=0;i<6;i++){ var a3=i*Math.PI/3; g.beginPath(); g.moveTo(x,y); g.lineTo(x+Math.cos(a3)*r,y+Math.sin(a3)*r); g.stroke(); } }
+  else if(kind==='gorse'){ g.fillStyle='#3d5a27'; g.beginPath(); g.arc(x,y,r,0,7); g.arc(x+r*.5,y-r*.3,r*.7,0,7); g.fill(); g.fillStyle='#facc15'; for(i=0;i<6;i++){ g.beginPath(); g.arc(x+Math.cos(i*2.1)*r*.6,y+Math.sin(i*2.1)*r*.6,Math.max(.8,r*.1),0,7); g.fill(); } }
+  else if(kind==='cypress'){ g.fillStyle='#134e4a'; g.beginPath(); g.arc(x,y,r,0,7); g.arc(x+r*.6,y+r*.2,r*.7,0,7); g.arc(x-r*.5,y+r*.3,r*.6,0,7); g.fill(); g.fillStyle='#1b6b5e'; g.beginPath(); g.arc(x-r*.2,y-r*.2,r*.5,0,7); g.fill(); }
+}
+function drawMini(x,y){
+  g.save(); g.translate(x,y);
+  g.fillStyle='rgba(0,0,0,.3)'; g.beginPath(); g.ellipse(2,4,8,5,0,0,7); g.fill();
+  g.fillStyle=P.shirt.length===7?P.shirt:'#16a34a'; g.beginPath(); g.ellipse(0,0,8,5.5,0,0,7); g.fill();
+  g.fillStyle=P.skin; g.beginPath(); g.arc(0,0,4,0,7); g.fill();
+  if(P.hat!=='none'){ g.fillStyle=P.hat==='crown'?'#facc15':P.hatc; g.beginPath(); g.arc(0,0,4.1,0,7); g.fill(); }
+  g.restore();
+}
+function animateFlight(x0,y0,tx,ty,rx,ry,carry,cb){
+  var T=Math.max(700,Math.min(1600,carry*6))*SPEED, t0=performance.now(), peak=Math.min(40,carry*.16);
+  (function step(now){ var k=Math.min(1,(now-t0)/T);
+    drawFollow({x:x0+(tx-x0)*k, y:y0+(ty-y0)*k, h:Math.sin(Math.PI*k)*peak});
+    if(k<1) requestAnimationFrame(step); else animateRoll(tx,ty,rx,ry,cb);
+  })(t0);
+}
+function animateRoll(x0,y0,x1,y1,cb){
+  var D=d2(x0,y0,x1,y1), T=Math.max(250,Math.min(1400,D*(VIEW.s>5?60:12)))*SPEED, t0=performance.now();
+  (function step(now){ var k=Math.min(1,(now-t0)/T), e=1-(1-k)*(1-k);
+    drawFollow({x:x0+(x1-x0)*e, y:y0+(y1-y0)*e, h:0});
+    if(k<1) requestAnimationFrame(step); else cb();
+  })(t0);
+}
+function drawFollow(b){ draw(b); }
+
+/* boot */
+refreshMenu();
+window.__P=P;
+</script>
+</body>
+</html>

@@ -76,6 +76,24 @@
 <script data-goatcounter="https://dailygolf.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
     <script>if (window.DG_PAGE === 'pro' || location.hash === '#youtube' || location.hash === '#invitational') document.documentElement.classList.add('in-game'); else if (location.hash === '#pro') location.replace('/pro/');</script>
     <style>html:not(.in-game) .game-only{display:none!important}html.in-game #hub{display:none}</style>
+<style>
+.hg{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px}
+@media(min-width:760px){.hg{grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}}
+.hg-t{display:block;min-width:0;text-decoration:none;background:#0f172a;border:1.5px solid #1e293b;border-radius:22px;padding:16px 16px 18px;min-height:150px;position:relative;transition:border-color .15s}
+.hg-t:hover{border-color:#22c55e}
+.hg-ic{width:52px;height:52px;border-radius:15px;display:flex;align-items:center;justify-content:center}.hg-ic svg{width:28px;height:28px}
+.hg-t b{display:block;color:#fff;font-size:1.1rem;font-weight:800;margin-top:16px;line-height:1.2}
+.hg-t small{display:block;color:#94a3b8;font-size:.85rem;margin-top:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hg-st{position:absolute;right:16px;top:30px;display:flex;gap:5px;align-items:center}
+.hg-dot{width:10px;height:10px;border-radius:50%;border:2px solid #475569}.hg-dot.f{background:#4ade80;border-color:#4ade80}.hg-dot.x{background:#f87171;border-color:#f87171}
+.hg-bar{width:56px;height:6px;border-radius:9px;background:#1e293b;overflow:hidden}.hg-bar i{display:block;height:100%;background:#4ade80}
+.hg-new{font-size:.62rem;font-weight:800;letter-spacing:.08em;background:#facc15;color:#0b1325;padding:3px 7px;border-radius:999px}
+.hg-done{font-size:.62rem;font-weight:800;letter-spacing:.08em;color:#4ade80}
+#coin-pill{display:inline-flex;align-items:center;gap:4px;padding:5px 11px;border-radius:999px;border:1px solid #334155;color:#facc15;font-weight:800;font-size:.85rem;text-decoration:none;white-space:nowrap}
+html.in-game #coin-pill{display:none}
+</style>
+    <script src="/assets/coins.js"></script>
+
 <link rel="stylesheet" href="/assets/calm.css">
 </head>
 <body class="bg-slate-950 text-slate-100 min-h-full flex flex-col justify-between selection:bg-golf-500 selection:text-white antialiased">
@@ -100,6 +118,7 @@
                 <a class="hover:text-golf-400" href="/about/">About</a>
                 <a class="hover:text-golf-400" href="/contact/">Contact</a>
             </nav>
+            <a id="coin-pill" href="/tour/" title="Your coins: spend them in Dailygolf Tour">🪙 <span id="coin-n">0</span></a>
             <div id="header-controls" class="game-only flex items-center gap-1.5 sm:gap-2 flex-shrink-0">
                 <button id="btn-mode-toggle" title="Switch Mode" class="whitespace-nowrap px-2.5 sm:px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700/80 text-[11px] sm:text-xs font-bold text-slate-200 transition flex items-center gap-1.5 sm:gap-2 shadow-sm">
                     <i class="fa-solid fa-shuffle text-golf-400"></i>
@@ -117,34 +136,20 @@
 
     <!-- GAME PICKER (start page) -->
     <section id="hub" class="max-w-3xl lg:max-w-5xl mx-auto px-4 py-6 lg:py-10 w-full">
-        <h2 class="text-xl lg:text-3xl font-black text-white">Choose today&rsquo;s game</h2>
-        <p class="text-sm lg:text-base text-slate-400 mb-4 lg:mb-6">Free daily games for YouTube golf fans. New puzzles every midnight.</p>
-        <div class="grid gap-2.5 lg:gap-4 md:grid-cols-2 lg:grid-cols-3">
-            <a href="#youtube" class="group flex items-center lg:flex-col lg:items-start gap-3 lg:gap-4 rounded-2xl border border-slate-800 bg-slate-900/70 hover:border-golf-500/60 hover:bg-slate-800/70 transition p-3.5 lg:p-5">
-                <span class="w-12 h-12 lg:w-14 lg:h-14 flex-shrink-0 rounded-xl bg-golf-500/15 flex items-center justify-center text-2xl">▶️</span>
-                <span class="min-w-0 flex-1"><span class="block font-bold text-white lg:text-lg">YouTube Golfer</span><span class="block text-xs lg:text-sm text-slate-400 leading-snug mt-0.5 lg:mt-1">Guess the golf YouTuber from handicap, subscribers and channel.</span></span>
-                <span class="flex flex-col items-end lg:flex-row lg:items-center lg:justify-between lg:w-full lg:mt-auto gap-1 flex-shrink-0"><span class="hub-st text-[10px] font-bold uppercase tracking-wide text-golf-400" data-k="yt"></span><i class="fa-solid fa-chevron-right text-slate-500 group-hover:text-white"></i></span>
-            </a>
-            <a href="#invitational" class="group flex items-center lg:flex-col lg:items-start gap-3 lg:gap-4 rounded-2xl border border-slate-800 bg-slate-900/70 hover:border-amber-500/60 hover:bg-slate-800/70 transition p-3.5 lg:p-5">
-                <span class="w-12 h-12 lg:w-14 lg:h-14 flex-shrink-0 rounded-xl bg-amber-500/15 flex items-center justify-center text-2xl">🏆</span>
-                <span class="min-w-0 flex-1"><span class="block font-bold text-white lg:text-lg">Internet Invitational</span><span class="block text-xs lg:text-sm text-slate-400 leading-snug mt-0.5 lg:mt-1">Guess the Internet Invitational player by team and handicap.</span></span>
-                <span class="flex flex-col items-end lg:flex-row lg:items-center lg:justify-between lg:w-full lg:mt-auto gap-1 flex-shrink-0"><span class="hub-st text-[10px] font-bold uppercase tracking-wide text-golf-400" data-k="ii"></span><i class="fa-solid fa-chevron-right text-slate-500 group-hover:text-white"></i></span>
-            </a>
-            <a href="/draft/" class="group flex items-center lg:flex-col lg:items-start gap-3 lg:gap-4 rounded-2xl border border-slate-800 bg-slate-900/70 hover:border-amber-500/60 hover:bg-slate-800/70 transition p-3.5 lg:p-5">
-                <span class="w-12 h-12 lg:w-14 lg:h-14 flex-shrink-0 rounded-xl bg-amber-500/15 flex items-center justify-center text-2xl">📋</span>
-                <span class="min-w-0 flex-1"><span class="block font-bold text-white lg:text-lg">Internet Invitational Draft</span><span class="block text-xs lg:text-sm text-slate-400 leading-snug mt-0.5 lg:mt-1">Draft a team, then play scramble and alt shot for the title.</span></span>
-                <span class="flex flex-col items-end lg:flex-row lg:items-center lg:justify-between lg:w-full lg:mt-auto gap-1 flex-shrink-0"><span class="hub-st text-[10px] font-bold uppercase tracking-wide text-golf-400" data-k="draft"></span><i class="fa-solid fa-chevron-right text-slate-500 group-hover:text-white"></i></span>
-            </a>
-            <a href="/trivia/" class="group flex items-center lg:flex-col lg:items-start gap-3 lg:gap-4 rounded-2xl border border-slate-800 bg-slate-900/70 hover:border-sky-500/60 hover:bg-slate-800/70 transition p-3.5 lg:p-5">
-                <span class="w-12 h-12 lg:w-14 lg:h-14 flex-shrink-0 rounded-xl bg-sky-500/15 flex items-center justify-center text-2xl">❓</span>
-                <span class="min-w-0 flex-1"><span class="block font-bold text-white lg:text-lg">Daily Nine Trivia</span><span class="block text-xs lg:text-sm text-slate-400 leading-snug mt-0.5 lg:mt-1">Nine holes of golf trivia every day.</span></span>
-                <span class="flex flex-col items-end lg:flex-row lg:items-center lg:justify-between lg:w-full lg:mt-auto gap-1 flex-shrink-0"><span class="hub-st text-[10px] font-bold uppercase tracking-wide text-golf-400" data-k="trivia"></span><i class="fa-solid fa-chevron-right text-slate-500 group-hover:text-white"></i></span>
-            </a>
+        <h2 class="text-xl lg:text-3xl font-black text-white">Today&rsquo;s games</h2>
+        <p class="text-sm lg:text-base text-slate-400 mb-4 lg:mb-6">Free daily golf games. New every midnight. Every game earns 🪙 coins for your golfer in Dailygolf Tour.</p>
+        <div class="hg">
+            <a class="hg-t" href="#youtube"><span class="hg-ic" style="background:#dc2626"><svg viewBox="0 0 24 24" fill="#fff"><path d="M9 7.5v9l7.5-4.5z"/></svg></span><span class="hg-st" data-k="yt"></span><b>YouTube Golfer</b><small class="hg-sub" data-k="yt">Guess the creator</small></a>
+            <a class="hg-t" href="#invitational"><span class="hg-ic" style="background:#d97706"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4h10v5a5 5 0 0 1-10 0z"/><path d="M7 6H4v1a3 3 0 0 0 3 3M17 6h3v1a3 3 0 0 1-3 3M12 14v3M8 21h8M9 21v-4h6v4"/></svg></span><span class="hg-st" data-k="ii"></span><b>Invitational</b><small class="hg-sub" data-k="ii">Guess the player</small></a>
+            <a class="hg-t" href="/trivia/"><span class="hg-ic" style="background:#2563eb"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2"><path d="M9.2 9a3 3 0 1 1 4.3 2.7c-.9.4-1.5 1.2-1.5 2.2v.6"/><circle cx="12" cy="18" r=".6" fill="#fff"/></svg></span><span class="hg-st" data-k="trivia"></span><b>Daily Trivia</b><small class="hg-sub" data-k="trivia">5 questions a day</small></a>
+            <a class="hg-t" href="/tour/"><span class="hg-ic" style="background:#16a34a"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2"><path d="M7 21V4"/><path d="M7 5h10l-2.5 3.5L17 12H7"/><ellipse cx="12" cy="21" rx="7" ry="1.2"/></svg></span><span class="hg-st" data-k="hole"></span><b>Daily Hole</b><small class="hg-sub" data-k="hole">A new hole every day</small></a>
+            <a class="hg-t" href="/tour/"><span class="hg-ic" style="background:#0d9488"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="18" r="2"/><circle cx="18" cy="6" r="2"/><path d="M8 18c6 0 2-7 8-10.5"/><path d="M4 6h5M6.5 3.5v5"/></svg></span><span class="hg-st" data-k="tour"></span><b>Dailygolf Tour</b><small class="hg-sub" data-k="tour">Tour &amp; career</small></a>
+            <a class="hg-t" href="/draft/"><span class="hg-ic" style="background:#7c3aed"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4V3h6v1M9 10h6M9 14h6M9 18h3"/></svg></span><span class="hg-st" data-k="draft"></span><b>Scramble Draft</b><small class="hg-sub" data-k="draft">Build a team of 4</small></a>
         </div>
         <p class="text-sm text-slate-400 mt-4">More: <a class="text-golf-400 hover:underline" href="/pro/">Guess the Pro Golfer</a>, a daily game for tour pros.</p>
         <div class="text-sm lg:text-base text-slate-400 leading-relaxed mt-10 lg:mt-14 max-w-3xl">
             <h2 class="text-lg font-bold text-slate-200 mb-2">About Dailygolf</h2>
-            <p class="mb-3">Dailygolf is a free set of daily games for fans of YouTube golf, like Wordle for golf. Every day there is a new mystery golf YouTuber and a new Internet Invitational player to find, plus nine holes of YouTube golf trivia in Daily Nine Trivia. In the Internet Invitational Draft you captain a team and play for the title whenever you like. New here? Read <a class="text-golf-400 hover:underline" href="/how-to-play/">how to play</a>.</p>
+            <p class="mb-3">Dailygolf is a free set of daily games for fans of YouTube golf, like Wordle for golf. Every day there is a new mystery golf YouTuber and a new Internet Invitational player to find, five YouTube golf trivia questions, a Scramble Draft where you build a team of four creators, and a new hole in Dailygolf Tour, our golf game with a weekly tour event and a full career. Every game earns coins for your golfer. New here? Read <a class="text-golf-400 hover:underline" href="/how-to-play/">how to play</a>.</p>
             <h2 class="text-lg font-bold text-slate-200 mt-6 mb-2">Frequently asked questions</h2>
             <h3 class="font-semibold text-slate-300 mt-3">When do the new games start?</h3>
             <p>Every day at midnight, your local time. Play every day to keep your streaks going.</p>
@@ -423,7 +428,7 @@
                     <i class="fa-solid fa-rotate-right"></i> <span id="ii-practice-l">Play Practice Mode</span>
                 </button>
             </div>
-            <p class="text-sm text-slate-400 mt-5">Next: <a class="text-golf-400 hover:underline font-semibold" href="#youtube">today&rsquo;s YouTube Golfer</a> · <a class="text-golf-400 hover:underline font-semibold" href="/draft/">Draft simulator</a></p>
+            <p class="text-sm text-slate-400 mt-5">Next: <a class="text-golf-400 hover:underline font-semibold" href="#youtube">today&rsquo;s YouTube Golfer</a> · <a class="text-golf-400 hover:underline font-semibold" href="/draft/">Scramble Draft</a></p>
         </div>
 
         <!-- COLOR GUIDE LEGEND -->
@@ -1395,6 +1400,7 @@
             if (!practice && !restored) {
                 recordResult(stats, dayNum, won, 'max');
                 if (won) stats.dist[guesses.length - 1]++;
+                if (window.DGCoins) DGCoins.award('yt:' + dayNum, won ? Math.max(15, 45 - 5 * guesses.length) : 5);
                 saveJSON('dailygolf_yt_stats', stats);
                 saveDay();
             }
@@ -1522,6 +1528,7 @@
                 if (!iPractice && !restored) {
                     recordResult(iStats, iDay, won, 'max');
                     if (won) iStats.dist[iGuesses.length - 1]++;
+                    if (window.DGCoins) DGCoins.award('ii:' + iDay, won ? Math.max(15, 45 - 5 * iGuesses.length) : 5);
                     saveJSON('dg_ii_stats', iStats); iSave();
                 }
                 el('ii-end-t').textContent = won ? TITLES[iGuesses.length - 1] : 'Out of Bounds! ⛳️';
@@ -1568,12 +1575,25 @@
         // Start page = game picker; #youtube and #invitational open a game, /pro/ has its own page (back returns to the picker).
         function hubStatus() {
             const d = dayNumber(), get = k => { try { return JSON.parse(localStorage.getItem(k) || 'null'); } catch (e) { return null; } };
-            const st = (o, done) => !o || o.day !== d ? 'New today' : done(o) ? (o.won ? '✓ Solved' : '✓ Played') : 'In progress';
-            const map = {
-                yt: st(get('dailygolf_yt_done'), o => o.over), pro: st(get('dailygolf_day'), o => o.over),
-                ii: st(get('dg_ii_day'), o => o.over), trivia: st(get('dg_tg9_day'), o => o.S && o.S.hole >= 9), draft: 'Play anytime'
-            };
-            document.querySelectorAll('.hub-st').forEach(x => { x.textContent = map[x.dataset.k] || ''; });
+            const NEW = '<span class="hg-new">NEW</span>', DONE = '<span class="hg-done">✓ DONE</span>';
+            const st = {}, sub = {};
+            const guess = (o, word) => { if (!o || o.day !== d) { st[word] = NEW; return; } if (o.over) { st[word] = DONE; sub[word] = o.won ? 'Solved in ' + o.g.length + (o.g.length === 1 ? ' guess' : ' guesses') : 'Not today, try again tomorrow'; } else sub[word] = o.g.length + ' guess' + (o.g.length === 1 ? '' : 'es') + ' so far'; };
+            guess(get('dailygolf_yt_done'), 'yt'); guess(get('dg_ii_day'), 'ii');
+            const tq = get('dg_tq5_day');
+            if (tq && tq.day === d && tq.a && tq.a.length) {
+                st.trivia = '<span style="display:flex;gap:5px">' + [0, 1, 2, 3, 4].map(i => '<span class="hg-dot' + (i < tq.a.length ? (tq.ok && tq.ok[i] === false ? ' x' : ' f') : '') + '"></span>').join('') + '</span>';
+                sub.trivia = tq.a.length >= 5 ? 'Done for today' : tq.a.length + ' of 5 answered';
+            } else st.trivia = NEW;
+            const tour = get('dg_tour_v1') || {};
+            const holeNo = Math.floor((Date.UTC(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()) - Date.UTC(2026, 10, 1)) / 864e5) + 1;
+            if (tour.daily && tour.daily.no === holeNo) { st.hole = DONE; const dd = tour.daily.s; sub.hole = 'You made ' + dd + (dd === 1 ? ' (ace!)' : ''); } else st.hole = NEW;
+            const t = tour.tour;
+            if (t && t.cards) { const n = t.cards.reduce((a, c) => a + c.length, 0); st.tour = '<span class="hg-bar"><i style="width:' + Math.round(n / 36 * 100) + '%"></i></span>'; sub.tour = t.final ? 'This week: ' + t.final.lbl : n ? 'Round ' + Math.min(4, t.round + 1) + ' of 4' : 'Tour & career'; }
+            const sd = get('dg_scr_day'); const sdn = Math.floor((Date.UTC(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()) - Date.UTC(2026, 10, 1)) / 864e5) + 1;
+            if (sd && sd.no === sdn && sd.picks && sd.picks.length) { st.draft = sd.picks.length >= 4 ? DONE : '<span class="hg-bar"><i style="width:' + sd.picks.length * 25 + '%"></i></span>'; if (sd.picks.length < 4) sub.draft = 'Pick ' + (sd.picks.length + 1) + ' of 4'; } else st.draft = NEW;
+            document.querySelectorAll('.hg-st').forEach(x => { x.innerHTML = st[x.dataset.k] || ''; });
+            document.querySelectorAll('.hg-sub').forEach(x => { if (sub[x.dataset.k]) x.textContent = sub[x.dataset.k]; });
+            const cn = document.getElementById('coin-n'); if (cn && window.DGCoins) cn.textContent = DGCoins.balance();
         }
         function route() {
             const h = location.hash, g = window.DG_PAGE === 'pro' ? 'pro' : h === '#youtube' ? 'yt' : h === '#invitational' ? 'ii' : null;

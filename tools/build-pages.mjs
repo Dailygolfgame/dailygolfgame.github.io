@@ -11,7 +11,8 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { execFileSync } from 'node:child_process';
 import { renderInvitational, renderInvitationalPlayers, iiSlug } from './invitational.mjs';
-import { renderDraft, renderDraftRedirect } from './draft.mjs';
+import { renderDraftRedirect } from './draft.mjs';
+import { renderScramble } from './scramble.mjs';
 
 const ROOT = process.cwd();
 const SITE = 'https://dailygolfgame.com';
@@ -280,11 +281,13 @@ cleanDir('youtubers', new Set(CREATORS.map(c => c.slug)));
 const iiPlayers = hasII ? renderInvitationalPlayers({ data: II, esc, slug, fmtHcp, creatorByName, page, ordinal }) : [];
 if (hasII) {
   write('/internet-invitational/', renderInvitational({ data: II, esc, slug, fmtHcp, creatorByName, page }));
-  write('/draft/', renderDraft({ data: II, esc, page }));
   write('/internet-invitational/draft/', renderDraftRedirect());
   for (const [s, html] of iiPlayers) write(`/internet-invitational/${s}/`, html);
   cleanDir('internet-invitational', new Set(['draft', ...iiPlayers.map(x => x[0])]));
 }
+
+// ---------- Scramble Draft (replaced the Internet Invitational draft simulator) ----------
+write('/draft/', renderScramble({ esc, page }));
 
 // ---------- Answer archive ----------
 // A day is published once it is over in every time zone (UTC-12), so answers never spoil a game in progress.
@@ -338,7 +341,7 @@ function gitDate(rel) {
   try { return execFileSync('git', ['log', '-1', '--format=%cs', '--', rel], { cwd: ROOT, encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] }).trim() || null; } catch { return null; }
 }
 const today = NOW.toISOString().slice(0, 10);
-const STATIC = ['/', '/trivia/', '/how-to-play/', '/articles/', ...fs.readdirSync(path.join(ROOT, 'articles'), { withFileTypes: true })
+const STATIC = ['/', '/trivia/', '/tour/', '/draft/', '/how-to-play/', '/articles/', ...fs.readdirSync(path.join(ROOT, 'articles'), { withFileTypes: true })
   .filter(e => e.isDirectory() && !/http-equiv="refresh"/.test(fs.readFileSync(path.join(ROOT, 'articles', e.name, 'index.html'), 'utf8')))
   .map(e => `/articles/${e.name}/`).sort(), '/about/', '/contact/', '/privacy/'];
 // lastmod = when the page last really changed: today if this run changed it, else its last commit.
@@ -346,7 +349,7 @@ const lastmod = u => changed.has(u) ? today : (gitDate(u === '/' ? 'index.html' 
 const urls = [
   ...STATIC,
   '/youtubers/', ...CREATORS.map(c => `/youtubers/${c.slug}/`),
-  ...(hasII ? ['/internet-invitational/', '/draft/', ...iiPlayers.map(x => `/internet-invitational/${x[0]}/`)] : []),
+  ...(hasII ? ['/internet-invitational/', ...iiPlayers.map(x => `/internet-invitational/${x[0]}/`)] : []),
 ].map(u => [u, lastmod(u)]);
 fs.writeFileSync(path.join(ROOT, 'sitemap.xml'), `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
