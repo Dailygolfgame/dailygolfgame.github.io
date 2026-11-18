@@ -613,8 +613,13 @@ function refreshMenu(){
   if(!P.name){ openLocker(true); return; }
   var t=ensureTour(), S=P.ts, E=EVENTS[t.ev], T=THEMES[E[1]], open=roundsOpen();
   drawAvatar($('av'),P); $('pname').textContent=P.name;
-  var rank=seasonRows().findIndex(function(r){return r.me;})+1;
-  $('pinfo').innerHTML='Season '+S.season+' · '+(S.events?ord(rank)+' in the standings':'Rookie')+'<br>'+S.wins+' wins · '+S.majors+' majors · '+S.top10+' top 10s';
+  var rank=seasonRows().findIndex(function(r){return r.me;})+1, info=[];
+  if(P.career){ var CC=P.career, crank=careerRows().findIndex(function(r){return r.me;})+1;
+    info.push('Career season '+CC.season+' · '+(CC.events?ord(crank)+' in the standings':'Rookie'));
+    info.push(CC.wins+' win'+(CC.wins===1?'':'s')+' · '+CC.majors+' major'+(CC.majors===1?'':'s')+' · '+CC.top10+' top 10'+(CC.top10===1?'':'s')); }
+  if(S.events) info.push('Weekly tour: '+ord(rank)+' · '+S.wins+' win'+(S.wins===1?'':'s'));
+  if(!info.length) info.push('Rookie · play the daily hole, the weekly tour or start a career');
+  $('pinfo').innerHTML=info.join('<br>');
   // daily
   var dH=dailyHole(), dd=P.daily&&P.daily.no===dH.daily?P.daily:null;
   $('m-daily').innerHTML=band(dH.T,'Daily hole #'+dH.daily,'Par '+dH.par+' · '+dH.len+' yds',dH.T.em)+
