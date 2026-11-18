@@ -41,6 +41,8 @@ body.playing .top{padding:6px 10px}
 .top b{color:#fff;font-size:1.05rem;flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .back{display:none;width:34px;height:34px;border-radius:10px;border:1px solid var(--line);background:#1e293b;color:#fff;font-weight:900;font-size:1.2rem;line-height:1}
 body.playing .back{display:block}
+.brand{display:flex;align-items:center;gap:9px;text-decoration:none}.blogo{width:36px;height:36px;border-radius:10px;background:#16a34a;display:flex;align-items:center;justify-content:center;flex:0 0 auto}.bt{display:block;color:#fff;font-weight:900;font-size:1.2rem;letter-spacing:-.02em;line-height:1.1}.bs{display:block;font-size:9px;color:#94a3b8;font-weight:700;letter-spacing:.08em}
+.coins{border:1px solid #334155;border-radius:999px;padding:4px 11px}
 .home{flex:0 0 auto;display:inline-flex;align-items:center;height:34px;padding:0 11px;border-radius:10px;border:1px solid var(--line);background:#1e293b;color:#fff;font-weight:800;font-size:.85rem;text-decoration:none;white-space:nowrap}
 body.playing .home{display:none}
 .coins{color:var(--gold);font-weight:800;white-space:nowrap}
@@ -131,7 +133,7 @@ table.lb{border-collapse:collapse;width:100%;font-size:.88rem}
 </head>
 <body class="menu">
 <div class="app">
-  <div class="top"><a class="home" id="home" href="/" aria-label="All Dailygolf games">‹ Games</a><button class="back" id="back" aria-label="Back to the clubhouse">‹</button><b id="ttl"><a href="/" style="color:#fff;text-decoration:none">⛳ Dailygolf</a> Tour</b><span class="coins" id="coins">🪙 0</span></div>
+  <div class="top"><button class="back" id="back" aria-label="Back to the clubhouse">‹</button><b id="ttl"><a class="brand" href="/" aria-label="Dailygolf start page"><span class="blogo"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 22V3"/><path d="M5 4h13l-3 4.5L18 13H5"/></svg></span><span><span class="bt">DAILYGOLF</span><span class="bs">DAILY GOLF GAMES</span></span></a></b><span class="coins" id="coins">🪙 0</span></div>
 
   <!-- HUB -->
   <section class="screen on" id="s-menu">
@@ -194,7 +196,8 @@ table.lb{border-collapse:collapse;width:100%;font-size:.88rem}
 <script>
 window.onerror=function(m,src,l,c){ var d=document.getElementById('errbox'); if(!d){ d=document.createElement('div'); d.id='errbox'; d.style.cssText='position:fixed;left:8px;right:8px;bottom:8px;background:#7f1d1d;color:#fff;padding:10px;border-radius:10px;font:12px monospace;z-index:99'; document.body.appendChild(d); } d.textContent='Error: '+m+' (line '+l+')'; };
 if(window.CanvasRenderingContext2D && !CanvasRenderingContext2D.prototype.roundRect){ CanvasRenderingContext2D.prototype.roundRect=function(x,y,w,h,r){ r=Math.min(r,w/2,h/2); this.moveTo(x+r,y); this.arcTo(x+w,y,x+w,y+h,r); this.arcTo(x+w,y+h,x,y+h,r); this.arcTo(x,y+h,x,y,r); this.arcTo(x,y,x+w,y,r); this.closePath(); return this; }; }
-var SPEED=1; // animation speed factor (tests use < 1)
+var SPEED=1;
+var BRAND='<a class="brand" href="/" aria-label="Dailygolf start page"><span class="blogo"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 22V3"/><path d="M5 4h13l-3 4.5L18 13H5"/></svg></span><span><span class="bt">DAILYGOLF</span><span class="bs">DAILY GOLF GAMES</span></span></a>'; // animation speed factor (tests use < 1)
 /* ================= data ================= */
 var CAT = {
   skin:   {label:'Skin',  items:[['#f5d0b5',0],['#e8b48f',0],['#c98d63',0],['#9c6644',0],['#6b4226',0],['#3d2817',0]]},
@@ -288,7 +291,7 @@ function load(){ try{ return JSON.parse(localStorage.getItem(KEY)); }catch(e){ r
 function save(){ try{ localStorage.setItem(KEY, JSON.stringify(P)); }catch(e){} }
 function owned(cat,val){ var it=CAT[cat].items.find(function(i){return i[0]===val;}); return !it || it[1]===0 || P.own[cat+':'+val]; }
 function $(id){ return document.getElementById(id); }
-function show(id){ document.querySelectorAll('.screen').forEach(function(s){ s.classList.toggle('on', s.id===id); }); document.body.classList.toggle('playing', id==='s-play'); document.body.classList.toggle('menu', id==='s-menu'); if(id!=='s-play') $('ttl').innerHTML='<a href="/" style="color:#fff;text-decoration:none">⛳ Dailygolf</a> Tour'; updateCoins(); if(id==='s-play') fitCanvas(); window.scrollTo(0,0); }
+function show(id){ document.querySelectorAll('.screen').forEach(function(s){ s.classList.toggle('on', s.id===id); }); document.body.classList.toggle('playing', id==='s-play'); document.body.classList.toggle('menu', id==='s-menu'); if(id!=='s-play') $('ttl').innerHTML=BRAND; updateCoins(); if(id==='s-play') fitCanvas(); window.scrollTo(0,0); }
 function updateCoins(){ $('coins').textContent='🪙 '+DGCoins.balance(); }
 function esc(s){ return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];}); }
 function fmtPar(n){ return n===0?'E':(n>0?'+'+n:'−'+(-n)); }
@@ -576,6 +579,7 @@ function band(T, kicker, title, em){
   return '<div class="band" style="background:linear-gradient(135deg,'+T.fair+' 0%,'+T.rough+' 55%,'+(T.seaCol||T.bg)+' 100%)"><span class="k">'+kicker+'</span><span class="em">'+em+'</span><b>'+title+'</b></div>';
 }
 function refreshMenu(){
+  updateCoins();
   if(!P.name){ openLocker(true); return; }
   var t=ensureTour(), S=P.ts, E=EVENTS[t.ev], T=THEMES[E[1]], open=roundsOpen();
   drawAvatar($('av'),P); $('pname').textContent=P.name;
