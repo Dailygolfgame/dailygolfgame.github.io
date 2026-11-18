@@ -186,7 +186,7 @@ table.lb{border-collapse:collapse;width:100%;font-size:.88rem}
   <div class="note about">
   <h2 style="color:#fff;font-size:1.05rem;margin:6px 0">How Dailygolf Tour works</h2>
   <p>Design your own golfer, name them and fill your bag with up to 14 clubs. Swing with three taps: start, power (the white line is the distance you picked) and accuracy (the light zone hits it straight). Drag on the course to aim and to pick your landing spot.</p>
-  <p><b>Daily hole:</b> one new hole a day, the same for everyone. <b>Weekly tour:</b> a new event every week, four rounds of nine holes from Thursday to Sunday with a cut after round two. <b>Career:</b> a 20-event season with four majors at your own pace.</p>
+  <p><b>Daily hole:</b> one new hole a day, the same for everyone. <b>Weekly tour:</b> a new event every week, four rounds of nine holes from Thursday to Sunday with a cut after round two. <b>Career:</b> a 20-event season of nine-hole events with four majors at your own pace. Finish tied for the lead and you play a sudden-death playoff.</p>
   <p>The courses go from Florida palms and Arizona desert to English links, heathland, mountains and island coasts. Every course and player is made up: no real brands or tours.</p>
   <p>Coins from every Dailygolf game, like <a href="/trivia/">Daily Golf Trivia</a>, <a href="/draft/">Scramble Draft</a> and <a href="/">Guess the YouTube Golfer</a>, buy gear and club upgrades. Progress is saved in this browser. <a href="/">More daily games</a></p>
 </div>
@@ -392,20 +392,22 @@ function weekEvent(wk){ return ((wk%EVENTS.length)+EVENTS.length)%EVENTS.length;
 function seasonOf(wk){ return Math.floor(wk/EVENTS.length)+1; }
 function weekDate(wk, plusDays){ var d=new Date(MON0+(wk*7+plusDays)*864e5); return d.toLocaleDateString('en-GB',{day:'numeric',month:'short',timeZone:'UTC'}); }
 function roundHole(r,h){ return (r%2)*9+h; } // rounds 1 and 3 play the front nine, 2 and 4 the back nine
-/* the field adapts to how you play: winners shoot about -5 to -6 per 18 holes, more if you are on form */
-function fieldBoost(){ var f=P.form==null?-4:P.form, w=Math.max(-12,Math.min(-4,f-1.5)); return Math.max(-0.05,Math.min(0.2,(-5.5-w)*0.03)); }
-function updateForm(per18){ P.form=P.form==null?per18:Math.round((0.7*P.form+0.3*per18)*10)/10; }
+/* the field adapts to how you play: a winning 9-hole round is about -6, lower when you are on form (down to about -9) */
+function fieldBoost(){ var f=P.form9==null?-5:P.form9, w=Math.max(-9,Math.min(-5,f-1)); return Math.max(0.1,Math.min(0.32,0.15+(-6-w)*0.05)); }
+function condOffset(R){ return (R()+R()-1)*0.2; } // course conditions: some days -3 wins, some days -10
+function updateForm(per9){ P.form9=P.form9==null?per9:Math.round((0.7*P.form9+0.3*per9)*10)/10; }
 function simHole(par, sk, major, R, boost){
-  boost=(boost||0)-0.08;
-  var e=Math.max(0,par===5?0.025+.06*sk+boost*.3:par===4?0.005:.002), b=Math.max(.03,.10+.18*sk+(par===5?0.11:0)-(major?0.03:0)+boost),
-      bo=Math.max(.02,.18-.10*sk+(par===3?0.02:0)+(major?0.04:0)-boost*.6), db=Math.max(.005,.04-.03*sk+(major?0.015:0)-boost*.15), r=R();
+  boost=(boost||0)-0.08+(major?0.15:0); // majors: the best field of the season
+  var e=Math.max(0,par===5?0.025+.06*sk+boost*.3:par===4?0.005+Math.max(0,boost)*.03:.002), b=Math.max(.03,.10+.18*sk+(par===5?0.11:0)+boost),
+      bo=Math.max(.02,.18-.10*sk+(par===3?0.02:0)-boost*.6), db=Math.max(.005,.04-.03*sk-boost*.15), r=R();
   if(r<e) return -2; r-=e; if(r<b) return -1; r-=b; if(r<db) return 2; r-=db; if(r<bo) return 1; return 0;
 }
 var FS_CACHE={};
 function fieldScores(wk, ei, boost){ // fixed for the week once the event starts
   boost=boost||0; var k=wk+':'+ei+':'+boost; if(FS_CACHE[k]) return FS_CACHE[k];
   var E=EVENTS[ei], pars=coursePars(E[0]);
-  return FS_CACHE[k]=SK.map(function(sk,i){ var R=rng(hash('wk'+wk+'#'+i)), a=[]; for(var r=0;r<4;r++) for(var h=0;h<9;h++) a.push(simHole(pars[roundHole(r,h)], Math.min(1,sk+(E[3]?0.05:0)), E[3], R, boost)); return a; });
+  var RB=[0,1,2,3].map(function(r){ return boost+condOffset(rng(hash('cond'+wk+':'+r))); });
+  return FS_CACHE[k]=SK.map(function(sk,i){ var R=rng(hash('wk'+wk+'#'+i)), a=[]; for(var r=0;r<4;r++) for(var h=0;h<9;h++) a.push(simHole(pars[roundHole(r,h)], Math.min(1,sk+(E[3]?0.05:0)), E[3], R, RB[r])); return a; });
 }
 function initSeason(){ var s=seasonOf(weekNo()); if(!P.ts||P.ts.season!==s) P.ts={season:s, pts:{}, wins:0, majors:0, top10:0, events:0, hist:[]}; }
 function ensureTour(){
@@ -439,11 +441,11 @@ function lbHTML(rows, note){
 var PTS=[500,300,190,135,110,100,90,85,80,75,70,65,60,57,54,51,48,45,42,40];
 function ptsFor(pos){ return pos>=99?0:(PTS[pos-1]||Math.max(4,40-(pos-20)*2)); }
 function prizeFor(pos){ return pos>=99?10:pos===1?250:pos<=3?150:pos<=5?110:pos<=10?70:pos<=20?35:15; }
-function finalizeTour(withdrawn){
+function finalizeTour(withdrawn, poWin, poWinner){
   var t=P.tour, E=EVENTS[t.ev], major=!!E[3], rows=board(t,36), you=rows.find(function(r){return r.me;}), playoff='';
   if(withdrawn && !you.mc){ you.lbl='WD'; you.pos=99; }
   var leaders=rows.filter(function(r){return r.pos===1;});
-  if(leaders.length>1){ var R=rng(hash('playoff'+t.week)), win=leaders[Math.floor(R()*leaders.length)];
+  if(leaders.length>1){ var R=rng(hash('playoff'+t.week)), win=poWin===true?leaders.find(function(r){return r.me;}):poWin===false?(leaders.find(function(r){return r.n===poWinner;})||leaders.find(function(r){return !r.me;})):leaders[Math.floor(R()*leaders.length)];
     playoff=win.me?'You won a '+leaders.length+'-man playoff!':esc(win.n)+' won the playoff.';
     leaders.forEach(function(r){ r.pos=r===win?1:2; r.lbl=r===win?'1':(leaders.length>2?'T2':'2'); });
     rows.sort(function(a,b){ return a.pos-b.pos || a.t-b.t; }); }
@@ -503,8 +505,9 @@ function newCareer(){
     return {season:1, ev:0, pts:{}, res:[], sk:SK.slice(), cur:null, wins:0, majors:0, top10:0, events:0};
 }
 function startEvent(){
-  var C=P.career, E=EVENTS[C.ev], pars=coursePars(E[0]);
-  C.cur={ev:C.ev, hole:0, cards:[], opp:C.sk.map(function(sk){ return pars.map(function(p){ return simHole(p, Math.min(1,sk+(E[3]?0.05:0)), E[3], Math.random, fieldBoost()); }); }), live:null};
+  var C=P.career, E=EVENTS[C.ev], off=C.ev%2?9:0, pars=coursePars(E[0]).slice(off,off+9); // 9-hole events: front or back nine
+  var fb=fieldBoost()+condOffset(Math.random);
+  C.cur={ev:C.ev, off:off, hole:0, cards:[], opp:C.sk.map(function(sk){ return pars.map(function(p){ return simHole(p, Math.min(1,sk+(E[3]?0.05:0)), E[3], Math.random, fb); }); }), live:null};
   save();
 }
 function careerBoard(){ // standings after the player's completed holes
@@ -532,15 +535,42 @@ function showCareerStandings(){
 }
 function playCareer(){
   var C=P.career, cur=C.cur, E=EVENTS[cur.ev];
-  G={mode:'career', hole:cur.hole, total:18};
+  G={mode:'career', hole:cur.hole, total:9};
   show('s-play'); $('ttl').innerHTML=esc(E[0])+(E[3]?'<span class="pill">Major</span>':'');
-  startHole(eventHole(cur.ev, cur.hole), cur.live);
+  startHole(eventHole(cur.ev, (cur.off||0)+cur.hole), cur.live);
 }
-function finishEvent(){
+/* ---------- sudden-death playoff: you play the last hole again against everyone tied with you ---------- */
+function playoffScore(par){ var r=Math.random(); if(par===5&&r<0.07) return par-2; if(r<0.47) return par-1; if(r<0.93) return par; return par+1; } // the AI often birdies
+function startPlayoff(H, rivals, done){
+  G={mode:'playoff', total:1, po:{rivals:rivals, n:1, done:done}};
+  show('s-play'); $('ttl').innerHTML='Playoff · '+(rivals.length===1?'vs '+esc(rivals[0]):rivals.length+' rivals');
+  startHole(H, null);
+  setTimeout(function(){ flash('Playoff! Hole '+H.n); },1400*SPEED);
+}
+function resolvePlayoff(){
+  var po=G.po, par=G.H.par, me=G.strokes, sc=po.rivals.map(function(n){ return {n:n, s:playoffScore(par)}; }), best=Math.min.apply(null, sc.map(function(x){return x.s;}));
+  var line='<b style="color:#4ade80">You: '+scoreName(me,par).toLowerCase()+'</b><br>'+sc.map(function(x){ return esc(x.n)+': '+scoreName(x.s,par).toLowerCase(); }).join(' · ');
+  if(me<best){ openModal('<div class="kick">Playoff</div><h2>You win the playoff! 🏆</h2><p>'+line+'</p><button class="share" id="mclose">Continue</button>'); $('mclose').onclick=function(){ closeModal(); po.done(true,null); }; }
+  else if(me>best){ var w=sc.filter(function(x){return x.s===best;})[0].n; openModal('<div class="kick">Playoff</div><h2>'+esc(w)+' wins the playoff</h2><p>'+line+'</p><button class="share" id="mclose">Continue</button>'); $('mclose').onclick=function(){ closeModal(); po.done(false,w); }; }
+  else { po.rivals=sc.filter(function(x){return x.s===best;}).map(function(x){return x.n;}); po.n++;
+    openModal('<div class="kick">Playoff · hole '+(po.n-1)+'</div><h2>Still tied!</h2><p>'+line+'</p><p>Back to the tee for playoff hole '+po.n+'.</p><button class="share" id="mclose">Play on</button>');
+    $('mclose').onclick=function(){ closeModal(); startHole(G.H,null); setTimeout(function(){ flash('Playoff hole '+po.n); },1400*SPEED); }; }
+}
+function careerEnd(){
+  var C=P.career, cur=C.cur, rows=careerBoard(), me=rows.find(function(r){return r.me;}), lead=rows.filter(function(r){return r.pos===1;});
+  if(me.pos===1 && lead.length>1) return startPlayoff(eventHole(cur.ev,(cur.off||0)+cur.opp[0].length-1), lead.filter(function(r){return !r.me;}).map(function(r){return r.n;}), function(win,w){ finishEvent(win,w); });
+  finishEvent();
+}
+function tourEnd(){
+  var t=P.tour, rows=board(t,36), me=rows.find(function(r){return r.me;}), lead=rows.filter(function(r){return r.pos===1;});
+  if(!me.mc && me.pos===1 && lead.length>1) return startPlayoff(eventHole(t.ev, roundHole(3,8)), lead.filter(function(r){return !r.me;}).map(function(r){return r.n;}), function(win,w){ G=null; showFinal(true,win,w); });
+  G=null; showFinal(true);
+}
+function finishEvent(poWin, poWinner){
   var C=P.career, cur=C.cur, E=EVENTS[cur.ev], major=!!E[3], rows=careerBoard(), you=rows.find(function(r){return r.me;}), playoff='';
   var leaders=rows.filter(function(r){return r.pos===1;});
   if(leaders.length>1){ // sudden-death playoff, each player equally likely
-    var win=leaders[Math.floor(Math.random()*leaders.length)];
+    var win=poWin===true?leaders.find(function(r){return r.me;}):poWin===false?(leaders.find(function(r){return r.n===poWinner;})||leaders.find(function(r){return !r.me;})):leaders[Math.floor(Math.random()*leaders.length)];
     playoff=win.me?'You won a '+leaders.length+'-man playoff!':esc(win.n)+' won the playoff.';
     leaders.forEach(function(r){ r.pos=r===win?1:2; r.lbl=r===win?'1':(leaders.length>2?'T2':'2'); });
     rows.sort(function(a,b){ return a.pos-b.pos || a.t-b.t; });
@@ -553,7 +583,7 @@ function finishEvent(){
   C.ev++; C.cur=null; save();
   var title=pos===1?(major?'MAJOR CHAMPION!':'CHAMPION!'):pos<=10?'Top 10 finish':'Event complete';
   $('endcard').innerHTML='<div class="kick">'+esc(E[0])+(major?' · Major':'')+'</div><h2 style="font-size:1.5rem;margin:4px 0">'+title+'</h2>'+
-    '<div style="font-size:2rem;font-weight:900;color:#fff">'+you.lbl+' <span style="font-size:1.1rem;color:var(--mut)">'+fmtPar(score)+' ('+(72+score)+')</span></div>'+
+    '<div style="font-size:2rem;font-weight:900;color:#fff">'+you.lbl+' <span style="font-size:1.1rem;color:var(--mut)">'+fmtPar(score)+' ('+(cards.reduce(function(a,c){return a+c.par;},0)+score)+')</span></div>'+
     (playoff?'<p style="margin:4px 0;color:#facc15;font-weight:800">'+playoff+'</p>':'')+cardHTML(cards)+
     '<p style="margin:12px 0 4px;color:#fff;font-weight:800">+🪙 '+(prize+holeCoins)+' · +'+pts+' season points</p>'+
     '<div class="kick" style="margin-top:12px">Final leaderboard</div>'+lbHTML(rows,'');
@@ -594,25 +624,26 @@ function refreshMenu(){
   // weekly tour
   var mine=sum(myHoles(t)), btn, info;
   if(t.final){ info='<br><b style="color:#fff">Final: '+t.final.lbl+' · '+fmtPar(t.final.score)+'</b>'; btn='<button class="big sec" id="b-car">Next event starts Thursday</button>'; }
+  else if(t.round>=4){ btn='<button class="big" id="b-car">Finish the event</button>'; info='<br><b style="color:#fff">'+fmtPar(mine)+' after 4 rounds</b>'; }
   else if(t.round<open){ var cc=t.cards[t.round].length; btn='<button class="big" id="b-car">'+(cc||t.live?'Continue round '+(t.round+1)+' · hole '+(cc+1):'Play round '+(t.round+1)+' of 4')+'</button>'; info=t.round?'<br><b style="color:#fff">'+fmtPar(mine)+' after '+t.round+' round'+(t.round>1?'s':'')+'</b>':''; }
   else { btn='<button class="big sec" id="b-car" disabled>Round '+(t.round+1)+' opens '+RDAYS[t.round]+'</button>'; info=t.round?'<br><b style="color:#fff">'+fmtPar(mine)+' after '+t.round+' round'+(t.round>1?'s':'')+'</b>':''; }
   $('m-career').innerHTML=band(T,'Weekly tour · '+weekDate(t.week,3)+'–'+weekDate(t.week,6)+(E[3]?' · <span style="color:#facc15">Major</span>':''),esc(E[0]),T.em)+
     '<div class="body">'+esc(E[2])+' · '+T.label+' · 4 rounds of 9 holes, one a day Thu–Sun · cut after round 2'+info+btn+
     '<div class="row2" style="margin:0"><button class="big sec" id="b-lb">Leaderboard</button><button class="big sec" id="b-stand">Season</button></div></div>';
-  $('b-car').onclick=function(){ if(t.final){ showFinal(); return; } if(t.round<roundsOpen()) playRound(); };
+  $('b-car').onclick=function(){ if(t.final){ showFinal(); return; } if(t.round>=4){ tourEnd(); return; } if(t.round<roundsOpen()) playRound(); };
   if(t.final) $('b-car').textContent='Final leaderboard · next event Thursday';
   $('b-lb').onclick=function(){ var n=myHoles(t).length; openModal('<div class="kick">'+esc(E[0])+'</div><h2>Leaderboard</h2>'+(n||t.final?lbHTML(t.final?board(t,36):board(t),t.final?'Final':'Thru '+n+' of 36 holes'):'<p>The field tees off on Thursday. Round 1 opens then.</p>')+'<button class="share" id="mclose">Close</button>'); };
   $('b-stand').onclick=showStandings;
   // career mode
-  if(!P.career){ $('m-career2').innerHTML=band(THEMES.coastal,'Career mode','Your own tour career','🧢')+'<div class="body">Play a full 20-event season at your own pace: 18-hole events, 4 majors, season standings.<button class="big" id="b-c2">Start a career</button></div>'; $('b-c2').onclick=function(){ P.career=newCareer(); save(); refreshMenu(); }; return; }
+  if(!P.career){ $('m-career2').innerHTML=band(THEMES.coastal,'Career mode','Your own tour career','🧢')+'<div class="body">Play a full 20-event season at your own pace: 9-hole events, 4 majors, season standings.<button class="big" id="b-c2">Start a career</button></div>'; $('b-c2').onclick=function(){ P.career=newCareer(); save(); refreshMenu(); }; return; }
   var C=P.career;
   if(C.ev>=EVENTS.length){ $('m-career2').innerHTML=band(THEMES.parkland,'Career · Season '+C.season+' complete','Season over','🏆')+'<div class="body"><button class="big" id="b-c2">See the final standings</button></div>'; $('b-c2').onclick=seasonEnd; return; }
   var CE=EVENTS[C.ev], CT=THEMES[CE[1]], cur=C.cur&&C.cur.ev===C.ev?C.cur:null;
   $('m-career2').innerHTML=band(CT,'Career · Season '+C.season+' · Event '+(C.ev+1)+' of '+EVENTS.length+(CE[3]?' · <span style="color:#facc15">Major</span>':''),esc(CE[0]),CT.em)+
-    '<div class="body">'+esc(CE[2])+' · 18 holes · '+C.wins+' wins · '+C.top10+' top 10s'+
+    '<div class="body">'+esc(CE[2])+' · 9 holes · '+C.wins+' wins · '+C.top10+' top 10s'+
     '<button class="big" id="b-c2">'+(cur?'Continue · hole '+(cur.hole+1)+' ('+fmtPar(cur.cards.reduce(function(a,c){return a+c.s-c.par;},0))+')':'Tee off')+'</button>'+
     '<div class="row2" style="margin:0"><button class="big sec" id="b-csched">Schedule</button><button class="big sec" id="b-cstand">Standings</button></div></div>';
-  $('b-c2').onclick=function(){ if(!cur) startEvent(); playCareer(); };
+  $('b-c2').onclick=function(){ if(!cur) startEvent(); if(P.career.cur.hole>=P.career.cur.opp[0].length) careerEnd(); else playCareer(); };
   $('b-csched').onclick=showCareerSchedule; $('b-cstand').onclick=showCareerStandings;
 }
 function seasonRows(){
@@ -701,7 +732,7 @@ function startDaily(){
   show('s-play'); $('ttl').innerHTML='Daily hole #'+H.daily+(first?'':'<span class="pill">Practice</span>');
   startHole(H, null);
 }
-$('back').onclick=function(){ if(G&&G.busy) return; G=null; show('s-menu'); refreshMenu(); };
+$('back').onclick=function(){ if(G&&(G.busy||G.mode==='playoff')) return; G=null; show('s-menu'); refreshMenu(); };
 
 function startHole(H, live){
   G.H=H; G.done=false; G.busy=false; G.overview=false; G.from=null;
@@ -842,7 +873,8 @@ function endHole(){
   var myG=G;
   setTimeout(function(){ if(G!==myG) return;
     if(G.mode==='daily') return endDaily();
-    if(G.mode==='career'){ if(P.career.cur.hole<18) startHole(eventHole(P.career.cur.ev, P.career.cur.hole), null); else finishEvent(); return; }
+    if(G.mode==='playoff') return resolvePlayoff();
+    if(G.mode==='career'){ if(P.career.cur.hole<P.career.cur.opp[0].length) startHole(eventHole(P.career.cur.ev, (P.career.cur.off||0)+P.career.cur.hole), null); else careerEnd(); return; }
     var t=P.tour; if(t.cards[t.round].length<9) startHole(eventHole(t.ev, roundHole(t.round,t.cards[t.round].length)), null);
     else endRound();
   },1600*SPEED);
@@ -875,10 +907,10 @@ function cardHTML(cards,first){ first=first||0;
 }
 function endRound(){
   var t=P.tour, E=EVENTS[t.ev], r=t.round, cards=t.cards[r], rs=sum(cards.map(function(c){return c.s-c.par;}));
-  t.round++; t.live=null; updateForm(rs*2); save();
+  t.round++; t.live=null; updateForm(rs); save();
   var rows=board(t), you=rows.find(function(x){return x.me;}), note='';
   if(r===1 && you.mc){ finalizeTour(false); note='<p style="color:#f87171;font-weight:800;margin:8px 0 0">Missed the cut (top 20 and ties make it, the line was '+fmtPar(rows.cut)+').</p>'; }
-  if(t.round===4){ G=null; return showFinal(true); }
+  if(t.round===4) return tourEnd();
   if(r===1 && !you.mc) note='<p style="color:#4ade80;font-weight:800;margin:8px 0 0">Made the cut! The line was '+fmtPar(rows.cut)+'.</p>';
   var nextOpen=t.round<roundsOpen();
   $('endcard').innerHTML='<div class="kick">'+esc(E[0])+' · Round '+(r+1)+' of 4</div><h2 style="font-size:1.5rem;margin:4px 0">Round '+(r+1)+': '+fmtPar(rs)+' ('+sum(cards.map(function(c){return c.s;}))+')</h2>'+
@@ -889,8 +921,8 @@ function endRound(){
   $('b-next').onclick=function(){ if(!t.final && t.round<roundsOpen()) playRound(); else { show('s-menu'); refreshMenu(); } };
   G=null; show('s-end');
 }
-function showFinal(fresh){
-  var t=P.tour, E=EVENTS[t.ev], major=!!E[3], rows=fresh?finalizeTour(false):board(t,36), F=t.final;
+function showFinal(fresh, poWin, poWinner){
+  var t=P.tour, E=EVENTS[t.ev], major=!!E[3], rows=fresh?finalizeTour(false,poWin,poWinner):board(t,36), F=t.final;
   var title=F.pos===1?(major?'MAJOR CHAMPION!':'CHAMPION!'):F.pos<=10?'Top 10 finish':F.lbl==='MC'?'Missed cut':'Tournament complete';
   var all=[]; t.cards.forEach(function(c){ all=all.concat(c); });
   $('endcard').innerHTML='<div class="kick">'+esc(E[0])+(major?' · Major':'')+' · Final</div><h2 style="font-size:1.5rem;margin:4px 0">'+title+'</h2>'+
