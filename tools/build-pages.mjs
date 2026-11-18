@@ -145,77 +145,14 @@ function cleanDir(dir, keep) {
   }
 }
 const PLAY_CTA = `<p><a class="cta" href="/">Play today's Dailygolf &rarr;</a></p>`;
-// Guess the Pro Golfer has its own page, /pro/: the same game file as the start page, opened on the Pro game.
-{
-  const PT = 'Guess the Pro Golfer – Daily Pro Golf Game | Dailygolf';
-  const PD = 'Guess the mystery tour pro in 5 tries using country, tour, age, majors and PGA Tour wins. A free daily pro golf game from Dailygolf.';
-  let pro = indexHtml
-    .replace(/<title>[^<]*<\/title>/, `<title>${PT}</title>`)
-    .replace(/(<meta (?:property="og:title"|name="twitter:title") content=")[^"]*"/g, `$1${PT}"`)
-    .replace(/(<meta (?:name="description"|property="og:description"|name="twitter:description") content=")[^"]*"/g, `$1${PD}"`)
-    .replace('<link rel="canonical" href="https://dailygolfgame.com/">', '<link rel="canonical" href="https://dailygolfgame.com/pro/">')
-    .replace('<meta property="og:url" content="https://dailygolfgame.com/">', '<meta property="og:url" content="https://dailygolfgame.com/pro/">')
-    .replace(/<script type="application\/ld\+json">[\s\S]*?<\/script>\s*/, '')
-    .replace(/og-home\.png/g, 'og-pro.png')
-    .replace('<meta name="robots" content="index, follow, max-image-preview:large">', '<meta name="robots" content="noindex, follow">')
-    .replace('<head>', '<head>\n    <script>window.DG_PAGE = \'pro\';</script>');
-  write('/pro/', pro);
-}
-const PRO_CTA = `<p><a class="cta" href="/pro/">Play Guess the Pro Golfer &rarr;</a></p>`;
+// Removed pages point visitors somewhere useful.
+const redirectPage = (to, label) => `<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>Moved | Dailygolf</title><link rel="canonical" href="${SITE}${to}"><meta name="robots" content="noindex"><meta http-equiv="refresh" content="0; url=${to}"></head><body><p>This page has moved to <a href="${to}">${label}</a>.</p><script>location.replace(${JSON.stringify(to)})</script></body></html>\n`;
+// Guess the Pro Golfer was retired in November 2026: Dailygolf is about YouTube golf.
+write('/pro/', redirectPage('/', 'the Dailygolf games'));
 
-// ---------- Golfer pages ----------
-const golfersSorted = PLAYERS.slice().sort((a, b) => b.majors - a.majors || b.wins - a.wins || a.name.localeCompare(b.name));
-for (const p of PLAYERS) {
-  const majorsRank = rankOf(PLAYERS, p.majors, x => x.majors), winsRank = rankOf(PLAYERS, p.wins, x => x.wins);
-  const sameCountry = PLAYERS.filter(x => x !== p && x.country === p.country);
-  const similar = PLAYERS.filter(x => x !== p && !sameCountry.includes(x))
-    .map(x => [x, Math.abs(x.majors - p.majors) * 3 + Math.abs(x.wins - p.wins) / 3 + Math.abs(x.age - p.age) / 4])
-    .sort((a, b) => a[1] - b[1]).slice(0, 6).map(x => x[0]);
-  const agePart = p.died ? `${p.name} was born on ${fmtDate(p.born)} and died on ${fmtDate(p.died)}, aged ${p.age}.` : `${p.name} was born on ${fmtDate(p.born)} and is ${p.age} years old.`;
-  const majorsPart = p.majors === 0 ? `He has not won a major championship${p.died ? '' : ' yet'}` : `He has won ${p.majors} major championship${p.majors === 1 ? '' : 's'}, ${majorsRank === 1 ? 'the most' : 'the ' + ordinal(majorsRank) + ' most'} of the ${PLAYERS.length} golfers in Dailygolf`;
-  const body = `<h1>${esc(p.name)}</h1>
-<p class="lead">${esc(p.name)} is a professional golfer from ${esc(p.country)}${p.died ? '' : ' who plays on ' + esc(tourText(p.tour))}. Here are the facts we use as clues in Dailygolf.</p>
-<div class="facts">
-<div><span>Country</span><b>${esc(p.country)}</b></div>
-<div><span>${p.died ? 'Tour' : 'Tour'}</span><b>${esc(p.tour)}</b></div>
-<div><span>${p.died ? 'Age at death' : 'Age'}</span><b>${p.age}</b></div>
-<div><span>Major wins</span><b>${p.majors}</b></div>
-<div><span>PGA Tour wins</span><b>${p.wins}</b></div>
-<div><span>Born</span><b>${fmtDate(p.born)}</b></div>
-</div>
-<h2>Career in numbers</h2>
-<p>${esc(agePart)} ${esc(majorsPart)}. He has ${p.wins} official PGA Tour win${p.wins === 1 ? '' : 's'} (majors included), which ranks ${ordinal(winsRank)} in the game.</p>
-${sameCountry.length ? `<h2>Other golfers from ${esc(p.country)}</h2>
-<div class="chips">${sameCountry.map(x => `<a href="/golfers/${x.slug}/">${esc(x.name)}</a>`).join('')}</div>` : ''}
-<h2>Golfers with similar numbers</h2>
-<div class="chips">${similar.map(x => `<a href="/golfers/${x.slug}/">${esc(x.name)}</a>`).join('')}</div>
-<h2>Can you guess ${esc(p.name)}?</h2>
-<p>In Guess the Pro Golfer you get five tries to find the mystery golfer. Every guess compares country, tour, age, majors and PGA Tour wins with the answer. ${esc(p.name)} is one of the possible answers.</p>
-${PRO_CTA}
-<p class="meta">Numbers checked October 2026. Wins are official PGA Tour victories, majors included. <a href="/golfers/">All golfers in the game</a></p>`;
-  write(`/golfers/${p.slug}/`, page({ image: 'og-pro.png', noindex: true,
-    urlPath: `/golfers/${p.slug}/`,
-    title: `${p.name}: Age, Majors, PGA Tour Wins & Country | Dailygolf`,
-    description: `${p.name} (${p.country}, ${p.tour}): ${p.died ? 'age at death ' + p.age : 'age ' + p.age}, ${p.majors} major${p.majors === 1 ? '' : 's'} and ${p.wins} PGA Tour win${p.wins === 1 ? '' : 's'}. Quick facts and similar golfers.`,
-    crumbs: [['Home', '/'], ['Golfers', '/golfers/'], [p.name]],
-    body,
-    jsonld: { '@context': 'https://schema.org', '@type': 'Person', name: p.name, birthDate: p.born, ...(p.died ? { deathDate: p.died } : {}), nationality: p.country, jobTitle: 'Professional golfer', url: `${SITE}/golfers/${p.slug}/` }
-  }));
-}
-write('/golfers/', page({ image: 'og-pro.png', noindex: true,
-  urlPath: '/golfers/',
-  title: `All ${PLAYERS.length} Pro Golfers in Dailygolf: Majors, Wins & Age`,
-  description: `Every pro golfer in the Dailygolf guessing game, from Scottie Scheffler and Rory McIlroy to Jack Nicklaus: country, tour, age, majors and PGA Tour wins.`,
-  crumbs: [['Home', '/'], ['Golfers']],
-  body: `<h1>Pro golfers in Dailygolf</h1>
-<p class="lead">All ${PLAYERS.length} golfers who can be the answer in Guess the Pro Golfer, sorted by major wins. Tap a name for the full facts.</p>
-<div class="tbl"><table><thead><tr><th>Golfer</th><th>Country</th><th>Tour</th><th>Age</th><th>Majors</th><th>PGA Tour wins</th></tr></thead><tbody>
-${golfersSorted.map(p => `<tr><td><a href="/golfers/${p.slug}/">${esc(p.name)}</a></td><td>${esc(p.country)}</td><td>${esc(p.tour)}</td><td>${p.age}${p.died ? '†' : ''}</td><td>${p.majors}</td><td>${p.wins}</td></tr>`).join('\n')}
-</tbody></table></div>
-<p class="meta">† age at death. Looking for golf YouTubers? See <a href="/youtubers/">all YouTube golfers in the game</a>.</p>
-${PLAY_CTA}`
-}));
-cleanDir('golfers', new Set(PLAYERS.map(p => p.slug)));
+// ---------- Golfer pages (retired with Pro Golfer) ----------
+write('/golfers/', redirectPage('/youtubers/', 'the golf YouTuber list'));
+cleanDir('golfers', new Set());
 
 // Internet Invitational data (also used on YouTuber pages)
 const iiFile = 'data/internet-invitational-2026.json';
@@ -272,7 +209,7 @@ write('/youtubers/', page({
 <div class="tbl"><table><thead><tr><th>Creator</th><th>Handicap</th><th>Country</th><th>Channel</th><th>Subscribers</th></tr></thead><tbody>
 ${creatorsSorted.map(c => `<tr><td><a href="/youtubers/${c.slug}/">${esc(c.name)}</a></td><td>${fmtHcp(c.hcp)}</td><td>${esc(c.countries.join(' / '))}</td><td>${esc(c.channel)}</td><td>${fmtSubs(c.subs)}</td></tr>`).join('\n')}
 </tbody></table></div>
-<p class="meta">Handicaps from a public YouTube golf handicap leaderboard and subscribers from public channel statistics (October 2026). See also <a href="/golfers/">all pro golfers in the game</a>.</p>
+<p class="meta">Handicaps from a public YouTube golf handicap leaderboard and subscribers from public channel statistics (October 2026).</p>
 <p><a class="cta" href="/#youtube">Play Guess the YouTube Golfer &rarr;</a></p>`
 }));
 cleanDir('youtubers', new Set(CREATORS.map(c => c.slug)));
@@ -307,16 +244,14 @@ for (const d of days) {
   const prev = days.find(x => x < d), next = days.slice().reverse().find(x => x > d);
   const body = `<h1>Dailygolf #${d} answers</h1>
 <p class="lead">The answers for ${fmtDay(d)}. Haven't played today yet? <a href="/">Today's game</a> has a new golfer.</p>
-<div class="card"><p class="meta" style="margin:0">Guess the Pro Golfer #${d}</p><p class="answer">${proLink(a.pro)}</p>
-${p ? `<p style="margin:0">${esc(p.country)} · ${esc(p.tour)} · ${p.majors} major${p.majors === 1 ? '' : 's'} · ${p.wins} PGA Tour win${p.wins === 1 ? '' : 's'}</p>` : ''}</div>
 <div class="card"><p class="meta" style="margin:0">Guess the YouTube Golfer #${d}</p><p class="answer">${ytLink(a.yt)}</p>
 ${c ? `<p style="margin:0">Handicap ${fmtHcp(c.hcp)} · ${esc(c.countries.join(' / '))} · ${esc(c.channel)}</p>` : ''}</div>
 <p>${prev ? `<a href="/answers/${prev}/">&larr; #${prev}</a>` : ''}${prev && next ? ' &nbsp;·&nbsp; ' : ''}${next ? `<a href="/answers/${next}/">#${next} &rarr;</a>` : ''}${prev || next ? ' &nbsp;·&nbsp; ' : ''}<a href="/answers/">All answers</a></p>
 ${PLAY_CTA}`;
   write(`/answers/${d}/`, page({ noindex: true,
     urlPath: `/answers/${d}/`,
-    title: `Dailygolf #${d} Answer (${fmtDay(d)}) | Pro Golfer & YouTube Golfer`,
-    description: `Dailygolf #${d} answers for ${fmtDay(d)}: the mystery pro golfer was ${a.pro} and the mystery YouTube golfer was ${a.yt}.`,
+    title: `Dailygolf #${d} Answer (${fmtDay(d)}) | YouTube Golfer`,
+    description: `Dailygolf #${d} answers for ${fmtDay(d)}: the mystery YouTube golfer was ${a.yt}.`,
     crumbs: [['Home', '/'], ['Answers', '/answers/'], ['#' + d]],
     body
   }));
@@ -325,12 +260,12 @@ write('/answers/', page({ noindex: true,
   urlPath: '/answers/',
   title: 'Dailygolf Answers: Every Past Mystery Golfer | Dailygolf',
   noAds: days.length === 0,
-  description: 'All past Dailygolf answers: the mystery pro golfer and YouTube golfer of every day. New answers appear once each day is over everywhere.',
+  description: 'All past Dailygolf answers: the mystery YouTube golfer of every day. New answers appear once each day is over everywhere.',
   crumbs: [['Home', '/'], ['Answers']],
   body: `<h1>Past Dailygolf answers</h1>
 <p class="lead">Every past mystery golfer. A day's answers appear here once that day is over in every time zone, so today's game is never spoiled.</p>
-${days.length ? `<div class="tbl"><table><thead><tr><th>Game</th><th>Date</th><th>Pro golfer</th><th>YouTube golfer</th></tr></thead><tbody>
-${days.map(d => `<tr><td><a href="/answers/${d}/">#${d}</a></td><td>${fmtDay(d)}</td><td>${proLink(answers[d].pro)}</td><td>${ytLink(answers[d].yt)}</td></tr>`).join('\n')}
+${days.length ? `<div class="tbl"><table><thead><tr><th>Game</th><th>Date</th><th>YouTube golfer</th></tr></thead><tbody>
+${days.map(d => `<tr><td><a href="/answers/${d}/">#${d}</a></td><td>${fmtDay(d)}</td><td>${ytLink(answers[d].yt)}</td></tr>`).join('\n')}
 </tbody></table></div>` : '<p>The first answers appear tomorrow.</p>'}
 ${PLAY_CTA}`
 }));

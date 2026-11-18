@@ -146,7 +146,6 @@ html.in-game #coin-pill{display:none}
             <a class="hg-t" href="/tour/"><span class="hg-ic" style="background:#0d9488"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="18" r="2"/><circle cx="18" cy="6" r="2"/><path d="M8 18c6 0 2-7 8-10.5"/><path d="M4 6h5M6.5 3.5v5"/></svg></span><span class="hg-st" data-k="tour"></span><b>Dailygolf Tour</b><small class="hg-sub" data-k="tour">Tour &amp; career</small></a>
             <a class="hg-t" href="/draft/"><span class="hg-ic" style="background:#7c3aed"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4V3h6v1M9 10h6M9 14h6M9 18h3"/></svg></span><span class="hg-st" data-k="draft"></span><b>Scramble Draft</b><small class="hg-sub" data-k="draft">Build a team of 4</small></a>
         </div>
-        <p class="text-sm text-slate-400 mt-4">More: <a class="text-golf-400 hover:underline" href="/pro/">Guess the Pro Golfer</a>, a daily game for tour pros.</p>
         <div class="text-sm lg:text-base text-slate-400 leading-relaxed mt-10 lg:mt-14 max-w-3xl">
             <h2 class="text-lg font-bold text-slate-200 mb-2">About Dailygolf</h2>
             <p class="mb-3">Dailygolf is a free set of daily games for fans of YouTube golf, like Wordle for golf. Every day there is a new mystery golf YouTuber and a new Internet Invitational player to find, five YouTube golf trivia questions, a Scramble Draft where you build a team of four creators, and a new hole in Dailygolf Tour, our golf game with a weekly tour event and a full career. Every game earns coins for your golfer. New here? Read <a class="text-golf-400 hover:underline" href="/how-to-play/">how to play</a>.</p>
@@ -166,7 +165,7 @@ html.in-game #coin-pill{display:none}
     <div class="game-only max-w-3xl mx-auto px-4 pt-3 w-full"><a href="/" class="text-xs font-semibold text-slate-400 hover:text-white">&larr; All games</a></div>
     <div class="hidden" role="tablist">
         <button id="tab-btn-yt" role="tab" class="flex-1 px-4 py-2.5 rounded-xl text-sm font-bold border border-slate-700/80 transition bg-golf-500 text-white">▶ YouTube Golfer</button>
-        <button id="tab-btn-pro" role="tab" class="flex-1 px-4 py-2.5 rounded-xl text-sm font-bold border border-slate-700/80 transition bg-slate-800 text-slate-300 hover:bg-slate-700">⛳ Pro Golfer</button>
+        <button id="tab-btn-pro" role="tab" style="display:none" class="flex-1 px-4 py-2.5 rounded-xl text-sm font-bold border border-slate-700/80 transition bg-slate-800 text-slate-300 hover:bg-slate-700">⛳ Pro Golfer</button>
     </div>
 
     <!-- MAIN GAME AREA -->
@@ -609,22 +608,7 @@ html.in-game #coin-pill{display:none}
         <p class="mb-3">Find today&rsquo;s mystery player from the 2026 Internet Invitational in five guesses. After each guess the clues show whether the player is on the same team, how close the handicap is (yellow means within 1.5, arrows show higher or lower) and whether both played in 2025. A new player appears every day at midnight.</p>
         <p class="mb-3">Need help? The <a class="text-golf-400 hover:underline" href="/internet-invitational/">Internet Invitational page</a> has the handicap list for all 64 players, the four teams and the episode schedule, and every player has a page of their own.</p>
       </div>
-      <div id="text-pro" class="hidden">
-        <h2 class="text-lg font-bold text-slate-200 mb-2">How to play Guess the Pro Golfer</h2>
-        <p class="mb-3">Find the mystery tour pro in five guesses using country, continent, tour, age, major championships and PGA Tour wins. Green is an exact match, yellow is close, and arrows show whether the number is higher or lower. A new golfer appears every day at midnight, and Practice Mode at the top gives you random golfers.</p>
-        <h2 class="text-lg font-bold text-slate-200 mt-6 mb-2">Frequently asked questions</h2>
-        <h3 class="font-semibold text-slate-300 mt-3">When does a new golfer appear?</h3>
-        <p>A new mystery golfer is available every day. Come back tomorrow to keep your streak going.</p>
-        <h3 class="font-semibold text-slate-300 mt-3">Which golfers are in the game?</h3>
-        <p>Current stars from the PGA Tour, LIV Golf and DP World Tour, plus legends such as Jack Nicklaus, Ben Hogan and Arnold Palmer.</p>
-        <h3 class="font-semibold text-slate-300 mt-3">What counts as wins?</h3>
-        <p>Wins are official PGA Tour victories, major championships included.</p>
-        <h3 class="font-semibold text-slate-300 mt-3">Is Dailygolf free?</h3>
-        <p>Yes. It is free to play in your browser on phone or desktop, with no account needed.</p>
-        <h2 class="text-lg font-bold text-slate-200 mt-6 mb-2">Golfers in the game</h2>
-        <p class="mb-2">See the full facts on the <a class="text-golf-400 hover:underline" href="/golfers/">golfer pages</a> and the <a class="text-golf-400 hover:underline" href="/youtubers/">YouTube golfer handicaps</a>.</p>
-        <p class="text-xs">Scottie Scheffler, Rory McIlroy, Tiger Woods, Ludvig Åberg, Bryson DeChambeau, Jon Rahm, Viktor Hovland, Xander Schauffele, Collin Morikawa, Brooks Koepka, Patrick Cantlay, Max Homa, Joaquin Niemann, Tyrrell Hatton, Shane Lowry, Sepp Straka, Jason Day, Brian Harman, Rickie Fowler, Tony Finau, Will Zalatoris, Sungjae Im, Tommy Fleetwood, Justin Thomas, Jordan Spieth, Hideki Matsuyama, Cameron Smith, Min Woo Lee, Wyndham Clark, Sahith Theegala, Tom Kim, Phil Mickelson, Dustin Johnson, Sergio Garcia, Adam Scott, Justin Rose, Patrick Reed, Bubba Watson, Henrik Stenson, Matt Fitzpatrick, Corey Conners, Chris Kirk, Daniel Berger, Zach Johnson, Brandt Snedeker, Webb Simpson, Gary Woodland, Lucas Glover, Aaron Rai, Ryan Fox, Cameron Young, Sam Burns, Akshay Bhatia, Russell Henley, Keegan Bradley, J.J. Spaun, Robert MacIntyre, Alex Norén, Jack Nicklaus, Ben Hogan, Sam Snead, Arnold Palmer, Byron Nelson, Tom Watson, Lee Trevino, Raymond Floyd, Gary Player, Ernie Els, Greg Norman, Vijay Singh.</p>
-      </div>
+      <div id="text-pro" class="hidden"></div>
     </section>
 
     <!-- BOTTOM ADSENSE / AFFILIATE BANNER -->
@@ -634,7 +618,6 @@ html.in-game #coin-pill{display:none}
                 <a class="hover:text-golf-400" href="/">Home</a>
                 <a id="howto-link" class="hover:text-golf-400" href="/how-to-play/">How to play</a>
                 <a class="hover:text-golf-400" href="/articles/">Articles</a>
-                <a class="hover:text-golf-400" href="/golfers/">Golfers</a>
                 <a class="hover:text-golf-400" href="/youtubers/">YouTubers</a>
                 <a class="hover:text-golf-400" href="/answers/">Past answers</a>
                 <a class="hover:text-golf-400" href="/about/">About</a>
