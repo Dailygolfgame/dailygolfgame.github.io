@@ -1105,7 +1105,9 @@ function drawFollow(b){ draw(b); }
 (function(){ // private link: restores a season played before seasons were saved (summary only)
   var m=/^#s1-([0-9a-f]+)$/.exec(location.hash||''); if(!m || hash(m[1])!==3095246657 || !P.career) return;
   var C=P.career; C.hist=C.hist||[];
-  if(!C.hist.some(function(x){return x.season===1;})){ C.hist.unshift({season:1, rank:null, pts:null, wins:5, majors:0, top10:9, events:16, res:[], restored:true}); save(); }
+  var s1=C.hist.find(function(x){return x.season===1;});
+  if(!s1){ C.hist.unshift({season:1, rank:1, pts:null, wins:5, majors:0, top10:9, events:16, res:[], restored:true, champ:P.name}); save(); }
+  else if(s1.restored){ s1.rank=1; s1.champ=P.name; save(); }
   try{ history.replaceState(null,'',location.pathname); }catch(e){}
   setTimeout(function(){ toastMsg('Season 1 is back in your career stats'); },300);
 })();
