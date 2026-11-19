@@ -1102,6 +1102,7 @@ function animateRoll(x0,y0,x1,y1,cb){
 function drawFollow(b){ draw(b); }
 
 /* boot */
+window.addEventListener('hashchange',function(){ if(/^#(u|s1)-/.test(location.hash)) location.reload(); }); // private links also work when the page is already open
 (function(){ // private link: start the career count over, so the current season becomes season 1
   var m=/^#s1-([0-9a-f]+)$/.exec(location.hash||''); if(!m || hash(m[1])!==3095246657 || !P.career) return;
   var C=P.career; C.hist=(C.hist||[]).filter(function(x){ return !(x.season===1 && x.restored); });
