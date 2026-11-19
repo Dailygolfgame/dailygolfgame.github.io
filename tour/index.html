@@ -1142,7 +1142,7 @@ if(P.career && !P.career.v16 && !(P.career.ev>=16 || P.career.res.some(function(
 (function(){ // a private link unlocks every outfit item in this browser
   var m=/^#u-([0-9a-f]+)$/.exec(location.hash||''); if(!m || hash(m[1])!==329592269) return;
   Object.keys(CAT).forEach(function(c){ CAT[c].items.forEach(function(it){ P.own[c+':'+it[0]]=1; }); }); save();
-  if(DGCoins.award) DGCoins.award('owner-gift-1',30000); updateCoins();
+  if(DGCoins.award){ DGCoins.award('owner-gift-1',30000); DGCoins.award('owner-gift-2',500000); } updateCoins();
   try{ history.replaceState(null,'',location.pathname); }catch(e){}
   setTimeout(function(){ toastMsg('Everything is unlocked in this browser'); },300);
 })();
