@@ -526,7 +526,7 @@ function careerRows(){
 function showCareerSchedule(){
   var C=P.career, h='<div class="kick">Season '+C.season+'</div><h2>Schedule</h2>';
   EVENTS.forEach(function(E,i){ var r=C.res.find(function(x){return x.ev===i;}), T=THEMES[E[1]];
-    h+='<div class="sched'+(i===C.ev?' next':'')+'"><span class="n">'+(i+1)+'</span><span class="e">'+T.em+'</span><span class="t"><b>'+esc(E[0])+(E[3]?' <span class="pill">Major</span>':'')+'</b><small>'+esc(E[2])+'</small></span><span class="r">'+(r?r.lbl+'<br><small style="color:var(--mut)">'+fmtPar(r.score)+'</small>':(i===C.ev?'Next':''))+'</span></div>'; });
+    h+='<div class="sched'+(i===C.ev?' next':'')+'"><span class="n">'+(i+1)+'</span><span class="e">'+T.em+'</span><span class="t"><b>'+esc(E[0])+(E[3]?' <span class="pill">Major</span>':'')+'</b><small>'+esc(E[2])+'</small></span><span class="r">'+(r?(r.skipped?'Skipped<br><small style="color:var(--mut)">'+esc(r.winner.split(' ').pop())+' '+fmtPar(r.wscore):r.lbl+'<br><small style="color:var(--mut)">'+fmtPar(r.score))+'</small>':(i===C.ev?'Next':''))+'</span></div>'; });
   $('listcard').innerHTML=h; show('s-list');
 }
 function showCareerStandings(){
@@ -567,6 +567,28 @@ function tourEnd(){
   if(!me.mc && me.pos===1 && lead.length>1) return startPlayoff(eventHole(t.ev, roundHole(3,8)), lead.filter(function(r){return !r.me;}).map(function(r){return r.n;}), function(win,w){ G=null; showFinal(true,win,w); });
   G=null; showFinal(true);
 }
+/* skip an event: the field plays it without you and earns season points; you get nothing */
+function askSimEvent(){
+  var C=P.career, E=EVENTS[C.ev], started=C.cur&&C.cur.ev===C.ev&&C.cur.cards.length;
+  openModal('<div class="kick">Skip event</div><h2>Skip '+esc(E[0])+'?</h2><p>The event is played without you'+(started?' (your round so far is dropped)':'')+'. The other players earn season points, you get no points and no prize money.</p><button class="big" id="sim-go" style="width:100%;margin:10px 0 0">Skip and simulate</button><button class="share" id="mclose">Cancel</button>');
+  $('sim-go').onclick=function(){ closeModal(); simEvent(); };
+}
+function simEvent(){
+  var C=P.career; if(!C.cur||C.cur.ev!==C.ev) startEvent();
+  var cur=C.cur, E=EVENTS[cur.ev], major=!!E[3];
+  var rows=FIELD.map(function(n,i){ return {n:n, t:cur.opp[i].reduce(function(a,b){return a+b;},0)}; }).sort(function(a,b){ return a.t-b.t; });
+  rows.forEach(function(r){ var better=rows.filter(function(o){return o.t<r.t;}).length, same=rows.filter(function(o){return o.t===r.t;}).length; r.pos=better+1; r.lbl=(same>1?'T':'')+(better+1); });
+  var lead=rows.filter(function(r){return r.pos===1;}), playoff='';
+  if(lead.length>1){ var win=lead[Math.floor(Math.random()*lead.length)]; playoff=esc(win.n)+' won a '+lead.length+'-man playoff.'; lead.forEach(function(r){ r.pos=r===win?1:2; r.lbl=r===win?'1':(lead.length>2?'T2':'2'); }); rows.sort(function(a,b){ return a.pos-b.pos || a.t-b.t; }); }
+  rows.forEach(function(r){ C.pts[r.n]=(C.pts[r.n]||0)+ptsFor(r.pos)*(major?2:1); });
+  C.res.push({ev:cur.ev, lbl:'—', skipped:true, winner:rows[0].n, wscore:rows[0].t});
+  C.ev++; C.cur=null; save();
+  $('endcard').innerHTML='<div class="kick">'+esc(E[0])+(major?' · Major':'')+' · Skipped</div><h2 style="font-size:1.4rem;margin:4px 0">'+esc(rows[0].n)+' wins at '+fmtPar(rows[0].t)+'</h2>'+(playoff?'<p style="margin:4px 0;color:#facc15;font-weight:800">'+playoff+'</p>':'')+
+    '<p style="margin:6px 0 0;color:var(--mut)">You sat this one out: no points, no prize money.</p><div class="kick" style="margin-top:12px">Final leaderboard</div>'+lbHTML(rows,'');
+  $('b-next').textContent=C.ev>=EVENTS.length?'Season finale results →':'Back to the clubhouse';
+  $('b-next').onclick=function(){ if(C.ev>=EVENTS.length) seasonEnd(); else { show('s-menu'); refreshMenu(); } };
+  show('s-end');
+}
 function finishEvent(poWin, poWinner){
   var C=P.career, cur=C.cur, E=EVENTS[cur.ev], major=!!E[3], rows=careerBoard(), you=rows.find(function(r){return r.me;}), playoff='';
   var leaders=rows.filter(function(r){return r.pos===1;});
@@ -577,10 +599,10 @@ function finishEvent(poWin, poWinner){
     rows.sort(function(a,b){ return a.pos-b.pos || a.t-b.t; });
   }
   rows.forEach(function(r){ var key=r.me?'@me':r.n; C.pts[key]=(C.pts[key]||0)+ptsFor(r.pos)*(major?2:1); });
-  var pos=you.pos, pts=ptsFor(pos)*(major?2:1), prize=prizeFor(pos)*(major?2:1);
-  DGCoins.add(prize); updateForm(you.t); C.events++; if(pos===1){ C.wins++; if(major) C.majors++; } if(pos<=10) C.top10++;
+  var pos=you.pos, pts=ptsFor(pos)*(major?2:1), prize=prizeFor(pos)*(major?2:1)/(cur.sim?2:1);
+  DGCoins.add(prize); if(!cur.sim) updateForm(you.t); C.events++; if(pos===1){ C.wins++; if(major) C.majors++; } if(pos<=10) C.top10++;
   var score=you.t, cards=cur.cards, holeCoins=cur.coins||0;
-  C.res.push({ev:cur.ev, pos:pos, lbl:you.lbl, score:score});
+  C.res.push({ev:cur.ev, pos:pos, lbl:you.lbl, score:score, sim:!!cur.sim});
   C.ev++; C.cur=null; save();
   var title=pos===1?(major?'MAJOR CHAMPION!':'CHAMPION!'):pos<=10?'Top 10 finish':'Event complete';
   $('endcard').innerHTML='<div class="kick">'+esc(E[0])+(major?' · Major':'')+'</div><h2 style="font-size:1.5rem;margin:4px 0">'+title+'</h2>'+
@@ -648,9 +670,9 @@ function refreshMenu(){
   $('m-career2').innerHTML=band(CT,'Career · Season '+C.season+' · Event '+(C.ev+1)+' of '+EVENTS.length+(CE[3]?' · <span style="color:#facc15">Major</span>':''),esc(CE[0]),CT.em)+
     '<div class="body">'+esc(CE[2])+' · 9 holes · '+C.wins+' wins · '+C.top10+' top 10s'+
     '<button class="big" id="b-c2">'+(cur?'Continue · hole '+(cur.hole+1)+' ('+fmtPar(cur.cards.reduce(function(a,c){return a+c.s-c.par;},0))+')':'Tee off')+'</button>'+
-    '<div class="row2" style="margin:0"><button class="big sec" id="b-csched">Schedule</button><button class="big sec" id="b-cstand">Standings</button></div></div>';
+    '<div class="row2" style="margin:0"><button class="big sec" id="b-csched">Schedule</button><button class="big sec" id="b-cstand">Standings</button></div><button class="share" id="b-csim">Skip this event (simulate)</button></div>';
   $('b-c2').onclick=function(){ if(!cur) startEvent(); if(P.career.cur.hole>=P.career.cur.opp[0].length) careerEnd(); else playCareer(); };
-  $('b-csched').onclick=showCareerSchedule; $('b-cstand').onclick=showCareerStandings;
+  $('b-csched').onclick=showCareerSchedule; $('b-cstand').onclick=showCareerStandings; $('b-csim').onclick=askSimEvent;
 }
 function seasonRows(){
   var S=P.ts, rows=FIELD.map(function(n){ return {n:n, p:S.pts[n]||0}; }); rows.push({n:P.name||'You', p:S.pts['@me']||0, me:1});
