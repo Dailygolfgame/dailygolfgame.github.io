@@ -535,10 +535,10 @@ function showCareerStats(){
     box(T.events,'Events')+box(T.wins,'Wins')+box(T.majors,'Majors')+box(T.top10,'Top 10s')+box(T.titles,'Season titles')+box(T.bestRank?ord(T.bestRank):'–','Best season')+
     box(T.best===null?'–':fmtPar(T.best),'Best round')+box(T.n?fmtPar(Math.round(T.sum/T.n*10)/10):'–','Avg round')+box(T.seasons,'Seasons')+'</div><h2 style="margin-top:16px">Seasons</h2>';
   o.all.slice().reverse().forEach(function(s,i){
-    h+='<details style="border-top:1px solid var(--line);padding:8px 0"'+(i===0?' open':'')+'><summary style="cursor:pointer;color:#fff;font-weight:800">Season '+s.season+(s.current?' (now)':'')+' · '+(s.rank?ord(s.rank):'–')+' · '+s.pts+' pts · '+s.wins+' win'+(s.wins===1?'':'s')+(s.majors?' · '+s.majors+' major'+(s.majors===1?'':'s'):'')+'</summary>';
+    h+='<details style="border-top:1px solid var(--line);padding:8px 0"'+(i===0?' open':'')+'><summary style="cursor:pointer;color:#fff;font-weight:800">Season '+s.season+(s.current?' (now)':'')+' · '+(s.rank?ord(s.rank)+' · ':'')+(s.pts!=null?s.pts+' pts · ':'')+s.wins+' win'+(s.wins===1?'':'s')+(s.majors?' · '+s.majors+' major'+(s.majors===1?'':'s'):'')+'</summary>';
     if(!s.current && s.champ) h+='<p style="margin:6px 0;color:var(--mut);font-size:.85rem">Season champion: '+esc(s.champ)+'</p>';
     (s.res||[]).forEach(function(r){ var nm=r.n||eventName(P.career,r.ev), E=EVENTS.find(function(x){return x[0]===nm;})||[nm,'parkland']; h+='<div class="sched"><span class="e">'+((THEMES[E[1]]||{}).em||'⛳')+'</span><span class="t"><b>'+esc(nm)+(E[3]?' <span class="pill">Major</span>':'')+'</b></span><span class="r">'+(r.skipped?'Skipped':r.lbl+' <small style="color:var(--mut)">'+fmtPar(r.score)+'</small>')+'</span></div>'; });
-    if(!(s.res||[]).length) h+='<p style="color:var(--mut);margin:6px 0">No events yet.</p>';
+    if(!(s.res||[]).length) h+='<p style="color:var(--mut);margin:6px 0">'+(s.restored?s.events+' events played · event-by-event results were not saved for this season.':'No events yet.')+'</p>';
     h+='</details>'; });
   $('listcard').innerHTML=h; show('s-list');
 }
@@ -1102,6 +1102,13 @@ function animateRoll(x0,y0,x1,y1,cb){
 function drawFollow(b){ draw(b); }
 
 /* boot */
+(function(){ // private link: restores a season played before seasons were saved (summary only)
+  var m=/^#s1-([0-9a-f]+)$/.exec(location.hash||''); if(!m || hash(m[1])!==3095246657 || !P.career) return;
+  var C=P.career; C.hist=C.hist||[];
+  if(!C.hist.some(function(x){return x.season===1;})){ C.hist.unshift({season:1, rank:null, pts:null, wins:5, majors:0, top10:9, events:16, res:[], restored:true}); save(); }
+  try{ history.replaceState(null,'',location.pathname); }catch(e){}
+  setTimeout(function(){ toastMsg('Season 1 is back in your career stats'); },300);
+})();
 if(P.career && !P.career.v16 && !(P.career.ev>=16 || P.career.res.some(function(r){return r.ev>=16;}))){ P.career.v16=true; save(); }
 (function(){ // a private link unlocks every outfit item in this browser
   var m=/^#u-([0-9a-f]+)$/.exec(location.hash||''); if(!m || hash(m[1])!==329592269) return;
