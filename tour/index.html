@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Dailygolf Tour: Free Golf Game with a Daily Hole and Weekly Tour | Dailygolf</title>
-<meta name="description" content="Play golf in your browser: design your golfer, play the daily hole, a weekly 4-round tour event and a 20-event career on courses from Florida and Arizona to English links. Earn coins, upgrade your clubs.">
+<meta name="description" content="Play golf in your browser: design your golfer, play the daily hole, a weekly 4-round tour event and a 16-event career on courses from Florida and Arizona to English links. Earn coins, upgrade your clubs.">
 <link rel="canonical" href="https://dailygolfgame.com/tour/">
 <meta name="robots" content="index, follow, max-image-preview:large">
 <meta name="theme-color" content="#020617">
@@ -186,7 +186,7 @@ table.lb{border-collapse:collapse;width:100%;font-size:.88rem}
   <div class="note about">
   <h2 style="color:#fff;font-size:1.05rem;margin:6px 0">How Dailygolf Tour works</h2>
   <p>Design your own golfer, name them and fill your bag with up to 14 clubs. Swing with three taps: start, power (the white line is the distance you picked) and accuracy (the light zone hits it straight). Drag on the course to aim and to pick your landing spot.</p>
-  <p><b>Daily hole:</b> one new hole a day, the same for everyone. <b>Weekly tour:</b> a new event every week, four rounds of nine holes from Thursday to Sunday with a cut after round two. <b>Career:</b> a 20-event season of nine-hole events with four majors at your own pace. Finish tied for the lead and you play a sudden-death playoff.</p>
+  <p><b>Daily hole:</b> one new hole a day, the same for everyone. <b>Weekly tour:</b> a new event every week, four rounds of nine holes from Thursday to Sunday with a cut after round two. <b>Career:</b> a 16-event season of nine-hole events with four majors at your own pace. Finish tied for the lead and you play a sudden-death playoff.</p>
   <p>The courses go from Florida palms and Arizona desert to English links, heathland, mountains and island coasts. Every course and player is made up: no real brands or tours.</p>
   <p>Coins from every Dailygolf game, like <a href="/trivia/">Daily Golf Trivia</a>, <a href="/draft/">Scramble Draft</a> and <a href="/">Guess the YouTube Golfer</a>, buy gear and club upgrades. Progress is saved in this browser. <a href="/">More daily games</a></p>
 </div>
@@ -245,14 +245,13 @@ var THEMES = {
   tropical: {label:'Tropical island',  em:'🏝️', bg:'#287046', rough:'#38994a', fair:'#5ccf5a', green:'#7be584', sand:'#fbf3dc', water:'#0ea5b7', sea:.85, seaCol:'#0891b2', tree:'palm', trees:[7,12], pond:.35, wind:[5,14], fw:34},
   autumn:   {label:'Autumn parkland',  em:'🍁', bg:'#36482a', rough:'#4d7a35', fair:'#6bb04f', green:'#7bd07c', sand:'#ecdfc2', water:'#2563eb', tree:'maple',  trees:[15,22], pond:.4, sea:0, wind:[2,10], fw:32}
 };
-/* the 20-event season: [name, theme, location, major] */
+/* the 16-event season: [name, theme, location, major] */
 var EVENTS = [
   ['Palmetto Bay Classic','florida','Palmetto Bay, Florida'],
   ['Saguaro Springs Open','desert','Saguaro Springs, Arizona'],
   ['Driftwood Coast Invitational','coastal','Driftwood Coast, California'],
   ['Heron Lake Classic','parkland','Heron Lake, Texas'],
   ['The Highcrest Championship','parkland','Highcrest, Georgia',1],
-  ['Pelican Shores Open','florida','Pelican Shores, Florida'],
   ['Red Mesa Classic','desert','Red Mesa, Arizona'],
   ['Kingsmere Links Trophy','links','Kingsmere, England'],
   ['Hollowbrook Heritage','autumn','Hollowbrook, Vermont'],
@@ -262,9 +261,6 @@ var EVENTS = [
   ['The Saltmarsh Championship','links','Saltmarsh, England',1],
   ['Pine Ridge Classic','mountain','Pine Ridge, Colorado'],
   ['Coral Cay Invitational','tropical','Coral Cay, Bahamas'],
-  ['Copper Dunes Championship','desert','Copper Dunes, Nevada'],
-  ['Harbour Lights Open','coastal','Harbour Lights, Ireland'],
-  ['Maple Hollow Classic','autumn','Maple Hollow, Ontario'],
   ['The Summit Championship','mountain','Summit Lake, Montana',1],
   ['Ocean Crest Finale','tropical','Ocean Crest, Hawaii']
 ];
@@ -503,7 +499,7 @@ function drawAvatar(cv, p){
 
 /* ================= career mode ================= */
 function newCareer(){
-    return {season:1, ev:0, pts:{}, res:[], sk:SK.slice(), cur:null, wins:0, majors:0, top10:0, events:0};
+    return {v16:true, season:1, ev:0, pts:{}, res:[], sk:SK.slice(), cur:null, wins:0, majors:0, top10:0, events:0};
 }
 function startEvent(){
   var C=P.career, E=EVENTS[C.ev], off=C.ev%2?9:0, pars=coursePars(E[0]).slice(off,off+9); // 9-hole events: front or back nine
@@ -517,6 +513,34 @@ function careerBoard(){ // standings after the player's completed holes
   rows.sort(function(a,b){ return a.t-b.t || (b.me?1:0)-(a.me?1:0); });
   rows.forEach(function(r){ var better=rows.filter(function(o){return o.t<r.t;}).length, same=rows.filter(function(o){return o.t===r.t;}).length; r.pos=better+1; r.lbl=(same>1?'T':'')+(better+1); });
   return rows;
+}
+// names of the original 20-event schedule, for seasons played before it became 16 events
+var OLD_EVENT_NAMES=['Palmetto Bay Classic','Saguaro Springs Open','Driftwood Coast Invitational','Heron Lake Classic','The Highcrest Championship','Pelican Shores Open','Red Mesa Classic','Kingsmere Links Trophy','Hollowbrook Heritage','The Ironwood National','Heatherfield Open','Thistle Bay Links','The Saltmarsh Championship','Pine Ridge Classic','Coral Cay Invitational','Copper Dunes Championship','Harbour Lights Open','Maple Hollow Classic','The Summit Championship','Ocean Crest Finale'];
+function eventName(C, ev){ return C.v16?(EVENTS[ev]||[''])[0]:(OLD_EVENT_NAMES[ev]||''); }
+function archiveSeason(C, rank, rows){
+  C.hist=C.hist||[];
+  if(C.hist.some(function(x){return x.season===C.season;})) return;
+  C.hist.push({season:C.season, rank:rank, pts:C.pts['@me']||0, wins:C.wins, majors:C.majors, top10:C.top10, events:C.events, champ:rows[0].me?(P.name||'You'):rows[0].n, res:C.res.map(function(r){ return {ev:r.ev, n:eventName(C,r.ev), lbl:r.lbl, score:r.score, skipped:!!r.skipped, winner:r.winner}; })});
+}
+function careerTotals(){
+  var C=P.career, all=(C.hist||[]).concat([{season:C.season, current:true, rank:C.events?careerRows().findIndex(function(r){return r.me;})+1:null, pts:C.pts['@me']||0, wins:C.wins, majors:C.majors, top10:C.top10, events:C.events, res:C.res}]);
+  var T={seasons:all.filter(function(s){return s.events;}).length, events:0, wins:0, majors:0, top10:0, titles:0, best:null, sum:0, n:0, bestRank:null};
+  all.forEach(function(s){ T.events+=s.events; T.wins+=s.wins; T.majors+=s.majors; T.top10+=s.top10; if(!s.current&&s.rank===1) T.titles++; if(!s.current&&s.rank&&(T.bestRank===null||s.rank<T.bestRank)) T.bestRank=s.rank;
+    (s.res||[]).forEach(function(r){ if(r.skipped||r.score==null) return; T.sum+=r.score; T.n++; if(T.best===null||r.score<T.best) T.best=r.score; }); });
+  return {T:T, all:all};
+}
+function showCareerStats(){
+  var o=careerTotals(), T=o.T, box=function(v,l){ return '<div style="background:#0b1325;border:1px solid var(--line);border-radius:12px;padding:10px 4px;text-align:center"><b style="display:block;color:#fff;font-size:1.3rem">'+v+'</b><small style="color:var(--mut);font-size:.68rem;text-transform:uppercase;font-weight:700">'+l+'</small></div>'; };
+  var h='<div class="kick">'+esc(P.name)+'</div><h2>Career</h2><div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px">'+
+    box(T.events,'Events')+box(T.wins,'Wins')+box(T.majors,'Majors')+box(T.top10,'Top 10s')+box(T.titles,'Season titles')+box(T.bestRank?ord(T.bestRank):'–','Best season')+
+    box(T.best===null?'–':fmtPar(T.best),'Best round')+box(T.n?fmtPar(Math.round(T.sum/T.n*10)/10):'–','Avg round')+box(T.seasons,'Seasons')+'</div><h2 style="margin-top:16px">Seasons</h2>';
+  o.all.slice().reverse().forEach(function(s,i){
+    h+='<details style="border-top:1px solid var(--line);padding:8px 0"'+(i===0?' open':'')+'><summary style="cursor:pointer;color:#fff;font-weight:800">Season '+s.season+(s.current?' (now)':'')+' · '+(s.rank?ord(s.rank):'–')+' · '+s.pts+' pts · '+s.wins+' win'+(s.wins===1?'':'s')+(s.majors?' · '+s.majors+' major'+(s.majors===1?'':'s'):'')+'</summary>';
+    if(!s.current && s.champ) h+='<p style="margin:6px 0;color:var(--mut);font-size:.85rem">Season champion: '+esc(s.champ)+'</p>';
+    (s.res||[]).forEach(function(r){ var nm=r.n||eventName(P.career,r.ev), E=EVENTS.find(function(x){return x[0]===nm;})||[nm,'parkland']; h+='<div class="sched"><span class="e">'+((THEMES[E[1]]||{}).em||'⛳')+'</span><span class="t"><b>'+esc(nm)+(E[3]?' <span class="pill">Major</span>':'')+'</b></span><span class="r">'+(r.skipped?'Skipped':r.lbl+' <small style="color:var(--mut)">'+fmtPar(r.score)+'</small>')+'</span></div>'; });
+    if(!(s.res||[]).length) h+='<p style="color:var(--mut);margin:6px 0">No events yet.</p>';
+    h+='</details>'; });
+  $('listcard').innerHTML=h; show('s-list');
 }
 function seasonBonus(rank){ return rank===1?3000:rank<=3?2000:rank<=10?1200:rank<=20?600:300; }
 function careerRows(){
@@ -623,6 +647,7 @@ function seasonEnd(){
   $('b-next').textContent='Start season '+(C.season+1)+' →';
   $('b-next').onclick=function(){
     DGCoins.add(bonus); var R=Math.random; C.sk=C.sk.map(function(s){ return Math.max(.05,Math.min(.95,Math.round((s+(R()-.5)*.12)*100)/100)); });
+    archiveSeason(C, rank, rows); C.v16=true;
     C.season++; C.ev=0; C.pts={}; C.res=[]; C.cur=null; C.wins=0; C.majors=0; C.top10=0; C.events=0; save(); show('s-menu'); refreshMenu(); };
   show('s-end');
 }
@@ -663,16 +688,16 @@ function refreshMenu(){
   $('b-lb').onclick=function(){ var n=myHoles(t).length; openModal('<div class="kick">'+esc(E[0])+'</div><h2>Leaderboard</h2>'+(n||t.final?lbHTML(t.final?board(t,36):board(t),t.final?'Final':'Thru '+n+' of 36 holes'):'<p>The field tees off on Thursday. Round 1 opens then.</p>')+'<button class="share" id="mclose">Close</button>'); };
   $('b-stand').onclick=showStandings;
   // career mode
-  if(!P.career){ $('m-career2').innerHTML=band(THEMES.coastal,'Career mode','Your own tour career','🧢')+'<div class="body">Play a full 20-event season at your own pace: 9-hole events, 4 majors, season standings.<button class="big" id="b-c2">Start a career</button></div>'; $('b-c2').onclick=function(){ P.career=newCareer(); save(); refreshMenu(); }; return; }
+  if(!P.career){ $('m-career2').innerHTML=band(THEMES.coastal,'Career mode','Your own tour career','🧢')+'<div class="body">Play a full 16-event season at your own pace: 9-hole events, 4 majors, season standings.<button class="big" id="b-c2">Start a career</button></div>'; $('b-c2').onclick=function(){ P.career=newCareer(); save(); refreshMenu(); }; return; }
   var C=P.career;
-  if(C.ev>=EVENTS.length){ $('m-career2').innerHTML=band(THEMES.parkland,'Career · Season '+C.season+' complete','Season over','🏆')+'<div class="body"><button class="big" id="b-c2">See the final standings</button></div>'; $('b-c2').onclick=seasonEnd; return; }
+  if(C.ev>=EVENTS.length){ $('m-career2').innerHTML=band(THEMES.parkland,'Career · Season '+C.season+' complete','Season over','🏆')+'<div class="body"><button class="big" id="b-c2">See the final standings</button><button class="big sec" id="b-cstats" style="width:100%;margin:6px 0 0">Career stats &amp; past seasons</button></div>'; $('b-c2').onclick=seasonEnd; $('b-cstats').onclick=showCareerStats; return; }
   var CE=EVENTS[C.ev], CT=THEMES[CE[1]], cur=C.cur&&C.cur.ev===C.ev?C.cur:null;
   $('m-career2').innerHTML=band(CT,'Career · Season '+C.season+' · Event '+(C.ev+1)+' of '+EVENTS.length+(CE[3]?' · <span style="color:#facc15">Major</span>':''),esc(CE[0]),CT.em)+
     '<div class="body">'+esc(CE[2])+' · 9 holes · '+C.wins+' wins · '+C.top10+' top 10s'+
     '<button class="big" id="b-c2">'+(cur?'Continue · hole '+(cur.hole+1)+' ('+fmtPar(cur.cards.reduce(function(a,c){return a+c.s-c.par;},0))+')':'Tee off')+'</button>'+
-    '<div class="row2" style="margin:0"><button class="big sec" id="b-csched">Schedule</button><button class="big sec" id="b-cstand">Standings</button></div><button class="share" id="b-csim">Skip this event (simulate)</button></div>';
+    '<div class="row2" style="margin:0"><button class="big sec" id="b-csched">Schedule</button><button class="big sec" id="b-cstand">Standings</button></div><button class="big sec" id="b-cstats" style="width:100%;margin:6px 0 0">Career stats &amp; past seasons</button><button class="share" id="b-csim">Skip this event (simulate)</button></div>';
   $('b-c2').onclick=function(){ if(!cur) startEvent(); if(P.career.cur.hole>=P.career.cur.opp[0].length) careerEnd(); else playCareer(); };
-  $('b-csched').onclick=showCareerSchedule; $('b-cstand').onclick=showCareerStandings; $('b-csim').onclick=askSimEvent;
+  $('b-csched').onclick=showCareerSchedule; $('b-cstand').onclick=showCareerStandings; $('b-csim').onclick=askSimEvent; $('b-cstats').onclick=showCareerStats;
 }
 function seasonRows(){
   var S=P.ts, rows=FIELD.map(function(n){ return {n:n, p:S.pts[n]||0}; }); rows.push({n:P.name||'You', p:S.pts['@me']||0, me:1});
@@ -1077,6 +1102,7 @@ function animateRoll(x0,y0,x1,y1,cb){
 function drawFollow(b){ draw(b); }
 
 /* boot */
+if(P.career && !P.career.v16 && !(P.career.ev>=16 || P.career.res.some(function(r){return r.ev>=16;}))){ P.career.v16=true; save(); }
 (function(){ // a private link unlocks every outfit item in this browser
   var m=/^#u-([0-9a-f]+)$/.exec(location.hash||''); if(!m || hash(m[1])!==329592269) return;
   Object.keys(CAT).forEach(function(c){ CAT[c].items.forEach(function(it){ P.own[c+':'+it[0]]=1; }); }); save();
