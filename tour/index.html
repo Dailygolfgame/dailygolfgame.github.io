@@ -202,14 +202,18 @@ var BRAND='<a class="brand" href="/" aria-label="Dailygolf start page"><span cla
 var CAT = {
   skin:   {label:'Skin',  items:[['#f5d0b5',0],['#e8b48f',0],['#c98d63',0],['#9c6644',0],['#6b4226',0],['#3d2817',0]]},
   hair:   {label:'Hair',  items:[['short',0],['buzz',0],['long',0],['curly',40],['mullet',80],['bald',0]]},
-  hairc:  {label:'Hair colour', items:[['#2b1d14',0],['#5a3825',0],['#c8a165',0],['#e6e2d8',30],['#d9483b',60],['#7c3aed',120]]},
-  hat:    {label:'Hat',   items:[['none',0],['cap',0],['bucket',50],['visor',60],['flatcap',90],['crown',400]]},
-  hatc:   {label:'Hat colour', items:[['#ffffff',0],['#0f172a',0],['#16a34a',0],['#dc2626',40],['#2563eb',40],['#facc15',80]]},
-  shirt:  {label:'Shirt', items:[['#ffffff',0],['#16a34a',0],['#2563eb',0],['#0f172a',30],['#f472b6',60],['#f59e0b',60],['#14b8a6',80],['stripes',150]]},
-  pants:  {label:'Pants', items:[['#e5e7eb',0],['#1f2937',0],['#a3a3a3',0],['#b45309',40],['#1e3a8a',40],['check',150]]},
-  bag:    {label:'Bag',   items:[['#ffffff',0],['#0f172a',0],['#16a34a',0],['#dc2626',50],['#2563eb',50],['#facc15',100],['camo',200],['gold',500]]}
+  hairc:  {label:'Hair colour', items:[['#2b1d14',0],['#5a3825',0],['#c8a165',0],['#e6e2d8',30],['#d9483b',60],['#7c3aed',120],['#f472b6',120],['#22c55e',150],['#60a5fa',150]]},
+  hat:    {label:'Hat',   items:[['none',0],['cap',0],['beanie',40],['bucket',50],['visor',60],['flatcap',90],['crown',400],['tophat',900]]},
+  hatc:   {label:'Hat colour', items:[['#ffffff',0],['#0f172a',0],['#16a34a',0],['#dc2626',40],['#2563eb',40],['#facc15',80],['#f97316',60],['#7c3aed',60],['#f472b6',60],['#14b8a6',60],['#d4af37',800]]},
+  shirt:  {label:'Shirt', items:[['#ffffff',0],['#16a34a',0],['#2563eb',0],['#0f172a',30],['#dc2626',40],['#fde047',50],['#a3e635',50],['#0ea5e9',50],['#f472b6',60],['#f59e0b',60],['#7c3aed',60],['#14b8a6',80],
+    ['stripes',150],['st:#ffffff:#dc2626',150],['st:#ffffff:#2563eb',150],['st:#ffffff:#0f172a',150],['st:#0f172a:#facc15',200],['st:#f472b6:#ffffff',200],['st:#14b8a6:#ffffff',200],['st:#1e3a8a:#dc2626',250],
+    ['ck:#dc2626:#ffffff',300],['argyle',600],['rainbow',900],['gold',1500],['diamond',2500]]},
+  pants:  {label:'Pants', items:[['#e5e7eb',0],['#1f2937',0],['#a3a3a3',0],['#b45309',40],['#1e3a8a',40],['#ffffff',30],['#dc2626',60],['#16a34a',60],['#f472b6',80],['#d6c29a',50],
+    ['check',150],['ck:#14532d:#facc15',300],['ck:#1e3a8a:#ffffff',300],['ck:#0f172a:#dc2626',300],['gold',1500]]},
+  shoes:  {label:'Shoes', items:[['#f8fafc',0],['#0f172a',0],['#78350f',40],['#dc2626',60],['#2563eb',60],['#22c55e',60],['gold',800]]},
+  bag:    {label:'Bag',   items:[['#ffffff',0],['#0f172a',0],['#16a34a',0],['#dc2626',50],['#2563eb',50],['#facc15',100],['#f472b6',100],['#7c3aed',100],['st:#ffffff:#dc2626',200],['camo',200],['argyle',600],['gold',500],['rainbow',900],['diamond',3000]]}
 };
-var NAMES = {short:'Short',buzz:'Buzz',long:'Long',curly:'Curly',mullet:'Mullet',bald:'Bald',none:'None',cap:'Cap',bucket:'Bucket',visor:'Visor',flatcap:'Flat cap',crown:'Crown',stripes:'Stripes',check:'Check',camo:'Camo',gold:'Gold'};
+var NAMES = {beanie:'Beanie',tophat:'Top hat',argyle:'Argyle',rainbow:'Rainbow',diamond:'Diamond',short:'Short',buzz:'Buzz',long:'Long',curly:'Curly',mullet:'Mullet',bald:'Bald',none:'None',cap:'Cap',bucket:'Bucket',visor:'Visor',flatcap:'Flat cap',crown:'Crown',stripes:'Stripes',check:'Check',camo:'Camo',gold:'Gold'};
 var CLUBS = [
   {id:'D', n:'Driver', c:250, sp:6, roll:.12},
   {id:'3W',n:'3 wood', c:230, sp:5.5,roll:.10},
@@ -459,6 +463,11 @@ function finalizeTour(withdrawn, poWin, poWinner){
 function pattern(ctx,kind,x,y,w,h){
   if(kind==='stripes'){ ctx.fillStyle='#fff'; ctx.fillRect(x,y,w,h); ctx.fillStyle='#16a34a'; for(var i=0;i<h;i+=8) ctx.fillRect(x,y+i,w,4); return; }
   if(kind==='check'){ for(var a=0;a<w;a+=6) for(var b=0;b<h;b+=6){ ctx.fillStyle=((a+b)/6)%2?'#7f1d1d':'#f5f5f4'; ctx.fillRect(x+a,y+b,6,6);} return; }
+  if(kind.indexOf('st:')===0){ var sc=kind.split(':'); ctx.fillStyle=sc[1]; ctx.fillRect(x,y,w,h); ctx.fillStyle=sc[2]; for(var si=0;si<h;si+=8) ctx.fillRect(x,y+si,w,4); return; }
+  if(kind.indexOf('ck:')===0){ var cc=kind.split(':'); for(var ca=0;ca<w;ca+=6) for(var cb=0;cb<h;cb+=6){ ctx.fillStyle=((ca+cb)/6)%2?cc[1]:cc[2]; ctx.fillRect(x+ca,y+cb,6,6);} return; }
+  if(kind==='argyle'){ ctx.fillStyle='#1e3a8a'; ctx.fillRect(x,y,w,h); for(var ax=0;ax<w+12;ax+=12) for(var ay=0;ay<h+16;ay+=16){ ctx.fillStyle=((ax+ay)/4)%2?'#facc15':'#dc2626'; ctx.beginPath(); ctx.moveTo(x+ax,y+ay-8); ctx.lineTo(x+ax+6,y+ay); ctx.lineTo(x+ax,y+ay+8); ctx.lineTo(x+ax-6,y+ay); ctx.fill(); } return; }
+  if(kind==='rainbow'){ var rc=['#ef4444','#f97316','#facc15','#22c55e','#3b82f6','#8b5cf6']; for(var ri=0;ri<h;ri+=5){ ctx.fillStyle=rc[(ri/5)%6]; ctx.fillRect(x,y+ri,w,5); } return; }
+  if(kind==='diamond'){ var dg=ctx.createLinearGradient(x,y,x+w,y+h); dg.addColorStop(0,'#e0f2fe'); dg.addColorStop(.4,'#93c5fd'); dg.addColorStop(.6,'#ffffff'); dg.addColorStop(1,'#bae6fd'); ctx.fillStyle=dg; ctx.fillRect(x,y,w,h); ctx.fillStyle='#ffffff'; for(var di=0;di<10;di++){ var dx=x+((di*29)%w), dy=y+((di*17)%h); ctx.fillRect(dx-1,dy-3,2,6); ctx.fillRect(dx-3,dy-1,6,2); } return; }
   if(kind==='camo'){ ctx.fillStyle='#4d5d32'; ctx.fillRect(x,y,w,h); var c=['#6b7c45','#2f3a1f','#8a7f55']; for(var k=0;k<14;k++){ ctx.fillStyle=c[k%3]; ctx.beginPath(); ctx.ellipse(x+((k*37)%w), y+((k*53)%h), 6, 4, k, 0, 7); ctx.fill(); } return; }
   if(kind==='gold'){ var g=ctx.createLinearGradient(x,y,x+w,y+h); g.addColorStop(0,'#fde68a'); g.addColorStop(.5,'#f59e0b'); g.addColorStop(1,'#fde68a'); ctx.fillStyle=g; ctx.fillRect(x,y,w,h); return; }
   ctx.fillStyle=kind; ctx.fillRect(x,y,w,h);
@@ -473,7 +482,7 @@ function drawAvatar(cv, p){
   c.restore();
   c.save(); c.beginPath(); c.rect(42,92,36,40); c.clip(); pattern(c,p.pants,42,92,36,40); c.restore();
   c.fillStyle=p.pants==='check'?'#020617':'rgba(0,0,0,.25)'; c.fillRect(59,100,2,32);
-  c.fillStyle='#f8fafc'; c.fillRect(40,130,18,7); c.fillRect(62,130,18,7);
+  c.save(); c.beginPath(); c.rect(40,130,18,7); c.rect(62,130,18,7); c.clip(); pattern(c,p.shoes||'#f8fafc',40,130,40,7); c.restore();
   c.save(); c.beginPath(); c.roundRect(36,58,48,40,10); c.clip(); pattern(c,p.shirt,36,58,48,40); c.restore();
   c.fillStyle=p.skin; c.fillRect(28,62,9,26); c.fillRect(83,62,9,26);
   c.save(); c.beginPath(); c.rect(28,58,9,12); c.rect(83,58,9,12); c.clip(); pattern(c,p.shirt,26,58,70,12); c.restore();
@@ -493,6 +502,8 @@ function drawAvatar(cv, p){
   if(p.hat==='bucket'){ c.fillStyle=hc; c.beginPath(); c.roundRect(44,12,32,18,6); c.fill(); c.beginPath(); c.ellipse(60,30,27,6,0,0,7); c.fill(); }
   if(p.hat==='visor'){ c.fillStyle=hc; c.fillRect(42,24,36,6); c.beginPath(); c.ellipse(70,30,16,4,0,0,7); c.fill(); }
   if(p.hat==='flatcap'){ c.fillStyle=hc; c.beginPath(); c.ellipse(62,24,22,10,0,Math.PI,0); c.fill(); c.beginPath(); c.ellipse(68,26,20,5,0,0,7); c.fill(); }
+  if(p.hat==='beanie'){ c.fillStyle=hc; c.beginPath(); c.arc(60,30,19,Math.PI,0); c.fill(); c.fillRect(41,26,38,6); c.beginPath(); c.arc(60,10,5,0,7); c.fill(); }
+  if(p.hat==='tophat'){ c.fillStyle=hc==='#ffffff'?'#0f172a':hc; c.fillRect(46,0,28,24); c.fillRect(38,22,44,5); c.fillStyle='#dc2626'; c.fillRect(46,17,28,4); }
   if(p.hat==='crown'){ c.fillStyle='#facc15'; c.beginPath(); c.moveTo(44,24); c.lineTo(44,8); c.lineTo(52,16); c.lineTo(60,4); c.lineTo(68,16); c.lineTo(76,8); c.lineTo(76,24); c.closePath(); c.fill(); c.fillStyle='#dc2626'; c.beginPath(); c.arc(60,18,3,0,7); c.fill(); }
   c.restore();
 }
@@ -717,6 +728,12 @@ $('b-back2').onclick=function(){ show('s-menu'); refreshMenu(); };
 /* ================= locker ================= */
 var tab='skin', creating=false;
 function openLocker(create){ creating=!!create; show('s-locker'); renderLocker(); }
+function swatch(v){
+  if(v.indexOf('st:')===0){ var a=v.split(':'); return 'repeating-linear-gradient('+a[1]+' 0 4px,'+a[2]+' 4px 8px)'; }
+  if(v.indexOf('ck:')===0){ var b=v.split(':'); return 'repeating-conic-gradient('+b[1]+' 0 25%,'+b[2]+' 0 50%) 0 0/10px 10px'; }
+  return {stripes:'repeating-linear-gradient(#fff 0 4px,#16a34a 4px 8px)',check:'repeating-conic-gradient(#7f1d1d 0 25%,#f5f5f4 0 50%) 0 0/10px 10px',camo:'#4d5d32',gold:'linear-gradient(135deg,#fde68a,#f59e0b)',
+    argyle:'repeating-linear-gradient(45deg,#1e3a8a 0 6px,#facc15 6px 8px,#1e3a8a 8px 12px,#dc2626 12px 14px)',rainbow:'linear-gradient(#ef4444,#f97316,#facc15,#22c55e,#3b82f6,#8b5cf6)',diamond:'linear-gradient(135deg,#e0f2fe,#93c5fd,#fff,#bae6fd)'}[v]||'';
+}
 function renderLocker(){
   drawAvatar($('av2'),P); $('nm').value=P.name;
   $('lk-h').textContent=creating?'Create your golfer':'Your golfer';
@@ -729,8 +746,8 @@ function renderLocker(){
   $('grid').style.display='grid'; $('clubs').style.display='none';
   $('grid').innerHTML=CAT[tab].items.map(function(it){
     var v=it[0], isCol=v[0]==='#', own=owned(tab,v);
-    var face = isCol ? '<span class="sw" style="background:'+v+'"></span>' : (['stripes','check','camo','gold'].indexOf(v)>=0 ? '<span class="sw" style="background:'+({stripes:'repeating-linear-gradient(#fff 0 4px,#16a34a 4px 8px)',check:'repeating-conic-gradient(#7f1d1d 0 25%,#f5f5f4 0 50%) 0 0/10px 10px',camo:'#4d5d32',gold:'linear-gradient(135deg,#fde68a,#f59e0b)'})[v]+'"></span>' : '');
-    return '<button class="item'+(P[tab]===v?' sel':'')+'" data-v="'+v+'">'+face+(isCol?'':(NAMES[v]||v))+(own?'':'<span class="lock">🔒<span>🪙 '+it[1]+'</span></span>')+'</button>';
+    var face = isCol ? '<span class="sw" style="background:'+v+'"></span>' : (swatch(v) ? '<span class="sw" style="background:'+swatch(v)+'"></span>' : '');
+    return '<button class="item'+(P[tab]===v?' sel':'')+'" data-v="'+v+'">'+face+(isCol?'':(NAMES[v]||(v.indexOf('st:')===0?'Stripes':v.indexOf('ck:')===0?'Check':v)))+(own?'':'<span class="lock">🔒<span>🪙 '+it[1]+'</span></span>')+'</button>';
   }).join('');
   $('grid').querySelectorAll('.item').forEach(function(b){ b.onclick=function(){
     var v=b.dataset.v, it=CAT[tab].items.find(function(i){return i[0]===v;});
@@ -1080,7 +1097,7 @@ function drawTree(kind,t){
 function drawMini(x,y){
   g.save(); g.translate(x,y);
   g.fillStyle='rgba(0,0,0,.3)'; g.beginPath(); g.ellipse(2,4,8,5,0,0,7); g.fill();
-  g.fillStyle=P.shirt.length===7?P.shirt:'#16a34a'; g.beginPath(); g.ellipse(0,0,8,5.5,0,0,7); g.fill();
+  g.fillStyle=P.shirt[0]==='#'?P.shirt:(P.shirt.indexOf(':')>0?P.shirt.split(':')[2]:({gold:'#f59e0b',rainbow:'#3b82f6',argyle:'#1e3a8a',diamond:'#93c5fd'})[P.shirt]||'#16a34a'); g.beginPath(); g.ellipse(0,0,8,5.5,0,0,7); g.fill();
   g.fillStyle=P.skin; g.beginPath(); g.arc(0,0,4,0,7); g.fill();
   if(P.hat!=='none'){ g.fillStyle=P.hat==='crown'?'#facc15':P.hatc; g.beginPath(); g.arc(0,0,4.1,0,7); g.fill(); }
   g.restore();
