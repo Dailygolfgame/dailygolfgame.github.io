@@ -393,8 +393,9 @@ function seasonOf(wk){ return Math.floor(wk/EVENTS.length)+1; }
 function weekDate(wk, plusDays){ var d=new Date(MON0+(wk*7+plusDays)*864e5); return d.toLocaleDateString('en-GB',{day:'numeric',month:'short',timeZone:'UTC'}); }
 function roundHole(r,h){ return (r%2)*9+h; } // rounds 1 and 3 play the front nine, 2 and 4 the back nine
 /* the field adapts to how you play: a winning 9-hole round is about -6, lower when you are on form (down to about -9) */
-function fieldBoost(){ var f=P.form9==null?-5:P.form9, w=Math.max(-9,Math.min(-5,f-1)); return Math.max(0.1,Math.min(0.32,0.15+(-6-w)*0.05)); }
-function condOffset(R){ return (R()+R()-1)*0.2; } // course conditions: some days -3 wins, some days -10
+function fieldBoost(){ var f=P.form9==null?-5:P.form9, w=Math.max(-9,Math.min(-5,f-1)); return Math.max(-0.05,Math.min(0.17,(-6-w)*0.05)); }
+function condOffset(R){ return (R()+R()-1)*0.08; } // course conditions
+function dayForm(R){ var x=R(); return x>0.93?0.30:x>0.82?0.14:x>0.5?0.02:-0.06; } // most players have an ordinary day, a few get hot
 function updateForm(per9){ P.form9=P.form9==null?per9:Math.round((0.7*P.form9+0.3*per9)*10)/10; }
 function simHole(par, sk, major, R, boost){
   boost=(boost||0)-0.08+(major?0.15:0); // majors: the best field of the season
@@ -407,7 +408,7 @@ function fieldScores(wk, ei, boost){ // fixed for the week once the event starts
   boost=boost||0; var k=wk+':'+ei+':'+boost; if(FS_CACHE[k]) return FS_CACHE[k];
   var E=EVENTS[ei], pars=coursePars(E[0]);
   var RB=[0,1,2,3].map(function(r){ return boost+condOffset(rng(hash('cond'+wk+':'+r))); });
-  return FS_CACHE[k]=SK.map(function(sk,i){ var R=rng(hash('wk'+wk+'#'+i)), a=[]; for(var r=0;r<4;r++) for(var h=0;h<9;h++) a.push(simHole(pars[roundHole(r,h)], Math.min(1,sk+(E[3]?0.05:0)), E[3], R, RB[r])); return a; });
+  return FS_CACHE[k]=SK.map(function(sk,i){ var R=rng(hash('wk'+wk+'#'+i)), a=[]; for(var r=0;r<4;r++){ var f=RB[r]+dayForm(R); for(var h=0;h<9;h++) a.push(simHole(pars[roundHole(r,h)], Math.min(1,sk+(E[3]?0.05:0)), E[3], R, f)); } return a; });
 }
 function initSeason(){ var s=seasonOf(weekNo()); if(!P.ts||P.ts.season!==s) P.ts={season:s, pts:{}, wins:0, majors:0, top10:0, events:0, hist:[]}; }
 function ensureTour(){
@@ -507,7 +508,7 @@ function newCareer(){
 function startEvent(){
   var C=P.career, E=EVENTS[C.ev], off=C.ev%2?9:0, pars=coursePars(E[0]).slice(off,off+9); // 9-hole events: front or back nine
   var fb=fieldBoost()+condOffset(Math.random);
-  C.cur={ev:C.ev, off:off, hole:0, cards:[], opp:C.sk.map(function(sk){ return pars.map(function(p){ return simHole(p, Math.min(1,sk+(E[3]?0.05:0)), E[3], Math.random, fb); }); }), live:null};
+  C.cur={ev:C.ev, off:off, hole:0, cards:[], opp:C.sk.map(function(sk){ var f=fb+dayForm(Math.random); return pars.map(function(p){ return simHole(p, Math.min(1,sk+(E[3]?0.05:0)), E[3], Math.random, f); }); }), live:null};
   save();
 }
 function careerBoard(){ // standings after the player's completed holes
