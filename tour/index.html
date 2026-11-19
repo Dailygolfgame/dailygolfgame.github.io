@@ -842,7 +842,7 @@ function autoClub(){
   showClub();
 }
 function clubMax(){ return G.club.id==='P'?30:fullCarry(G.club)*lieFactor(); }
-function setAimDist(){ G.aimDist=G.club.id==='P'?Math.min(toPin()+0.35,30):Math.min(clubMax(), toPin()); }
+function setAimDist(){ G.aimDist=G.club.id==='P'?Math.min(toPin()+0.5,30):Math.min(clubMax(), toPin()); }
 function showClub(){ var c=G.club, mx=clubMax(); $('cn').innerHTML=c.n+'<small>'+(c.id==='P'?'Aim '+Math.round(G.aimDist*3)+' ft · hole '+Math.round(toPin()*3)+' ft':Math.round(G.aimDist)+(G.aimDist<mx-1?' of '+Math.round(mx):'')+' yds · '+Math.round(toPin())+' to pin')+'</small>'; }
 function cycleClub(dir){
   if(!G||G.busy) return; var bag=bagClubs().filter(function(c){ return onGreen() ? c.id==='P' : (c.id!=='P' || toPin()<35); });
@@ -859,7 +859,7 @@ var dragging=false;
 cv.addEventListener('pointerdown',function(e){ if(G&&!G.busy&&!G.done){ dragging=true; aimAt(e); } });
 cv.addEventListener('pointermove',function(e){ if(dragging) aimAt(e); });
 window.addEventListener('pointerup',function(){ dragging=false; });
-function aimAt(e){ var r=cv.getBoundingClientRect(), sx=(e.clientX-r.left)*CW/r.width, sy=(e.clientY-r.top)*CH/r.height; var w=screenToWorld(sx,sy); G.aim=Math.atan2(w.y-G.ball.y, w.x-G.ball.x); var dd=d2(w.x,w.y,G.ball.x,G.ball.y); G.aimDist=G.club.id==='P'?Math.max(0.5,Math.min(30,dd)):Math.max(5,Math.min(clubMax(),dd)); showClub(); draw(); }
+function aimAt(e){ var r=cv.getBoundingClientRect(), sx=(e.clientX-r.left)*CW/r.width, sy=(e.clientY-r.top)*CH/r.height; var w=screenToWorld(sx,sy); G.aim=Math.atan2(w.y-G.ball.y, w.x-G.ball.x); if(G.club.id==='P' && d2(w.x,w.y,G.H.pin[0],G.H.pin[1])<1.2){ w={x:G.H.pin[0],y:G.H.pin[1]}; G.aim=Math.atan2(w.y-G.ball.y, w.x-G.ball.x); w={x:w.x+Math.cos(G.aim)*0.5,y:w.y+Math.sin(G.aim)*0.5}; } var dd=d2(w.x,w.y,G.ball.x,G.ball.y); G.aimDist=G.club.id==='P'?Math.max(0.5,Math.min(30,dd)):Math.max(5,Math.min(clubMax(),dd)); showClub(); draw(); }
 
 function lieAt(x,y){
   var H=G.H, T=H.T;
@@ -879,7 +879,7 @@ var LIE_NAME={tee:'Tee box',fairway:'Fairway',rough:'Rough',fescue:'Fescue',wast
 
 /* swing meter */
 var M={phase:0,pos:0,dir:1,power:0,raf:0};
-function meterReset(){ cancelAnimationFrame(M.raf); M.phase=0; M.pos=0; M.dir=1; $('mk').style.left='0%'; $('fill').style.width='0%'; $('pw').style.display='none'; $('swing').textContent='SWING'; if(G&&G.club) $('hint').textContent=G.club.id==='P'?'Drag on the green to set where the ball should stop · the white line = that distance':'Drag on the course to pick your landing spot · tap at the white line to hit that far · tap in the light zone to hit it straight'; }
+function meterReset(){ cancelAnimationFrame(M.raf); M.phase=0; M.pos=0; M.dir=1; $('mk').style.left='0%'; $('fill').style.width='0%'; $('pw').style.display='none'; $('swing').textContent='SWING'; if(G&&G.club) $('hint').textContent=G.club.id==='P'?'Drag to the hole (the aim snaps onto it) · tap at the white line to roll it just past the cup · light zone = straight':'Drag on the course to pick your landing spot · tap at the white line to hit that far · tap in the light zone to hit it straight'; }
 function meterLoop(){
   var speed=(G.club.id==='P'?0.9:1.25)*(M.phase===2?0.75:1);
   M.pos+=M.dir*speed; if(M.pos>=100){ M.pos=100; M.dir=-1; } if(M.pos<=0 && M.phase===2){ M.pos=0; finishSwing(-12); return; }
@@ -912,14 +912,14 @@ function hitBall(power, acc){
   animateFlight(G.ball.x,G.ball.y,tx,ty,rx,ry,carry,function(){ settle(land,rx,ry); });
 }
 function putt(power, ang){
+  // no hidden break: where you aim and how hard you hit is what happens
   var H=G.H, d=power*G.aimDist, startD=toPin();
   var ex=G.ball.x+Math.cos(ang)*d, ey=G.ball.y+Math.sin(ang)*d;
-  var gauss=(Math.random()+Math.random()+Math.random()-1.5)/0.5, sig=0.06*startD+0.012*startD*startD; ang+=gauss*sig/Math.max(0.5,startD); // reading the break
-  ex=G.ball.x+Math.cos(ang)*d; ey=G.ball.y+Math.sin(ang)*d;
-  var px=H.pin[0]-G.ball.x, py=H.pin[1]-G.ball.y, t=(px*Math.cos(ang)+py*Math.sin(ang)), lat=Math.abs(-px*Math.sin(ang)+py*Math.cos(ang));
-  var holed = t>0 && t<=d && lat<=0.16 && (d-t)<=Math.max(2.2, startD*0.35);
+  var px=H.pin[0]-G.ball.x, py=H.pin[1]-G.ball.y, t=(px*Math.cos(ang)+py*Math.sin(ang)), side=-px*Math.sin(ang)+py*Math.cos(ang), lat=Math.abs(side);
+  var holed = t>0 && d>=t-0.12 && lat<=0.22 && (d-t)<=Math.max(2.2, startD*0.35);
   if(holed){ ex=H.pin[0]; ey=H.pin[1]; }
-  animateRoll(G.ball.x,G.ball.y,ex,ey,function(){ if(holed) return holeOut(); settle(lieAt(ex,ey),ex,ey); });
+  var why=holed?'':(d<t-0.12?'Short by '+Math.max(1,Math.round((t-d)*3))+' ft':lat>0.22?(side>0?'Missed left':'Missed right'):'Too hard, it lipped out');
+  animateRoll(G.ball.x,G.ball.y,ex,ey,function(){ if(holed) return holeOut(); G.puttWhy=why; settle(lieAt(ex,ey),ex,ey); });
 }
 function settle(land,x,y){
   var msg='';
@@ -927,6 +927,7 @@ function settle(land,x,y){
   else if(land==='ob'){ G.strokes++; msg='Out of bounds! +1'; x=G.from.x; y=G.from.y; land=G.lie; }
   G.ball={x:x,y:y}; G.lie=land; G.from=null;
   if(toPin()<0.5) return holeOut();
+  if(!msg && G.puttWhy){ msg=G.puttWhy+' · '+Math.round(toPin()*3)+' ft left'; } G.puttWhy='';
   if(!msg) msg=G.lie==='green'?Math.round(toPin()*3)+' ft':(LIE_NAME[G.lie]||'');
   if(G.lie==='trees') msg='In the trees';
   if(G.strokes>=G.H.par+4){ G.strokes=G.H.par+4; flash('Pick up'); return endHole(); }
