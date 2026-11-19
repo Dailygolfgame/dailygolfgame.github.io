@@ -201,7 +201,7 @@ var BRAND='<a class="brand" href="/" aria-label="Dailygolf start page"><span cla
 /* ================= data ================= */
 var CAT = {
   skin:   {label:'Skin',  items:[['#f5d0b5',0],['#e8b48f',0],['#c98d63',0],['#9c6644',0],['#6b4226',0],['#3d2817',0]]},
-  hair:   {label:'Hair',  items:[['short',0],['buzz',0],['long',0],['curly',40],['mullet',80],['bald',0]]},
+  hair:   {label:'Hair',  items:[['short',0],['buzz',0],['long',0],['bald',0],['sidepart',30],['curly',40],['ponytail',40],['bun',40],['spiky',50],['flow',60],['topknot',60],['wavy',70],['mullet',80],['afro',90],['braids',100],['mohawk',120]]},
   hairc:  {label:'Hair colour', items:[['#2b1d14',0],['#5a3825',0],['#c8a165',0],['#e6e2d8',30],['#d9483b',60],['#7c3aed',120],['#f472b6',120],['#22c55e',150],['#60a5fa',150]]},
   hat:    {label:'Hat',   items:[['none',0],['cap',0],['beanie',40],['bucket',50],['visor',60],['flatcap',90],['crown',400],['tophat',900]]},
   hatc:   {label:'Hat colour', items:[['#ffffff',0],['#0f172a',0],['#16a34a',0],['#dc2626',40],['#2563eb',40],['#facc15',80],['#f97316',60],['#7c3aed',60],['#f472b6',60],['#14b8a6',60],['#d4af37',800]]},
@@ -213,7 +213,7 @@ var CAT = {
   shoes:  {label:'Shoes', items:[['#f8fafc',0],['#0f172a',0],['#78350f',40],['#dc2626',60],['#2563eb',60],['#22c55e',60],['gold',800]]},
   bag:    {label:'Bag',   items:[['#ffffff',0],['#0f172a',0],['#16a34a',0],['#dc2626',50],['#2563eb',50],['#facc15',100],['#f472b6',100],['#7c3aed',100],['st:#ffffff:#dc2626',200],['camo',200],['argyle',600],['gold',500],['rainbow',900],['diamond',3000]]}
 };
-var NAMES = {beanie:'Beanie',tophat:'Top hat',argyle:'Argyle',rainbow:'Rainbow',diamond:'Diamond',short:'Short',buzz:'Buzz',long:'Long',curly:'Curly',mullet:'Mullet',bald:'Bald',none:'None',cap:'Cap',bucket:'Bucket',visor:'Visor',flatcap:'Flat cap',crown:'Crown',stripes:'Stripes',check:'Check',camo:'Camo',gold:'Gold'};
+var NAMES = {sidepart:'Side part',ponytail:'Ponytail',bun:'Bun',spiky:'Spiky',flow:'Golf flow',topknot:'Top knot',wavy:'Wavy',afro:'Afro',braids:'Braids',mohawk:'Mohawk',beanie:'Beanie',tophat:'Top hat',argyle:'Argyle',rainbow:'Rainbow',diamond:'Diamond',short:'Short',buzz:'Buzz',long:'Long',curly:'Curly',mullet:'Mullet',bald:'Bald',none:'None',cap:'Cap',bucket:'Bucket',visor:'Visor',flatcap:'Flat cap',crown:'Crown',stripes:'Stripes',check:'Check',camo:'Camo',gold:'Gold'};
 var CLUBS = [
   {id:'D', n:'Driver', c:250, sp:6, roll:.12},
   {id:'3W',n:'3 wood', c:230, sp:5.5,roll:.10},
@@ -494,6 +494,16 @@ function drawAvatar(cv, p){
   if(p.hair==='buzz'){ c.globalAlpha=.7; c.beginPath(); c.arc(60,34,18,Math.PI,0); c.fill(); c.globalAlpha=1; }
   if(p.hair==='long'){ c.beginPath(); c.arc(60,32,19,Math.PI,0); c.fill(); c.fillRect(41,30,8,30); c.fillRect(71,30,8,30); }
   if(p.hair==='curly'){ for(var i=0;i<9;i++){ c.beginPath(); c.arc(44+i*4,22+Math.sin(i)*3,6,0,7); c.fill(); } c.fillRect(41,26,5,12); c.fillRect(74,26,5,12); }
+  if(p.hair==='sidepart'){ c.beginPath(); c.arc(60,32,18,Math.PI*1.05,Math.PI*1.95); c.fill(); c.fillRect(42,28,6,9); c.fillRect(72,28,6,9); c.beginPath(); c.moveTo(42,26); c.quadraticCurveTo(52,14,74,22); c.lineTo(76,30); c.quadraticCurveTo(60,20,44,32); c.fill(); c.strokeStyle='rgba(255,255,255,.35)'; c.lineWidth=1.2; c.beginPath(); c.moveTo(52,16); c.lineTo(50,24); c.stroke(); }
+  if(p.hair==='ponytail'){ c.beginPath(); c.arc(60,32,18.5,Math.PI,0); c.fill(); c.fillRect(42,28,5,10); c.fillRect(73,28,5,10); c.beginPath(); c.ellipse(82,40,5,13,-.35,0,7); c.fill(); }
+  if(p.hair==='bun'){ c.beginPath(); c.arc(60,32,18.5,Math.PI,0); c.fill(); c.fillRect(42,28,5,10); c.fillRect(73,28,5,10); c.beginPath(); c.arc(60,13,8,0,7); c.fill(); }
+  if(p.hair==='topknot'){ c.beginPath(); c.arc(60,32,18.5,Math.PI,0); c.fill(); c.fillRect(42,28,5,8); c.fillRect(73,28,5,8); c.beginPath(); c.arc(60,12,5,0,7); c.fill(); c.fillRect(57,14,6,5); }
+  if(p.hair==='spiky'){ c.beginPath(); c.arc(60,32,18,Math.PI,0); c.fill(); for(var sp=0;sp<7;sp++){ var sx=44+sp*5.3; c.beginPath(); c.moveTo(sx-4,24); c.lineTo(sx,8+(sp%2)*4); c.lineTo(sx+4,24); c.fill(); } }
+  if(p.hair==='flow'){ c.beginPath(); c.arc(60,32,18.5,Math.PI,0); c.fill(); c.fillRect(41,28,6,16); c.fillRect(73,28,6,16); c.beginPath(); c.arc(40,46,5,0,7); c.arc(80,46,5,0,7); c.fill(); }
+  if(p.hair==='wavy'){ c.beginPath(); c.arc(60,32,19,Math.PI,0); c.fill(); for(var wv=0;wv<5;wv++){ c.beginPath(); c.arc(43-(wv%2)*2,32+wv*6,4.5,0,7); c.arc(77+(wv%2)*2,32+wv*6,4.5,0,7); c.fill(); } }
+  if(p.hair==='afro'){ c.beginPath(); c.arc(60,32,26,Math.PI,0); c.fill(); c.beginPath(); c.arc(36,36,8,0,7); c.arc(84,36,8,0,7); c.fill(); }
+  if(p.hair==='braids'){ c.beginPath(); c.arc(60,32,18.5,Math.PI,0); c.fill(); for(var br=0;br<6;br++){ c.beginPath(); c.arc(44,34+br*5,3.4,0,7); c.arc(76,34+br*5,3.4,0,7); c.fill(); } }
+  if(p.hair==='mohawk'){ c.globalAlpha=.45; c.beginPath(); c.arc(60,34,18,Math.PI,0); c.fill(); c.globalAlpha=1; c.beginPath(); c.moveTo(54,24); c.lineTo(56,4); c.lineTo(64,4); c.lineTo(66,24); c.fill(); }
   if(p.hair==='mullet'){ c.beginPath(); c.arc(60,32,18,Math.PI*1.05,Math.PI*1.95); c.fill(); c.fillRect(42,28,6,10); c.fillRect(72,28,6,24); c.fillRect(42,34,6,18); }
   c.fillStyle='#0f172a'; c.beginPath(); c.arc(53,38,2,0,7); c.arc(67,38,2,0,7); c.fill();
   c.strokeStyle='#7c2d12'; c.lineWidth=1.6; c.beginPath(); c.arc(60,42,6,.2*Math.PI,.8*Math.PI); c.stroke();
