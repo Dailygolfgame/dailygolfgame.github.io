@@ -173,7 +173,7 @@ fetch('/handicaps.json',{cache:'no-cache'}).then(function(r){return r.json();}).
 
 })();
 </script>`;
-  return page({ image: 'og-draft.png', howto: 'draft', urlPath: '/draft/',
+  return page({ image: 'og-scramble.png', howto: 'draft', urlPath: '/draft/',
     title: 'Scramble Draft: Build a Golf YouTuber Scramble Team | Dailygolf',
     description: 'Draft four golf YouTubers into a scramble team every day. Handicaps, channel chemistry and star power decide your team rating. Free daily golf game.',
     crumbs: [['Home', '/'], ['Scramble Draft']],
